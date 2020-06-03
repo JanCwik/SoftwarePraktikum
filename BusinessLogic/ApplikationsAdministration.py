@@ -1,4 +1,4 @@
-from BusinessLogic import Artikel
+from BusinessLogic.Artikel import Artikel
 
 
 class ApplikationsAdministration(object):
