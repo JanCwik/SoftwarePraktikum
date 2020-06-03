@@ -1,4 +1,5 @@
 class Statistik():
+
     def __init__(self):
         pass
 
