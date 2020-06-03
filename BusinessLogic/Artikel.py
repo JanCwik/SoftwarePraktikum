@@ -19,3 +19,17 @@ class Artikel(NamedBO):
 
     def get_standardartikel(self):
         return self._standardartikel
+
+    def __str__(self):
+        """Erzeugen einer einfachen textuellen Darstellung der jeweiligen Instanz."""
+        return "User: {}, {}, {}, {}".format(self.get_id(), self.get_name(), self._einheit, self._standardartikel)
+
+    @staticmethod
+    def from_dict(dictionary=dict()):
+        """Umwandeln eines Python dict() in einen User()."""
+        obj = Artikel()
+        obj.set_id(dictionary["id"])  # eigentlich Teil von BusinessObject !
+        obj.set_name(dictionary["name"])
+        obj.set_einheit(dictionary["einheit"])
+        obj.set_standardartikel(dictionary["standardartikel"])
+        return obj
