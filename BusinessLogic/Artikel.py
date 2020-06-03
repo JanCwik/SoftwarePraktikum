@@ -1,7 +1,8 @@
-from BusinessLogic import namedBO
+from abc import ABC
+from BusinessLogic import NamedBO
 
 
-class Artikel(namedBO):
+class Artikel(NamedBO):
     def __init__(self):
         super().__init__()
         self._einheit = ""
