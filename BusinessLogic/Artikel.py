@@ -1,16 +1,20 @@
 from BusinessLogic import namedBO
 
 
-class Artikel (namedBO):
+class Artikel(namedBO):
     def __init__(self):
         super().__init__()
-        self._first_name = ""  # Der Vorname des Kunden.
-        self._last_name = ""  # Der Nachname des Kunden.
+        self._einheit = ""
+        self._standardartikel = False
 
-    def get_first_name(self):
-        """Auslesen des Vornamens."""
-        return self._first_name
+    def set_einheit(self, einheit):
+        self._einheit = einheit
 
-    def set_first_name(self, value):
-        """Setzen des Vornamens."""
-        self._first_name = value
+    def get_einheit(self):
+        return self._einheit
+
+    def set_standardartikel(self):
+        self._standardartikel = True
+
+    def get_standardartikel(self):
+        return self._standardartikel

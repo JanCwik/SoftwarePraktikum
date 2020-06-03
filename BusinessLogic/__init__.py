@@ -1,0 +1,1 @@
+print("BusinessLogic package initialisiert...")
