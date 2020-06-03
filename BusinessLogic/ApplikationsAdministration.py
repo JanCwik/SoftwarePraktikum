@@ -1,7 +1,7 @@
 from BusinessLogic import Artikel
 
 
-class ApplikationsAdministration(object)
+class ApplikationsAdministration(object):
 
     def __init__(self):
         pass
