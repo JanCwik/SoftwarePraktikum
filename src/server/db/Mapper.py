@@ -9,7 +9,7 @@ class Mapper (AbstractContextManager, ABC):
 
     def __enter__(self):
 
-        self._cnx= mysql.connector.connect(user='root', password='DatenbankRoot99!',host='127.0.0.1', database='shoppinglist')
+        self._cnx= mysql.connector.connect(user='root', password='cem123',host='127.0.0.1', database='shoppinglist')
 
         return self
 
