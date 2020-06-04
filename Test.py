@@ -1,5 +1,8 @@
-print("Hello Andreas")
+print("Hello World")
 print("Hello jan")
 print("hello timm")
 print("hello Maik")
-print("Hallo Andreas")
+print("Hallo Svenja"
+print("Hello Andreas")
+print("Hello Cem")
+print("Ich habe github verstanden")
