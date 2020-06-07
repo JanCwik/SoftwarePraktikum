@@ -5,11 +5,11 @@ from contextlib import AbstractContextManager
 class Mapper (AbstractContextManager, ABC):
 
     def __init__(self):
-        self._cnx =None
+        self._cnx = None
 
     def __enter__(self):
 
-        self._cnx= mysql.connector.connect(user='root', password='1234',host='127.0.0.1', database='shoppinglist')
+        self._cnx = mysql.connector.connect(user='root', password='1234', host='127.0.0.1', database='shoppinglist')
 
         return self
 
