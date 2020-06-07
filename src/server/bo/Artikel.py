@@ -21,7 +21,7 @@ class Artikel(NamedBO):
 
     def __str__(self):
 
-        return "Artikel: {}, {}, {}, {}".format(self.get_id(), self.get_name(), self._einheit, self._standardartikel)
+        return "Artikel: {}, {}, {}, {}, {}".format(self.get_id(), self.get_name(), self._einheit, self._standardartikel, self.get_erstellungs_zeitpunkt())
 
     @staticmethod
     def from_dict(dictionary=dict()):
@@ -31,5 +31,6 @@ class Artikel(NamedBO):
         obj.set_name(dictionary["name"])
         obj.set_einheit(dictionary["einheit"])
         obj.set_standardartikel(dictionary["standardartikel"])
+        obj.set_erstellungs_zeitpunkt(dictionary["erstellungs_zeitpunkt"])
         return obj
 
