@@ -26,8 +26,9 @@ artikel = api.inherit(Artikel, bo, {
     "standardartikel": fields.Boolean(attribute="_standardartikel")
 })
 
-@shopping_list.route("/")
-@shopping_list.response(500)
+
+@shopping_list.route("/Artikel")
+@shopping_list.response(500, 'Error')
 class ArtikelListOperations(Resource):
     @shopping_list.marshal_list_with(artikel)
     @secured
@@ -36,7 +37,6 @@ class ArtikelListOperations(Resource):
         artikel = admin.get_all_artikel()
         return artikel
 
-"""requirements: Flask, Flask-Cors, flask-restx, mysql-connector-python"""
 
 if __name__ == '__main__':
     app.run(debug=True)
