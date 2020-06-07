@@ -1,4 +1,4 @@
-from abc import ABC, abstractmethod
+from abc import ABC
 
 
 class BusinessObject(ABC):
@@ -6,9 +6,9 @@ class BusinessObject(ABC):
         self._id = 0   # Die eindeutige Identifikationsnummer einer Instanz dieser Klasse.
 
     def set_id(self,id):
-        """Setzen der ID."""
+
         self._id = id
 
     def get_id(self):
-        """Auslesen der ID."""
+
         return self._id
