@@ -1,4 +1,4 @@
-from BusinessLogic.Artikel import Artikel
+from src.server.bo.Artikel import Artikel
 
 
 class ApplikationsAdministration(object):
@@ -8,6 +8,6 @@ class ApplikationsAdministration(object):
 
     def artikel_anlegen(self, name, einheit, standardartikel):
         artikel = Artikel()
-        artikel.NamedBO.set_name(name)
+        artikel.set_name(name)
         artikel.set_einheit(einheit)
         artikel.set_standardartikel(standardartikel)
