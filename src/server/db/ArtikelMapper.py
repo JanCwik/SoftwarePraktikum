@@ -1,54 +1,7 @@
 from src.server.db.Mapper import Mapper
-#from src_2.server.bo.Artikel import Artikel
+from src.server.bo.Artikel import Artikel
 
 
-class Artikel():
-    def __init__(self):
-        self._einheit = ""
-        self._standardartikel = False
-        self._id = 0  # Die eindeutige Identifikationsnummer einer Instanz dieser Klasse.
-
-        self._erstellungs_zeitpunkt = ""
-        self._name = ""
-
-    def set_erstellungs_zeitpunkt(self, erstellungs_zeitraum):
-        self._erstellungs_zeitpunkt = erstellungs_zeitraum
-
-    def get_erstellungs_zeitpunkt(self):
-        return self._erstellungs_zeitpunkt
-
-    def set_name(self, name):
-        self._name = name
-
-    def get_name(self):
-        return self._name
-
-    def set_id(self, id):
-        """Setzen der ID."""
-        self._id = id
-
-    def get_id(self):
-        """Auslesen der ID."""
-        return self._id
-
-    def set_einheit(self, einheit):
-        self._einheit = einheit
-
-    def get_einheit(self):
-        return self._einheit
-
-    def set_standardartikel(self):
-        self._standardartikel = True
-
-    def get_standardartikel(self):
-        return self._standardartikel
-
-
-bier= Artikel()
-bier.set_standardartikel()
-bier.set_einheit("liter")
-bier.set_name("Bier")
-bier.set_erstellungs_zeitpunkt("2020-05-16 15:15:15")
 
 
 class ArtikelMapper(Mapper):
@@ -65,22 +18,20 @@ class ArtikelMapper(Mapper):
         res= cursor.fetchall()
 
 
-    #   for (id, owner) in res:
+        for (id, name, erstellungs_zeitpunkt, einheit, standardartikel) in res:
 
-    #       artikel = Artikel()
-     #       account.set_id(id)
-      #      account.set_owner(owner)
-       #     result.append(account)
-
-
-
-        print(res)
-
-
+            artikel = Artikel()
+            artikel.set_id(id)
+            artikel.set_name(name)
+            artikel.set_standardartikel(standardartikel)
+            artikel.set_einheit(einheit)
+            artikel.set_erstellungs_zeitpunkt(erstellungs_zeitpunkt)
+            result.append(artikel)
 
 
         self._cnx.commit()
         cursor.close()
+
         return result
 
     def insert(self, artikel):
@@ -128,14 +79,40 @@ class ArtikelMapper(Mapper):
         cursor.close()
 
 
+    def find_by_id(self, id):
+
+
+        result = None
+
+        cursor = self._cnx.cursor()
+        command = "SELECT id, name, erstellungs_zeitpunkt, einheit, standardartikel FROM artikel WHERE id={}".format(id)
+        cursor.execute(command)
+        tuples = cursor.fetchall()
+
+        try:
+            (id, name, erstellungs_zeitpunkt, einheit, standardartikel) = tuples[0]
+            artikel = Artikel()
+            artikel.set_id(id)
+            artikel.set_name(name)
+            artikel.set_erstellungs_zeitpunkt(erstellungs_zeitpunkt)
+            artikel.set_einheit(einheit)
+            artikel.set_standardartikel(standardartikel)
+            result = artikel
+        except IndexError:
+            """Der IndexError wird oben beim Zugriff auf tuples[0] auftreten, wenn der vorherige SELECT-Aufruf
+            keine Tupel liefert, sondern tuples = cursor.fetchall() eine leere Sequenz zurück gibt."""
+            result = None
+
+        self._cnx.commit()
+        cursor.close()
+
+        return result
 
 
 
 
 
-with ArtikelMapper() as mapper:
-    mapper.insert(bier)
-    mapper.find_all()
+
 
 
 
