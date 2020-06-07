@@ -133,7 +133,6 @@ class ArtikelMapper(Mapper):
 
 
 
-
 with ArtikelMapper() as mapper:
     mapper.insert(bier)
     mapper.find_all()
