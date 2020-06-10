@@ -3,6 +3,7 @@
 
 export default class API {
 
+    // Diese Klasse wird zurzeit nicht verwendet. Auf diese Weise wurde die API im Bankbeispiel umgesetzt, aber dabei wird eine Error geworfen
 
     static #api = null;
 
@@ -24,7 +25,7 @@ export default class API {
 
     #fetchAdvanced = (url, init) => fetch(url, init)
         .then(res => {
-                // The Promise returned from fetch() won’t reject on HTTP error status even if the response is an HTTP 404 or 500.
+
                 if (!res.ok) {
                     throw Error(`${res.status} ${res.statusText}`);
                 }
@@ -39,7 +40,7 @@ export default class API {
     static getArtikel() {
         return this.#fetchAdvanced(this.#getArtikelURL()).then((responseJSON) => {
             let artikel = responseJSON;
-            // console.info(customerBOs);
+          
 
             return new Promise(function (resolve) {
                 resolve(artikel);
