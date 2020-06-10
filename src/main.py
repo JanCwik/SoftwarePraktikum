@@ -14,7 +14,8 @@ from src.SecurityDecorator import secured
 app = Flask(__name__)
 
 
-CORS(app)                  #, resources=r'/shopping/*'  oder    , resources={r"/shopping/*": {"origins": "*"}}
+CORS(app)                  # als zweiter parameter könnte man auch noch folgendes hinzufügen:
+                           # , resources=r'/shopping/*'      oder    , resources={r"/shopping/*": {"origins": "*"}}
 
 api = Api(app, version='1.0', title='ShoppingList API',
     description='Das ist unserer API für die Shoppinglist.')
