@@ -45,9 +45,11 @@ addItem (){
 
 
 /*
-     Auf diese weise wurde es im bank beispiel gemacht aber dabei wirft er ein fehler
+     //Auf diese weise wurde im bank beispiel auf die API zugegriffen aber diese Umsetzteung funktioniert hier noch nicht
 
 
+     // Ruft die Methode getArtikel der Klasse API auf und speichert die Response des GET Requests in einem Array "artikel" im State
+     // Bei einem Error wird nichts in den State geschrieben
      getArtikelAPP = () => {
         API.getAPI().getArtikel()
             .then(artikel =>
@@ -58,14 +60,14 @@ addItem (){
           this.setState({
           })
         );
-  }
-
- componentDidMount() {
-    this.getArtikelAPP();
-  }
+       }
+    // wenn der Component "durchlaufen" wurde wird die methode getArtikelAPP aufgerufen
+    componentDidMount() {
+        this.getArtikelAPP();
+        }
 */
 
-
+  //führt die fetch-Funktion aus, fängt dabei mögliche Errors ab und führt anschließend schon die json-Funktion mit der Response aus.
   #fetchAdvanced = (url, init) => fetch(url, init)
         .then(res => {
 
@@ -76,6 +78,8 @@ addItem (){
         }
     )
 
+    //führt einen GET Request aus und fetcht die Response (alle Artikel aus der Datenbank), schreibt sie in die Console
+    // und speichert sie in einem Array "artikel" im State
     componentDidMount() {
         let url= "http://127.0.0.1:5000/shopping/artikel"
 
@@ -94,6 +98,8 @@ addItem (){
             <div className="App">
                 <div>
                     {
+                        // Wenn etwas im Array "artikel" im State gespeichert ist ( also wenn das Array eine length hat),
+                        // dann wird der Name von jedem Array-eintrag in ein div geschireben und somit angezeigt
                         artikel.length ?
                         artikel.map(art => <div key ={art.id}> {art.name} </div>)
                             : null
