@@ -1,5 +1,6 @@
 import React from 'react';
 
+import { API } from '../src';
 
 class App extends React.Component {
     constructor(props) {
@@ -7,7 +8,8 @@ class App extends React.Component {
 
         this.state={
             newItem:"",
-            list:[]
+            list:[],
+            artikel:[]
         }
     }
 
@@ -35,18 +37,57 @@ addItem (){
             );
     }
 
-    deleteItem(id){
+    deleteItem(id) {
         const list = [...this.state.list];
         const updatedList = list.filter(item => item.id !== id);
         this.setState({list: updatedList});
     }
 
 
+
+     getArtikelAPP = () => {
+        API.getAPI().getArtikel()
+            .then(artikel =>
+                this.setState({               // Set new state when CustomerBOs have been fetched
+          artikel: artikel,
+
+        })).catch(e =>
+          this.setState({             // Reset state with error from catch
+            artikel: [],
+
+          })
+        );
+
+
+  }
+
+ componentDidMount() {
+    this.getArtikelAPP();
+  }
+
+
+
+
+   /* componentDidMount() {
+        let url= "http://127.0.0.1:5000/shopping/artikel"
+
+        fetch(url).then((response)=>{
+             console.log(response)
+            this.setState({artikel: response })
+            })
+        }
+
+
+*/
     render() {
+        //const {newItem, list, customers} = this.state
         return (
             <div className="App">
                 <div>
-                    Artikel hinzufügen...
+                    {
+                        this.state.artikel.map(art => <div key ={art.id}> {art.name} </div>)
+                    }
+
                     <br/>
                     <input
                         type="text"
@@ -75,6 +116,10 @@ addItem (){
                                 )
                             })}
                         </ul>
+
+
+
+
                 </div>
             </div>
         );
