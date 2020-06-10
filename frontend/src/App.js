@@ -44,48 +44,61 @@ addItem (){
     }
 
 
+/*
+     Auf diese weise wurde es im bank beispiel gemacht aber dabei wirft er ein fehler
+
 
      getArtikelAPP = () => {
         API.getAPI().getArtikel()
             .then(artikel =>
-                this.setState({               // Set new state when CustomerBOs have been fetched
-          artikel: artikel,
+                this.setState({
+          artikel: artikel
 
         })).catch(e =>
-          this.setState({             // Reset state with error from catch
-            artikel: [],
-
+          this.setState({
           })
         );
-
-
   }
 
  componentDidMount() {
     this.getArtikelAPP();
   }
+*/
 
 
+  #fetchAdvanced = (url, init) => fetch(url, init)
+        .then(res => {
 
+            if (!res.ok) {
+                throw Error(`${res.status} ${res.statusText}`);
+            }
+            return res.json();
+        }
+    )
 
-   /* componentDidMount() {
+    componentDidMount() {
         let url= "http://127.0.0.1:5000/shopping/artikel"
 
-        fetch(url).then((response)=>{
+        this.#fetchAdvanced(url)
+            .then((response)=>{
              console.log(response)
             this.setState({artikel: response })
             })
         }
 
 
-*/
+
     render() {
-        //const {newItem, list, customers} = this.state
+        const {artikel} = this.state
         return (
             <div className="App">
                 <div>
                     {
-                        this.state.artikel.map(art => <div key ={art.id}> {art.name} </div>)
+                        artikel.length ?
+                        artikel.map(art => <div key ={art.id}> {art.name} </div>)
+                            : null
+
+
                     }
 
                     <br/>
@@ -116,10 +129,6 @@ addItem (){
                                 )
                             })}
                         </ul>
-
-
-
-
                 </div>
             </div>
         );
