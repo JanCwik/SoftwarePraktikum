@@ -5,38 +5,57 @@ from flask_restx import Resource, Api, fields
 from src.server.ApplikationsAdministration import ApplikationsAdministration
 from src.server.bo.Artikel import Artikel
 
+
+
 from src.SecurityDecorator import secured
 
 """requirements: Flask, Flask-Cors, flask-restx, mysql-connector-python"""
 
 app = Flask(__name__)
 
-CORS(app)
 
-api = Api(app, version="1.0", title="Einkaufsliste API")
+CORS(app, resources=r'/shopping/*')
 
-shopping_list = api.namespace("shopping_list", descriptiion="Funktionen des Shopping-List-Systems")
+api = Api(app, version='1.0', title='ShoppingList API',
+    description='Das ist unserer API für die Shoppinglist.')
 
-bo = api.model("BusinessObject", {
-    "id": fields.Integer(attribute="_id")
+shopping = api.namespace('shopping', description='Funktionen der Shoppinglist')
+bo = api.model('BusinessObject', {
+    'id': fields.Integer(attribute='_id', description='Der Unique Identifier eines Business Object'),
 })
 
-artikel = api.inherit(Artikel, bo, {
-    "einheit": fields.String(attribute="_einheit"),
-    "standardartikel": fields.Boolean(attribute="_standardartikel")
+namedBO = api.inherit('namedBO', bo, {
+    'name': fields.String(attribute='_name', description='Name eines Benutzers'),
+    'erstellungs_zeitpunkt': fields.String(attribute='_erstellungs_zeitpunkt', description='E-Mail-Adresse eines Benutzers'),
+})
+
+"""Users, Customers, Accounts & Transactions sind BusinessObjects..."""
+artikel = api.inherit('Artikel',namedBO , {
+    'Einheit': fields.String(attribute='_einheit', description='Name eines Benutzers'),
+    'Standardartikel': fields.String(attribute='_standardartikel', description='E-Mail-Adresse eines Benutzers'),
 })
 
 
-@shopping_list.route("/Artikel")
-@shopping_list.response(500, 'Error')
+
+@shopping.route('/artikel')
+@shopping.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
 class ArtikelListOperations(Resource):
-    @shopping_list.marshal_list_with(artikel)
-    @secured
+    @shopping.marshal_list_with(artikel)
+    #secured brauchen wir noch nicht
+    #@secured
     def get(self):
-        admin = ApplikationsAdministration()
-        artikel = admin.get_all_artikel()
+        """Auslesen aller Customer-Objekte.
+        Sollten keine Customer-Objekte verfügbar sein, so wird eine leere Sequenz zurückgegeben."""
+        adm = ApplikationsAdministration()
+        artikel = adm.get_all_artikel()
         return artikel
+
+
+
 
 
 if __name__ == '__main__':
     app.run(debug=True)
+
+
+
