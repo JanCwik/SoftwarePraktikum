@@ -31,8 +31,3 @@ class ApplikationsAdministration(object):
         with ArtikelMapper() as mapper:
             return mapper.find_by_id(id)
 
-admin = ApplikationsAdministration()
-artikel = admin.get_all_artikel()
-
-for i in artikel:
-    print(i)
