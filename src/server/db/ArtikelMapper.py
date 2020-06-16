@@ -59,10 +59,11 @@ class ArtikelMapper(Mapper):
 
     def update(self, artikel):
 
+
         cursor = self._cnx.cursor()
 
         template = "UPDATE artikel " + "SET name=%s, einheit=%s, standardartikel=%s WHERE id=%s"
-        vals = (artikel.get_name(), artikel.get_einheit(), artikel.get_standardartikel, artikel.get_id())
+        vals = (artikel.get_name(), artikel.get_einheit(), artikel.get_standardartikel(), artikel.get_id())
         cursor.execute(template, vals)
 
         self._cnx.commit()
@@ -86,6 +87,35 @@ class ArtikelMapper(Mapper):
 
         cursor = self._cnx.cursor()
         command = "SELECT id, name, erstellungs_zeitpunkt, einheit, standardartikel FROM artikel WHERE id={}".format(id)
+        cursor.execute(command)
+        tuples = cursor.fetchall()
+
+        try:
+            (id, name, erstellungs_zeitpunkt, einheit, standardartikel) = tuples[0]
+            artikel = Artikel()
+            artikel.set_id(id)
+            artikel.set_name(name)
+            artikel.set_erstellungs_zeitpunkt(erstellungs_zeitpunkt)
+            artikel.set_einheit(einheit)
+            artikel.set_standardartikel(standardartikel)
+            result = artikel
+        except IndexError:
+            """Der IndexError wird oben beim Zugriff auf tuples[0] auftreten, wenn der vorherige SELECT-Aufruf
+            keine Tupel liefert, sondern tuples = cursor.fetchall() eine leere Sequenz zurück gibt."""
+            result = None
+
+        self._cnx.commit()
+        cursor.close()
+
+        return result
+
+
+    def find_by_name(self, name):
+
+        result = None
+
+        cursor = self._cnx.cursor()
+        command = "SELECT id, name, erstellungs_zeitpunkt, einheit, standardartikel FROM artikel WHERE name LIKE '{}' ORDER BY name".format(name)
         cursor.execute(command)
         tuples = cursor.fetchall()
 
