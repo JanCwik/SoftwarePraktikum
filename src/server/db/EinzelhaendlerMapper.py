@@ -1,5 +1,5 @@
 from src.server.db.Mapper import Mapper
-from src.server.bo.Einzelhaendler import Einzelhaendler """bo Klasse muss gleich genannt werden"""
+from src.server.bo.Einzelhaendler import Einzelhaendler
 
 
 
