@@ -42,22 +42,6 @@ class ApplikationsAdministration(object):
 
 
 
-a = ApplikationsAdministration()
-
-b=[]
-c = None
-
-c = a.get_artikel_by_name("Pils")
-c.set_einheit("keine")
-a.update_artikel(c)
-
-
-
-
-print(c)
-
-
-
 
 
 
