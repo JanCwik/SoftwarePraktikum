@@ -16,4 +16,4 @@ ReactDOM.render(
 // Learn more about service workers: https://bit.ly/CRA-PWA
 serviceWorker.unregister();
 
-export {default as API} from './API';
+export {default as API} from './api/API';
