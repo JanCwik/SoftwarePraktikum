@@ -31,3 +31,33 @@ class ApplikationsAdministration(object):
         with ArtikelMapper() as mapper:
             return mapper.find_by_id(id)
 
+    def get_artikel_by_name(self, name):
+        with ArtikelMapper() as mapper:
+            return mapper.find_by_name(name)
+
+    def update_artikel(self, artikel):
+        with ArtikelMapper() as mapper:
+            mapper.update(artikel)
+
+
+
+
+a = ApplikationsAdministration()
+
+b=[]
+c = None
+
+c = a.get_artikel_by_name("Pils")
+c.set_einheit("keine")
+a.update_artikel(c)
+
+
+
+
+print(c)
+
+
+
+
+
+
