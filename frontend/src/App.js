@@ -1,47 +1,28 @@
-import React from 'react';
+
 
 import { API } from '../src';
+import React, {Component} from 'react';
+
+
+
+import Header from "./components/layout/Header";
+import {BrowserRouter as Router} from "react-router-dom";
+import Artikel_anlegen from "./components/dialogs/ArtikelAnlegen";
+
+//import {Route} from 'react-router-dom'
+
 
 class App extends React.Component {
     constructor(props) {
         super(props);
 
         this.state={
-            newItem:"",
-            list:[],
+
             artikel:[]
         }
     }
 
-    updateInput(key, value){
-        this.setState({
-            [key]: value
-        })
-    }
 
-
-
-addItem (){
-        const newItem={
-            id: 1 + Math.random(),
-            value: this.state.newItem.slice()
-        };
-
-        const list = [...this.state.list];
-        list.push(newItem);
-
-        this.setState({
-            list,
-            newItem:""
-            }
-            );
-    }
-
-    deleteItem(id) {
-        const list = [...this.state.list];
-        const updatedList = list.filter(item => item.id !== id);
-        this.setState({list: updatedList});
-    }
 
 
 /*
@@ -96,6 +77,17 @@ addItem (){
         const {artikel} = this.state
         return (
             <div className="App">
+
+
+                <Router>
+                    <div className="App">
+                        <Header/>
+
+                        <Artikel_anlegen/>
+                    </div>
+                </Router>
+
+
                 <div>
                     {
                         // Wenn etwas im Array "artikel" im State gespeichert ist ( also wenn das Array eine length hat),
@@ -104,37 +96,8 @@ addItem (){
                         artikel.map(art => <div key ={art.id}> {art.name} </div>)
                             : null
 
-
                     }
 
-                    <br/>
-                    <input
-                        type="text"
-                        placeholder= "Artikel hier angeben..."
-                        value={this.state.newItem}
-                        onChange={e => this.updateInput("newItem", e.target.value)}
-                        />
-
-                        <button
-                            onClick={()=> this.addItem()}
-                        >
-                            Add
-                        </button>
-                        <br/>
-                        <ul>
-                            {this.state.list.map(item => {
-                                return(
-                                    <li key ={item.id}>
-                                        {item.value}
-                                        <button
-                                            onClick={() => this.deleteItem(item.id)}
-                                        >
-                                        X
-                                        </button>
-                                    </li>
-                                )
-                            })}
-                        </ul>
                 </div>
             </div>
         );
