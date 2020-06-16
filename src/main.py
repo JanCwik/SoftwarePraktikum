@@ -42,7 +42,6 @@ artikel = api.inherit('Artikel',namedBO , {
 @shopping.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
 class ArtikelListOperations(Resource):
     @shopping.marshal_list_with(artikel)
-    #secured brauchen wir noch nicht
     #@secured
     def get(self):
         """Auslesen aller Artikel"""
@@ -51,16 +50,19 @@ class ArtikelListOperations(Resource):
         return artikel
 
     @shopping.marshal_with(artikel)
-    #@shopping.except(artikel)
+    @shopping.expect(artikel)
     #@secured
     def post(self, id):
         """Anlegen eines Artikels"""
         adm = ApplikationsAdministration()
 
         test = Artikel.from_dict(api.payload)
+        if test is not None:
+            a = adm.artikel_anlegen(test.get_name(), test.get_einheit(), test.get_standardartikel())
+            return a, 200
+        else:
+            return '', 500
 
-        a = adm.artikel_anlegen(test.get_name(), test.get_einheit(), test.get_standardartikel())
-        return a
 
 
 @shopping.route('/artikel/<int:id>')
