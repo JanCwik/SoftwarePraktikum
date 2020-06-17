@@ -1,5 +1,6 @@
 from src.server.bo.NamedBO import NamedBO
 
+
 class Einzelhaendler(NamedBO):
     def __init__(self):
         super().__init__()
@@ -12,7 +13,7 @@ class Einzelhaendler(NamedBO):
         return self._adresse
 
     def __str__(self):
-        return "Artikel: {}, {}, {}, {}".format(self.get_id(), self.get_name(), self._adresse, self.get_erstellungs_zeitpunkt())
+        return "Einzelhaendler: {}, {}, {}, {}".format(self.get_id(), self.get_name(), self._adresse, self.get_erstellungs_zeitpunkt())
 
     @staticmethod
     def from_dict(dictionary=dict()):

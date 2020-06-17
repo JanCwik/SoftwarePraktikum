@@ -20,12 +20,10 @@ class Artikel(NamedBO):
         return self._standardartikel
 
     def __str__(self):
-
         return "Artikel: {}, {}, {}, {}, {}".format(self.get_id(), self.get_name(), self._einheit, self._standardartikel, self.get_erstellungs_zeitpunkt())
 
     @staticmethod
     def from_dict(dictionary=dict()):
-
         obj = Artikel()
         obj.set_id(dictionary["id"])
         obj.set_name(dictionary["name"])
