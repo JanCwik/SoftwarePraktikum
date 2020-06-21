@@ -10,6 +10,18 @@ class EinzelhaendlerMapper(Mapper):
         super().__init__()
 
 
+    """ Mapper-Methode zum ausgeben aller Einzelhändler aus der Datenbank"""
+
+    """Hier werden via SQL-Abfrage alle Einzelhändler aus der Datenbank ausgegeben.
+       Anschließend werden aus den Zeilen der Datenbank (welche ein Objekt mit dessen Attributen darstellen) 
+       mit der fetchall-Methode Tupel erstellt. 
+       
+       !!!NOCHMAL NACHSCHAUEN WAS DIE FETCHALL TECHNISCH GENAU MACHT!!!
+       
+       Mittels For-Schleife werden die einzelnen Attribute aus einem Tupel gezogen und einer neuen Instanz der
+       Klasse "Einzelhaendler" übergeben. Die einzelnen Instanzen werden in einem Array gespeichert.
+       Das Array mit allen Instanzen wird schließlich zurückgegeben."""
+
     def find_all(self):
 
         result = []
@@ -34,6 +46,23 @@ class EinzelhaendlerMapper(Mapper):
         return result
 
 
+    """ Mapper-Methode zum speichern eines neuen Einzelhändlers in der Datenbank"""
+
+    """ Beim Aufruf Methode wird eine zuvor erstellte Instanz der Klasse "Einzelhaendler" übergeben.
+        Anschließend wird via SQL-Abfrage die höchste ID aus der Tabelle "einzelhaendler" ausgegeben und dann
+        mit der fetchall-Methode in einem Tupel gespeichert.
+        
+        Mit einer for-schleife wird anschließend geschaut ob bereits eine ID in der Tabelle vorhanden ist.
+        Falls ja, wird diese genommen und um +1 hochgezählt und anschließend der Instanz, welche in der Datenbank gespeichert
+        werden soll übergeben.
+        Falls noch keine ID in der Tabelle vorhanden sein sollte, wird die Zahl 1 an die Instanz weitergegeben
+        
+        Dann erfolgt erneut ein SQL-Statement welches die Instanz in der Datenbank speichert.
+        Mittels der getter-Methoden, welche zuvor in der entsprechenden Business-Object-Klasse definierten wurden, 
+        werden die Attribute der Instanz an das SQL-Statement übergeben.
+        
+        !!! WIESO KOMMT AM ENDE NOCHMALS EIN RETURN EINZELHAENDLER ? !!!
+        """
     def insert(self, einzelhaendler):
 
         cursor = self._cnx.cursor()
@@ -57,6 +86,13 @@ class EinzelhaendlerMapper(Mapper):
 
         return einzelhaendler
 
+
+    """ Mapper-Methode zum aktualisieren (der Attribute) eines Einzelhändlers in der Datenbank"""
+
+    """ Beim Aufruf Methode wird eine zuvor erstellte Instanz der Klasse "Einzelhaendler" übergeben
+        Dann erfolgt ein SQL-Statement welches das Objekt in der Datenbank aktualisiert.
+        Mittels der getter-Methoden, welche zuvor in der entsprechenden Business-Object-Klasse definierten wurden, 
+        werden die Attribute der Instanz an das SQL-Statement übergeben."""
 
     def update(self, einzelhaendler):
 

@@ -23,11 +23,11 @@ CREATE TABLE einzelhaendler(
     id INT,
     name VARCHAR(30),
     erstellungs_zeitpunkt datetime,
-    adresse varchar(30),
+    adresse varchar(60),
     primary key(id)
 );
 
-INSERT INTO einzelhaendler VALUES (1, "Penny","2020-05-16 15:15:15", "0711 Germany");
+INSERT INTO einzelhaendler VALUES (1, "Lidl","2020-05-16 15:15:15", "0711 Germany");
 INSERT INTO einzelhaendler VALUES (2, "Penny","2020-05-16 15:15:15", "0711 Stuggi");
 
 
