@@ -2,12 +2,11 @@
 
 import { API } from '../src';
 import React, {Component} from 'react';
-
-
-
 import Header from "./components/layout/Header";
-import {BrowserRouter as Router} from "react-router-dom";
+import {BrowserRouter as Router, Route, Redirect} from "react-router-dom";
 import Artikel_anlegen from "./components/dialogs/ArtikelAnlegen";
+import Anwenderverbund from "./components/Anwenderverbund";
+import { Grid, Typography } from '@material-ui/core';
 
 //import {Route} from 'react-router-dom'
 
@@ -79,11 +78,16 @@ class App extends React.Component {
             <div className="App">
 
 
-                <Router>
+                <Router basename={'/'}>
                     <div className="App">
                         <Header/>
-
-                        <Artikel_anlegen/>
+                            <Redirect from='/' to='/artikel'/>
+                            <Route exact path='/artikel'>
+                                <Artikel_anlegen/>
+                            </Route>
+                            <Route path='/anwenderverbund'>
+                                <Anwenderverbund/>
+                            </Route>
                     </div>
                 </Router>
 
