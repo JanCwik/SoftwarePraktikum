@@ -15,7 +15,7 @@ import { makeStyles } from '@material-ui/core/styles';
 const useStyles = makeStyles((theme) => ({
   formControl: {
     margin: theme.spacing(1),
-    minWidth: 300,
+    minWidth: 200,
   },
   selectEmpty: {
     marginTop: theme.spacing(2),
@@ -25,9 +25,9 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Artikel_anlegen() {
   const [open, setOpen] = React.useState(false);
-  const classes = useStyles();
   const [Standartartikel, setArtikel] = React.useState('');
-
+  const [Einheit, setEinheit] = React.useState('');
+  const classes = useStyles();
 
 
 /*
@@ -40,6 +40,10 @@ export default function Artikel_anlegen() {
 
   const handleChange = (event) => {
     setArtikel(event.target.value);
+  };
+
+    const einheit_bestimmen = (event) => {
+    setEinheit(event.target.value);
   };
 
 
@@ -77,22 +81,38 @@ export default function Artikel_anlegen() {
             fullWidth
           />
           <FormControl className={classes.formControl}>
-        <InputLabel id="demo-simple-select-label">Standartartikel?</InputLabel>
+        <InputLabel id="demo-simple-select-label">Standardartikel?</InputLabel>
         <Select
           labelId="demo-simple-select-label"
           id="demo-simple-select"
           value={Standartartikel}
           onChange={handleChange}
         >
-          <MenuItem value={10}>Ten</MenuItem>
-          <MenuItem value={20}>Twenty</MenuItem>
-          <MenuItem value={30}>Thirty</MenuItem>
+          <MenuItem value={"Ja"}>Ja</MenuItem>
+          <MenuItem value={"Nein"}>Nein</MenuItem>
+
         </Select>
-      </FormControl>
+          </FormControl>
+
+          <FormControl>
+                <InputLabel id="demo-simple-select-label_2">Einheit</InputLabel>
+        <Select
+          labelId="demo-simple-select-label_2"
+          id="demo-simple-select"
+          value={Einheit}
+          onChange={einheit_bestimmen}
+
+        >
+          <MenuItem value={"Ja"}>kg</MenuItem>
+          <MenuItem value={"Nein"}>Ltr.</MenuItem>
+
+        </Select>
+
+         </FormControl>
 
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose} color="primary">
+          <Button onClick={handleClose} color="secondary">
             Abbrechen
           </Button>
           <Button onClick={handleClose} color="primary">
