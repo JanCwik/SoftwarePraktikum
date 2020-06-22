@@ -2,7 +2,8 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {Typography,Tabs, Tab} from "@material-ui/core";
 import {Link as RouterLink} from "react-router-dom"
-
+import FastfoodIcon from "@material-ui/icons/Fastfood";
+import PeopleIcon from "@material-ui/icons/People";
 
 
 class Header extends Component {
@@ -42,8 +43,8 @@ class Header extends Component {
 
 
             <Tabs indicatorColor='primary' textColor='primary' centered value={this.state.tabindex} onChange={this.handleTabChange} >
-              <Tab label='Artikel' component={RouterLink} to={`/artikel`} />
-              <Tab label='Anwenderverbund' component={RouterLink} to={`/anwenderverbund`}/>
+              <Tab icon ={<FastfoodIcon/>} label='Artikel' component={RouterLink} to={`/artikel`} />
+              <Tab icon ={<PeopleIcon/>} label='Anwenderverbund' component={RouterLink} to={`/anwenderverbund`}/>
               <Tab label='Einzelhändler' component={RouterLink} to={`/einzelhändler`}/>
               <Tab label='Statistik' component={RouterLink} to={`/statistik`}/>
             </Tabs>
