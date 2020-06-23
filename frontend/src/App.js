@@ -1,12 +1,10 @@
-
-
 import { API } from '../src';
 import React, {Component} from 'react';
 import Header from "./components/layout/Header";
 import {BrowserRouter as Router, Route, Redirect} from "react-router-dom";
 import ArtikelAnlegen from "./components/dialogs/ArtikelAnlegen";
 import Anwenderverbund from "./components/Anwenderverbund";
-import EinzelhändlerAnlegen from "./components/dialogs/EinzelhändlerAnlegen";
+import Einzelhaendler from "./components/Einzelhaendler";
 import { Grid, Typography } from '@material-ui/core';
 
 //import {Route} from 'react-router-dom'
@@ -91,8 +89,8 @@ class App extends React.Component {
                                 <Anwenderverbund/>
                             </Route>
 
-                            <Route path='/einzelhändler'>
-                                <EinzelhändlerAnlegen/>
+                            <Route path='/einzelhaendler'>
+                                <Einzelhaendler/>
                             </Route>
                     </div>
                 </Router>
