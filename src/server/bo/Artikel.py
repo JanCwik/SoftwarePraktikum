@@ -8,24 +8,28 @@ class Artikel(NamedBO):
         self._standardartikel = False
 
     def set_einheit(self, einheit):
+        """Setzen der Einheit"""
         self._einheit = einheit
 
     def get_einheit(self):
+        """Auslesen der Einheit"""
         return self._einheit
 
     def set_standardartikel(self, wert):
+        """Setzen des Standartartikel"""
         self._standardartikel = wert
 
     def get_standardartikel(self):
+        """Auslesen des Standartartikel"""
         return self._standardartikel
 
     def __str__(self):
-
+        """Erzeugen einer einfachen textuellen Darstellung der jeweiligen Instanz."""
         return "Artikel: {}, {}, {}, {}, {}".format(self.get_id(), self.get_name(), self._einheit, self._standardartikel, self.get_erstellungs_zeitpunkt())
 
     @staticmethod
     def from_dict(dictionary=dict()):
-
+        """Einen Python dict() in einen Artikel() umwandeln."""
         obj = Artikel()
         obj.set_id(dictionary["id"])
         obj.set_name(dictionary["name"])

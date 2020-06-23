@@ -4,11 +4,11 @@ import { withStyles, Button, TextField, InputAdornment, IconButton, Grid, Typogr
 import AddIcon from '@material-ui/icons/Add';
 import ClearIcon from '@material-ui/icons/Clear'
 import { withRouter } from 'react-router-dom';
-//import { BankAPI } from '../api';
-//import ContextErrorMessage from './dialogs/ContextErrorMessage';
-//import LoadingProgress from './dialogs/LoadingProgress';
-import UserGroupDialog from './dialogs/AnwenderverbundAnlegen';
-//import CustomerListEntry from './CustomerListEntry';
+import { API } from '../api';
+import ContextErrorMessage from './dialogs/ContextErrorMessage';
+import LoadingProgress from './dialogs/LoadingProgress';
+import CustomerForm from './dialogs/CustomerForm';
+import CustomerListEntry from './CustomerListEntry';
 
 /**
  * Controlls a list of CustomerListEntrys to create a accordion for each customer.
@@ -17,7 +17,7 @@ import UserGroupDialog from './dialogs/AnwenderverbundAnlegen';
  *
  * @author [Christoph Kunz](https://github.com/christophkunz)
  */
-class Verbundsliste extends Component {
+class EinzelhaendlerList extends Component {
 
   constructor(props) {
     super(props);
@@ -25,34 +25,34 @@ class Verbundsliste extends Component {
     // console.log(props);
     let expandedID = null;
 
-    if (this.props.location.expandCustomer) {
-      expandedID = this.props.location.expandCustomer.getID();
+    if (this.props.location.expandEinzelhaendler) {
+      expandedID = this.props.location.expandEinzelhaendler.getID();
     }
 
     // Init an empty state
     this.state = {
-      customers: [],
-      filteredCustomers: [],
-      customerFilterStr: '',
+      einzelhaendler: [],
+      filteredEinzelhaendler: [],
+      einzelhaendlerFilterStr: '',
       error: null,
       loadingInProgress: false,
-      expandedCustomerID: expandedID,
-      showCustomerForm: false
+      expandedEinzelhaendlerID: expandedID,
+      showEinzelhaendlerForm: false
     };
   }
-/*
-  // Fetches all CustomerBOs from the backend
-  getCustomers = () => {
-    BankAPI.getAPI().getCustomers()
-      .then(customerBOs =>
+
+  /** Fetches all CustomerBOs from the backend */
+  getEinzelhaendler = () => {
+    API.getAPI().getEinzelhaendler()
+      .then(einzelhaendlerBOs =>
         this.setState({               // Set new state when CustomerBOs have been fetched
-          customers: customerBOs,
-          filteredCustomers: [...customerBOs], // store a copy
+          einzelhaendler: einzelhaendlerBOs,
+          filteredEinzelhaendler: [...einzelhaendlerBOs], // store a copy
           loadingInProgress: false,   // disable loading indicator
           error: null
         })).catch(e =>
           this.setState({             // Reset state with error from catch
-            customers: [],
+            einzelhaendler: [],
             loadingInProgress: false, // disable loading indicator
             error: e
           })
@@ -66,6 +66,9 @@ class Verbundsliste extends Component {
   }
 
   /** Lifecycle method, which is called when the component gets inserted into the browsers DOM */
+  componentDidMount() {
+    this.getEinzelhaendler();
+  }
 
   /**
    * Handles onExpandedStateChange events from the CustomerListEntry component. Toggels the expanded state of
@@ -73,19 +76,19 @@ class Verbundsliste extends Component {
    *
    * @param {customer} CustomerBO of the CustomerListEntry to be toggeled
    */
-  onExpandedStateChange = customer => {
-    // console.log(customerID);
+  onExpandedStateChange = einzelhaendler => {
+    // console.log(einzelhaendlerID);
     // Set expandend customer entry to null by default
     let newID = null;
 
     // If same customer entry is clicked, collapse it else expand a new one
-    if (customer.getID() !== this.state.expandedCustomerID) {
+    if (einzelhaendler.getID() !== this.state.expandedEinzelhaendlerID) {
       // Expand the customer entry with customerID
-      newID = customer.getID();
+      newID = einzelhaendler.getID();
     }
     // console.log(newID);
     this.setState({
-      expandedCustomerID: newID,
+      expandedEinzelhaendlerID: newID,
     });
   }
 
@@ -94,38 +97,38 @@ class Verbundsliste extends Component {
    *
    * @param {customer} CustomerBO of the CustomerListEntry to be deleted
    */
-  customerDeleted = customer => {
-    const newCustomrList = this.state.customers.filter(customerFromState => customerFromState.getID() !== customer.getID());
+  einzelhaendlerDeleted = einzelhaendler => {
+    const newEinzelhaendlerList = this.state.einzelhaendler.filter(einzelhaendlerFromState => einzelhaendlerFromState.getID() !== einzelhaendler.getID());
     this.setState({
-      customers: newCustomrList,
-      filteredCustomers: [...newCustomrList],
-      showCustomerForm: false
+      einzelhaendler: newEinzelhaendlerListList,
+      filteredEinzelhaendler: [...newEinzelhaendlerListList],
+      showEinzelhaendlerForm: false
     });
   }
 
   /** Handles the onClick event of the add customer button */
-addUserGroupButtonClicked = event => {
+  addEinzelhaendlerButtonClicked = event => {
     // Do not toggle the expanded state
     event.stopPropagation();
     //Show the CustmerForm
     this.setState({
-      showCustomerForm: true
+      showEinzelhaendlerForm: true
     });
   }
 
   /** Handles the onClose event of the CustomerForm */
-  customerFormClosed = customer => {
+  einzelhaendlerFormClosed = einzelhaendler => {
     // customer is not null and therefore created
-    if (customer) {
-      const newCustomrList = [...this.state.customers, customer];
+    if (einzelhaendler) {
+      const newEinzelhaendlerList = [...this.state.einzelhaendler, einzelhaendler];
       this.setState({
-        customers: newCustomrList,
-        filteredCustomers: [...newCustomrList],
-        showCustomerForm: false
+        einzelhaendler: newEinzelhaendlerList,
+        filteredEinzelhaendler: [...newEinzelhaendlerList],
+        showEinzelhaendlerForm: false
       });
     } else {
       this.setState({
-        showCustomerForm: false
+        showEinzelhaendlerForm: false
       });
     }
   }
@@ -134,12 +137,11 @@ addUserGroupButtonClicked = event => {
   filterFieldValueChange = event => {
     const value = event.target.value.toLowerCase();
     this.setState({
-      filteredCustomers: this.state.customers.filter(customer => {
-        let firstNameContainsValue = customer.getFirstName().toLowerCase().includes(value);
-        let lastNameContainsValue = customer.getLastName().toLowerCase().includes(value);
-        return firstNameContainsValue || lastNameContainsValue;
+      filteredEinzelhaendler: this.state.einzelhaendler.filter(einzelhaendler => {
+        let NameContainsValue = einzelhaendler.getName().toLowerCase().includes(value);
+        return NameContainsValue;
       }),
-      UserGroupFilter: value
+      einzelhaendlerFilter: value
     });
   }
 
@@ -147,31 +149,31 @@ addUserGroupButtonClicked = event => {
   clearFilterFieldButtonClicked = () => {
     // Reset the filter
     this.setState({
-      filteredCustomers: [...this.state.customers],
-      UserGroupFilter: ''
+      filteredEinzelhaendler: [...this.state.customers],
+      einzelhaendlerFilter: ''
     });
   }
 
   /** Renders the component */
   render() {
     const { classes } = this.props;
-    const { filteredCustomers, UserGroupFilter, expandedCustomerID, loadingInProgress, error, showCustomerForm } = this.state;
+    const { filteredEinzelhaendler, einzelhaendlerFilter, expandedEinzelhaendlerID, loadingInProgress, error, showEinzelhaendlerForm } = this.state;
 
     return (
       <div className={classes.root}>
-        <Grid className={classes.UserGroupFilter} container spacing={1} justify='flex-start' alignItems='center'>
+        <Grid className={classes.einzelhaendlerFilter} container spacing={1} justify='flex-start' alignItems='center'>
           <Grid item>
             <Typography>
-              Anwenderverbund suchen:
+              Filter Einzelhändlerliste nach Name:
               </Typography>
           </Grid>
           <Grid item xs={4}>
             <TextField
               autoFocus
               fullWidth
-              id='userGroupFilter'
+              id='customerFilter'
               type='text'
-              value={UserGroupFilter}
+              value={einzelhaendlerFilter}
               onChange={this.filterFieldValueChange}
               InputProps={{
                 endAdornment: <InputAdornment position='end'>
@@ -184,16 +186,23 @@ addUserGroupButtonClicked = event => {
           </Grid>
           <Grid item xs />
           <Grid item>
-            <Button variant='contained' color='primary' startIcon={<AddIcon />} onClick={this.addUserGroupButtonClicked}>
-              Anwenderverbund hinzufügen
+            <Button variant='contained' color='primary' startIcon={<AddIcon />} onClick={this.addEinzelhaendlerButtonClicked}>
+              Add Einzelhaendler
           </Button>
           </Grid>
         </Grid>
-          <UserGroupDialog show={showCustomerForm} onClose={this.customerFormClosed} />
-
-
-
-
+        {
+          // Show the list of CustomerListEntry components
+          // Do not use strict comparison, since expandedCustomerID maybe a string if given from the URL parameters
+          filteredEinzelhaendler.map(einzelhaendler =>
+            <EinzelhaendlerListEntry key={einzelhaendler.getID()} einzelhaendler={einzelhaendler} expandedState={expandedEinzelhaendlerID === einzelhaendler.getID()}
+              onExpandedStateChange={this.onExpandedStateChange}
+              onEinzelhaendlerDeleted={this.einzelhaendlerDeleted}
+            />)
+        }
+        <LoadingProgress show={loadingInProgress} />
+        <ContextErrorMessage error={error} contextErrorMsg={`Die Liste der Einzelhändler konnte nicht geladen werden.`} onReload={this.getEinzelhaendler} />
+        <EinzelhaendlerForm show={showEinzelhaendlerForm} onClose={this.einzelhaendlerFormClosed} />
       </div>
     );
   }
@@ -211,11 +220,11 @@ const styles = theme => ({
 });
 
 /** PropTypes */
-Verbundsliste.propTypes = {
+EinzelhaendlerList.propTypes = {
   /** @ignore */
   classes: PropTypes.object.isRequired,
   /** @ignore */
   location: PropTypes.object.isRequired,
 }
 
-export default withRouter(withStyles(styles)(Verbundsliste));
+export default withRouter(withStyles(styles)(EinzelhaendlerList));
