@@ -8,6 +8,7 @@ import ArtikelAnlegen from "./components/dialogs/ArtikelAnlegen";
 import Anwenderverbund from "./components/Anwenderverbund";
 import EinzelhändlerAnlegen from "./components/dialogs/EinzelhändlerAnlegen";
 import { Grid, Typography } from '@material-ui/core';
+import AnwenderverbundBO from "./api/AnwenderverbundBO";
 
 //import {Route} from 'react-router-dom'
 
@@ -114,3 +115,4 @@ class App extends React.Component {
     }
 }
 export default App;
+
