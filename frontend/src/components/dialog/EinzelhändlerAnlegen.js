@@ -6,10 +6,6 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
-import InputLabel from '@material-ui/core/InputLabel';
-import MenuItem from '@material-ui/core/MenuItem';
-import FormControl from '@material-ui/core/FormControl';
-import Select from '@material-ui/core/Select';
 import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles((theme) => ({
@@ -23,10 +19,9 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-export default function Artikel_anlegen() {
+export default function EinzelhändlerAnlegen() {
   const [open, setOpen] = React.useState(false);
-  const [Standartartikel, setArtikel] = React.useState('');
-  const [Einheit, setEinheit] = React.useState('');
+  const [Einzelhändler, setEinzelhändler] = React.useState('');
   const classes = useStyles();
 
 
@@ -39,11 +34,7 @@ export default function Artikel_anlegen() {
 
 
   const handleChange = (event) => {
-    setArtikel(event.target.value);
-  };
-
-    const einheit_bestimmen = (event) => {
-    setEinheit(event.target.value);
+    setEinzelhändler(event.target.value);
   };
 
 
@@ -55,60 +46,25 @@ export default function Artikel_anlegen() {
     setOpen(false);
   }
 
-
-
-
-
-
-
   return (
     <div>
       <Button variant="outlined" color="primary" onClick={handleClickOpen}>
-        Artikel anlegen
+        Einzelhändler anlegen
       </Button>
       <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
         <DialogTitle id="form-dialog-title">Anlegen</DialogTitle>
         <DialogContent>
           <DialogContentText>
-              In diesem Fenster können sie die gewünschten Artikel in der Datenbank anlegen.
+              In diesem Fenster können sie den gewünschten Einzelhändler in der Datenbank anlegen.
           </DialogContentText>
           <TextField
             autoFocus
             margin="dense"
             id="name"
-            label="Artikelname"
+            label="Einzelhändlername"
             type="name"
             fullWidth
           />
-          <FormControl className={classes.formControl}>
-        <InputLabel id="demo-simple-select-label">Standardartikel?</InputLabel>
-        <Select
-          labelId="demo-simple-select-label"
-          id="demo-simple-select"
-          value={Standartartikel}
-          onChange={handleChange}
-        >
-          <MenuItem value={"Ja"}>Ja</MenuItem>
-          <MenuItem value={"Nein"}>Nein</MenuItem>
-
-        </Select>
-          </FormControl>
-
-          <FormControl>
-                <InputLabel id="demo-simple-select-label_2">Einheit</InputLabel>
-        <Select
-          labelId="demo-simple-select-label_2"
-          id="demo-simple-select"
-          value={Einheit}
-          onChange={einheit_bestimmen}
-
-        >
-          <MenuItem value={"Ja"}>kg</MenuItem>
-          <MenuItem value={"Nein"}>Ltr.</MenuItem>
-
-        </Select>
-
-         </FormControl>
 
         </DialogContent>
         <DialogActions>
