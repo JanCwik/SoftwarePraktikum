@@ -7,7 +7,6 @@ from src.server.db.EinzelhaendlerMapper import EinzelhaendlerMapper
 from src.server.db.BenutzerMapper import BenutzerMapper
 from src.server.db.AnwenderverbundMapper import AnwenderverbundMapper
 
-//2ws
 
 class ApplikationsAdministration(object):
 
