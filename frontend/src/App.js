@@ -6,7 +6,7 @@ import Header from "./components/layout/Header";
 import {BrowserRouter as Router, Route, Redirect} from "react-router-dom";
 import ArtikelAnlegen from "./components/dialogs/ArtikelAnlegen";
 import Anwenderverbund from "./components/Anwenderverbund";
-import EinzelhändlerAnlegen from "./components/dialogs/EinzelhändlerAnlegen";
+import EinzelhändlerAnlegen from "./components/dialogs/EinzelhaendlerForm";
 import { Grid, Typography } from '@material-ui/core';
 
 //import {Route} from 'react-router-dom'
