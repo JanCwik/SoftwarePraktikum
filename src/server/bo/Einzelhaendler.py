@@ -11,7 +11,7 @@ class Einzelhaendler(NamedBO):
 
     @staticmethod
     def from_dict(dictionary=dict()):
-        """Eines Python dict() in einen Einzelhaendler() umwandeln."""
+        """Einen Python dict() in einen Einzelhaendler() umwandeln."""
         obj = Einzelhaendler()
         obj.set_id(dictionary["id"])
         obj.set_name(dictionary["name"])
