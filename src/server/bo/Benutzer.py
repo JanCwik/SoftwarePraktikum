@@ -25,7 +25,7 @@ class Benutzer(NamedBO):
 
     def __str__(self):
         """Erzeugen einer einfachen textuellen Darstellung der jeweiligen Instanz."""
-        return "Benutzer: {}, {}, {}, {}".format(self.get_id(), self.get_name(), self._email, self.get_erstellungs_zeitpunkt())
+        return "Benutzer: {}, {}, {}, {}, {}".format(self.get_id(), self.get_name(), self._email, self.get_erstellungs_zeitpunkt(), self._google_id)
 
     @staticmethod
     def from_dict(dictionary=dict()):
