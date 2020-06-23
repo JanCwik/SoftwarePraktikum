@@ -8,7 +8,7 @@ import { API } from '../api';
 import ContextErrorMessage from './dialogs/ContextErrorMessage';
 import LoadingProgress from './dialogs/LoadingProgress';
 import CustomerForm from './dialogs/CustomerForm';
-import CustomerListEntry from './CustomerListEntry';
+import EinzelhaendlerListEntry from "./EinzelhändlerListenEintrag";
 
 /**
  * Controlls a list of CustomerListEntrys to create a accordion for each customer.
