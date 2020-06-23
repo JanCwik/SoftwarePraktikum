@@ -27,7 +27,7 @@ class Anwenderverbund(NamedBO):
 
     @staticmethod
     def from_dict(dictionary=dict()):
-        """Eines Python dict() in einen Anwenderverbund() umwandeln."""
+        """Einen Python dict() in einen Anwenderverbund() umwandeln."""
         obj = Anwenderverbund()
         obj.set_id(dictionary["id"])
         obj.set_name(dictionary["name"])
