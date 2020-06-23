@@ -4,6 +4,7 @@ from flask_restx import Resource, Api, fields
 
 from src.server.ApplikationsAdministration import ApplikationsAdministration
 from src.server.bo.Artikel import Artikel
+from src.server.bo.Einzelhaendler import Einzelhaendler
 
 
 
