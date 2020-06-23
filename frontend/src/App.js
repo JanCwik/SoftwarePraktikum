@@ -4,9 +4,9 @@ import { API } from '../src';
 import React, {Component} from 'react';
 import Header from "./components/layout/Header";
 import {BrowserRouter as Router, Route, Redirect} from "react-router-dom";
-import ArtikelAnlegen from "./components/dialog/ArtikelAnlegen";
+import ArtikelAnlegen from "./components/dialogs/ArtikelAnlegen";
 import Anwenderverbund from "./components/Anwenderverbund";
-import EinzelhändlerAnlegen from "./components/dialog/EinzelhändlerAnlegen";
+import EinzelhändlerAnlegen from "./components/dialogs/EinzelhändlerAnlegen";
 import { Grid, Typography } from '@material-ui/core';
 
 //import {Route} from 'react-router-dom'
