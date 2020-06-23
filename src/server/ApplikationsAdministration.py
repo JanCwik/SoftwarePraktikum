@@ -112,6 +112,7 @@ class ApplikationsAdministration(object):
 
 
 
+
     """ METHODEN ZUR VERWALTUNG VON BENUTZERN IN DER DATENBANK"""
     """______________________________________________________"""
 
@@ -203,6 +204,7 @@ class ApplikationsAdministration(object):
     def update_anwenderverbund(self, anwenderverbund):
         with AnwenderverbundMapper() as mapper:
             mapper.update(anwenderverbund)
+
 
 
 
