@@ -4,7 +4,7 @@ import { withStyles, Typography, ExpansionPanel, ExpansionPanelSummary, Expansio
 import { Button, ButtonGroup } from '@material-ui/core';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import EinzelhaendlerForm from './dialogs/EinzelhaendlerForm';
-import EinzelhaendlerLoeschen from './dialogs/EinzelhaendlerLoeschen';
+import EinzelhaendlerLoeschen from "./dialogs/EinzelhaendlerLoeschen";
 
 
 
@@ -113,7 +113,7 @@ class EinzelhaendlerListEntry extends Component {
           </ExpansionPanelSummary>
         </ExpansionPanel>
         <EinzelhaendlerForm show={showEinzelhaendlerForm} einzelhaendler={einzelhaendler} onClose={this.einzelhaendlerFormClosed} />
-        <EinzelhaendlerDeleteDialog show={showEinzelhaendlerDeleteDialog} einzelhaendler={einzelhaendler} onClose={this.deleteEinzelhaendlerDialogClosed} />
+        <EinzelhaendlerLoeschen show={showEinzelhaendlerDeleteDialog} einzelhaendler={einzelhaendler} onClose={this.deleteEinzelhaendlerDialogClosed} />
       </div>
     );
   }
@@ -131,7 +131,7 @@ EinzelhaendlerListEntry.propTypes = {
   /** @ignore */
   classes: PropTypes.object.isRequired,
   /** The CustomerBO to be rendered */
-  customer: PropTypes.object.isRequired,
+  einzelhaendler: PropTypes.object.isRequired,
   /** The state of this CustomerListEntry. If true the customer is shown with its accounts */
   expandedState: PropTypes.bool.isRequired,
   /** The handler responsible for handle expanded state changes (exanding/collapsing) of this CustomerListEntry
@@ -144,7 +144,7 @@ EinzelhaendlerListEntry.propTypes = {
    *
    * Signature: onCustomerDelete(CustomerBO customer)
    */
-  onCustomerDeleted: PropTypes.func.isRequired
+  onEinzelhaendlerDeleted: PropTypes.func.isRequired
 }
 
 export default withStyles(styles)(EinzelhaendlerListEntry);
