@@ -7,7 +7,7 @@ import { withRouter } from 'react-router-dom';
 //import { BankAPI } from '../api';
 //import ContextErrorMessage from './dialogs/ContextErrorMessage';
 //import LoadingProgress from './dialogs/LoadingProgress';
-//import CustomerForm from './dialogs/CustomerForm';
+import UserGroupDialog from './dialogs/AnwenderverbundAnlegen';
 //import CustomerListEntry from './CustomerListEntry';
 
 /**
@@ -189,7 +189,7 @@ addUserGroupButtonClicked = event => {
           </Button>
           </Grid>
         </Grid>
-
+          <UserGroupDialog show={showCustomerForm} onClose={this.customerFormClosed} />
 
 
 
