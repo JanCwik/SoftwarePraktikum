@@ -29,7 +29,7 @@ class Artikel(NamedBO):
 
     @staticmethod
     def from_dict(dictionary=dict()):
-        """Eines Python dict() in einen Artikel() umwandeln."""
+        """Einen Python dict() in einen Artikel() umwandeln."""
         obj = Artikel()
         obj.set_id(dictionary["id"])
         obj.set_name(dictionary["name"])
