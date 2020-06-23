@@ -28,12 +28,12 @@ bo = api.model('BusinessObject', {
 
 namedBO = api.inherit('namedBO', bo, {
     'name': fields.String(attribute='_name', description='Name des namedBO'),
-    'erstellungs_zeitpunkt': fields.DateTime(attribute='_erstellungs_zeitpunkt', description='Erstellungszeitpunkt'),
+    'erstellungs_zeitpunkt': fields.String(attribute='_erstellungs_zeitpunkt', description='Erstellungszeitpunkt'),
 })
 
 artikel = api.inherit('Artikel',namedBO , {
-    'Einheit': fields.String(attribute='_einheit', description='Name eines Artikels'),
-    'Standardartikel': fields.String(attribute='_standardartikel', description='Standardartikel'),
+    'einheit': fields.String(attribute='_einheit', description='Name eines Artikels'),
+    'standardartikel': fields.String(attribute='_standardartikel', description='Standardartikel'),
 })
 
 
@@ -65,8 +65,8 @@ class ArtikelListOperations(Resource):
 
 
 
-@shopping.route('/artikel/<int:id>')
-@shopping.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
+@shopping.route('/artikel-by-id/<int:id>')
+@shopping.response(500, 'Serverfehler')
 @shopping.param('id', 'ID des Artikels')
 class ArtikelOperations(Resource):
     @shopping.marshal_with(artikel)
@@ -74,8 +74,8 @@ class ArtikelOperations(Resource):
     def get_by_id(self, id):
         """Auslesen eines bestimmten Artikel"""
         adm = ApplikationsAdministration()
-        art = adm.get_artikel_by_id(id)
-        return art
+        artikel = adm.get_artikel_by_id(id)
+        return artikel
 
     #@secured
     def delete(self, id):
@@ -85,10 +85,32 @@ class ArtikelOperations(Resource):
         adm.delete_artikel(artikel)
         return ''
 
+    @shopping.marshal_with(artikel)
+    @shopping.expect(artikel)
+    #@secured
+    def put(self, id):
+     
+        adm = ApplikationsAdministration()
+        a = Artikel.from_dict(api.payload)
 
+        if a is not None:
+            a.set_id(id)
+            adm.update_artikel(artikel)
+            return '', 200
+        else:
+            return '', 500
 
-
-
+@shopping.route('/artikel-by-name/<string:name>')
+@shopping.response(500, "Serverfehler")
+@shopping.param('name', 'Name des Artikels')
+class ArtikelByNameOperations(Resource):
+    @shopping.marshal_with(artikel)
+    #@secured
+    def get_by_name(self,name):
+        
+        adm = ApplikationsAdministration()
+        artikel = adm.get_artikel_by_name(name)
+        return artikel
 
 
 
