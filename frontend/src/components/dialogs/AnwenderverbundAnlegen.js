@@ -74,23 +74,17 @@ class UserGroupDialog extends Component {
         'Content-type': 'application/json',
       },
       body: JSON.stringify(newVerbund)
-    })
-  }
-
-            /*
-            DAS HIER MUSS NOCH ANGEHÄNGT WERDEN!!!!
-
-            .then((responseJSON) => {
+    }).then((responseJSON) => {
             // We always get an array of CustomerBOs.fromJSON, but only need one object
-            let responseCustomerBO = CustomerBO.fromJSON(responseJSON)[0];
+            let responseVerbundBO = AnwenderverbundBO.fromJSON(responseJSON)[0];
             // console.info(accountBOs);
             return new Promise(function (resolve) {
-                resolve(responseCustomerBO);
+                resolve(responseVerbundBO);
             })
         })
     }
-    */
 
+// wahrscheinlich fehlt noch eine funktion onChange die den state verändert
 
    /* BankAPI.getAPI().addCustomer(newCustomer).then(customer => {
       // Backend call sucessfull
