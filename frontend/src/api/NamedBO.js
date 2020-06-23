@@ -4,24 +4,24 @@ export default class NamedBO extends BusinessObject {
 
    constructor() {
        super();
-        this.ErstellungsZeitpunkt = null;
-        this.Name = "";
+        this.erstellungs_zeitpunkt = null;
+        this.name = "";
    }
 
-    setErstellungsZeitpunkt(ErstellungsZeitpunkt) {
-        this.ErstellungsZeitpunkt = ErstellungsZeitpunkt
+    setErstellungsZeitpunkt(erstellungs_zeitpunkt) {
+        this.erstellungs_zeitpunkt = erstellungs_zeitpunkt
     }
 
     getErstellungsZeitpunkt() {
-        return this.ErstellungsZeitpunkt
+        return this.erstellungs_zeitpunkt
     }
 
-    setName(Name) {
-        this.Name = Name
+    setName(name) {
+        this.name = name
     }
 
     getName() {
-        return this.Name
+        return this.name
     }
 
 

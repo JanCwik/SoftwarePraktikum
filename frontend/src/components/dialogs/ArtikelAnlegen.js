@@ -11,6 +11,8 @@ import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import { makeStyles } from '@material-ui/core/styles';
+import AnwenderverbundBO from "../../api/AnwenderverbundBO";
+import ArtikelBO from "../../api/ArtikelBO";
 
 const useStyles = makeStyles((theme) => ({
   formControl: {
@@ -25,9 +27,13 @@ const useStyles = makeStyles((theme) => ({
 
 export default function ArtikelAnlegen() {
   const [open, setOpen] = React.useState(false);
-  const [Standartartikel, setArtikel] = React.useState('');
+  const [Standartartikel, setStandardartikel] = React.useState('');
   const [Einheit, setEinheit] = React.useState('');
   const classes = useStyles();
+  const [name, setName]=React.useState('');
+
+  //Durch diese UseState-Hooks ist es möglich daten in einem State zwischenzuspeichern, obwohl wir uns
+    // in einem Funktion-Component befinden
 
 
 /*
@@ -37,11 +43,17 @@ export default function ArtikelAnlegen() {
 };
 */
 
+   // Funktion die onChange ausgeführt wird um die UseState-Hook "name" zu aktualisieren
+  const name_bestimmen= (event)=>{
+    setName(event.target.value)
+  }
 
-  const handleChange = (event) => {
-    setArtikel(event.target.value);
+// Funktion die onChange ausgeführt wird um die UseState-Hook "Standartartikel" zu aktualisieren
+  const standardartikel_bestimmen = (event) => {
+    setStandardartikel(event.target.value);
   };
 
+// Funktion die onChange ausgeführt wird um die UseState-Hook "Einheit" zu aktualisieren
     const einheit_bestimmen = (event) => {
     setEinheit(event.target.value);
   };
@@ -56,6 +68,60 @@ export default function ArtikelAnlegen() {
   }
 
 
+
+  // addArtikel wird ausgeführt wenn auf den Button "hinzufügen" gedrückt wird
+    //erstellt eine Instanz der Klasse ArtikelBO und und weist ihr Attribute zu (Die Werte für die Attribute
+    // gibt der Benutzer ein und diese weden dann in UseState-Hooks zwischengespeichert)
+    // dann wird die Funktion ArtikelHinzufuegen mit der erstellten Instanz als Parameter ausgefürt
+    // anschließend wird handleClose ausgefürt um das Artikelanlegen-Fenster zu schließen
+const addArtikel =()=>{
+
+     let newArt = new ArtikelBO();
+    newArt.setName(name);
+    newArt.setEinheit(Einheit)
+    newArt.setStandardartikel(Standartartikel)
+    ArtikelHinzufuegen(newArt)
+
+
+    handleClose()
+}
+
+
+
+
+//führt die fetch-Funktion aus, fängt dabei mögliche Errors ab und führt anschließend schon die json-Funktion mit der Response aus.
+  const fetchAdvanced = (url, init) => fetch(url, init)
+        .then(res => {
+
+            if (!res.ok) {
+                throw Error(`${res.status} ${res.statusText}`);
+            }
+            return res.json();
+        }
+    )
+
+
+
+//führt einen POST Request aus und schreibt dabei das als Parameter übergebene Artikelobjekt in den Body des Json
+
+  const ArtikelHinzufuegen=(newArt) => {
+    let url = "http://127.0.0.1:5000/shopping/artikel"
+    return fetchAdvanced(url, {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json, text/plain',
+        'Content-type': 'application/json',
+      },
+      body: JSON.stringify(newArt)
+    }).then((responseJSON) => {
+            // We always get an array of CustomerBOs.fromJSON, but only need one object
+            let responseArtikelBO = ArtikelBO.fromJSON(responseJSON)[0];
+            // console.info(accountBOs);
+            return new Promise(function (resolve) {
+                resolve(responseArtikelBO);
+            })
+        })
+    }
 
 
 
@@ -79,6 +145,8 @@ export default function ArtikelAnlegen() {
             label="Artikelname"
             type="name"
             fullWidth
+            value={name}
+            onChange={name_bestimmen}
           />
           <FormControl className={classes.formControl}>
         <InputLabel id="demo-simple-select-label">Standardartikel?</InputLabel>
@@ -86,7 +154,7 @@ export default function ArtikelAnlegen() {
           labelId="demo-simple-select-label"
           id="demo-simple-select"
           value={Standartartikel}
-          onChange={handleChange}
+          onChange={standardartikel_bestimmen}
         >
           <MenuItem value={"Ja"}>Ja</MenuItem>
           <MenuItem value={"Nein"}>Nein</MenuItem>
@@ -103,8 +171,8 @@ export default function ArtikelAnlegen() {
           onChange={einheit_bestimmen}
 
         >
-          <MenuItem value={"Ja"}>kg</MenuItem>
-          <MenuItem value={"Nein"}>Ltr.</MenuItem>
+          <MenuItem value={"Kg"}>kg</MenuItem>
+          <MenuItem value={"Ltr."}>Ltr.</MenuItem>
 
         </Select>
 
@@ -115,7 +183,7 @@ export default function ArtikelAnlegen() {
           <Button onClick={handleClose} color="secondary">
             Abbrechen
           </Button>
-          <Button onClick={handleClose} color="primary">
+          <Button onClick={addArtikel} color="primary">
             Hinzufügen
           </Button>
         </DialogActions>
@@ -124,4 +192,4 @@ export default function ArtikelAnlegen() {
   );
 }
 
-//export default Form;
+
