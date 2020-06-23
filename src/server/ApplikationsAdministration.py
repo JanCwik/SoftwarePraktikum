@@ -3,7 +3,7 @@ from src.server.bo.Einzelhaendler import Einzelhaendler
 from src.server.db.ArtikelMapper import ArtikelMapper
 from src.server.db.EinzelhaendlerMapper import EinzelhaendlerMapper
 
-
+//2ws
 
 class ApplikationsAdministration(object):
 
