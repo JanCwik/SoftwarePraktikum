@@ -7,16 +7,20 @@ class Benutzer(NamedBO):
         self._email = ""
 
     def get_email(self):
+        """Auslesen der E-Mail Adresse"""
         return self._email
 
     def set_email(self, value):
+        """Setzen der E-Mail Adresse"""
         self._email = value
 
     def __str__(self):
+        """Erzeugen einer einfachen textuellen Darstellung der jeweiligen Instanz."""
         return "Benutzer: {}, {}, {}, {}".format(self.get_id(), self.get_name(), self._email, self.get_erstellungs_zeitpunkt())
 
     @staticmethod
     def from_dict(dictionary=dict()):
+        """Eines Python dict() in einen Benutzer() umwandeln."""
         obj = Benutzer()
         obj.set_id(dictionary["id"])
         obj.set_name(dictionary["name"])
