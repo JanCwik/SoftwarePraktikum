@@ -29,7 +29,7 @@ class Benutzer(NamedBO):
 
     @staticmethod
     def from_dict(dictionary=dict()):
-        """Eines Python dict() in einen Benutzer() umwandeln."""
+        """Einen Python dict() in einen Benutzer() umwandeln."""
         obj = Benutzer()
         obj.set_id(dictionary["id"])
         obj.set_name(dictionary["name"])
