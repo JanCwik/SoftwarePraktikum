@@ -16,7 +16,7 @@ import EinzelhaendlerLoeschen from "./dialogs/EinzelhaendlerLoeschen";
  *
  * @author [Christoph Kunz](https://github.com/christophkunz)
  */
-class EinzelhaendlerListEntry extends Component {
+class EinzelhaendlerListenEintrag extends Component {
 
   constructor(props) {
     super(props);
@@ -127,7 +127,7 @@ const styles = theme => ({
 });
 
 /** PropTypes */
-EinzelhaendlerListEntry.propTypes = {
+EinzelhaendlerListenEintrag.propTypes = {
   /** @ignore */
   classes: PropTypes.object.isRequired,
   /** The CustomerBO to be rendered */
@@ -147,4 +147,4 @@ EinzelhaendlerListEntry.propTypes = {
   onEinzelhaendlerDeleted: PropTypes.func.isRequired
 }
 
-export default withStyles(styles)(EinzelhaendlerListEntry);
+export default withStyles(styles)(EinzelhaendlerListenEintrag);

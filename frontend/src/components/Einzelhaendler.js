@@ -7,8 +7,8 @@ import { withRouter } from 'react-router-dom';
 import { API } from '../api';
 import ContextErrorMessage from './dialogs/ContextErrorMessage';
 import LoadingProgress from './dialogs/LoadingProgress';
-import EinzelhaendlerForm from './dialogs/CustomerForm';
-import EinzelhaendlerListEntry from "./EinzelhändlerListenEintrag";
+import EinzelhaendlerForm from './dialogs/EinzelhaendlerForm';
+import EinzelhaendlerListenEintrag from "./EinzelhaendlerListenEintrag";
 
 /**
  * Controlls a list of CustomerListEntrys to create a accordion for each customer.
@@ -17,7 +17,7 @@ import EinzelhaendlerListEntry from "./EinzelhändlerListenEintrag";
  *
  * @author [Christoph Kunz](https://github.com/christophkunz)
  */
-class EinzelhaendlerList extends Component {
+class Einzelhaendler extends Component {
 
   constructor(props) {
     super(props);
@@ -195,7 +195,7 @@ class EinzelhaendlerList extends Component {
           // Show the list of CustomerListEntry components
           // Do not use strict comparison, since expandedCustomerID maybe a string if given from the URL parameters
           filteredEinzelhaendler.map(einzelhaendler =>
-            <EinzelhaendlerListEntry key={einzelhaendler.getID()} einzelhaendler={einzelhaendler} expandedState={expandedEinzelhaendlerID === einzelhaendler.getID()}
+            <EinzelhaendlerListenEintrag key={einzelhaendler.getID()} einzelhaendler={einzelhaendler} expandedState={expandedEinzelhaendlerID === einzelhaendler.getID()}
               onExpandedStateChange={this.onExpandedStateChange}
               onEinzelhaendlerDeleted={this.einzelhaendlerDeleted}
             />)
@@ -213,18 +213,18 @@ const styles = theme => ({
   root: {
     width: '100%',
   },
-  customerFilter: {
+  einzelhaendlerFilter: {
     marginTop: theme.spacing(2),
     marginBottom: theme.spacing(1),
   }
 });
 
 /** PropTypes */
-EinzelhaendlerList.propTypes = {
+Einzelhaendler.propTypes = {
   /** @ignore */
   classes: PropTypes.object.isRequired,
   /** @ignore */
   location: PropTypes.object.isRequired,
 }
 
-export default withRouter(withStyles(styles)(EinzelhaendlerList));
+export default withRouter(withStyles(styles)(Einzelhaendler));
