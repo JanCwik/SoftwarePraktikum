@@ -1,10 +1,23 @@
 from src.server.bo.NamedBO import NamedBO
+import datetime
 
 
 class Einkaufsliste(NamedBO):
     def __init__(self):
         super().__init__()
+        self._änderungs_zeitpunkt = datetime.datetime.now()
 
+    def eintrag_hinzufügen(self):
+        pass
+
+    def eintrag_löschen(self):
+        pass
+
+    def set_änderungs_zeitpunkt(self, erstellungs_zeitpunkt):
+        self._änderungs_zeitpunkt = erstellungs_zeitpunkt
+
+    def get_änderungs_zeitpunkt(self):
+        return self._änderungs_zeitpunkt
 
     def __str__(self):
         """Erzeugen einer einfachen textuellen Darstellung der jeweiligen Instanz."""
