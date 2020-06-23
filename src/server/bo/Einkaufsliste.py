@@ -8,15 +8,19 @@ class Einkaufsliste(NamedBO):
         self._änderungs_zeitpunkt = datetime.datetime.now()
 
     def eintrag_hinzufügen(self):
+        """Einen Listeneintrag der Einkaufsliste hinzufügen"""
         pass
 
     def eintrag_löschen(self):
+        """Einen Listeneintrag der Einkaufsliste löschen"""
         pass
 
     def set_änderungs_zeitpunkt(self, erstellungs_zeitpunkt):
+        """Setzen des Änderungszeitpunkt"""
         self._änderungs_zeitpunkt = erstellungs_zeitpunkt
 
     def get_änderungs_zeitpunkt(self):
+        """Auslesen des Änderungszeitpunkt"""
         return self._änderungs_zeitpunkt
 
     def __str__(self):
