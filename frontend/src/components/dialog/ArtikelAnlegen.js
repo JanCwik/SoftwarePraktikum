@@ -23,7 +23,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-export default function Artikel_anlegen() {
+export default function ArtikelAnlegen() {
   const [open, setOpen] = React.useState(false);
   const [Standartartikel, setArtikel] = React.useState('');
   const [Einheit, setEinheit] = React.useState('');
