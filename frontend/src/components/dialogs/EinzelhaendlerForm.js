@@ -2,10 +2,9 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withStyles, Button, IconButton, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, TextField } from '@material-ui/core';
 import CloseIcon from '@material-ui/icons/Close';
-import AnwenderverbundBO from "../../api/AnwenderverbundBO";
-//import { BankAPI, CustomerBO } from '../../api';
-//import ContextErrorMessage from './ContextErrorMessage';
-//import LoadingProgress from './LoadingProgress';
+import { API, EinzelhaendlerBO } from '../../api';
+import ContextErrorMessage from './ContextErrorMessage';
+import LoadingProgress from './LoadingProgress';
 
 
 /**
@@ -21,82 +20,38 @@ import AnwenderverbundBO from "../../api/AnwenderverbundBO";
  *
  * @author [Christoph Kunz](https://github.com/christophkunz)
  */
-class UserGroupDialog extends Component {
+class EinzelhaendlerForm extends Component {
 
   constructor(props) {
     super(props);
 
-    let fn = '', ln = '';
-    if (props.customer) {
-      fn = props.customer.getFirstName();
-      ln = props.customer.getLastName();
+    let en = ''
+    if (props.einzelhaendler) {
+      en = props.einzelhaendler.getName();
     }
 
     // Init the state
     this.state = {
-      Name: fn,
-      NameValidationFailed: false,
-      NameEdited: false,
+      einzelhaendlerName: en,
+      einzelhaendlerNameValidationFailed: false,
+      einzelhaendlerNameEdited: false,
       addingInProgress: false,
       updatingInProgress: false,
       addingError: null,
-      updatingError: null,
-      VerbundName:null
+      updatingError: null
     };
     // save this state for canceling
     this.baseState = this.state;
   }
 
   /** Adds the customer */
-
-  AnwenderverbundHinzufuegen = () => {
-    let newVerbund = new AnwenderverbundBO();
-    newVerbund.setName(this.state.VerbundName);
-    this.Verbundhinzufuegen(newVerbund)
-  }
-
-  #fetchAdvanced = (url, init) => fetch(url, init)
-        .then(res => {
-
-            if (!res.ok) {
-                throw Error(`${res.status} ${res.statusText}`);
-            }
-            return res.json();
-        }
-    )
-
-  Verbundhinzufuegen(newVerbund) {
-    let url = "http://127.0.0.1:5000/shopping/artikel"
-    return this.#fetchAdvanced(url, {
-      method: 'POST',
-      headers: {
-        'Accept': 'application/json, text/plain',
-        'Content-type': 'application/json',
-      },
-      body: JSON.stringify(newVerbund)
-    })
-  }
-
-            /*
-            DAS HIER MUSS NOCH ANGEHÄNGT WERDEN!!!!
-
-            .then((responseJSON) => {
-            // We always get an array of CustomerBOs.fromJSON, but only need one object
-            let responseCustomerBO = CustomerBO.fromJSON(responseJSON)[0];
-            // console.info(accountBOs);
-            return new Promise(function (resolve) {
-                resolve(responseCustomerBO);
-            })
-        })
-    }
-    */
-
-
-   /* BankAPI.getAPI().addCustomer(newCustomer).then(customer => {
+  addEinzelhaendler = () => {
+    let newEinzelhaendler = new EinzelhaendlerBO(this.state.einzelhaendlerName);
+    API.getAPI().addEinzelhaendler(newEinzelhaendler).then(einzelhaendler => {
       // Backend call sucessfull
       // reinit the dialogs state for a new empty customer
       this.setState(this.baseState);
-      this.props.onClose(customer); // call the parent with the customer object from backend
+      this.props.onClose(einzelhaendler); // call the parent with the customer object from backend
     }).catch(e =>
       this.setState({
         updatingInProgress: false,    // disable loading indicator
@@ -111,24 +66,20 @@ class UserGroupDialog extends Component {
     });
   }
 
-
-/*
-  // Updates the customer //
-  updateCustomer = () => {
+  /** Updates the customer */
+  updateEinzelhaendler = () => {
     // clone the original cutomer, in case the backend call fails
-    let updatedCustomer = Object.assign(new CustomerBO(), this.props.customer);
+    let updatedEinzelhaendler = Object.assign(new EinzelhaendlerBO(), this.props.einzelhaendler);
     // set the new attributes from our dialog
-    updatedCustomer.setFirstName(this.state.firstName);
-    updatedCustomer.setLastName(this.state.lastName);
-    BankAPI.getAPI().updateCustomer(updatedCustomer).then(customer => {
+    updatedEinzelhaendler.setName(this.state.einzelhaendlerName);
+    API.getAPI().updateEinzelhaendler(updatedEinzelhaendler).then(einzelhaendler => {
       this.setState({
         updatingInProgress: false,              // disable loading indicator
         updatingError: null                     // no error message
       });
       // keep the new state as base state
-      this.baseState.firstName = this.state.firstName;
-      this.baseState.lastName = this.state.lastName;
-      this.props.onClose(updatedCustomer);      // call the parent with the new customer
+      this.baseState.einzelhaendlerName = this.state.einzelhaendlerName;
+      this.props.onClose(updatedEinzelhaendler);      // call the parent with the new customer
     }).catch(e =>
       this.setState({
         updatingInProgress: false,              // disable loading indicator
@@ -142,7 +93,7 @@ class UserGroupDialog extends Component {
       updatingError: null                       // disable error message
     });
   }
- */
+
   /** Handles value changes of the forms textfields and validates them */
   textFieldValueChange = (event) => {
     const value = event.target.value;
@@ -168,25 +119,25 @@ class UserGroupDialog extends Component {
 
   /** Renders the component */
   render() {
-    const { classes,Verbund, show } = this.props;
-    const { VerbundName, NameValidationFailed, NameEdited,  addingInProgress,
+    const { classes, einzelhaendler, show } = this.props;
+    const { einzelhaendlerName, einzelhaendlerNameValidationFailed, einzelhaendlerNameEdited, addingInProgress,
       addingError, updatingInProgress, updatingError } = this.state;
 
     let title = '';
     let header = '';
 
-    if (Verbund) {
+    if (einzelhaendler) {
       // customer defindet, so ist an edit dialog
-      title = 'Update a customer';
-      header = `Customer ID: ${Verbund.getID()}`;
+      title = 'Update a einzelhaendler';
+      header = `Einzelhaendler ID: ${einzelhaendler.getID()}`;
     } else {
-      title = 'Neuen Anwenderverbund anlegen';
-      header = 'Name des Anwenderverbunds angeben';
+      title = 'Create a new einzelhaendler';
+      header = 'Enter einzelhaendler data';
     }
 
     return (
       show ?
-        <Dialog open={show} onClose={this.handleClose} fullWidth={true} >
+        <Dialog open={show} onClose={this.handleClose} maxWidth='xs'>
           <DialogTitle id='form-dialog-title'>{title}
             <IconButton className={classes.closeButton} onClick={this.handleClose}>
               <CloseIcon />
@@ -197,12 +148,18 @@ class UserGroupDialog extends Component {
               {header}
             </DialogContentText>
             <form className={classes.root} noValidate autoComplete='off'>
-              <TextField autoFocus type='text' required fullWidth margin='normal' id='Name' label='name:' value={VerbundName}
-                onChange={this.textFieldValueChange} error={NameValidationFailed}
-                helperText={NameValidationFailed ? 'Der Name muss aus mindestens einem Charakter bestehen' : ' '} />
-
+              <TextField autoFocus type='text' required fullWidth margin='normal' id='einzelhaendlerName' label='Einzelhaendler name:' value={einzelhaendlerName}
+                onChange={this.textFieldValueChange} error={einzelhaendlerNameValidationFailed}
+                helperText={einzelhaendlerNameValidationFailed ? 'The first name must contain at least one character' : ' '} />
             </form>
-
+            <LoadingProgress show={addingInProgress || updatingInProgress} />
+            {
+              // Show error message in dependency of customer prop
+              einzelhaendler ?
+                <ContextErrorMessage error={updatingError} contextErrorMsg={`The einzelhaendler ${einzelhaendler.getID()} could not be updated.`} onReload={this.updateEinzelhaendler} />
+                :
+                <ContextErrorMessage error={addingError} contextErrorMsg={`The customer could not be added.`} onReload={this.addEinzelhaendler} />
+            }
           </DialogContent>
           <DialogActions>
             <Button onClick={this.handleClose} color='secondary'>
@@ -210,11 +167,11 @@ class UserGroupDialog extends Component {
             </Button>
             {
               // If a customer is given, show an update button, else an add button
-              Verbund ?
-                <Button disabled={NameValidationFailed} variant='contained' onClick={this.updateCustomer} color='primary'>
+              einzelhaendler ?
+                <Button disabled={einzelhaendlerNameValidationFailed} variant='contained' onClick={this.updateEinzelhaendler} color='primary'>
                   Update
               </Button>
-                : <Button disabled={NameValidationFailed || !NameEdited} variant='contained' onClick={this.AnwenderverbundHinzufuegen} color='primary'>
+                : <Button disabled={einzelhaendlerNameValidationFailed || !einzelhaendlerNameEdited} variant='contained' onClick={this.addEinzelhaendler} color='primary'>
                   Add
              </Button>
             }
@@ -239,11 +196,11 @@ const styles = theme => ({
 });
 
 /** PropTypes */
-UserGroupDialog.propTypes = {
+EinzelhaendlerForm.propTypes = {
   /** @ignore */
   classes: PropTypes.object.isRequired,
   /** The CustomerBO to be edited */
-  UserGroup: PropTypes.object,
+  einzelhaendler: PropTypes.object,
   /** If true, the form is rendered */
   show: PropTypes.bool.isRequired,
   /**
@@ -255,4 +212,4 @@ UserGroupDialog.propTypes = {
   onClose: PropTypes.func.isRequired,
 }
 
-export default withStyles(styles)(UserGroupDialog);
+export default withStyles(styles)(EinzelhaendlerForm);
