@@ -4,7 +4,7 @@ import { API } from '../src';
 import React, {Component} from 'react';
 import Header from "./components/layout/Header";
 import {BrowserRouter as Router, Route, Redirect} from "react-router-dom";
-import Artikel_anlegen from "./components/dialogs/ArtikelAnlegen";
+import Artikel_anlegen from "./components/dialog/ArtikelAnlegen";
 import Anwenderverbund from "./components/Anwenderverbund";
 import { Grid, Typography } from '@material-ui/core';
 
