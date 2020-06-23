@@ -4,7 +4,7 @@ import { withStyles, Typography, ExpansionPanel, ExpansionPanelSummary, Expansio
 import { Button, ButtonGroup } from '@material-ui/core';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import EinzelhaendlerForm from './dialogs/EinzelhaendlerForm';
-import CustomerDeleteDialog from './dialogs/CustomerDeleteDialog';
+import EinzelhaendlerLoeschen from './dialogs/EinzelhaendlerLoeschen';
 
 
 

@@ -7,7 +7,7 @@ import { withRouter } from 'react-router-dom';
 import { API } from '../api';
 import ContextErrorMessage from './dialogs/ContextErrorMessage';
 import LoadingProgress from './dialogs/LoadingProgress';
-import CustomerForm from './dialogs/CustomerForm';
+import EinzelhaendlerForm from './dialogs/CustomerForm';
 import EinzelhaendlerListEntry from "./EinzelhändlerListenEintrag";
 
 /**
