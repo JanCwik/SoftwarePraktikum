@@ -5,6 +5,7 @@ class Benutzer(NamedBO):
     def __init__(self):
         super().__init__()
         self._email = ""
+        self._google_id = ""
 
     def get_email(self):
         """Auslesen der E-Mail Adresse"""
@@ -13,6 +14,14 @@ class Benutzer(NamedBO):
     def set_email(self, value):
         """Setzen der E-Mail Adresse"""
         self._email = value
+
+    def get_google_id(self):
+        """Auslesen der externen Google ID)."""
+        return self._google_id
+
+    def set_google_id(self, value):
+        """Setzen der externen Google ID."""
+        self._google_id = value
 
     def __str__(self):
         """Erzeugen einer einfachen textuellen Darstellung der jeweiligen Instanz."""
@@ -26,4 +35,5 @@ class Benutzer(NamedBO):
         obj.set_name(dictionary["name"])
         obj.set_email(dictionary["email"])
         obj.set_erstellungs_zeitpunkt(dictionary["erstellungs_zeitpunkt"])
+        obj.set_google_id(dictionary["google_id"])
         return obj
