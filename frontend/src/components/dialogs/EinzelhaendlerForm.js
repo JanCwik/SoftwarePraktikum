@@ -4,7 +4,7 @@ import { withStyles, Button, IconButton, Dialog, DialogTitle, DialogContent, Dia
 import CloseIcon from '@material-ui/icons/Close';
 import { API, EinzelhaendlerBO } from '../../api';
 import ContextErrorMessage from './ContextErrorMessage';
-//import LoadingProgress from './LoadingProgress';
+import LoadingProgress from './LoadingProgress';
 
 
 /**

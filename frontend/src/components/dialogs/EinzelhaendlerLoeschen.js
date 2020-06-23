@@ -4,7 +4,7 @@ import { withStyles, Button, IconButton, Dialog, DialogTitle, DialogContent, Dia
 import CloseIcon from '@material-ui/icons/Close';
 import { API } from '../../api';
 import ContextErrorMessage from './ContextErrorMessage';
-//import LoadingProgress from './LoadingProgress';
+import LoadingProgress from './LoadingProgress';
 
 /**
  * Shows a modal delete/cancle dialog, which asks for deleting a customer. The CustomerBO to be deleted must be given in prop customer.
@@ -117,4 +117,4 @@ EinzelhaendlerLoeschen.propTypes = {
   onClose: PropTypes.func.isRequired,
 }
 
-export default withStyles(styles)(EinzelhaendlerDeleteDialog);
+export default withStyles(styles)(EinzelhaendlerLoeschen);
