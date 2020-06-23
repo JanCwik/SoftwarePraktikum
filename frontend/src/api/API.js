@@ -26,7 +26,7 @@ export default class API {
 
 
 
-
+123
 
     //führt die fetch-Funktion aus, fängt dabei mögliche Errors ab und führt anschließend schon die json-Funktion mit der Response aus.
     #fetchAdvanced = (url, init) => fetch(url, init)
