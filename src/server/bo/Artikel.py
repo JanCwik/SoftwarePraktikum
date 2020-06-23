@@ -33,8 +33,8 @@ class Artikel(NamedBO):
         obj = Artikel()
         obj.set_id(dictionary["id"])
         obj.set_name(dictionary["name"])
+        obj.set_erstellungs_zeitpunkt(dictionary["erstellungs_zeitpunkt"])
         obj.set_einheit(dictionary["einheit"])
         obj.set_standardartikel(dictionary["standardartikel"])
-        obj.set_erstellungs_zeitpunkt(dictionary["erstellungs_zeitpunkt"])
         return obj
 
