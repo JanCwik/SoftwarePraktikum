@@ -92,6 +92,7 @@ class Einzelhaendler extends Component {
     });
   }
 
+  //bbasc
   /**
    * Handles onCustomerDeleted events from the CustomerListEntry component
    *
