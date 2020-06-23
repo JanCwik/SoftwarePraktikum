@@ -30,13 +30,12 @@ class EinzelhaendlerMapper(Mapper):
         res= cursor.fetchall()
 
 
-        for (id, name, erstellungs_zeitpunkt, adresse) in res:
+        for (id, name, erstellungs_zeitpunkt) in res:
 
             einzelhaendler = Einzelhaendler()
             einzelhaendler.set_id(id)
             einzelhaendler.set_name(name)
             einzelhaendler.set_erstellungs_zeitpunkt(erstellungs_zeitpunkt)
-            einzelhaendler.set_adresse(adresse)
             result.append(einzelhaendler)
 
 
@@ -77,8 +76,8 @@ class EinzelhaendlerMapper(Mapper):
 
                 einzelhaendler.set_id(1)
 
-        template = "INSERT INTO einzelhaendler (id, name, erstellungs_zeitpunkt, adresse) VALUES (%s,%s,%s,%s)"
-        vals = (einzelhaendler.get_id(), einzelhaendler.get_name(), einzelhaendler.get_erstellungs_zeitpunkt(), einzelhaendler.get_adresse())
+        template = "INSERT INTO einzelhaendler (id, name, erstellungs_zeitpunkt) VALUES (%s,%s,%s)"
+        vals = (einzelhaendler.get_id(), einzelhaendler.get_name(), einzelhaendler.get_erstellungs_zeitpunkt())
         cursor.execute(template, vals)
 
         self._cnx.commit()
@@ -99,8 +98,8 @@ class EinzelhaendlerMapper(Mapper):
 
         cursor = self._cnx.cursor()
 
-        template = "UPDATE einzelhaendler " + "SET name=%s, adresse=%s WHERE id=%s"
-        vals = (einzelhaendler.get_name(), einzelhaendler.get_adresse(), einzelhaendler.get_id())
+        template = "UPDATE einzelhaendler " + "SET name=%s WHERE id=%s"
+        vals = (einzelhaendler.get_name(), einzelhaendler.get_id())
         cursor.execute(template, vals)
 
         self._cnx.commit()
@@ -124,17 +123,16 @@ class EinzelhaendlerMapper(Mapper):
         result = None
 
         cursor = self._cnx.cursor()
-        command = "SELECT id, name, erstellungs_zeitpunkt, adresse FROM einzelhaendler WHERE id={}".format(id)
+        command = "SELECT id, name, erstellungs_zeitpunkt FROM einzelhaendler WHERE id={}".format(id)
         cursor.execute(command)
         tuples = cursor.fetchall()
 
         try:
-            (id, name, erstellungs_zeitpunkt, adresse) = tuples[0]
+            (id, name, erstellungs_zeitpunkt) = tuples[0]
             einzelhaendler = Einzelhaendler()
             einzelhaendler.set_id(id)
             einzelhaendler.set_name(name)
             einzelhaendler.set_erstellungs_zeitpunkt(erstellungs_zeitpunkt)
-            einzelhaendler.set_adresse(adresse)
             result = einzelhaendler
         except IndexError:
             """Der IndexError wird oben beim Zugriff auf tuples[0] auftreten, wenn der vorherige SELECT-Aufruf
@@ -152,17 +150,16 @@ class EinzelhaendlerMapper(Mapper):
         result = None
 
         cursor = self._cnx.cursor()
-        command = "SELECT id, name, erstellungs_zeitpunkt, adresse FROM einzelhaendler WHERE name LIKE '{}' ORDER BY name".format(name)
+        command = "SELECT id, name, erstellungs_zeitpunkt FROM einzelhaendler WHERE name LIKE '{}' ORDER BY name".format(name)
         cursor.execute(command)
         tuples = cursor.fetchall()
 
         try:
-            (id, name, erstellungs_zeitpunkt, adresse) = tuples[0]
+            (id, name, erstellungs_zeitpunkt) = tuples[0]
             einzelhaendler = Einzelhaendler()
             einzelhaendler.set_id(id)
             einzelhaendler.set_name(name)
             einzelhaendler.set_erstellungs_zeitpunkt(erstellungs_zeitpunkt)
-            einzelhaendler.set_adresse(adresse)
             result = einzelhaendler
         except IndexError:
             """Der IndexError wird oben beim Zugriff auf tuples[0] auftreten, wenn der vorherige SELECT-Aufruf
