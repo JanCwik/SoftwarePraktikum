@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withStyles, Button, IconButton, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, TextField } from '@material-ui/core';
 import CloseIcon from '@material-ui/icons/Close';
+import AnwenderverbundBO from "../../api/AnwenderverbundBO";
 //import { BankAPI, CustomerBO } from '../../api';
 //import ContextErrorMessage from './ContextErrorMessage';
 //import LoadingProgress from './LoadingProgress';
@@ -39,17 +40,59 @@ class UserGroupDialog extends Component {
       addingInProgress: false,
       updatingInProgress: false,
       addingError: null,
-      updatingError: null
+      updatingError: null,
+      VerbundName:null
     };
     // save this state for canceling
     this.baseState = this.state;
   }
 
   /** Adds the customer */
-/*
-  addCustomer = () => {
-    let newCustomer = new CustomerBO(this.state.firstName, this.state.lastName);
-    BankAPI.getAPI().addCustomer(newCustomer).then(customer => {
+
+  AnwenderverbundHinzufuegen = () => {
+    let newVerbund = new AnwenderverbundBO();
+    newVerbund.setName(this.state.VerbundName);
+    this.Verbundhinzufuegen(newVerbund)
+  }
+
+  #fetchAdvanced = (url, init) => fetch(url, init)
+        .then(res => {
+
+            if (!res.ok) {
+                throw Error(`${res.status} ${res.statusText}`);
+            }
+            return res.json();
+        }
+    )
+
+  Verbundhinzufuegen(newVerbund) {
+    let url = "http://127.0.0.1:5000/shopping/artikel"
+    return this.#fetchAdvanced(url, {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json, text/plain',
+        'Content-type': 'application/json',
+      },
+      body: JSON.stringify(newVerbund)
+    })
+  }
+
+            /*
+            DAS HIER MUSS NOCH ANGEHÄNGT WERDEN!!!!
+
+            .then((responseJSON) => {
+            // We always get an array of CustomerBOs.fromJSON, but only need one object
+            let responseCustomerBO = CustomerBO.fromJSON(responseJSON)[0];
+            // console.info(accountBOs);
+            return new Promise(function (resolve) {
+                resolve(responseCustomerBO);
+            })
+        })
+    }
+    */
+
+
+   /* BankAPI.getAPI().addCustomer(newCustomer).then(customer => {
       // Backend call sucessfull
       // reinit the dialogs state for a new empty customer
       this.setState(this.baseState);
@@ -68,6 +111,8 @@ class UserGroupDialog extends Component {
     });
   }
 
+
+/*
   // Updates the customer //
   updateCustomer = () => {
     // clone the original cutomer, in case the backend call fails
@@ -124,7 +169,7 @@ class UserGroupDialog extends Component {
   /** Renders the component */
   render() {
     const { classes,Verbund, show } = this.props;
-    const { name_des_verbunds, NameValidationFailed, NameEdited,  addingInProgress,
+    const { VerbundName, NameValidationFailed, NameEdited,  addingInProgress,
       addingError, updatingInProgress, updatingError } = this.state;
 
     let title = '';
@@ -152,7 +197,7 @@ class UserGroupDialog extends Component {
               {header}
             </DialogContentText>
             <form className={classes.root} noValidate autoComplete='off'>
-              <TextField autoFocus type='text' required fullWidth margin='normal' id='Name' label='name:' value={name_des_verbunds}
+              <TextField autoFocus type='text' required fullWidth margin='normal' id='Name' label='name:' value={VerbundName}
                 onChange={this.textFieldValueChange} error={NameValidationFailed}
                 helperText={NameValidationFailed ? 'Der Name muss aus mindestens einem Charakter bestehen' : ' '} />
 
@@ -169,7 +214,7 @@ class UserGroupDialog extends Component {
                 <Button disabled={NameValidationFailed} variant='contained' onClick={this.updateCustomer} color='primary'>
                   Update
               </Button>
-                : <Button disabled={NameValidationFailed || !NameEdited} variant='contained' onClick={this.addCustomer} color='primary'>
+                : <Button disabled={NameValidationFailed || !NameEdited} variant='contained' onClick={this.AnwenderverbundHinzufuegen} color='primary'>
                   Add
              </Button>
             }
