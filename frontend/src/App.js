@@ -4,8 +4,9 @@ import { API } from '../src';
 import React, {Component} from 'react';
 import Header from "./components/layout/Header";
 import {BrowserRouter as Router, Route, Redirect} from "react-router-dom";
-import Artikel_anlegen from "./components/dialogs/ArtikelAnlegen";
+import ArtikelAnlegen from "./components/dialog/ArtikelAnlegen";
 import Anwenderverbund from "./components/Anwenderverbund";
+import EinzelhändlerAnlegen from "./components/dialog/EinzelhändlerAnlegen";
 import { Grid, Typography } from '@material-ui/core';
 
 //import {Route} from 'react-router-dom'
@@ -83,10 +84,15 @@ class App extends React.Component {
                         <Header/>
                             <Redirect from='/' to='/artikel'/>
                             <Route exact path='/artikel'>
-                                <Artikel_anlegen/>
+                                <ArtikelAnlegen/>
                             </Route>
+
                             <Route path='/anwenderverbund'>
                                 <Anwenderverbund/>
+                            </Route>
+
+                            <Route path='/einzelhändler'>
+                                <EinzelhändlerAnlegen/>
                             </Route>
                     </div>
                 </Router>
