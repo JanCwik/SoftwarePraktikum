@@ -107,10 +107,3 @@ class ApplikationsAdministration(object):
             mapper.update(einzelhaendler)
 
 
-
-
-
-
-
-
-
