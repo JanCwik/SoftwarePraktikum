@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { withStyles, Typography, ExpansionPanel, ExpansionPanelSummary, ExpansionPanelDetails, Grid } from '@material-ui/core';
 import { Button, ButtonGroup } from '@material-ui/core';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import CustomerForm from './dialogs/CustomerForm';
+import EinzelhaendlerForm from './dialogs/EinzelhaendlerForm';
 import CustomerDeleteDialog from './dialogs/CustomerDeleteDialog';
 
 
