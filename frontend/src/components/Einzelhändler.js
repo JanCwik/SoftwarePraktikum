@@ -100,8 +100,8 @@ class EinzelhaendlerList extends Component {
   einzelhaendlerDeleted = einzelhaendler => {
     const newEinzelhaendlerList = this.state.einzelhaendler.filter(einzelhaendlerFromState => einzelhaendlerFromState.getID() !== einzelhaendler.getID());
     this.setState({
-      einzelhaendler: newEinzelhaendlerListList,
-      filteredEinzelhaendler: [...newEinzelhaendlerListList],
+      einzelhaendler: newEinzelhaendlerList,
+      filteredEinzelhaendler: [...newEinzelhaendlerList],
       showEinzelhaendlerForm: false
     });
   }
@@ -149,7 +149,7 @@ class EinzelhaendlerList extends Component {
   clearFilterFieldButtonClicked = () => {
     // Reset the filter
     this.setState({
-      filteredEinzelhaendler: [...this.state.customers],
+      filteredEinzelhaendler: [...this.state.einzelhaendler],
       einzelhaendlerFilter: ''
     });
   }
@@ -171,7 +171,7 @@ class EinzelhaendlerList extends Component {
             <TextField
               autoFocus
               fullWidth
-              id='customerFilter'
+              id='einzelhaendlerFilter'
               type='text'
               value={einzelhaendlerFilter}
               onChange={this.filterFieldValueChange}
