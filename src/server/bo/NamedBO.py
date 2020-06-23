@@ -5,7 +5,8 @@ import datetime
 
 class NamedBO(BusinessObject, ABC):
     """Gemeinsame Basisklasse aller Klassen in bo.
-    Dadurch besitzt jedes BusinessObject außer Listeneintrag einen Namen und einen Erstellungszeitpunkt."""
+    Dadurch besitzt jedes BusinessObject außer Listeneintrag
+    einen Namen und einen Erstellungszeitpunkt."""
     def __init__(self):
         super().__init__()
         self._erstellungs_zeitpunkt = datetime.datetime.now()
