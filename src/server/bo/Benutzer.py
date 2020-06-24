@@ -5,7 +5,7 @@ class Benutzer(NamedBO):
     def __init__(self):
         super().__init__()
         self._email = ""
-        self._google_id = ""
+        self._google_id = 0
 
     def get_email(self):
         """Auslesen der E-Mail Adresse"""
