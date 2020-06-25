@@ -3,8 +3,7 @@ import ArtikelBO from "./ArtikelBO";
 
 export default class API {
 
-    // Diese Klasse wird zurzeit nicht verwendet. Auf diese Weise wurde die API im Bankbeispiel umgesetzt,
-    // aber diese Umsetzteung funktioniert hier noch nicht
+
 
      static #api = null;
 
@@ -14,7 +13,7 @@ export default class API {
 
     //private Methode um im späteren verlauf des Projekts das angeben aller URLs zu erleichtern
     #getArtikelURL = () => `${this.#ServerBaseURL}/artikel`;
-
+    #addArtikelURL =()=> `${this.#ServerBaseURL}/artikel`;
 
     //diese Klassenmethode realisiert die Umsetztung als Singelton, dadurch kann nur eine Instanz dieser Klasse existieren
      static getAPI() {
@@ -26,12 +25,24 @@ export default class API {
 
 
 
+    //führt die fetch-Funktion aus, fängt dabei mögliche Errors ab und führt anschließend schon die json-Funktion mit der Response aus.
+    #fetchAdvanced = (url, init) =>
+        fetch(url, init)
+            .then(res => {
+
+                    if (!res.ok) {
+                        throw Error(`${res.status} ${res.statusText}`);
+                    }
+                    return res.json();
+                }
+            )
 
 
-    // Klassenmethode die den GET request ausführt und alle in der Datenbank gespeicherten Artikel ausgibt
-    static getArtikel() {
-        return this.#fetchAdvanced("http://127.0.0.1:5000/shopping/artikel").then((responseJSON) => {      // funktioniert wahrscheinlich wendern nur mit der URL
-                                                                                                                // http://127.0.0.1:5000/shopping/artikel
+
+    // Methode die den GET request ausführt und alle in der Datenbank gespeicherten Artikel ausgibt
+    getArtikelAPI() {
+        return this.#fetchAdvanced(this.#getArtikelURL()).then((responseJSON) => {
+
             let artikel = ArtikelBO.fromJSON(responseJSON);
 
 
@@ -43,16 +54,26 @@ export default class API {
     }
 
 
-   //führt die fetch-Funktion aus, fängt dabei mögliche Errors ab und führt anschließend schon die json-Funktion mit der Response aus.
-    #fetchAdvanced = (url, init) =>
-        fetch(url, init)
-            .then(res => {
+//führt einen POST Request aus und schreibt dabei das als Parameter übergebene Artikelobjekt in den Body des Json
 
-                    if (!res.ok) {
-                        throw Error(`${res.status} ${res.statusText}`);
-                    }
-                    return res.json();
-                }
-            )
+   addArtikelAPI (newArt) {
+
+    return this.#fetchAdvanced(this.#addArtikelURL(), {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json, text/plain',
+        'Content-type': 'application/json',
+      },
+      body: JSON.stringify(newArt)
+    }).then((responseJSON) => {
+            // We always get an array of CustomerBOs.fromJSON, but only need one object
+            let responseArtikelBO = ArtikelBO.fromJSON(responseJSON)[0];
+            // console.info(accountBOs);
+            return new Promise(function (resolve) {
+                resolve(responseArtikelBO);
+            })
+        })
+    }
+
 
 }

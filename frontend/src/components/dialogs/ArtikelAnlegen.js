@@ -13,6 +13,7 @@ import Select from '@material-ui/core/Select';
 import { makeStyles } from '@material-ui/core/styles';
 import AnwenderverbundBO from "../../api/AnwenderverbundBO";
 import ArtikelBO from "../../api/ArtikelBO";
+import API from "../../api/API";
 
 const useStyles = makeStyles((theme) => ({
   formControl: {
@@ -80,48 +81,10 @@ const addArtikel =()=>{
     newArt.setName(name);
     newArt.setEinheit(Einheit)
     newArt.setStandardartikel(Standartartikel)
-    ArtikelHinzufuegen(newArt)
-
+    API.getAPI().addArtikelAPI(newArt).catch(e => console.log(e))
 
     handleClose()
 }
-
-
-
-
-//führt die fetch-Funktion aus, fängt dabei mögliche Errors ab und führt anschließend schon die json-Funktion mit der Response aus.
-  const fetchAdvanced = (url, init) => fetch(url, init)
-        .then(res => {
-
-            if (!res.ok) {
-                throw Error(`${res.status} ${res.statusText}`);
-            }
-            return res.json();
-        }
-    )
-
-
-
-//führt einen POST Request aus und schreibt dabei das als Parameter übergebene Artikelobjekt in den Body des Json
-
-  const ArtikelHinzufuegen=(newArt) => {
-    let url = "http://127.0.0.1:5000/shopping/artikel"
-    return fetchAdvanced(url, {
-      method: 'POST',
-      headers: {
-        'Accept': 'application/json, text/plain',
-        'Content-type': 'application/json',
-      },
-      body: JSON.stringify(newArt)
-    }).then((responseJSON) => {
-            // We always get an array of CustomerBOs.fromJSON, but only need one object
-            let responseArtikelBO = ArtikelBO.fromJSON(responseJSON)[0];
-            // console.info(accountBOs);
-            return new Promise(function (resolve) {
-                resolve(responseArtikelBO);
-            })
-        })
-    }
 
 
 
