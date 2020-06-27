@@ -28,7 +28,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function ArtikelAnlegen() {
   const [open, setOpen] = React.useState(false);
-  const [Standartartikel, setStandardartikel] = React.useState('');
+  const [Standardartikel, setStandardartikel] = React.useState('');
   const [Einheit, setEinheit] = React.useState('');
   const classes = useStyles();
   const [name, setName]=React.useState('');
@@ -80,7 +80,7 @@ const addArtikel =()=>{
      let newArt = new ArtikelBO();
     newArt.setName(name);
     newArt.setEinheit(Einheit)
-    newArt.setStandardartikel(Standartartikel)
+    newArt.setStandardartikel(Standardartikel)
     API.getAPI().addArtikelAPI(newArt).catch(e => console.log(e))
 
     handleClose()
@@ -116,11 +116,11 @@ const addArtikel =()=>{
         <Select
           labelId="demo-simple-select-label"
           id="demo-simple-select"
-          value={Standartartikel}
+          value={Standardartikel}
           onChange={standardartikel_bestimmen}
         >
-          <MenuItem value={"Ja"}>Ja</MenuItem>
-          <MenuItem value={"Nein"}>Nein</MenuItem>
+          <MenuItem value={true}>Ja</MenuItem>
+          <MenuItem value={false}>Nein</MenuItem>
 
         </Select>
           </FormControl>

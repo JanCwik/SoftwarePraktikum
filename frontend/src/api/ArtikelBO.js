@@ -18,7 +18,7 @@ export default class ArtikelBO extends NamedBO {
     }
 
    setStandardartikel(standardartikel) {
-        this.einheit = standardartikel
+        this.standardartikel = standardartikel
     }
 
     getStandardartikel() {
