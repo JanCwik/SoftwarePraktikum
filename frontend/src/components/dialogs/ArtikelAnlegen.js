@@ -14,27 +14,31 @@ import { makeStyles } from '@material-ui/core/styles';
 import AnwenderverbundBO from "../../api/AnwenderverbundBO";
 import ArtikelBO from "../../api/ArtikelBO";
 import API from "../../api/API";
-
-const useStyles = makeStyles((theme) => ({
-  formControl: {
-    margin: theme.spacing(1),
-    minWidth: 200,
-  },
-  selectEmpty: {
-    marginTop: theme.spacing(2),
-  },
-}));
+import  {withStyles} from '@material-ui/core';
+import PropTypes from 'prop-types';
 
 
-export default function ArtikelAnlegen() {
-  const [open, setOpen] = React.useState(false);
-  const [Standardartikel, setStandardartikel] = React.useState('');
-  const [Einheit, setEinheit] = React.useState('');
-  const classes = useStyles();
-  const [name, setName]=React.useState('');
 
-  //Durch diese UseState-Hooks ist es möglich daten in einem State zwischenzuspeichern, obwohl wir uns
-    // in einem Funktion-Component befinden
+class ArtikelAnlegen extends React.Component {
+
+  constructor(props) {
+    super(props);
+
+
+
+
+    this.state={
+      open:false,
+      Standardartikel: null,
+      Einheit: null,
+      name: null
+
+    }
+
+  }
+
+
+
 
 
 /*
@@ -45,27 +49,40 @@ export default function ArtikelAnlegen() {
 */
 
    // Funktion die onChange ausgeführt wird um die UseState-Hook "name" zu aktualisieren
-  const name_bestimmen= (event)=>{
-    setName(event.target.value)
+   name_bestimmen= (event)=>{
+    this.setState({
+      name: event.target.value
+    })
   }
 
 // Funktion die onChange ausgeführt wird um die UseState-Hook "Standartartikel" zu aktualisieren
-  const standardartikel_bestimmen = (event) => {
-    setStandardartikel(event.target.value);
+   standardartikel_bestimmen = (event) => {
+    this.setState({
+      Standardartikel: event.target.value
+    })
   };
 
 // Funktion die onChange ausgeführt wird um die UseState-Hook "Einheit" zu aktualisieren
-    const einheit_bestimmen = (event) => {
-    setEinheit(event.target.value);
+     einheit_bestimmen = (event) => {
+   this.setState({
+      Einheit: event.target.value
+    })
+   // setEinheit(event.target.value);
   };
 
 
-  function handleClickOpen() {
-    setOpen(true);
+   handleClickOpen=(event) =>{
+    //setOpen(true);
+     event.stopPropagation();
+      this.setState({
+      open: true
+    })
   }
 
-  function handleClose() {
-    setOpen(false);
+   handleClose=()=> {
+    this.setState({
+      open: false
+    })
   }
 
 
@@ -75,84 +92,102 @@ export default function ArtikelAnlegen() {
     // gibt der Benutzer ein und diese weden dann in UseState-Hooks zwischengespeichert)
     // dann wird die Funktion ArtikelHinzufuegen mit der erstellten Instanz als Parameter ausgefürt
     // anschließend wird handleClose ausgefürt um das Artikelanlegen-Fenster zu schließen
-const addArtikel =()=>{
+ addArtikel =()=>{
 
      let newArt = new ArtikelBO();
-    newArt.setName(name);
-    newArt.setEinheit(Einheit)
-    newArt.setStandardartikel(Standardartikel)
+    newArt.setName(this.name);
+    newArt.setEinheit(this.Einheit)
+    newArt.setStandardartikel(this.Standardartikel)
     API.getAPI().addArtikelAPI(newArt).catch(e => console.log(e))
 
-    handleClose()
+    this.handleClose()
 }
 
 
 
-
-
+render() {
+const { classes, open} = this.props;
   return (
-    <div>
-      <Button variant="outlined" color="primary" onClick={handleClickOpen}>
-        Artikel anlegen
-      </Button>
-      <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
-        <DialogTitle id="form-dialog-title">Anlegen</DialogTitle>
-        <DialogContent>
-          <DialogContentText>
+      <div>
+        <Button variant="outlined" color="primary" onClick={this.handleClickOpen}>
+          Artikel anlegen
+        </Button>
+        <Dialog open={this.open} onClose={this.handleClose} aria-labelledby="form-dialog-title">
+          <DialogTitle id="form-dialog-title">Anlegen</DialogTitle>
+          <DialogContent>
+            <DialogContentText>
               In diesem Fenster können sie die gewünschten Artikel in der Datenbank anlegen.
-          </DialogContentText>
-          <TextField
-            autoFocus
-            margin="dense"
-            id="name"
-            label="Artikelname"
-            type="name"
-            fullWidth
-            value={name}
-            onChange={name_bestimmen}
-          />
-          <FormControl className={classes.formControl}>
-        <InputLabel id="demo-simple-select-label">Standardartikel?</InputLabel>
-        <Select
-          labelId="demo-simple-select-label"
-          id="demo-simple-select"
-          value={Standardartikel}
-          onChange={standardartikel_bestimmen}
-        >
-          <MenuItem value={true}>Ja</MenuItem>
-          <MenuItem value={false}>Nein</MenuItem>
+            </DialogContentText>
+            <TextField
+                autoFocus
+                margin="dense"
+                id="name"
+                label="Artikelname"
+                type="name"
+                fullWidth
+                value={this.name}
+                onChange={this.name_bestimmen}
+            />
+            <FormControl className={classes.formControl}>
+              <InputLabel id="demo-simple-select-label">Standardartikel?</InputLabel>
+              <Select
+                  labelId="demo-simple-select-label"
+                  id="demo-simple-select"
+                  value={this.Standardartikel}
+                  onChange={this.standardartikel_bestimmen}
+              >
+                <MenuItem value={true}>Ja</MenuItem>
+                <MenuItem value={false}>Nein</MenuItem>
 
-        </Select>
-          </FormControl>
+              </Select>
+            </FormControl>
 
-          <FormControl>
-                <InputLabel id="demo-simple-select-label_2">Einheit</InputLabel>
-        <Select
-          labelId="demo-simple-select-label_2"
-          id="demo-simple-select"
-          value={Einheit}
-          onChange={einheit_bestimmen}
+            <FormControl>
+              <InputLabel id="demo-simple-select-label_2">Einheit</InputLabel>
+              <Select
+                  labelId="demo-simple-select-label_2"
+                  id="demo-simple-select"
+                  value={this.Einheit}
+                  onChange={this.einheit_bestimmen}
 
-        >
-          <MenuItem value={"Kg"}>kg</MenuItem>
-          <MenuItem value={"Ltr."}>Ltr.</MenuItem>
+              >
+                <MenuItem value={"Kg"}>kg</MenuItem>
+                <MenuItem value={"Ltr."}>Ltr.</MenuItem>
 
-        </Select>
+              </Select>
 
-         </FormControl>
+            </FormControl>
 
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleClose} color="secondary">
-            Abbrechen
-          </Button>
-          <Button onClick={addArtikel} color="primary">
-            Hinzufügen
-          </Button>
-        </DialogActions>
-      </Dialog>
-    </div>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={this.handleClose} color="secondary">
+              Abbrechen
+            </Button>
+            <Button onClick={this.addArtikel} color="primary">
+              Hinzufügen
+            </Button>
+          </DialogActions>
+        </Dialog>
+      </div>
   );
 }
 
 
+}
+
+const styles = theme => ({
+  formControl: {
+    margin: theme.spacing(1),
+    minWidth: 200,
+  },
+  selectEmpty: {
+    marginTop: theme.spacing(2),
+  },
+})
+
+ArtikelAnlegen.propTypes = {
+  /** @ignore */
+  classes: PropTypes.object.isRequired,
+  open: PropTypes.bool.isRequired
+}
+export default withStyles(styles)(ArtikelAnlegen)
