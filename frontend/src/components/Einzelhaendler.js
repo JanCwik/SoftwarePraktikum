@@ -66,10 +66,11 @@ class Einzelhaendler extends Component {
   }
 
   /** Lifecycle method, which is called when the component gets inserted into the browsers DOM */
+  /*
   componentDidMount() {
     this.getEinzelhaendler();
   }
-
+*/
   /**
    * Handles onExpandedStateChange events from the CustomerListEntry component. Toggels the expanded state of
    * the CustomerListEntry of the given CustomerBO.
