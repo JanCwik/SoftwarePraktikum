@@ -16,40 +16,14 @@ class App extends React.Component {
     constructor(props) {
         super(props);
 
-        this.state={
-
-            artikel:[]
-        }
     }
 
 
 
-     // wenn der Component "durchlaufen" wurde wird die methode getArtikelAPP aufgerufen
-    componentDidMount() {
-        this.getArtikel();
-        }
-
-
-
-     // Ruft die Methode getArtikel der Klasse API auf und speichert die Response des GET Requests in einem Array "artikel" im State
-     // Bei einem Error wird nichts in den State geschrieben
-     getArtikel = () => {
-        API.getAPI().getArtikelAPI()
-            .then(artikel =>
-                this.setState({
-          artikel: artikel
-
-        })).catch(e =>
-          this.setState({
-              artikel: []
-          })
-        );
-       }
-
 
 
     render() {
-        const {artikel} = this.state
+
         return (
             <div className="App">
 
@@ -66,24 +40,14 @@ class App extends React.Component {
                                 <Anwenderverbund/>
                             </Route>
 
-                            <Route path='/einzelhaendler'>
+                            <Route path='/einzelhändler'>
                                 <Einzelhaendler/>
                             </Route>
                     </div>
                 </Router>
 
 
-                <div>
-                    {
-                        // Wenn etwas im Array "artikel" im State gespeichert ist ( also wenn das Array eine length hat),
-                        // dann wird der Name von jedem Array-eintrag in ein div geschireben und somit angezeigt
-                        artikel.length ?
-                        artikel.map(art => <div key ={art.id}> {art.name} </div>)
-                            : null
 
-                    }
-
-                </div>
             </div>
         );
     }

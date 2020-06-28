@@ -25,13 +25,14 @@ class ArtikelAnlegen extends React.Component {
     super(props);
 
 
-
-
+//Im state werden die Daten die der Benutzer eingibt zwischengespeichert
+// Außerdem werden hier die Artkel aus der Datenbank zwischengespeichert bevor sie ausgegeben werden
     this.state={
       open:false,
       Standardartikel: null,
       Einheit: null,
-      name: null
+      name: "",
+      artikel:[]
 
     }
 
@@ -41,39 +42,33 @@ class ArtikelAnlegen extends React.Component {
 
 
 
-/*
-  export default function SimpleSelect() {
-  const classes = useStyles();
-  const [age, setAge] = React.useState('');
-};
-*/
 
-   // Funktion die onChange ausgeführt wird um die UseState-Hook "name" zu aktualisieren
+   // Funktion die onChange ausgeführt wird um den State "name" zu aktualisieren
    name_bestimmen= (event)=>{
     this.setState({
       name: event.target.value
     })
   }
 
-// Funktion die onChange ausgeführt wird um die UseState-Hook "Standartartikel" zu aktualisieren
+ // Funktion die onChange ausgeführt wird um den State "Standardartikel" zu aktualisieren
    standardartikel_bestimmen = (event) => {
     this.setState({
       Standardartikel: event.target.value
     })
   };
 
-// Funktion die onChange ausgeführt wird um die UseState-Hook "Einheit" zu aktualisieren
+// Funktion die onChange ausgeführt wird um den State "Einheit" zu aktualisieren
      einheit_bestimmen = (event) => {
    this.setState({
       Einheit: event.target.value
     })
-   // setEinheit(event.target.value);
+
   };
 
+//Diese Funktionen aktualisieren den State "open", durch den gereelt wird
+// wann das Dialogfeld angezeigt wird und wann nicht
 
-   handleClickOpen=(event) =>{
-    //setOpen(true);
-     event.stopPropagation();
+   handleClickOpen=() =>{
       this.setState({
       open: true
     })
@@ -89,15 +84,15 @@ class ArtikelAnlegen extends React.Component {
 
   // addArtikel wird ausgeführt wenn auf den Button "hinzufügen" gedrückt wird
     //erstellt eine Instanz der Klasse ArtikelBO und und weist ihr Attribute zu (Die Werte für die Attribute
-    // gibt der Benutzer ein und diese weden dann in UseState-Hooks zwischengespeichert)
+    // gibt der Benutzer ein und diese weden dann im State zwischengespeichert)
     // dann wird die Funktion ArtikelHinzufuegen mit der erstellten Instanz als Parameter ausgefürt
     // anschließend wird handleClose ausgefürt um das Artikelanlegen-Fenster zu schließen
  addArtikel =()=>{
 
      let newArt = new ArtikelBO();
-    newArt.setName(this.name);
-    newArt.setEinheit(this.Einheit)
-    newArt.setStandardartikel(this.Standardartikel)
+    newArt.setName(this.state.name);
+    newArt.setEinheit(this.state.Einheit)
+    newArt.setStandardartikel(this.state.Standardartikel)
     API.getAPI().addArtikelAPI(newArt).catch(e => console.log(e))
 
     this.handleClose()
@@ -105,14 +100,57 @@ class ArtikelAnlegen extends React.Component {
 
 
 
+
+     // wenn der Component "durchlaufen" wurde wird die methode getArtikel aufgerufen
+    componentDidMount() {
+        this.getArtikel();
+        }
+
+
+
+     // Ruft die Methode getArtikel der Klasse API auf
+    // und speichert die Response des GET Requests in einem Array "artikel" im State
+     // Bei einem Error wird nichts in den State geschrieben
+     getArtikel = () => {
+        API.getAPI().getArtikelAPI()
+            .then(artikel =>
+                this.setState({
+          artikel: artikel
+
+        })).catch(e =>
+          this.setState({
+              artikel: []
+          })
+        );
+       }
+
+
+
+
 render() {
-const { classes, open} = this.props;
+const {classes} = this.props;  // dadurch kann auf die unten beschriebenen Styles zugegriffen werden
+const {artikel,open,Standardartikel,Einheit,name} = this.state
+
+
   return (
       <div>
         <Button variant="outlined" color="primary" onClick={this.handleClickOpen}>
           Artikel anlegen
         </Button>
-        <Dialog open={this.open} onClose={this.handleClose} aria-labelledby="form-dialog-title">
+          <div>
+                    {
+                        // Wenn etwas im Array "artikel" im State gespeichert ist ( also wenn das Array eine length hat),
+                        // dann wird der Name von jedem Array-eintrag in ein div geschireben und somit angezeigt
+                        artikel.length ?
+                        artikel.map(art => <div key ={art.id}> {art.name} </div>)
+                            : null
+
+                    }
+
+          </div>
+          {//der Dialog wird nur angezeigt wenn der State "open" true ist
+          }
+        <Dialog open={open} onClose={this.handleClose} aria-labelledby="form-dialog-title">
           <DialogTitle id="form-dialog-title">Anlegen</DialogTitle>
           <DialogContent>
             <DialogContentText>
@@ -120,24 +158,33 @@ const { classes, open} = this.props;
             </DialogContentText>
             <TextField
                 autoFocus
-                margin="dense"
+                margin="dense"hb
                 id="name"
                 label="Artikelname"
                 type="name"
                 fullWidth
-                value={this.name}
+                value={name}
                 onChange={this.name_bestimmen}
+                //das was der Benutzer eingibt wird durch "value" in den State "name" gespeichert
+                // onChange wird der State "name" duech die Funktion name_bestimmen aktualisiert
+
             />
             <FormControl className={classes.formControl}>
               <InputLabel id="demo-simple-select-label">Standardartikel?</InputLabel>
               <Select
                   labelId="demo-simple-select-label"
                   id="demo-simple-select"
-                  value={this.Standardartikel}
+                  value={Standardartikel}
                   onChange={this.standardartikel_bestimmen}
+                  //das was der Benutzer eingibt wird durch "value" in den State "Standardartikel" gespeichert
+                // onChange wird der State "Standardartikel" duech die Funktion standardartikel_bestimmen aktualisiert
               >
                 <MenuItem value={true}>Ja</MenuItem>
                 <MenuItem value={false}>Nein</MenuItem>
+                  {// Derbenutzer kann Ja oder Nein auswählen,
+                      // bei Ja wird true in den State "Standardartikel" gespeichert
+                      //bei nein false
+                  }
 
               </Select>
             </FormControl>
@@ -147,8 +194,11 @@ const { classes, open} = this.props;
               <Select
                   labelId="demo-simple-select-label_2"
                   id="demo-simple-select"
-                  value={this.Einheit}
+                  value={Einheit}
                   onChange={this.einheit_bestimmen}
+                  //das was der Benutzer eingibt wird durch "value" in den State "Einheit" gespeichert
+                // onChange wird der State "Einheit" duech die Funktion einheit_bestimmen aktualisiert
+
 
               >
                 <MenuItem value={"Kg"}>kg</MenuItem>
@@ -185,9 +235,14 @@ const styles = theme => ({
   },
 })
 
+//die in Styles werden durch withStyles in den DOM "injiziert"
+
+
+/*
 ArtikelAnlegen.propTypes = {
-  /** @ignore */
+
   classes: PropTypes.object.isRequired,
-  open: PropTypes.bool.isRequired
+
 }
+*/
 export default withStyles(styles)(ArtikelAnlegen)
