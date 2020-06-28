@@ -9,19 +9,16 @@ import EinzelhaendlerLoeschen from "./dialogs/EinzelhaendlerLoeschen";
 
 
 /**
- * Renders a CustomerBO object within a expandable/collapsible CustomerListEntry with the customer manipulation
- * functions. If expanded, it renders a AccountList.
- *
- * @see See [AccountList](#accountlist)
- *
- * @author [Christoph Kunz](https://github.com/christophkunz)
+ * Rendert ein EinzelhaendlerBO innerhalb eines erweiterbaren/zusammenklappbaren EinzelhaendlerListenEintrags
+ * mit den Einzelhandler manipulations Funktionen. Wenn erweitert, wird eine EinzelhaendlerListe gerendert.
  */
+
 class EinzelhaendlerListenEintrag extends Component {
 
   constructor(props) {
     super(props);
 
-    // Init the state
+    // Init state
     this.state = {
       einzelhaendler: props.einzelhaendler,
       showEinzelhaendlerForm: false,
@@ -29,13 +26,13 @@ class EinzelhaendlerListenEintrag extends Component {
     };
   }
 
-  /** Handles onChange events of the underlying ExpansionPanel */
+  /** Behandelt onChange Ereignisse von den zugrunde liegenden Erweiterungsfeldern. */
   expansionPanelStateChanged = () => {
     this.props.onExpandedStateChange(this.props.einzelhaendler);
   }
 
 
-  /** Handles the onClick event of the edit customer button */
+  /** Behandlet das onClick Ereignis von der Einzelhaendler bearbeiten Taste. */
   editEinzelhaendlerButtonClicked = (event) => {
     event.stopPropagation();
     this.setState({
@@ -43,9 +40,9 @@ class EinzelhaendlerListenEintrag extends Component {
     });
   }
 
-  /** Handles the onClose event of the CustomerForm */
+  /** Behandelt das onClose Ereignis vom EinzelhaendlerForm */
   einzelhaendlerFormClosed = (einzelhaendler) => {
-    // customer is not null and therefor changed
+    // Einzelhaendler ist nicht null und deshalb geändert.
     if (einzelhaendler) {
       this.setState({
         einzelhaendler: einzelhaendler,
@@ -58,7 +55,7 @@ class EinzelhaendlerListenEintrag extends Component {
     }
   }
 
-  /** Handles the onClick event of the delete customer button */
+  /** Behandelt das onClick Ereignis von der Einzelhaendler löschen Taste. */
   deleteEinzelhaendlerButtonClicked = (event) => {
     event.stopPropagation();
     this.setState({
@@ -66,23 +63,23 @@ class EinzelhaendlerListenEintrag extends Component {
     });
   }
 
-  /** Handles the onClose event of the CustomerDeleteDialog */
+  /** Behandelt das onClose Ereignis vom EinzelhaendlerLoeschenDialog */
   deleteEinzelhaendlerDialogClosed = (einzelhaendler) => {
-    // if customer is not null, delete it
+    // Wenn der Einzelhaendler nicht gleich null ist, lösche ihn
     if (einzelhaendler) {
       this.props.onEinzelhaendlerDeleted(einzelhaendler);
     };
 
-    // Don´t show the dialog
+    // Zeige nicht den Dialog
     this.setState({
       showEinzelhaendlereDeleteDialog: false
     });
   }
 
-  /** Renders the component */
+  /** Rendert den Komponent */
   render() {
     const { classes, expandedState } = this.props;
-    // Use the states customer
+    // Benutz den states Einzelhaendler
     const { einzelhaendler, showEinzelhaendlerForm, showEinzelhaendlerDeleteDialog } = this.state;
 
     // console.log(this.state);
@@ -119,7 +116,7 @@ class EinzelhaendlerListenEintrag extends Component {
   }
 }
 
-/** Component specific styles */
+/** Komponentenspezifische Stile */
 const styles = theme => ({
   root: {
     width: '100%',
@@ -130,19 +127,16 @@ const styles = theme => ({
 EinzelhaendlerListenEintrag.propTypes = {
   /** @ignore */
   classes: PropTypes.object.isRequired,
-  /** The CustomerBO to be rendered */
+  /** Das EinzelhaendlerBO gerendert */
   einzelhaendler: PropTypes.object.isRequired,
-  /** The state of this CustomerListEntry. If true the customer is shown with its accounts */
+  /** Das state von diesem EinzelhaendlerListenEintrag. Wenn true wird der Einzelhaendler mit seiner Adresse gezeigt */
   expandedState: PropTypes.bool.isRequired,
-  /** The handler responsible for handle expanded state changes (exanding/collapsing) of this CustomerListEntry
-   *
-   * Signature: onExpandedStateChange(CustomerBO customer)
+  /** Der verantwortliche Handler zum behandeln der erweiterten state Änderungen (erweiterbar/zusammenklappbar)
+   * von diesem EinzelhaendlerListenEintrag.
    */
   onExpandedStateChange: PropTypes.func.isRequired,
   /**
-   *  Event Handler function which is called after a sucessfull delete of this customer.
-   *
-   * Signature: onCustomerDelete(CustomerBO customer)
+   *  Ereignis Handler Funktion, welche aufgerufen wird, wenn ein Einzelhaendler erfolgreich gelöscht wurde.
    */
   onEinzelhaendlerDeleted: PropTypes.func.isRequired
 }

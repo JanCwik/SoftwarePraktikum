@@ -11,11 +11,8 @@ import EinzelhaendlerForm from './dialogs/EinzelhaendlerForm';
 import EinzelhaendlerListenEintrag from "./EinzelhaendlerListenEintrag";
 
 /**
- * Controlls a list of CustomerListEntrys to create a accordion for each customer.
- *
- * @see See [CustomerListEntry](#customerlistentry)
- *
- * @author [Christoph Kunz](https://github.com/christophkunz)
+ * Kontrolliert eine Liste von EinzelhaendlerListenEintraegen um ein Akkordeon für jeden
+ * Einzelhaendler zu erstellen.
  */
 class Einzelhaendler extends Component {
 
@@ -29,7 +26,7 @@ class Einzelhaendler extends Component {
       expandedID = this.props.location.expandEinzelhaendler.getID();
     }
 
-    // Init an empty state
+    // Init ein leeres state
     this.state = {
       einzelhaendler: [],
       filteredEinzelhaendler: [],
@@ -41,50 +38,50 @@ class Einzelhaendler extends Component {
     };
   }
 
-  /** Fetches all CustomerBOs from the backend */
+  /** Fetchet alle EinzelhaendlerBOs für das Backend */
   getEinzelhaendler = () => {
     API.getAPI().getEinzelhaendler()
       .then(einzelhaendlerBOs =>
-        this.setState({               // Set new state when CustomerBOs have been fetched
+        this.setState({               // Setzt neues state wenn EinzelhaendlerBOs gefetcht wurden
           einzelhaendler: einzelhaendlerBOs,
-          filteredEinzelhaendler: [...einzelhaendlerBOs], // store a copy
-          loadingInProgress: false,   // disable loading indicator
+          filteredEinzelhaendler: [...einzelhaendlerBOs], // Speichert eine Kopie
+          loadingInProgress: false,   // Ladeanzeige deaktivieren
           error: null
         })).catch(e =>
-          this.setState({             // Reset state with error from catch
+          this.setState({             // Setzt state mit Error vom catch zurück
             einzelhaendler: [],
-            loadingInProgress: false, // disable loading indicator
+            loadingInProgress: false, // Ladeanzeige deaktivieren
             error: e
           })
         );
 
-    // set loading to true
+    // Setzt laden auf true
     this.setState({
       loadingInProgress: true,
       error: null
     });
   }
 
-  /** Lifecycle method, which is called when the component gets inserted into the browsers DOM */
+  /** Lebenszyklus Methode, welche aufgerufen wird, wenn die Komponente in das DOM des Browsers eingefügt wird.*/
+
   /*
   componentDidMount() {
     this.getEinzelhaendler();
   }
 */
   /**
-   * Handles onExpandedStateChange events from the CustomerListEntry component. Toggels the expanded state of
-   * the CustomerListEntry of the given CustomerBO.
-   *
-   * @param {customer} CustomerBO of the CustomerListEntry to be toggeled
+   * Behandelt onExpandedStateChange Ereignisse von der EinzelhaendlerListenEintrag Komponente.
+   * Schaltet das erweiterte state vom EinzelhaendlerListenEintrag vom gegebenen EinzelhaendlerBO um.
+   * @param {Einzelhaendler} EinzelhaendlerBO von dem EinzelhaendlerListenEintrag umgeschaltet werden.
    */
   onExpandedStateChange = einzelhaendler => {
     // console.log(einzelhaendlerID);
-    // Set expandend customer entry to null by default
+    // Setzt erweiterten Einzelhaendler Eintrag standardmäßig auf null
     let newID = null;
 
-    // If same customer entry is clicked, collapse it else expand a new one
+    // Wenn der selbe Einzelhaendler Eintrag geklickt wird, klappe ihn zusammen oder erweitere einen Neuen
     if (einzelhaendler.getID() !== this.state.expandedEinzelhaendlerID) {
-      // Expand the customer entry with customerID
+      // Erweitere den Einzelhaendler Eintrag mit einzelhaendlerID
       newID = einzelhaendler.getID();
     }
     // console.log(newID);
@@ -93,11 +90,10 @@ class Einzelhaendler extends Component {
     });
   }
 
-  //bbasc
   /**
-   * Handles onCustomerDeleted events from the CustomerListEntry component
+   * Behandelt onEinzelhaendlerLoeschen Ereignisse von der EinzelhaendlerListenEintrag Komponente.
    *
-   * @param {customer} CustomerBO of the CustomerListEntry to be deleted
+   * @param {Einzelhaendler} EinzelhaendlerBO von dem EinzelhaendlerListenEintrag um gelöscht zu werde
    */
   einzelhaendlerDeleted = einzelhaendler => {
     const newEinzelhaendlerList = this.state.einzelhaendler.filter(einzelhaendlerFromState => einzelhaendlerFromState.getID() !== einzelhaendler.getID());
@@ -108,19 +104,19 @@ class Einzelhaendler extends Component {
     });
   }
 
-  /** Handles the onClick event of the add customer button */
+  /** Behandelt das onClick Ereignis, der Einzelhaendler anlegen Taste. */
   addEinzelhaendlerButtonClicked = event => {
-    // Do not toggle the expanded state
+    // Nicht das erweiterte state umschalten
     event.stopPropagation();
-    //Show the CustmerForm
+    //Zeige den EinzelhaendlerForm
     this.setState({
       showEinzelhaendlerForm: true
     });
   }
 
-  /** Handles the onClose event of the CustomerForm */
+  /** Behandelt das onClose Ereignis vom EinzelhaendlerForm */
   einzelhaendlerFormClosed = einzelhaendler => {
-    // customer is not null and therefore created
+    // Einzelhaendler ist nicht null und deshalb erstellt
     if (einzelhaendler) {
       const newEinzelhaendlerList = [...this.state.einzelhaendler, einzelhaendler];
       this.setState({
@@ -135,7 +131,7 @@ class Einzelhaendler extends Component {
     }
   }
 
-  /** Handels onChange events of the customer filter text field */
+  /** Behandelt das onChange Ereignis von dem Einzelhaendler filtern Textfeld */
   filterFieldValueChange = event => {
     const value = event.target.value.toLowerCase();
     this.setState({
@@ -147,16 +143,16 @@ class Einzelhaendler extends Component {
     });
   }
 
-  /** Handles the onClose event of the clear filter button */
+  /** Behandelt das onClose Ereignis von der Filter löschen Taste. */
   clearFilterFieldButtonClicked = () => {
-    // Reset the filter
+    // Setzt den Filter zurück
     this.setState({
       filteredEinzelhaendler: [...this.state.einzelhaendler],
       einzelhaendlerFilter: ''
     });
   }
 
-  /** Renders the component */
+  /** Rendert die Komponente */
   render() {
     const { classes } = this.props;
     const { filteredEinzelhaendler, einzelhaendlerFilter, expandedEinzelhaendlerID, loadingInProgress, error, showEinzelhaendlerForm } = this.state;
@@ -194,8 +190,10 @@ class Einzelhaendler extends Component {
           </Grid>
         </Grid>
         {
-          // Show the list of CustomerListEntry components
-          // Do not use strict comparison, since expandedCustomerID maybe a string if given from the URL parameters
+          /** Zeigt die Liste der EinzelhaendlerListenEintrag Komponenten
+          // Benutze keinen strengen Vergleich, da expandedEinzelhaendlerID vielleicht ein string ist,
+           wenn dies von den URL Parametern gegeben ist. */
+
           filteredEinzelhaendler.map(einzelhaendler =>
             <EinzelhaendlerListenEintrag key={einzelhaendler.getID()} einzelhaendler={einzelhaendler} expandedState={expandedEinzelhaendlerID === einzelhaendler.getID()}
               onExpandedStateChange={this.onExpandedStateChange}
@@ -210,7 +208,7 @@ class Einzelhaendler extends Component {
   }
 }
 
-/** Component specific styles */
+/** Komponentenspezifische Stile */
 const styles = theme => ({
   root: {
     width: '100%',
