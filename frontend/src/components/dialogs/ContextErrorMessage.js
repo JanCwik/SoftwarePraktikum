@@ -47,7 +47,7 @@ class ContextErrorMessage extends Component {
   }
 }
 
-/** Komponentenspezifischer Stil */
+/** Komponentenspezifische Stile */
 const styles = theme => ({
   margins: {
     marginTop: theme.spacing(2)
