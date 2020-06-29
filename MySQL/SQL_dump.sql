@@ -1,33 +1,83 @@
+/*Erstellt die Datenbank, falls diese nicht bereits angelegt wurde*/
 Create database IF NOT EXISTS shoppinglist;
 
+/*Gibt an welche Datenbank für die Nachfolgenden Statements verwendet werden soll*/
 USE shoppinglist;
 
 
-/*Bis Zeile 19 in die SQL-Workbench kopieren um die Tabelle artikel zu erstellen und um einen Testdatensatz anzulegen*/
+/*Erstellt die Tabelle "artikel" mit den jeweiligen Attributen
+  --> INT = Integer (INT ist das gleiche wie INT(11))
+  --> VARCHAR = String (in Klammern wird angegeben wie viele Zeichen der String maximal enthalten darf
+  --> NOT NULL = Das Feld darf nicht leer sein
+  --> PRIMARY KEY = Gibt an welches Attribut der Primärschlüssel ist*/
 CREATE TABLE artikel(
-    id INT,
-    name VARCHAR(30),
-    erstellungs_zeitpunkt datetime,
-    einheit varchar(30),
-    standardartikel bool,
-    primary key(id)
+    id INT NOT NULL,
+    name VARCHAR(30) NOT NULL,
+    erstellungs_zeitpunkt datetime NOT NULL,
+    einheit varchar(30) NOT NULL,
+    standardartikel bool NOT NULL,
+    PRIMARY KEY (id)
 );
 
-
+/*Legt einen Testdatensatz in der Tabelle "artikel" an*/
 INSERT INTO artikel VALUES (1, "Brot","2020-05-16 15:15:15", "Stück", false);
 
 
 
-/*Bis Zeile 32 in die SQL-Workbench kopieren um die Tabelle einzelhaendler zu erstellen und um einen Testdatensatz anzulegen*/
+/*Erstellt die Tabelle "einzelhaendler" mit den jeweiligen Attributen*/
 CREATE TABLE einzelhaendler(
-    id INT,
-    name VARCHAR(30),
-    erstellungs_zeitpunkt datetime,
-    adresse varchar(60),
-    primary key(id)
+    id INT NOT NULL,
+    name VARCHAR(30) NOT NULL,
+    erstellungs_zeitpunkt datetime NOT NULL,
+    PRIMARY KEY (id)
 );
 
-INSERT INTO einzelhaendler VALUES (1, "Lidl","2020-05-16 15:15:15", "0711 Germany");
-INSERT INTO einzelhaendler VALUES (2, "Penny","2020-05-16 15:15:15", "0711 Stuggi");
+/*Legt einen Testdatensatz in der Tabelle "einzelhaendler" an*/
+INSERT INTO einzelhaendler VALUES (1, "Lidl","2020-05-16 15:15:15");
+INSERT INTO einzelhaendler VALUES (2, "Penny","2020-05-16 15:15:15");
+
+
+/*Erstellt die Tabelle "benutzer" mit den jeweiligen Attributen
+  --> datetime = Datentyp mit dem Format: YYYY-MM-DD hh:mm:ss*/
+CREATE TABLE benutzer(
+    id INT NOT NULL,
+    name VARCHAR(30) NOT NULL,
+    erstellungs_zeitpunkt datetime NOT NULL,
+    email varchar(60) NOT NULL,
+    google_id INT NOT NULL,
+    PRIMARY KEY (id)
+);
+
+/*Legt einen Testdatensatz in der Tabelle "benutzer" an*/
+INSERT INTO benutzer VALUES (1, "mh300","2020-05-16 15:15:15", "mh300@hdm-stuttgart.de", 77);
+INSERT INTO benutzer VALUES (2, "lh400","2020-05-16 15:15:15", "lh400@hdm-stuttgart.de", 99);
+
+
+
+/*Erstellt die Tabelle "anwenderverbund" mit den jeweiligen Attributen*/
+CREATE TABLE anwenderverbund(
+    id INT NOT NULL,
+    name VARCHAR(30) NOT NULL,
+    erstellungs_zeitpunkt datetime NOT NULL,
+    PRIMARY KEY (id)
+);
+
+/*Legt einen Testdatensatz in der Tabelle "benutzer" an*/
+INSERT INTO anwenderverbund VALUES (1, "WG","2020-05-16 15:15:15");
+INSERT INTO anwenderverbund VALUES (2, "lh400","2020-05-16 15:15:15");
+
+
+/*Erstellt die Tabelle "einkaufsliste" mit den jeweiligen Attributen*/
+CREATE TABLE einkaufsliste(
+    id INT NOT NULL,
+    name VARCHAR(30) NOT NULL,
+    erstellungs_zeitpunkt datetime NOT NULL,
+    aenderungs_zeitpunkt datetime,
+    PRIMARY KEY (id)
+);
+
+INSERT INTO anwenderverbund VALUES (1, "KW40","2020-05-16 15:15:15");
+INSERT INTO anwenderverbund VALUES (2, "Weihnachten","2020-05-16 15:15:15");
+
 
 

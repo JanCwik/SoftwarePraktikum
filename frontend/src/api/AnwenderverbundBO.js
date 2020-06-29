@@ -19,26 +19,25 @@ export default class AnwenderverbundBO extends NamedBO {
 
     */
 
-    // Returns an Array of CustomerBOs from a given JSON structure
-/*
-
-    static fromJSON(customers) {
+    static fromJSON(verb) {
         let result = [];
 
-        if (Array.isArray(customers)) {
-            customers.forEach((c) => {
-                Object.setPrototypeOf(c, CustomerBO.prototype)
+        if (Array.isArray(verb)) {
+            verb.forEach((c) => {
+                Object.setPrototypeOf(c, AnwenderverbundBO.prototype)
                 result.push(c)
             })
         } else {
             // Es handelt sich offenbar um ein singuläres Objekt
-            let c = customers;
-            Object.setPrototypeOf(c, CustomerBO.prototype)
+            let c = verb;
+            Object.setPrototypeOf(c, AnwenderverbundBO.prototype)
             result.push(c)
         }
 
         return result;
+
+
     }
-*/
+
 }
 
