@@ -8,17 +8,13 @@ import LoadingProgress from './LoadingProgress';
 
 
 /**
- * Shows a modal form dialog for a CustomerBO in prop customer. If the customer is set, the dialog is configured
- * as an edit dialog and the text fields of the form are filled from the given CustomerBO object.
- * If the customer is null, the dialog is configured as a new customer dialog and the textfields are empty.
- * In dependency of the edit/new state, the respective backend calls are made to update or create a customer.
- * After that, the function of the onClose prop is called with the created/update CustomerBO object as parameter.
- * When the dialog is canceled, onClose is called with null.
- *
- * @see See Material-UIs [Dialog](https://material-ui.com/components/dialogs)
- * @see See Material-UIs [TextField](https://material-ui.com/components/text-fields//)
- *
- * @author [Christoph Kunz](https://github.com/christophkunz)
+ *Zeigt einen modalen Formulardialog für einen EinzelhaendlerBO in prop einzelhaendler. Wenn der Einzelhaendler
+ * angelegt ist, ist der Dialog als ein Editierdialog konfiguriert. Dabei ist das Formular mit dem gegebenen
+ * EinzelhaendlerBO Objekt befüllt. Wenn der Einzelhaendler null ist, wird der Dialog als ein neuer Einzelhaendler
+ * Dialog konfiguriert und die Textfelder sind leer. In Abhängigkeit des editier/neu Zustands werden die Backend
+ * Aufrufe gemacht, um einen Einzelhaendler upzudaten oder anzulegen. Danach wird die Funktion des onClose prop
+ * mit dem angelegt/upgedated EinzelhaendlerBO Objekt als Parameter aufgerufen. Wenn der Dialog beendet ist,
+ * wird onClose mit null aufgerufen.
  */
 class EinzelhaendlerForm extends Component {
 
@@ -30,7 +26,7 @@ class EinzelhaendlerForm extends Component {
       en = props.einzelhaendler.getName();
     }
 
-    // Init the state
+    // Init state
     this.state = {
       einzelhaendlerName: en,
       einzelhaendlerNameValidationFailed: false,
@@ -40,61 +36,61 @@ class EinzelhaendlerForm extends Component {
       addingError: null,
       updatingError: null
     };
-    // save this state for canceling
+    // Speichere dieses state zum abbrechen
     this.baseState = this.state;
   }
 
-  /** Adds the customer */
+  /** Legt Einzelhaendler an */
   addEinzelhaendler = () => {
     let newEinzelhaendler = new EinzelhaendlerBO(this.state.einzelhaendlerName);
     API.getAPI().addEinzelhaendler(newEinzelhaendler).then(einzelhaendler => {
-      // Backend call sucessfull
-      // reinit the dialogs state for a new empty customer
+      // Backend Aufruf erfolgreich
+      // reinit den Dialog state für einen neuen leeren Einzelhaendler
       this.setState(this.baseState);
-      this.props.onClose(einzelhaendler); // call the parent with the customer object from backend
+      this.props.onClose(einzelhaendler); // Aufruf mit Hilfe des Einzelhaendler Objekts aus dem Backend
     }).catch(e =>
       this.setState({
-        updatingInProgress: false,    // disable loading indicator
-        updatingError: e              // show error message
+        updatingInProgress: false,    // Ladeanzeige deaktivieren
+        updatingError: e              // Zeige Error Nachricht
       })
     );
 
-    // set loading to true
+    // Setze laden als true
     this.setState({
-      updatingInProgress: true,       // show loading indicator
-      updatingError: null             // disable error message
+      updatingInProgress: true,       // Ladeanzeige anzeigen
+      updatingError: null             // Fehlermeldung deaktivieren
     });
   }
 
   /** Updates the customer */
   updateEinzelhaendler = () => {
-    // clone the original cutomer, in case the backend call fails
+    // Klont den originalen Einzelhaendler, wenn der Backend Aufruf fehlschlägt
     let updatedEinzelhaendler = Object.assign(new EinzelhaendlerBO(), this.props.einzelhaendler);
-    // set the new attributes from our dialog
+    // Setzt die neuen Attribute aus dem Dialog
     updatedEinzelhaendler.setName(this.state.einzelhaendlerName);
     API.getAPI().updateEinzelhaendler(updatedEinzelhaendler).then(einzelhaendler => {
       this.setState({
-        updatingInProgress: false,              // disable loading indicator
-        updatingError: null                     // no error message
+        updatingInProgress: false,              // Ladeanzeige deaktivieren
+        updatingError: null                     // Keine Error Nachricht
       });
-      // keep the new state as base state
+      // Behalte das neue state als Grund state
       this.baseState.einzelhaendlerName = this.state.einzelhaendlerName;
-      this.props.onClose(updatedEinzelhaendler);      // call the parent with the new customer
+      this.props.onClose(updatedEinzelhaendler);      // Aufruf mit dem neuen Einzelhaendler
     }).catch(e =>
       this.setState({
-        updatingInProgress: false,              // disable loading indicator
-        updatingError: e                        // show error message
+        updatingInProgress: false,              // Ladeanzeige deaktivieren
+        updatingError: e                        // Zeige Error Nachricht
       })
     );
 
-    // set loading to true
+    // Setzt laden auf true
     this.setState({
-      updatingInProgress: true,                 // show loading indicator
-      updatingError: null                       // disable error message
+      updatingInProgress: true,                 // Ladeanzeige anzeigen
+      updatingError: null                       // Fehlermeldung deaktivieren
     });
   }
 
-  /** Handles value changes of the forms textfields and validates them */
+  /** Behandelt Wertänderungen aus den Textfeldern vom Formular und validiert diese. */
   textFieldValueChange = (event) => {
     const value = event.target.value;
 
@@ -110,14 +106,14 @@ class EinzelhaendlerForm extends Component {
     });
   }
 
-  /** Handles the close / cancel button click event */
+  /** Behandelt das schließen/abbrechen Tasten klick Ereignis. */
   handleClose = () => {
-    // Reset the state
+    // Setzt state zurück
     this.setState(this.baseState);
     this.props.onClose(null);
   }
 
-  /** Renders the component */
+  /** Rendert die Komponente */
   render() {
     const { classes, einzelhaendler, show } = this.props;
     const { einzelhaendlerName, einzelhaendlerNameValidationFailed, einzelhaendlerNameEdited, addingInProgress,
@@ -127,7 +123,7 @@ class EinzelhaendlerForm extends Component {
     let header = '';
 
     if (einzelhaendler) {
-      // customer defindet, so ist an edit dialog
+      // customer defindet, so ist an edit dialogmmmmmmmmmmmmmmmmmmmmmmmmmmmm
       title = 'Update a einzelhaendler';
       header = `Einzelhaendler ID: ${einzelhaendler.getID()}`;
     } else {
@@ -154,7 +150,7 @@ class EinzelhaendlerForm extends Component {
             </form>
             <LoadingProgress show={addingInProgress || updatingInProgress} />
             {
-              // Show error message in dependency of customer prop
+              // Zeigt Error Nachricht in Abhängigkeit des Einzelhaendler prop.
               einzelhaendler ?
                 <ContextErrorMessage error={updatingError} contextErrorMsg={`The einzelhaendler ${einzelhaendler.getID()} could not be updated.`} onReload={this.updateEinzelhaendler} />
                 :
@@ -166,7 +162,7 @@ class EinzelhaendlerForm extends Component {
               Cancel
             </Button>
             {
-              // If a customer is given, show an update button, else an add button
+              // Wenn Einzelhaendler vorhanden ist, zeige eine Update Taste, sonst eine Anlegen Taste.
               einzelhaendler ?
                 <Button disabled={einzelhaendlerNameValidationFailed} variant='contained' onClick={this.updateEinzelhaendler} color='primary'>
                   Update
@@ -182,7 +178,7 @@ class EinzelhaendlerForm extends Component {
   }
 }
 
-/** Component specific styles */
+/** Componentenspezifische Stile */
 const styles = theme => ({
   root: {
     width: '100%',
@@ -199,15 +195,14 @@ const styles = theme => ({
 EinzelhaendlerForm.propTypes = {
   /** @ignore */
   classes: PropTypes.object.isRequired,
-  /** The CustomerBO to be edited */
+  /** Das EinzelhaendlerBO wird editiert. */
   einzelhaendler: PropTypes.object,
-  /** If true, the form is rendered */
+  /** Wenn true, wird das Formular gerendert. */
   show: PropTypes.bool.isRequired,
   /**
-   * Handler function which is called, when the dialog is closed.
-   * Sends the edited or created CustomerBO as parameter or null, if cancel was pressed.
-   *
-   * Signature: onClose(CustomerBO customer);
+   * Handler Funktion, die aufgerufen wird wenn der Dialog geschlossen ist.
+   * Sendet das editierte oder angelegte EinzelhaendlerBO als Parameter oder null,
+   * wenn abbrechen gedrückt wurde.
    */
   onClose: PropTypes.func.isRequired,
 }
