@@ -4,17 +4,17 @@ import { withStyles, Button, TextField, InputAdornment, IconButton, Grid, Typogr
 import AddIcon from '@material-ui/icons/Add';
 import ClearIcon from '@material-ui/icons/Clear'
 import { withRouter } from 'react-router-dom';
-import  API from "../api/API";
+import { API } from '../api';
 import ContextErrorMessage from './dialogs/ContextErrorMessage';
 import LoadingProgress from './dialogs/LoadingProgress';
-import EinzelhaendlerForm from './dialogs/EinzelhaendlerForm';
-import EinzelhaendlerListenEintrag from "./EinzelhaendlerListenEintrag";
+import ArtikelForm from './dialogs/ArtikelForm';
+import ArtikelListenEintrag from "./ArtikelListenEintrag";
 
 /**
  * Kontrolliert eine Liste von EinzelhaendlerListenEintraegen um ein Akkordeon für jeden
  * Einzelhaendler zu erstellen.
  */
-class Einzelhaendler extends Component {
+class Artikel extends Component {
 
   constructor(props) {
     super(props);
@@ -22,34 +22,34 @@ class Einzelhaendler extends Component {
     // console.log(props);
     let expandedID = null;
 
-    if (this.props.location.expandEinzelhaendler) {
-      expandedID = this.props.location.expandEinzelhaendler.getID();
+    if (this.props.location.expandArtikel) {
+      expandedID = this.props.location.expandArtikel.getID();
     }
 
     // Init ein leeres state
     this.state = {
-      einzelhaendler: [],
-      filteredEinzelhaendler: [],
-      einzelhaendlerFilterStr: '',
+      artikel: [],
+      filteredArtikel: [],
+      artikelFilterStr: '',
       error: null,
       loadingInProgress: false,
-      expandedEinzelhaendlerID: expandedID,
-      showEinzelhaendlerForm: false
+      expandedArtikelID: expandedID,
+      showArtikelForm: false
     };
   }
 
   /** Fetchet alle EinzelhaendlerBOs für das Backend */
-  getEinzelhaendler = () => {
-    API.getAPI().getEinzelhaendlerAPI()
-      .then(einzelhaendlerBOs =>
+  getArtikel = () => {
+    API.getAPI().getArtikel()
+      .then(artikelBOs =>
         this.setState({               // Setzt neues state wenn EinzelhaendlerBOs gefetcht wurden
-          einzelhaendler: einzelhaendlerBOs,
-          filteredEinzelhaendler: [...einzelhaendlerBOs], // Speichert eine Kopie
+          artikel: artikelBOs,
+          filteredArtikel: [...artikelBOs], // Speichert eine Kopie
           loadingInProgress: false,   // Ladeanzeige deaktivieren
           error: null
         })).catch(e =>
           this.setState({             // Setzt state mit Error vom catch zurück
-            einzelhaendler: [],
+            artikel: [],
             loadingInProgress: false, // Ladeanzeige deaktivieren
             error: e
           })
@@ -64,29 +64,29 @@ class Einzelhaendler extends Component {
 
   /** Lebenszyklus Methode, welche aufgerufen wird, wenn die Komponente in das DOM des Browsers eingefügt wird.*/
 
-
+  /*
   componentDidMount() {
     this.getEinzelhaendler();
   }
-
+*/
   /**
    * Behandelt onExpandedStateChange Ereignisse von der EinzelhaendlerListenEintrag Komponente.
    * Schaltet das erweiterte state vom EinzelhaendlerListenEintrag vom gegebenen EinzelhaendlerBO um.
    * @param {Einzelhaendler} EinzelhaendlerBO von dem EinzelhaendlerListenEintrag umgeschaltet werden.
    */
-  onExpandedStateChange = einzelhaendler => {
-    // console.log(einzelhaendlerID);
+  onExpandedStateChange = artikel => {
+    // console.log(artikelID);
     // Setzt erweiterten Einzelhaendler Eintrag standardmäßig auf null
     let newID = null;
 
     // Wenn der selbe Einzelhaendler Eintrag geklickt wird, klappe ihn zusammen oder erweitere einen Neuen
-    if (einzelhaendler.getID() !== this.state.expandedEinzelhaendlerID) {
+    if (artikel.getID() !== this.state.expandedArtikelID) {
       // Erweitere den Einzelhaendler Eintrag mit einzelhaendlerID
-      newID = einzelhaendler.getID();
+      newID = artikel.getID();
     }
     // console.log(newID);
     this.setState({
-      expandedEinzelhaendlerID: newID,
+      expandedArtikelID: newID,
     });
   }
 
@@ -95,38 +95,38 @@ class Einzelhaendler extends Component {
    *
    * @param {Einzelhaendler} EinzelhaendlerBO von dem EinzelhaendlerListenEintrag um gelöscht zu werde
    */
-  einzelhaendlerDeleted = einzelhaendler => {
-    const newEinzelhaendlerList = this.state.einzelhaendler.filter(einzelhaendlerFromState => einzelhaendlerFromState.getID() !== einzelhaendler.getID());
+  artikelDeleted = artikel => {
+    const newArtikelList = this.state.artikel.filter(artikelFromState => artikelFromState.getID() !== artikel.getID());
     this.setState({
-      einzelhaendler: newEinzelhaendlerList,
-      filteredEinzelhaendler: [...newEinzelhaendlerList],
-      showEinzelhaendlerForm: false
+      artikel: newArtikelList,
+      filteredArtikel: [...newArtikelList],
+      showArtikelForm: false
     });
   }
 
   /** Behandelt das onClick Ereignis, der Einzelhaendler anlegen Taste. */
-  addEinzelhaendlerButtonClicked = event => {
+  addArtikelButtonClicked = event => {
     // Nicht das erweiterte state umschalten
     event.stopPropagation();
     //Zeige den EinzelhaendlerForm
     this.setState({
-      showEinzelhaendlerForm: true
+      showArtikelForm: true
     });
   }
 
   /** Behandelt das onClose Ereignis vom EinzelhaendlerForm */
-  einzelhaendlerFormClosed = einzelhaendler => {
+  artikelFormClosed = artikel => {
     // Einzelhaendler ist nicht null und deshalb erstellt
-    if (einzelhaendler) {
-      const newEinzelhaendlerList = [...this.state.einzelhaendler, einzelhaendler];
+    if (artikel) {
+      const newArtikelList = [...this.state.artikel, artikel];
       this.setState({
-        einzelhaendler: newEinzelhaendlerList,
-        filteredEinzelhaendler: [...newEinzelhaendlerList],
-        showEinzelhaendlerForm: false
+        artikel: newArtikelList,
+        filteredArtikel: [...newArtikelList],
+        showArtikelForm: false
       });
     } else {
       this.setState({
-        showEinzelhaendlerForm: false
+        showArtikelForm: false
       });
     }
   }
@@ -135,11 +135,11 @@ class Einzelhaendler extends Component {
   filterFieldValueChange = event => {
     const value = event.target.value.toLowerCase();
     this.setState({
-      filteredEinzelhaendler: this.state.einzelhaendler.filter(einzelhaendler => {
-        let NameContainsValue = einzelhaendler.getName().toLowerCase().includes(value);
+      filteredArtikel: this.state.artikel.filter(artikel => {
+        let NameContainsValue = artikel.getName().toLowerCase().includes(value);
         return NameContainsValue;
       }),
-      einzelhaendlerFilter: value
+      artikelFilter: value
     });
   }
 
@@ -147,31 +147,31 @@ class Einzelhaendler extends Component {
   clearFilterFieldButtonClicked = () => {
     // Setzt den Filter zurück
     this.setState({
-      filteredEinzelhaendler: [...this.state.einzelhaendler],
-      einzelhaendlerFilter: ''
+      filteredArtikel: [...this.state.artikel],
+      artikelFilter: ''
     });
   }
 
   /** Rendert die Komponente */
   render() {
     const { classes } = this.props;
-    const { filteredEinzelhaendler, einzelhaendlerFilter, expandedEinzelhaendlerID, loadingInProgress, error, showEinzelhaendlerForm } = this.state;
+    const { filteredArtikel, artikelFilter, expandedArtikelID, loadingInProgress, error, showArtikelForm } = this.state;
 
     return (
       <div className={classes.root}>
-        <Grid className={classes.einzelhaendlerFilter} container spacing={1} justify='flex-start' alignItems='center'>
+        <Grid className={classes.artikelFilter} container spacing={1} justify='flex-start' alignItems='center'>
           <Grid item>
             <Typography>
-              Filter Einzelhändlerliste nach Name:
+              Filter Artikelliste nach Name:
               </Typography>
           </Grid>
           <Grid item xs={4}>
             <TextField
               autoFocus
               fullWidth
-              id='einzelhaendlerFilter'
+              id='artikelFilter'
               type='text'
-              value={einzelhaendlerFilter}
+              value={artikelFilter}
               onChange={this.filterFieldValueChange}
               InputProps={{
                 endAdornment: <InputAdornment position='end'>
@@ -184,8 +184,8 @@ class Einzelhaendler extends Component {
           </Grid>
           <Grid item xs />
           <Grid item>
-            <Button variant='contained' color='primary' startIcon={<AddIcon />} onClick={this.addEinzelhaendlerButtonClicked}>
-              Einzelhändler hinzufügen
+            <Button variant='contained' color='primary' startIcon={<AddIcon />} onClick={this.addArtikelButtonClicked}>
+              Artikel hinzufügen
           </Button>
           </Grid>
         </Grid>
@@ -194,15 +194,15 @@ class Einzelhaendler extends Component {
           // Benutze keinen strengen Vergleich, da expandedEinzelhaendlerID vielleicht ein string ist,
            wenn dies von den URL Parametern gegeben ist. */
 
-          filteredEinzelhaendler.map(einzelhaendler =>
-            <EinzelhaendlerListenEintrag key={einzelhaendler.getID()} einzelhaendler={einzelhaendler} expandedState={expandedEinzelhaendlerID === einzelhaendler.getID()}
+          filteredArtikel.map(artikel =>
+            <ArtikelListenEintrag key={artikel.getID()} artikel={artikel} expandedState={expandedEinzelhaendlerID === artikel.getID()}
               onExpandedStateChange={this.onExpandedStateChange}
-              onEinzelhaendlerDeleted={this.einzelhaendlerDeleted}
+              onArtikelDeleted={this.artikelDeleted}
             />)
         }
         <LoadingProgress show={loadingInProgress} />
-        <ContextErrorMessage error={error} contextErrorMsg={`Die Liste der Einzelhändler konnte nicht geladen werden.`} onReload={this.getEinzelhaendler} />
-        <EinzelhaendlerForm show={showEinzelhaendlerForm} onClose={this.einzelhaendlerFormClosed} />
+        <ContextErrorMessage error={error} contextErrorMsg={`Die Liste der Artikel konnte nicht geladen werden.`} onReload={this.getArtikel} />
+        <ArtikelForm show={showArtikelForm} onClose={this.artikelFormClosed} />
       </div>
     );
   }
@@ -213,18 +213,18 @@ const styles = theme => ({
   root: {
     width: '100%',
   },
-  einzelhaendlerFilter: {
+  artikelFilter: {
     marginTop: theme.spacing(2),
     marginBottom: theme.spacing(1),
   }
 });
 
 /** PropTypes */
-Einzelhaendler.propTypes = {
+Artikel.propTypes = {
   /** @ignore */
   classes: PropTypes.object.isRequired,
   /** @ignore */
   location: PropTypes.object.isRequired,
 }
 
-export default withRouter(withStyles(styles)(Einzelhaendler));
+export default withRouter(withStyles(styles)(Artikel));
