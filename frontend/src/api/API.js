@@ -1,5 +1,5 @@
 import ArtikelBO from "./ArtikelBO";
-
+import EinzelhaendlerBO from "./EinzelhaendlerBO";
 
 export default class API {
 
@@ -75,5 +75,17 @@ export default class API {
         })
     }
 
+    getEinzelhaendlerAPI() {
+        return this.#fetchAdvanced("/shopping/einzelhaendler").then((responseJSON) => {
+
+            let Einzelhaendler = EinzelhaendlerBO.fromJSON(responseJSON);
+
+
+            return new Promise(function (resolve) {
+                resolve(Einzelhaendler);
+
+            })
+        })
+    }
 
 }
