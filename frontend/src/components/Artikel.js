@@ -195,7 +195,7 @@ class Artikel extends Component {
            wenn dies von den URL Parametern gegeben ist. */
 
           filteredArtikel.map(artikel =>
-            <ArtikelListenEintrag key={artikel.getID()} artikel={artikel} expandedState={expandedEinzelhaendlerID === artikel.getID()}
+            <ArtikelListenEintrag key={artikel.getID()} artikel={artikel} expandedState={expandedArtikelID === artikel.getID()}
               onExpandedStateChange={this.onExpandedStateChange}
               onArtikelDeleted={this.artikelDeleted}
             />)

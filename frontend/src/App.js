@@ -2,7 +2,7 @@ import  API  from '../src/api/API';
 import React, {Component} from 'react';
 import Header from "./components/layout/Header";
 import {BrowserRouter as Router, Route, Redirect} from "react-router-dom";
-import ArtikelAnlegen from "./components/dialogs/ArtikelForm";
+import Artikel from "./components/Artikel";
 import Anwenderverbund from "./components/Anwenderverbund";
 import Einzelhaendler from "./components/Einzelhaendler";
 import { Grid, Typography } from '@material-ui/core';
@@ -34,7 +34,7 @@ class App extends React.Component {
                         <Header/>
                             <Redirect from='/' to='/artikel'/>
                             <Route exact path='/artikel'>
-                                <ArtikelAnlegen/>
+                                <Artikel/>
                             </Route>
 
                             <Route path='/anwenderverbund'>
