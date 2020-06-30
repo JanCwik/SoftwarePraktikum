@@ -4,7 +4,7 @@ import { withStyles, Button, TextField, InputAdornment, IconButton, Grid, Typogr
 import AddIcon from '@material-ui/icons/Add';
 import ClearIcon from '@material-ui/icons/Clear'
 import { withRouter } from 'react-router-dom';
-import { API } from '../api';
+import  API  from '../api/API';
 import ContextErrorMessage from './dialogs/ContextErrorMessage';
 import LoadingProgress from './dialogs/LoadingProgress';
 import ArtikelForm from './dialogs/ArtikelForm';
@@ -40,7 +40,7 @@ class Artikel extends Component {
 
   /** Fetchet alle EinzelhaendlerBOs für das Backend */
   getArtikel = () => {
-    API.getAPI().getArtikel()
+    API.getAPI().getArtikelAPI()
       .then(artikelBOs =>
         this.setState({               // Setzt neues state wenn EinzelhaendlerBOs gefetcht wurden
           artikel: artikelBOs,
@@ -64,11 +64,11 @@ class Artikel extends Component {
 
   /** Lebenszyklus Methode, welche aufgerufen wird, wenn die Komponente in das DOM des Browsers eingefügt wird.*/
 
-  /*
+
   componentDidMount() {
-    this.getEinzelhaendler();
+    this.getArtikel();
   }
-*/
+
   /**
    * Behandelt onExpandedStateChange Ereignisse von der EinzelhaendlerListenEintrag Komponente.
    * Schaltet das erweiterte state vom EinzelhaendlerListenEintrag vom gegebenen EinzelhaendlerBO um.
