@@ -26,11 +26,20 @@ class EinzelhaendlerForm extends Component {
       en = props.einzelhaendler.getName();
     }
 
+    let an = ''
+    if (props.einzelhaendler) {
+      an = props.einzelhaendler.getAdresse();
+    }
+
+
     // Init state
     this.state = {
       einzelhaendlerName: en,
       einzelhaendlerNameValidationFailed: false,
       einzelhaendlerNameEdited: false,
+      einzelhaendlerAdresse: an,
+      einzelhaendlerAdresseValidationFailed: false,
+      einzelhaendlerAdresseEdited: false,
       addingInProgress: false,
       updatingInProgress: false,
       addingError: null,
@@ -42,7 +51,7 @@ class EinzelhaendlerForm extends Component {
 
   /** Legt Einzelhaendler an */
   addEinzelhaendler = () => {
-    let newEinzelhaendler = new EinzelhaendlerBO(this.state.einzelhaendlerName);
+    let newEinzelhaendler = new EinzelhaendlerBO(this.state.einzelhaendlerName, this.state.einzelhaendlerAdresse);
     API.getAPI().addEinzelhaendler(newEinzelhaendler).then(einzelhaendler => {
       // Backend Aufruf erfolgreich
       // reinit den Dialog state für einen neuen leeren Einzelhaendler
@@ -68,6 +77,7 @@ class EinzelhaendlerForm extends Component {
     let updatedEinzelhaendler = Object.assign(new EinzelhaendlerBO(), this.props.einzelhaendler);
     // Setzt die neuen Attribute aus dem Dialog
     updatedEinzelhaendler.setName(this.state.einzelhaendlerName);
+    updatedEinzelhaendler.setAdresse(this.state.einzelhaendlerAdresse);
     API.getAPI().updateEinzelhaendler(updatedEinzelhaendler).then(einzelhaendler => {
       this.setState({
         updatingInProgress: false,              // Ladeanzeige deaktivieren
@@ -75,6 +85,7 @@ class EinzelhaendlerForm extends Component {
       });
       // Behalte das neue state als Grund state
       this.baseState.einzelhaendlerName = this.state.einzelhaendlerName;
+      this.baseState.einzelhaendlerAdresse = this.state.einzelhaendlerAdresse;
       this.props.onClose(updatedEinzelhaendler);      // Aufruf mit dem neuen Einzelhaendler
     }).catch(e =>
       this.setState({
@@ -116,8 +127,9 @@ class EinzelhaendlerForm extends Component {
   /** Rendert die Komponente */
   render() {
     const { classes, einzelhaendler, show } = this.props;
-    const { einzelhaendlerName, einzelhaendlerNameValidationFailed, einzelhaendlerNameEdited, addingInProgress,
-      addingError, updatingInProgress, updatingError } = this.state;
+    const { einzelhaendlerName, einzelhaendlerNameValidationFailed, einzelhaendlerNameEdited,
+      einzelhaendlerAdresse, einzelhaendlerAdresseValidationFailed, einzelhaendlerAdresseEdited,
+      addingInProgress, addingError, updatingInProgress, updatingError } = this.state;
 
     let title = '';
     let header = '';
@@ -147,6 +159,11 @@ class EinzelhaendlerForm extends Component {
               <TextField autoFocus type='text' required fullWidth margin='normal' id='einzelhaendlerName' label='Einzelhändler Name:' value={einzelhaendlerName}
                 onChange={this.textFieldValueChange} error={einzelhaendlerNameValidationFailed}
                 helperText={einzelhaendlerNameValidationFailed ? 'Der Name muss mindestens ein Zeichen enthalten' : ' '} />
+            </form>
+            <form className={classes.root} noValidate autoComplete='off'>
+              <TextField autoFocus type='text' required fullWidth margin='normal' id='einzelhaendlerAdresse' label='Einzelhändler Adresse:' value={einzelhaendlerAdresse}
+                onChange={this.textFieldValueChange} error={einzelhaendlerAdresseValidationFailed}
+                helperText={einzelhaendlerAdresseValidationFailed ? 'Die Adresse muss mindestens ein Zeichen enthalten' : ' '} />
             </form>
             <LoadingProgress show={addingInProgress || updatingInProgress} />
             {
