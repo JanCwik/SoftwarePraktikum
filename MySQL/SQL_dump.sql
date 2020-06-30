@@ -10,6 +10,7 @@ USE shoppinglist;
   --> VARCHAR = String (in Klammern wird angegeben wie viele Zeichen der String maximal enthalten darf
   --> NOT NULL = Das Feld darf nicht leer sein
   --> PRIMARY KEY = Gibt an welches Attribut der Primärschlüssel ist*/
+DROP TABLE IF EXISTS `artikel`;
 CREATE TABLE artikel(
     id INT NOT NULL,
     name VARCHAR(30) NOT NULL,
@@ -25,6 +26,7 @@ INSERT INTO artikel VALUES (1, "Brot","2020-05-16 15:15:15", "Stück", false);
 
 
 /*Erstellt die Tabelle "einzelhaendler" mit den jeweiligen Attributen*/
+DROP TABLE IF EXISTS `einzelhaendler`;
 CREATE TABLE einzelhaendler(
     id INT NOT NULL,
     name VARCHAR(30) NOT NULL,
@@ -39,6 +41,7 @@ INSERT INTO einzelhaendler VALUES (2, "Penny","2020-05-16 15:15:15");
 
 /*Erstellt die Tabelle "benutzer" mit den jeweiligen Attributen
   --> datetime = Datentyp mit dem Format: YYYY-MM-DD hh:mm:ss*/
+DROP TABLE IF EXISTS `benutzer`;
 CREATE TABLE benutzer(
     id INT NOT NULL,
     name VARCHAR(30) NOT NULL,
@@ -55,6 +58,7 @@ INSERT INTO benutzer VALUES (2, "lh400","2020-05-16 15:15:15", "lh400@hdm-stuttg
 
 
 /*Erstellt die Tabelle "anwenderverbund" mit den jeweiligen Attributen*/
+DROP TABLE IF EXISTS `anwenderverbund`;
 CREATE TABLE anwenderverbund(
     id INT NOT NULL,
     name VARCHAR(30) NOT NULL,
@@ -68,6 +72,7 @@ INSERT INTO anwenderverbund VALUES (2, "lh400","2020-05-16 15:15:15");
 
 
 /*Erstellt die Tabelle "einkaufsliste" mit den jeweiligen Attributen*/
+DROP TABLE IF EXISTS `einkaufsliste`;
 CREATE TABLE einkaufsliste(
     id INT NOT NULL,
     name VARCHAR(30) NOT NULL,
@@ -76,6 +81,9 @@ CREATE TABLE einkaufsliste(
     anwenderverbund_id INT NOT NULL,
     PRIMARY KEY (id)
 );
+
+INSERT INTO einkaufsliste VALUES (1, "KW40","2020-05-16 15:15:15","2020-05-16 15:15:15");
+INSERT INTO einkaufsliste VALUES (2, "Weihnachten","2020-05-16 15:15:15","2020-05-16 15:15:15");
 
 
 
