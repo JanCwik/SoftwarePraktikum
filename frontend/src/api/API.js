@@ -88,4 +88,23 @@ export default class API {
         })
     }
 
+    addEinzelhaendlerAPI (neweinz) {
+
+    return this.#fetchAdvanced("/shopping/einzelhaendler", {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json, text/plain',
+        'Content-type': 'application/json',
+      },
+      body: JSON.stringify(neweinz)
+    }).then((responseJSON) => {
+            // We always get an array of CustomerBOs.fromJSON, but only need one object
+            let responseEinzelhaendlerBO = EinzelhaendlerBO.fromJSON(responseJSON)[0];
+            // console.info(accountBOs);
+            return new Promise(function (resolve) {
+                resolve(responseEinzelhaendlerBO);
+            })
+        })
+    }
+
 }

@@ -71,9 +71,10 @@ class ApplikationsAdministration(object):
 
 
     """ Methode zum Anlegen eines neuen Einzelhändlers in der Datenbank"""
-    def einzelhaendler_anlegen(self, name):
+    def einzelhaendler_anlegen(self, name, id):
         einzelhaendler = Einzelhaendler()
         einzelhaendler.set_name(name)
+        einzelhaendler.set_id(id)
 
 
 
