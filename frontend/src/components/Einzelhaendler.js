@@ -185,7 +185,7 @@ class Einzelhaendler extends Component {
           <Grid item xs />
           <Grid item>
             <Button variant='contained' color='primary' startIcon={<AddIcon />} onClick={this.addEinzelhaendlerButtonClicked}>
-              Add Einzelhaendler
+              Einzelhändler hinzufügen
           </Button>
           </Grid>
         </Grid>
