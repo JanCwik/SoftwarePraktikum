@@ -1,5 +1,6 @@
 from src.server.db.Mapper import Mapper
 from src.server.bo.Anwenderverbund import Anwenderverbund
+from src.server.bo.Einkaufsliste import Einkaufsliste
 
 
 class AnwenderverbundMapper(Mapper):
@@ -171,6 +172,29 @@ class AnwenderverbundMapper(Mapper):
             """Der IndexError wird oben beim Zugriff auf tuples[0] auftreten, wenn der vorherige SELECT-Aufruf
             keine Tupel liefert, sondern tuples = cursor.fetchall() eine leere Sequenz zurück gibt."""
             result = None
+
+        self._cnx.commit()
+        cursor.close()
+
+        return result
+
+
+    def find_all_einkaufslisten(self, anwenderverbund):
+        id = anwenderverbund.get_id()
+        result = []
+        cursor = self._cnx.cursor()
+        cursor.execute("SELECT * FROM einkaufsliste WHERE anwenderverbund_id={}".format(id))
+        res = cursor.fetchall()
+
+        for(id, name, erstellungs_zeitpunkt, aenderungs_zeitpunkt, anwenderverbund_id) in res:
+
+            einkaufsliste = Einkaufsliste()
+            einkaufsliste.set_id(id)
+            einkaufsliste.set_name(name)
+            einkaufsliste.set_erstellungs_zeitpunkt(erstellungs_zeitpunkt)
+            einkaufsliste.set_änderungs_zeitpunkt(aenderungs_zeitpunkt)
+            einkaufsliste.set_anwenderId(anwenderverbund_id)
+            result.append(einkaufsliste)
 
         self._cnx.commit()
         cursor.close()
