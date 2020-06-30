@@ -4,28 +4,28 @@ from src.server.bo.NamedBO import NamedBO
 class Benutzer(NamedBO):
     def __init__(self):
         super().__init__()
-        self._email = ""
-        self._google_id = 0
+        self.__email = ""
+        self.__google_id = 0
 
     def get_email(self):
         """Auslesen der E-Mail Adresse"""
-        return self._email
+        return self.__email
 
     def set_email(self, value):
         """Setzen der E-Mail Adresse"""
-        self._email = value
+        self.__email = value
 
     def get_google_id(self):
         """Auslesen der externen Google ID)."""
-        return self._google_id
+        return self.__google_id
 
     def set_google_id(self, value):
         """Setzen der externen Google ID."""
-        self._google_id = value
+        self.__google_id = value
 
     def __str__(self):
         """Erzeugen einer einfachen textuellen Darstellung der jeweiligen Instanz."""
-        return "Benutzer: {}, {}, {}, {}, {}".format(self.get_id(), self.get_name(), self._email, self.get_erstellungs_zeitpunkt(), self._google_id)
+        return "Benutzer: {}, {}, {}, {}, {}".format(self.get_id(), self.get_name(), self.__email, self.get_erstellungs_zeitpunkt(), self.__google_id)
 
     @staticmethod
     def from_dict(dictionary=dict()):
