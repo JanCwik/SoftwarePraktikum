@@ -7,14 +7,14 @@ import { withRouter } from 'react-router-dom';
 import { API } from '../api';
 import ContextErrorMessage from './dialogs/ContextErrorMessage';
 import LoadingProgress from './dialogs/LoadingProgress';
-import EinzelhaendlerForm from './dialogs/EinzelhaendlerForm';
-import EinzelhaendlerListenEintrag from "./EinzelhaendlerListenEintrag";
+import AnwenderverbundForm from "./dialogs/AnwenderverbundForm";
+import AnwenderverbundListenEintrag from "./AnwenderverbundListenEintrag";
 
 /**
  * Kontrolliert eine Liste von EinzelhaendlerListenEintraegen um ein Akkordeon für jeden
  * Einzelhaendler zu erstellen.
  */
-class Einzelhaendler extends Component {
+class Anwenderverbund extends Component {
 
   constructor(props) {
     super(props);
@@ -22,34 +22,34 @@ class Einzelhaendler extends Component {
     // console.log(props);
     let expandedID = null;
 
-    if (this.props.location.expandEinzelhaendler) {
-      expandedID = this.props.location.expandEinzelhaendler.getID();
+    if (this.props.location.expandAnwenderverbund) {
+      expandedID = this.props.location.expandAnwenderverbund.getID();
     }
 
     // Init ein leeres state
     this.state = {
-      einzelhaendler: [],
-      filteredEinzelhaendler: [],
-      einzelhaendlerFilterStr: '',
+      anwenderverbund: [],
+      filteredAnwenderverbund: [],
+      anwenderverbundFilterStr: '',
       error: null,
       loadingInProgress: false,
-      expandedEinzelhaendlerID: expandedID,
-      showEinzelhaendlerForm: false
+      expandedAnwenderverbundID: expandedID,
+      showAnwenderverbundForm: false
     };
   }
 
-  /** Fetchet alle EinzelhaendlerBOs für das Backend */
-  getEinzelhaendler = () => {
-    API.getAPI().getEinzelhaendler()
-      .then(einzelhaendlerBOs =>
+  /** Fetchet alle AnwenderverbundBOs für das Backend */
+  getAnwenderverbund = () => {
+    API.getAPI().getAnwenderverbund()
+      .then(anwenderverbundBOs =>
         this.setState({               // Setzt neues state wenn EinzelhaendlerBOs gefetcht wurden
-          einzelhaendler: einzelhaendlerBOs,
-          filteredEinzelhaendler: [...einzelhaendlerBOs], // Speichert eine Kopie
+          anwenderverbund: anwenderverbundBOs,
+          filteredAnwenderverbund: [...anwenderverbundBOs], // Speichert eine Kopie
           loadingInProgress: false,   // Ladeanzeige deaktivieren
           error: null
         })).catch(e =>
           this.setState({             // Setzt state mit Error vom catch zurück
-            einzelhaendler: [],
+            anwenderverbund: [],
             loadingInProgress: false, // Ladeanzeige deaktivieren
             error: e
           })
@@ -74,59 +74,59 @@ class Einzelhaendler extends Component {
    * Schaltet das erweiterte state vom EinzelhaendlerListenEintrag vom gegebenen EinzelhaendlerBO um.
    * @param {Einzelhaendler} EinzelhaendlerBO von dem EinzelhaendlerListenEintrag umgeschaltet werden.
    */
-  onExpandedStateChange = einzelhaendler => {
+  onExpandedStateChange = anwenderverbund => {
     // console.log(einzelhaendlerID);
     // Setzt erweiterten Einzelhaendler Eintrag standardmäßig auf null
     let newID = null;
 
     // Wenn der selbe Einzelhaendler Eintrag geklickt wird, klappe ihn zusammen oder erweitere einen Neuen
-    if (einzelhaendler.getID() !== this.state.expandedEinzelhaendlerID) {
-      // Erweitere den Einzelhaendler Eintrag mit einzelhaendlerID
-      newID = einzelhaendler.getID();
+    if (anwenderverbund.getID() !== this.state.expandedAnwenderverbundID) {
+      // Erweitere den Anwenderverbund Eintrag mit anwenderverbundID
+      newID = anwenderverbund.getID();
     }
     // console.log(newID);
     this.setState({
-      expandedEinzelhaendlerID: newID,
+      expandedAnwenderverbundID: newID,
     });
   }
 
   /**
-   * Behandelt onEinzelhaendlerLoeschen Ereignisse von der EinzelhaendlerListenEintrag Komponente.
+   * Behandelt onAnwenderverbundLoeschen Ereignisse von der AnwenderverbundListenEintrag Komponente.
    *
-   * @param {Einzelhaendler} EinzelhaendlerBO von dem EinzelhaendlerListenEintrag um gelöscht zu werde
+   * @param {Einzelhaendler} AnwenderverbundBO von dem AnwenderverbundListenEintrag um gelöscht zu werden.
    */
-  einzelhaendlerDeleted = einzelhaendler => {
-    const newEinzelhaendlerList = this.state.einzelhaendler.filter(einzelhaendlerFromState => einzelhaendlerFromState.getID() !== einzelhaendler.getID());
+  anwenderverbundDeleted = anwenderverbund => {
+    const newAnwenderverbundList = this.state.anwenderverbund.filter(anwenderverbundFromState => anwenderverbundFromState.getID() !== anwenderverbund.getID());
     this.setState({
-      einzelhaendler: newEinzelhaendlerList,
-      filteredEinzelhaendler: [...newEinzelhaendlerList],
-      showEinzelhaendlerForm: false
+      anwenderverbund: newAnwenderverbundList,
+      filteredAnwenderverbund: [...newAnwenderverbundList],
+      showAnwenderverbundForm: false
     });
   }
 
   /** Behandelt das onClick Ereignis, der Einzelhaendler anlegen Taste. */
-  addEinzelhaendlerButtonClicked = event => {
+  addAnwenderverbundButtonClicked = event => {
     // Nicht das erweiterte state umschalten
     event.stopPropagation();
     //Zeige den EinzelhaendlerForm
     this.setState({
-      showEinzelhaendlerForm: true
+      showAnwenderverbundForm: true
     });
   }
 
-  /** Behandelt das onClose Ereignis vom EinzelhaendlerForm */
-  einzelhaendlerFormClosed = einzelhaendler => {
-    // Einzelhaendler ist nicht null und deshalb erstellt
-    if (einzelhaendler) {
-      const newEinzelhaendlerList = [...this.state.einzelhaendler, einzelhaendler];
+  /** Behandelt das onClose Ereignis vom AnwenderverbundForm */
+  anwenderverbundFormClosed = anwenderverbund => {
+    // Anwenderverbund ist nicht null und deshalb erstellt
+    if (anwenderverbund) {
+      const newAnwenderverbundList = [...this.state.anwenderverbund, anwenderverbund];
       this.setState({
-        einzelhaendler: newEinzelhaendlerList,
-        filteredEinzelhaendler: [...newEinzelhaendlerList],
-        showEinzelhaendlerForm: false
+        anwenderverbund: newAnwenderverbundList,
+        filteredAnwenderverbund: [...newAnwenderverbundList],
+        showAnwenderverbundForm: false
       });
     } else {
       this.setState({
-        showEinzelhaendlerForm: false
+        showAnwenderverbundForm: false
       });
     }
   }
@@ -135,11 +135,11 @@ class Einzelhaendler extends Component {
   filterFieldValueChange = event => {
     const value = event.target.value.toLowerCase();
     this.setState({
-      filteredEinzelhaendler: this.state.einzelhaendler.filter(einzelhaendler => {
-        let NameContainsValue = einzelhaendler.getName().toLowerCase().includes(value);
+      filteredAnwenderverbund: this.state.einzelhaendler.filter(anwenderverbund => {
+        let NameContainsValue = anwenderverbund.getName().toLowerCase().includes(value);
         return NameContainsValue;
       }),
-      einzelhaendlerFilter: value
+      anwenderverbundFilter: value
     });
   }
 
@@ -147,22 +147,22 @@ class Einzelhaendler extends Component {
   clearFilterFieldButtonClicked = () => {
     // Setzt den Filter zurück
     this.setState({
-      filteredEinzelhaendler: [...this.state.einzelhaendler],
-      einzelhaendlerFilter: ''
+      filteredAnwenderverbund: [...this.state.anwenderverbund],
+      anwenderverbundFilter: ''
     });
   }
 
   /** Rendert die Komponente */
   render() {
     const { classes } = this.props;
-    const { filteredEinzelhaendler, einzelhaendlerFilter, expandedEinzelhaendlerID, loadingInProgress, error, showEinzelhaendlerForm } = this.state;
+    const { filteredAnwenderverbund, anwenderverbundFilter, expandedAnwenderverbundID, loadingInProgress, error, showAnwenderverbundForm } = this.state;
 
     return (
       <div className={classes.root}>
-        <Grid className={classes.einzelhaendlerFilter} container spacing={1} justify='flex-start' alignItems='center'>
+        <Grid className={classes.anwenderverbundFilter} container spacing={1} justify='flex-start' alignItems='center'>
           <Grid item>
             <Typography>
-              Filter Einzelhändlerliste nach Name:
+              Filter Anwenderverbund nach Name:
               </Typography>
           </Grid>
           <Grid item xs={4}>
@@ -171,7 +171,7 @@ class Einzelhaendler extends Component {
               fullWidth
               id='einzelhaendlerFilter'
               type='text'
-              value={einzelhaendlerFilter}
+              value={anwenderverbundFilter}
               onChange={this.filterFieldValueChange}
               InputProps={{
                 endAdornment: <InputAdornment position='end'>
@@ -184,25 +184,25 @@ class Einzelhaendler extends Component {
           </Grid>
           <Grid item xs />
           <Grid item>
-            <Button variant='contained' color='primary' startIcon={<AddIcon />} onClick={this.addEinzelhaendlerButtonClicked}>
-              Einzelhändler hinzufügen
+            <Button variant='contained' color='primary' startIcon={<AddIcon />} onClick={this.addAnwenderverbundButtonClicked}>
+              Anwenderverbund hinzufügen
           </Button>
           </Grid>
         </Grid>
         {
-          /** Zeigt die Liste der EinzelhaendlerListenEintrag Komponenten
-          // Benutze keinen strengen Vergleich, da expandedEinzelhaendlerID vielleicht ein string ist,
+          /** Zeigt die Liste der AnwenderverbundListenEintrag Komponenten
+          // Benutze keinen strengen Vergleich, da expandedAnwenderverbundID vielleicht ein string ist,
            wenn dies von den URL Parametern gegeben ist. */
 
-          filteredEinzelhaendler.map(einzelhaendler =>
-            <EinzelhaendlerListenEintrag key={einzelhaendler.getID()} einzelhaendler={einzelhaendler} expandedState={expandedEinzelhaendlerID === einzelhaendler.getID()}
+          filteredAnwenderverbund.map(anwenderverbund =>
+            <AnwenderverbundListenEintrag key={anwenderverbund.getID()} anwenderverbund={anwenderverbund} expandedState={expandedAnwenderverbundID === anwenderverbund.getID()}
               onExpandedStateChange={this.onExpandedStateChange}
-              onEinzelhaendlerDeleted={this.einzelhaendlerDeleted}
+              onEinzelhaendlerDeleted={this.anwenderverbundDeleted}
             />)
         }
         <LoadingProgress show={loadingInProgress} />
-        <ContextErrorMessage error={error} contextErrorMsg={`Die Liste der Einzelhändler konnte nicht geladen werden.`} onReload={this.getEinzelhaendler} />
-        <EinzelhaendlerForm show={showEinzelhaendlerForm} onClose={this.einzelhaendlerFormClosed} />
+        <ContextErrorMessage error={error} contextErrorMsg={`Die Liste der Anwenderverbünde konnte nicht geladen werden.`} onReload={this.getAnwenderverbund} />
+        <AnwenderverbundForm show={showAnwenderverbundForm} onClose={this.anwenderverbundFormClosed} />
       </div>
     );
   }
@@ -213,18 +213,18 @@ const styles = theme => ({
   root: {
     width: '100%',
   },
-  einzelhaendlerFilter: {
+  anwenderverbundFilter: {
     marginTop: theme.spacing(2),
     marginBottom: theme.spacing(1),
   }
 });
 
 /** PropTypes */
-Einzelhaendler.propTypes = {
+Anwenderverbund.propTypes = {
   /** @ignore */
   classes: PropTypes.object.isRequired,
   /** @ignore */
   location: PropTypes.object.isRequired,
 }
 
-export default withRouter(withStyles(styles)(Einzelhaendler));
+export default withRouter(withStyles(styles)(Anwenderverbund));
