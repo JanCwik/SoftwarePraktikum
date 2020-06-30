@@ -92,7 +92,7 @@ class EinzelhaendlerListenEintrag extends Component {
           >
             <Grid container spacing={1} justify='flex-start' alignItems='center'>
               <Grid item>
-                <Typography variant='body1' className={classes.heading}>{einzelhaendler.getName()}}
+                <Typography variant='body1' className={classes.heading}>{einzelhaendler.getName()}
                 </Typography>
               </Grid>
               <Grid item>
