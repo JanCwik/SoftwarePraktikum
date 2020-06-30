@@ -1,9 +1,11 @@
 import NamedBO from './NamedBO';
 
 export default class ArtikelBO extends NamedBO {
-
-    constructor() {
-        super();
+//damit direkt über diese KLasse ein Name angelegt werden kann
+// muss der Parameter im Constructor entgegengenommen werden
+// und an die superklasse NapedBo weitergegeben werden
+    constructor(name) {
+        super(name);
         this.einheit=""
         this.standardartikel= false
 
