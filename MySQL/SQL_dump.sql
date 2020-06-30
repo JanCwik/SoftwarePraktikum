@@ -15,8 +15,11 @@ CREATE TABLE artikel(
     id INT NOT NULL,
     name VARCHAR(30) NOT NULL,
     erstellungs_zeitpunkt datetime NOT NULL,
-    einheit varchar(30) NOT NULL,
-    standardartikel bool NOT NULL,
+    einheit varchar(30) ,                           /*bei Einheit uns standartartikel muss eig noch NOT NULL hin
+                                                      aber wenn da NOT NULL steht funktioniert die updateArtikel funktion
+                                                      wegen irgendeinem fehler im frontend nicht (irgendwo im frontend wird bei
+                                                      updateArtikel (vill auch bei addArtikel) erstellungszeitpunkt und einmheit auf null gesetzt) */
+    standardartikel bool ,
     PRIMARY KEY (id)
 );
 
@@ -82,8 +85,8 @@ CREATE TABLE einkaufsliste(
     PRIMARY KEY (id)
 );
 
-INSERT INTO einkaufsliste VALUES (1, "KW40","2020-05-16 15:15:15", None, 1);
-INSERT INTO einkaufsliste VALUES (1, "KW40","2020-05-16 15:15:15", None, 1);
+INSERT INTO einkaufsliste VALUES (1, "KW40","2020-05-16 15:15:15", null, 1);
+INSERT INTO einkaufsliste VALUES (2, "KW40","2020-05-16 15:15:15", null, 1);
 
 
 

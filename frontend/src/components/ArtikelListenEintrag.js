@@ -92,7 +92,7 @@ class ArtikelListenEintrag extends Component {
           >
             <Grid container spacing={1} justify='flex-start' alignItems='center'>
               <Grid item>
-                <Typography variant='body1' className={classes.heading}>{artikel.getName()}}
+                <Typography variant='body1' className={classes.heading}>{artikel.getName()}
                 </Typography>
               </Grid>
               <Grid item>

@@ -99,7 +99,7 @@ class ArtikelOperations(Resource):
 
         if a is not None:
             a.set_id(id)
-            adm.update_artikel(artikel)
+            adm.update_artikel(a)
             return '', 200
         else:
             return '', 500
@@ -177,7 +177,7 @@ class EinzelhaendlerOperations(Resource):
 
         if a is not None:
             a.set_id(id)
-            adm.update_einzelhaendler(einzelhaendler)
+            adm.update_einzelhaendler(a)
             return '', 200
         else:
             return '', 500

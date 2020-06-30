@@ -69,7 +69,7 @@ class ArtikelForm extends Component {
     let updatedArtikel = Object.assign(new ArtikelBO(), this.props.artikel);
     // Setzt die neuen Attribute aus dem Dialog
     updatedArtikel.setName(this.state.artikelName);
-    API.getAPI().updateArtikel(updatedArtikel).then(artikel => {
+    API.getAPI().updateArtikelAPI(updatedArtikel).then(artikel => {
       this.setState({
         updatingInProgress: false,              // Ladeanzeige deaktivieren
         updatingError: null                     // Keine Error Nachricht

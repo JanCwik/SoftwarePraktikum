@@ -69,7 +69,7 @@ class EinzelhaendlerForm extends Component {
     let updatedEinzelhaendler = Object.assign(new EinzelhaendlerBO(), this.props.einzelhaendler);
     // Setzt die neuen Attribute aus dem Dialog
     updatedEinzelhaendler.setName(this.state.einzelhaendlerName);
-    API.getAPI().updateEinzelhaendler(updatedEinzelhaendler).then(einzelhaendler => {
+    API.getAPI().updateEinzelhaendlerAPI(updatedEinzelhaendler).then(einzelhaendler => {
       this.setState({
         updatingInProgress: false,              // Ladeanzeige deaktivieren
         updatingError: null                     // Keine Error Nachricht
