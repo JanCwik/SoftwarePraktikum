@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withStyles, Button, IconButton, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions } from '@material-ui/core';
 import CloseIcon from '@material-ui/icons/Close';
-import { API } from '../../api';
+import  API  from '../../api/API';
 import ContextErrorMessage from './ContextErrorMessage';
 import LoadingProgress from './LoadingProgress';
 
@@ -26,7 +26,7 @@ class ArtikelLoeschen extends Component {
 
   /** Löschen des Einzelhaendlers */
   deleteArtikel = () => {
-    API.getAPI().deleteArtikel(this.props.artikel.getID()).then(artikel => {
+    API.getAPI().deleteArtikelAPI(this.props.artikel.getID()).then(artikel => {
       this.setState({
         deletingInProgress: false,              // Ladeanzeige deaktivieren
         deletingError: null                     // Keine Error Nachricht
@@ -67,10 +67,10 @@ class ArtikelLoeschen extends Component {
           </DialogTitle>
           <DialogContent>
             <DialogContentText>
-              Really delete artikel '{artikel.getArtikelName()}' (ID: {artikel.getID()})?
+              Really delete artikel '{artikel.getName()}' (ID: {artikel.getID()})?
             </DialogContentText>
             <LoadingProgress show={deletingInProgress} />
-            <ContextErrorMessage error={deletingError} contextErrorMsg={`Der Artikel '${artikel.getArtikelName()}' (ID: ${artikel.getID()}) konnte nicht gelöscht werden.`}
+            <ContextErrorMessage error={deletingError} contextErrorMsg={`Der Artikel '${artikel.getName()}' (ID: ${artikel.getID()}) konnte nicht gelöscht werden.`}
               onReload={this.deleteArtikel} />
           </DialogContent>
           <DialogActions>

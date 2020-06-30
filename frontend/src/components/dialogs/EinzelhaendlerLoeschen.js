@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withStyles, Button, IconButton, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions } from '@material-ui/core';
 import CloseIcon from '@material-ui/icons/Close';
-import { API, EinzelhaendlerBO } from '../../api';
+import  API from '../../api/API';
+import  EinzelhaendlerBO  from '../../api/EinzelhaendlerBO';
 import ContextErrorMessage from './ContextErrorMessage';
 import LoadingProgress from './LoadingProgress';
 
@@ -27,7 +28,7 @@ class EinzelhaendlerLoeschen extends Component {
 
   /** Löschen des Einzelhaendlers */
   deleteEinzelhaendler = () => {
-    API.getAPI().deleteEinzelhaendler(this.props.einzelhaendler.getID()).then(einzelhaendler => {
+    API.getAPI().deleteEinzelhaendlerAPI(this.props.einzelhaendler.getID()).then(einzelhaendler => {
       this.setState({
         deletingInProgress: false,              // Ladeanzeige deaktivieren
         deletingError: null                     // Keine Error Nachricht
