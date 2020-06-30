@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withStyles, Button, IconButton, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, TextField } from '@material-ui/core';
 import CloseIcon from '@material-ui/icons/Close';
-import { API, EinzelhaendlerBO } from '../../api';
+import { API, AnwenderverbundBO } from '../../api';
 import ContextErrorMessage from './ContextErrorMessage';
 import LoadingProgress from './LoadingProgress';
 
@@ -16,21 +16,21 @@ import LoadingProgress from './LoadingProgress';
  * mit dem angelegt/upgedated EinzelhaendlerBO Objekt als Parameter aufgerufen. Wenn der Dialog beendet ist,
  * wird onClose mit null aufgerufen.
  */
-class EinzelhaendlerForm extends Component {
+class AnwenderverbundForm extends Component {
 
   constructor(props) {
     super(props);
 
     let en = ''
-    if (props.einzelhaendler) {
-      en = props.einzelhaendler.getName();
+    if (props.anwenderverbund) {
+      en = props.anwenderverbund.getName();
     }
 
     // Init state
     this.state = {
-      einzelhaendlerName: en,
-      einzelhaendlerNameValidationFailed: false,
-      einzelhaendlerNameEdited: false,
+      anwenderverbundName: en,
+      anwenderverbundNameValidationFailed: false,
+      anwenderverbundNameEdited: false,
       addingInProgress: false,
       updatingInProgress: false,
       addingError: null,
@@ -41,13 +41,13 @@ class EinzelhaendlerForm extends Component {
   }
 
   /** Legt Einzelhaendler an */
-  addEinzelhaendler = () => {
-    let newEinzelhaendler = new EinzelhaendlerBO(this.state.einzelhaendlerName);
-    API.getAPI().addEinzelhaendler(newEinzelhaendler).then(einzelhaendler => {
+  addAnwenderverbund = () => {
+    let newAnwenderverbund = new AnwenderverbundBO(this.state.anwenderverbundName);
+    API.getAPI().addAnwenderverbund(newAnwenderverbund).then(anwenderverbund => {
       // Backend Aufruf erfolgreich
-      // reinit den Dialog state für einen neuen leeren Einzelhaendler
+      // reinit den Dialog state für einen neuen leeren Anwenderverbunds
       this.setState(this.baseState);
-      this.props.onClose(einzelhaendler); // Aufruf mit Hilfe des Einzelhaendler Objekts aus dem Backend
+      this.props.onClose(anwenderverbund); // Aufruf mit Hilfe des Anwenderverbund Objekts aus dem Backend
     }).catch(e =>
       this.setState({
         updatingInProgress: false,    // Ladeanzeige deaktivieren
@@ -63,19 +63,19 @@ class EinzelhaendlerForm extends Component {
   }
 
   /** Updates the customer */
-  updateEinzelhaendler = () => {
+  updateAnwenderverbund = () => {
     // Klont den originalen Einzelhaendler, wenn der Backend Aufruf fehlschlägt
-    let updatedEinzelhaendler = Object.assign(new EinzelhaendlerBO(), this.props.einzelhaendler);
+    let updatedAnwenderverbund = Object.assign(new AnwenderverbundBO(), this.props.anwenderverbund);
     // Setzt die neuen Attribute aus dem Dialog
-    updatedEinzelhaendler.setName(this.state.einzelhaendlerName);
-    API.getAPI().updateEinzelhaendler(updatedEinzelhaendler).then(einzelhaendler => {
+    updatedAnwenderverbund.setName(this.state.anwenderverbundName);
+    API.getAPI().updateAnwenderverbund(updatedAnwenderverbund).then(anwenderverbund => {
       this.setState({
         updatingInProgress: false,              // Ladeanzeige deaktivieren
         updatingError: null                     // Keine Error Nachricht
       });
       // Behalte das neue state als Grund state
-      this.baseState.einzelhaendlerName = this.state.einzelhaendlerName;
-      this.props.onClose(updatedEinzelhaendler);      // Aufruf mit dem neuen Einzelhaendler
+      this.baseState.anwenderverbundName = this.state.anwenderverbundName;
+      this.props.onClose(updatedAnwenderverbund);      // Aufruf mit dem neuen Anwenderverbund
     }).catch(e =>
       this.setState({
         updatingInProgress: false,              // Ladeanzeige deaktivieren
@@ -115,20 +115,20 @@ class EinzelhaendlerForm extends Component {
 
   /** Rendert die Komponente */
   render() {
-    const { classes, einzelhaendler, show } = this.props;
-    const { einzelhaendlerName, einzelhaendlerNameValidationFailed, einzelhaendlerNameEdited, addingInProgress,
+    const { classes, anwenderverbund, show } = this.props;
+    const { anwenderverbundName, anwenderverbundNameValidationFailed, anwenderverbundNameEdited, addingInProgress,
       addingError, updatingInProgress, updatingError } = this.state;
 
     let title = '';
     let header = '';
 
-    if (einzelhaendler) {
+    if (anwenderverbund) {
       // customer defindet, so ist an edit dialogmmmmmmmmmmmmmmmmmmmmmmmmmmmm
-      title = 'Update des Einzelhändlers';
-      header = `Einzelhändler ID: ${einzelhaendler.getID()}`;
+      title = 'Update des Anwenderverbund';
+      header = `Anwenderverbund ID: ${anwenderverbund.getID()}`;
     } else {
-      title = 'Erstelle einen neuen Einzelhändler';
-      header = 'Gebe Einzelhändlerdaten ein';
+      title = 'Erstelle einen neuen Anwenderverbund';
+      header = 'Suche einen Namen für den Anwenderverbund aus';
     }
 
     return (
@@ -144,17 +144,17 @@ class EinzelhaendlerForm extends Component {
               {header}
             </DialogContentText>
             <form className={classes.root} noValidate autoComplete='off'>
-              <TextField autoFocus type='text' required fullWidth margin='normal' id='einzelhaendlerName' label='Einzelhändler Name:' value={einzelhaendlerName}
-                onChange={this.textFieldValueChange} error={einzelhaendlerNameValidationFailed}
-                helperText={einzelhaendlerNameValidationFailed ? 'Der Name muss mindestens ein Zeichen enthalten' : ' '} />
+              <TextField autoFocus type='text' required fullWidth margin='normal' id='anwenderverbundName' label='Anwenderverbund Name:' value={anwenderverbundName}
+                onChange={this.textFieldValueChange} error={anwenderverbundNameValidationFailed}
+                helperText={anwenderverbundNameValidationFailed ? 'Der Name muss mindestens ein Zeichen enthalten' : ' '} />
             </form>
             <LoadingProgress show={addingInProgress || updatingInProgress} />
             {
-              // Zeigt Error Nachricht in Abhängigkeit des Einzelhaendler prop.
-              einzelhaendler ?
-                <ContextErrorMessage error={updatingError} contextErrorMsg={`The Einzelhändler ${einzelhaendler.getID()} konnte nicht geupdatet werden.`} onReload={this.updateEinzelhaendler} />
+              // Zeigt Error Nachricht in Abhängigkeit des Anwenderverbund prop.
+              anwenderverbund ?
+                <ContextErrorMessage error={updatingError} contextErrorMsg={`Der Anwenderverbund ${anwenderverbund.getID()} konnte nicht geupdatet werden.`} onReload={this.updateAnwenderverbund} />
                 :
-                <ContextErrorMessage error={addingError} contextErrorMsg={`Der Einzelhändler konnte nicht hinzugefügt werden..`} onReload={this.addEinzelhaendler} />
+                <ContextErrorMessage error={addingError} contextErrorMsg={`Der Anwenderverbund konnte nicht hinzugefügt werden..`} onReload={this.addAnwenderverbund} />
             }
           </DialogContent>
           <DialogActions>
@@ -163,11 +163,11 @@ class EinzelhaendlerForm extends Component {
             </Button>
             {
               // Wenn Einzelhaendler vorhanden ist, zeige eine Update Taste, sonst eine Anlegen Taste.
-              einzelhaendler ?
-                <Button disabled={einzelhaendlerNameValidationFailed} variant='contained' onClick={this.updateEinzelhaendler} color='primary'>
+              anwenderverbund ?
+                <Button disabled={anwenderverbundNameValidationFailed} variant='contained' onClick={this.updateAnwenderverbund} color='primary'>
                   Update
               </Button>
-                : <Button disabled={einzelhaendlerNameValidationFailed || !einzelhaendlerNameEdited} variant='contained' onClick={this.addEinzelhaendler} color='primary'>
+                : <Button disabled={anwenderverbundNameValidationFailed || !anwenderverbundNameEdited} variant='contained' onClick={this.addAnwenderverbund} color='primary'>
                   Hinzufügen
              </Button>
             }
@@ -192,11 +192,11 @@ const styles = theme => ({
 });
 
 /** PropTypes */
-EinzelhaendlerForm.propTypes = {
+AnwenderverbundForm.propTypes = {
   /** @ignore */
   classes: PropTypes.object.isRequired,
-  /** Das EinzelhaendlerBO wird editiert. */
-  einzelhaendler: PropTypes.object,
+  /** Das AnwenderverbundFormBO wird editiert. */
+  anwenderverbund: PropTypes.object,
   /** Wenn true, wird das Formular gerendert. */
   show: PropTypes.bool.isRequired,
   /**
@@ -207,4 +207,4 @@ EinzelhaendlerForm.propTypes = {
   onClose: PropTypes.func.isRequired,
 }
 
-export default withStyles(styles)(EinzelhaendlerForm);
+export default withStyles(styles)(AnwenderverbundForm);

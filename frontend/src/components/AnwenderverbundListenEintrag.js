@@ -3,8 +3,8 @@ import PropTypes from 'prop-types';
 import { withStyles, Typography, ExpansionPanel, ExpansionPanelSummary, ExpansionPanelDetails, Grid } from '@material-ui/core';
 import { Button, ButtonGroup } from '@material-ui/core';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import EinzelhaendlerForm from './dialogs/EinzelhaendlerForm';
-import EinzelhaendlerLoeschen from "./dialogs/EinzelhaendlerLoeschen";
+import AnwenderverbundForm from "./dialogs/AnwenderverbundForm";
+import AnwenderverbundLoeschen from "./dialogs/AnwenderverbundLoeschen";
 
 
 
@@ -13,66 +13,66 @@ import EinzelhaendlerLoeschen from "./dialogs/EinzelhaendlerLoeschen";
  * mit den Einzelhandler manipulations Funktionen. Wenn erweitert, wird eine EinzelhaendlerListe gerendert.
  */
 
-class EinzelhaendlerListenEintrag extends Component {
+class AnwenderverbundListenEintrag extends Component {
 
   constructor(props) {
     super(props);
 
     // Init state
     this.state = {
-      einzelhaendler: props.einzelhaendler,
-      showEinzelhaendlerForm: false,
-      showEinzelhaendlerDeleteDialog: false,
+      anwenderverbund: props.anwenderverbund,
+      showAnwenderverbundForm: false,
+      showAnwenderverbundDeleteDialog: false,
     };
   }
 
   /** Behandelt onChange Ereignisse von den zugrunde liegenden Erweiterungsfeldern. */
   expansionPanelStateChanged = () => {
-    this.props.onExpandedStateChange(this.props.einzelhaendler);
+    this.props.onExpandedStateChange(this.props.anwenderverbund);
   }
 
 
   /** Behandlet das onClick Ereignis von der Einzelhaendler bearbeiten Taste. */
-  editEinzelhaendlerButtonClicked = (event) => {
+  editAnwenderverbundButtonClicked = (event) => {
     event.stopPropagation();
     this.setState({
-      showEinzelhaendlerForm: true
+      showAnwenderverbundForm: true
     });
   }
 
   /** Behandelt das onClose Ereignis vom EinzelhaendlerForm */
-  einzelhaendlerFormClosed = (einzelhaendler) => {
-    // Einzelhaendler ist nicht null und deshalb geändert.
-    if (einzelhaendler) {
+  anwenderverbundFormClosed = (anwenderverbund) => {
+    // Anwenderverbund ist nicht null und deshalb geändert.
+    if (anwenderverbund) {
       this.setState({
-        einzelhaendler: einzelhaendler,
-        showEinzelhaendlerForm: false
+        anwenderverbund: anwenderverbund,
+        showAnwenderverbundForm: false
       });
     } else {
       this.setState({
-        showEinzelhaendlerForm: false
+        showAnwenderverbundForm: false
       });
     }
   }
 
   /** Behandelt das onClick Ereignis von der Einzelhaendler löschen Taste. */
-  deleteEinzelhaendlerButtonClicked = (event) => {
+  deleteAnwenderverbundButtonClicked = (event) => {
     event.stopPropagation();
     this.setState({
-      showEinzelhaendlerDeleteDialog: true
+      showAnwenderverbundDeleteDialog: true
     });
   }
 
-  /** Behandelt das onClose Ereignis vom EinzelhaendlerLoeschenDialog */
-  deleteEinzelhaendlerDialogClosed = (einzelhaendler) => {
-    // Wenn der Einzelhaendler nicht gleich null ist, lösche ihn
-    if (einzelhaendler) {
-      this.props.onEinzelhaendlerDeleted(einzelhaendler);
+  /** Behandelt das onClose Ereignis vom AnwenderverbundLoeschenDialog */
+  deleteAnwenderverbundDialogClosed = (anwenderverbund) => {
+    // Wenn der Anwenderverbund nicht gleich null ist, lösche ihn
+    if (anwenderverbund) {
+      this.props.onAnwenderverbundDeleted(anwenderverbund);
     };
 
     // Zeige nicht den Dialog
     this.setState({
-      showEinzelhaendlereDeleteDialog: false
+      showAnwenderverbundDeleteDialog: false
     });
   }
 
@@ -80,7 +80,7 @@ class EinzelhaendlerListenEintrag extends Component {
   render() {
     const { classes, expandedState } = this.props;
     // Benutz den states Einzelhaendler
-    const { einzelhaendler, showEinzelhaendlerForm, showEinzelhaendlerDeleteDialog } = this.state;
+    const { anwenderverbund, showAnwenderverbundForm, showAnwenderverbundDeleteDialog } = this.state;
 
     // console.log(this.state);
     return (
@@ -88,19 +88,19 @@ class EinzelhaendlerListenEintrag extends Component {
         <ExpansionPanel defaultExpanded={false} expanded={expandedState} onChange={this.expansionPanelStateChanged}>
           <ExpansionPanelSummary
             expandIcon={<ExpandMoreIcon />}
-            id={`einzelhaendler${einzelhaendler.getID()}accountpanel-header`}
+            id={`anwenderverbund${anwenderverbund.getID()}accountpanel-header`}
           >
             <Grid container spacing={1} justify='flex-start' alignItems='center'>
               <Grid item>
-                <Typography variant='body1' className={classes.heading}>{einzelhaendler.getName()}}
+                <Typography variant='body1' className={classes.heading}>{anwenderverbund.getName()}}
                 </Typography>
               </Grid>
               <Grid item>
                 <ButtonGroup variant='text' size='small'>
-                  <Button color='primary' onClick={this.editEinzelhaendlerButtonClicked}>
+                  <Button color='primary' onClick={this.editAnwenderverbundButtonClicked}>
                     edit
                   </Button>
-                  <Button color='secondary' onClick={this.deleteEinzelhaendlerButtonClicked}>
+                  <Button color='secondary' onClick={this.deleteAnwenderverbundButtonClicked}>
                     delete
                   </Button>
                 </ButtonGroup>
@@ -109,8 +109,8 @@ class EinzelhaendlerListenEintrag extends Component {
             </Grid>
           </ExpansionPanelSummary>
         </ExpansionPanel>
-        <EinzelhaendlerForm show={showEinzelhaendlerForm} einzelhaendler={einzelhaendler} onClose={this.einzelhaendlerFormClosed} />
-        <EinzelhaendlerLoeschen show={showEinzelhaendlerDeleteDialog} einzelhaendler={einzelhaendler} onClose={this.deleteEinzelhaendlerDialogClosed} />
+        <AnwenderverbundForm show={showAnwenderverbundForm} anwenderverbund={anwenderverbund} onClose={this.anwenderverbundFormClosed} />
+        <AnwenderverbundLoeschen show={showAnwenderverbundDeleteDialog} anwenderverbund={anwenderverbund} onClose={this.deleteAnwenderverbundDialogClosed} />
       </div>
     );
   }
@@ -124,15 +124,15 @@ const styles = theme => ({
 });
 
 /** PropTypes */
-EinzelhaendlerListenEintrag.propTypes = {
+AnwenderverbundListenEintrag.propTypes = {
   /** @ignore */
   classes: PropTypes.object.isRequired,
   /** Das EinzelhaendlerBO gerendert */
-  einzelhaendler: PropTypes.object.isRequired,
-  /** Das state von diesem EinzelhaendlerListenEintrag. Wenn true wird der Einzelhaendler mit seiner Adresse gezeigt */
+  anwenderverbund: PropTypes.object.isRequired,
+  /** Das state von diesem AnwenderverbundListenEintrag. Wenn true wird der Einzelhaendler mit seiner Adresse gezeigt */
   expandedState: PropTypes.bool.isRequired,
   /** Der verantwortliche Handler zum behandeln der erweiterten state Änderungen (erweiterbar/zusammenklappbar)
-   * von diesem EinzelhaendlerListenEintrag.
+   * von diesem AnwenderverbundListenEintrag.
    */
   onExpandedStateChange: PropTypes.func.isRequired,
   /**
@@ -141,4 +141,4 @@ EinzelhaendlerListenEintrag.propTypes = {
   onEinzelhaendlerDeleted: PropTypes.func.isRequired
 }
 
-export default withStyles(styles)(EinzelhaendlerListenEintrag);
+export default withStyles(styles)(AnwenderverbundListenEintrag);

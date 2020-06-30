@@ -7,13 +7,13 @@ import ContextErrorMessage from './ContextErrorMessage';
 import LoadingProgress from './LoadingProgress';
 
 /**
- * Zeigt einen modalen loeschen/abbrechen Dialog, der nach dem löschen eines Einzelhaendlers fragt. Um den EinzelhaendlerBO
- * zu loeschen muss er in prop Einzelhaendler gegeben sein. In Abhängigkeit der Benutzerinteraktion (loeschen/abbrechen)
- * wird jeweils der Backendaufruf gemacht. Danch wird die Funktion onClose prop mit dem EinzelhaendlerBO loeschen
+ * Zeigt einen modalen loeschen/abbrechen Dialog, der nach dem löschen eines Anwenderverbunds fragt. Um den AnwenderverbundBO
+ * zu loeschen muss er in prop Anwenderverbund gegeben sein. In Abhängigkeit der Benutzerinteraktion (loeschen/abbrechen)
+ * wird jeweils der Backendaufruf gemacht. Danch wird die Funktion onClose prop mit dem AnwenderverbundBO loeschen
  * Objekt als Parameter aufgerufen. Wenn der Dialog abgebrochen wird, wird onClose mit null aufgerufen.
  *  When the dialog is canceled, onClose is called with null.
  */
-class EinzelhaendlerLoeschen extends Component {
+class AnwenderverbundLoeschen extends Component {
 
   constructor(props) {
     super(props);
@@ -26,13 +26,13 @@ class EinzelhaendlerLoeschen extends Component {
   }
 
   /** Löschen des Einzelhaendlers */
-  deleteEinzelhaendler = () => {
-    API.getAPI().deleteEinzelhaendler(this.props.einzelhaendler.getID()).then(einzelhaendler => {
+  deleteAnwenderverbund = () => {
+    API.getAPI().deleteAnwenderverbund(this.props.anwenderverbund.getID()).then(anwenderverbund => {
       this.setState({
         deletingInProgress: false,              // Ladeanzeige deaktivieren
         deletingError: null                     // Keine Error Nachricht
       });
-      this.props.onClose(this.props.einzelhaendler);  // Aufruf des Urhebers mit dem geloeschten Einzelhaendler
+      this.props.onClose(this.props.anwenderverbund);  // Aufruf des Urhebers mit dem geloeschten Einzelhaendler
     }).catch(e =>
       this.setState({
         deletingInProgress: false,              // Ladeanzeige deaktivieren
@@ -55,30 +55,30 @@ class EinzelhaendlerLoeschen extends Component {
 
   /** Rendert die Komponente */
   render() {
-    const { classes, einzelhaendler, show } = this.props;
+    const { classes, anwenderverbund, show } = this.props;
     const { deletingInProgress, deletingError } = this.state;
 
     return (
       show ?
         <Dialog open={show} onClose={this.handleClose}>
-          <DialogTitle id='delete-dialog-title'>Delete einzelhaendler
+          <DialogTitle id='delete-dialog-title'>Delete anwenderverbund
             <IconButton className={classes.closeButton} onClick={this.handleClose}>
               <CloseIcon />
             </IconButton>
           </DialogTitle>
           <DialogContent>
             <DialogContentText>
-              Really delete einzelhaendler '{einzelhaendler.getEinzelhaendlerName()}' (ID: {einzelhaendler.getID()})?
+              Really delete anwenderverbund '{anwenderverbund.getAnwenderverbundName()}' (ID: {anwenderverbund.getID()})?
             </DialogContentText>
             <LoadingProgress show={deletingInProgress} />
-            <ContextErrorMessage error={deletingError} contextErrorMsg={`Der einzelhaendler '${einzelhaendler.getEinzelhaendlerName()}' (ID: ${einzelhaendler.getID()}) konnte nicht gelöscht werden.`}
-              onReload={this.deleteEinzelhaendler} />
+            <ContextErrorMessage error={deletingError} contextErrorMsg={`Der Anwenderverbund '${anwenderverbund.getanwenderverbundName()}' (ID: ${anwenderverbund.getID()}) konnte nicht gelöscht werden.`}
+              onReload={this.deleteAnwenderverbund} />
           </DialogContent>
           <DialogActions>
             <Button onClick={this.handleClose} color='secondary'>
               Cancel
             </Button>
-            <Button variant='contained' onClick={this.deleteEinzelhaendler} color='primary'>
+            <Button variant='contained' onClick={this.deleteAnwenderverbund} color='primary'>
               Delete
             </Button>
           </DialogActions>
@@ -99,11 +99,11 @@ const styles = theme => ({
 });
 
 /** PropTypes */
-EinzelhaendlerLoeschen.propTypes = {
+AnwenderverbundLoeschen.propTypes = {
   /** @ignore */
   classes: PropTypes.object.isRequired,
   /** Um das EinzelhaendlerBO zu loeschen */
-  einzelhaendler: PropTypes.object.isRequired,
+  anwenderverbund: PropTypes.object.isRequired,
   /** Wenn true, wird der Dialog gerendert */
   show: PropTypes.bool.isRequired,
   /**
@@ -113,4 +113,4 @@ EinzelhaendlerLoeschen.propTypes = {
   onClose: PropTypes.func.isRequired,
 }
 
-export default withStyles(styles)(EinzelhaendlerLoeschen);
+export default withStyles(styles)(AnwenderverbundLoeschen);
