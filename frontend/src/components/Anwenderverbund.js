@@ -4,20 +4,17 @@ import { withStyles, Button, TextField, InputAdornment, IconButton, Grid, Typogr
 import AddIcon from '@material-ui/icons/Add';
 import ClearIcon from '@material-ui/icons/Clear'
 import { withRouter } from 'react-router-dom';
-//import { BankAPI } from '../api';
-//import ContextErrorMessage from './dialogs/ContextErrorMessage';
-//import LoadingProgress from './dialogs/LoadingProgress';
-import UserGroupDialog from './dialogs/AnwenderverbundAnlegen';
-//import CustomerListEntry from './CustomerListEntry';
+import { API } from '../api';
+import ContextErrorMessage from './dialogs/ContextErrorMessage';
+import LoadingProgress from './dialogs/LoadingProgress';
+import EinzelhaendlerForm from './dialogs/EinzelhaendlerForm';
+import EinzelhaendlerListenEintrag from "./EinzelhaendlerListenEintrag";
 
 /**
- * Controlls a list of CustomerListEntrys to create a accordion for each customer.
- *
- * @see See [CustomerListEntry](#customerlistentry)
- *
- * @author [Christoph Kunz](https://github.com/christophkunz)
+ * Kontrolliert eine Liste von EinzelhaendlerListenEintraegen um ein Akkordeon für jeden
+ * Einzelhaendler zu erstellen.
  */
-class Verbundsliste extends Component {
+class Einzelhaendler extends Component {
 
   constructor(props) {
     super(props);
@@ -25,153 +22,156 @@ class Verbundsliste extends Component {
     // console.log(props);
     let expandedID = null;
 
-    if (this.props.location.expandCustomer) {
-      expandedID = this.props.location.expandCustomer.getID();
+    if (this.props.location.expandEinzelhaendler) {
+      expandedID = this.props.location.expandEinzelhaendler.getID();
     }
 
-    // Init an empty state
+    // Init ein leeres state
     this.state = {
-      customers: [],
-      filteredCustomers: [],
-      customerFilterStr: '',
+      einzelhaendler: [],
+      filteredEinzelhaendler: [],
+      einzelhaendlerFilterStr: '',
       error: null,
       loadingInProgress: false,
-      expandedCustomerID: expandedID,
-      showCustomerForm: false
+      expandedEinzelhaendlerID: expandedID,
+      showEinzelhaendlerForm: false
     };
   }
-/*
-  // Fetches all CustomerBOs from the backend
-  getCustomers = () => {
-    BankAPI.getAPI().getCustomers()
-      .then(customerBOs =>
-        this.setState({               // Set new state when CustomerBOs have been fetched
-          customers: customerBOs,
-          filteredCustomers: [...customerBOs], // store a copy
-          loadingInProgress: false,   // disable loading indicator
+
+  /** Fetchet alle EinzelhaendlerBOs für das Backend */
+  getEinzelhaendler = () => {
+    API.getAPI().getEinzelhaendler()
+      .then(einzelhaendlerBOs =>
+        this.setState({               // Setzt neues state wenn EinzelhaendlerBOs gefetcht wurden
+          einzelhaendler: einzelhaendlerBOs,
+          filteredEinzelhaendler: [...einzelhaendlerBOs], // Speichert eine Kopie
+          loadingInProgress: false,   // Ladeanzeige deaktivieren
           error: null
         })).catch(e =>
-          this.setState({             // Reset state with error from catch
-            customers: [],
-            loadingInProgress: false, // disable loading indicator
+          this.setState({             // Setzt state mit Error vom catch zurück
+            einzelhaendler: [],
+            loadingInProgress: false, // Ladeanzeige deaktivieren
             error: e
           })
         );
 
-    // set loading to true
+    // Setzt laden auf true
     this.setState({
       loadingInProgress: true,
       error: null
     });
   }
 
-  /** Lifecycle method, which is called when the component gets inserted into the browsers DOM */
+  /** Lebenszyklus Methode, welche aufgerufen wird, wenn die Komponente in das DOM des Browsers eingefügt wird.*/
 
+  /*
+  componentDidMount() {
+    this.getEinzelhaendler();
+  }
+*/
   /**
-   * Handles onExpandedStateChange events from the CustomerListEntry component. Toggels the expanded state of
-   * the CustomerListEntry of the given CustomerBO.
-   *
-   * @param {customer} CustomerBO of the CustomerListEntry to be toggeled
+   * Behandelt onExpandedStateChange Ereignisse von der EinzelhaendlerListenEintrag Komponente.
+   * Schaltet das erweiterte state vom EinzelhaendlerListenEintrag vom gegebenen EinzelhaendlerBO um.
+   * @param {Einzelhaendler} EinzelhaendlerBO von dem EinzelhaendlerListenEintrag umgeschaltet werden.
    */
-  onExpandedStateChange = customer => {
-    // console.log(customerID);
-    // Set expandend customer entry to null by default
+  onExpandedStateChange = einzelhaendler => {
+    // console.log(einzelhaendlerID);
+    // Setzt erweiterten Einzelhaendler Eintrag standardmäßig auf null
     let newID = null;
 
-    // If same customer entry is clicked, collapse it else expand a new one
-    if (customer.getID() !== this.state.expandedCustomerID) {
-      // Expand the customer entry with customerID
-      newID = customer.getID();
+    // Wenn der selbe Einzelhaendler Eintrag geklickt wird, klappe ihn zusammen oder erweitere einen Neuen
+    if (einzelhaendler.getID() !== this.state.expandedEinzelhaendlerID) {
+      // Erweitere den Einzelhaendler Eintrag mit einzelhaendlerID
+      newID = einzelhaendler.getID();
     }
     // console.log(newID);
     this.setState({
-      expandedCustomerID: newID,
+      expandedEinzelhaendlerID: newID,
     });
   }
 
   /**
-   * Handles onCustomerDeleted events from the CustomerListEntry component
+   * Behandelt onEinzelhaendlerLoeschen Ereignisse von der EinzelhaendlerListenEintrag Komponente.
    *
-   * @param {customer} CustomerBO of the CustomerListEntry to be deleted
+   * @param {Einzelhaendler} EinzelhaendlerBO von dem EinzelhaendlerListenEintrag um gelöscht zu werde
    */
-  customerDeleted = customer => {
-    const newCustomrList = this.state.customers.filter(customerFromState => customerFromState.getID() !== customer.getID());
+  einzelhaendlerDeleted = einzelhaendler => {
+    const newEinzelhaendlerList = this.state.einzelhaendler.filter(einzelhaendlerFromState => einzelhaendlerFromState.getID() !== einzelhaendler.getID());
     this.setState({
-      customers: newCustomrList,
-      filteredCustomers: [...newCustomrList],
-      showCustomerForm: false
+      einzelhaendler: newEinzelhaendlerList,
+      filteredEinzelhaendler: [...newEinzelhaendlerList],
+      showEinzelhaendlerForm: false
     });
   }
 
-  /** Handles the onClick event of the add customer button */
-addUserGroupButtonClicked = event => {
-    // Do not toggle the expanded state
+  /** Behandelt das onClick Ereignis, der Einzelhaendler anlegen Taste. */
+  addEinzelhaendlerButtonClicked = event => {
+    // Nicht das erweiterte state umschalten
     event.stopPropagation();
-    //Show the CustmerForm
+    //Zeige den EinzelhaendlerForm
     this.setState({
-      showCustomerForm: true
+      showEinzelhaendlerForm: true
     });
   }
 
-  /** Handles the onClose event of the CustomerForm */
-  customerFormClosed = customer => {
-    // customer is not null and therefore created
-    if (customer) {
-      const newCustomrList = [...this.state.customers, customer];
+  /** Behandelt das onClose Ereignis vom EinzelhaendlerForm */
+  einzelhaendlerFormClosed = einzelhaendler => {
+    // Einzelhaendler ist nicht null und deshalb erstellt
+    if (einzelhaendler) {
+      const newEinzelhaendlerList = [...this.state.einzelhaendler, einzelhaendler];
       this.setState({
-        customers: newCustomrList,
-        filteredCustomers: [...newCustomrList],
-        showCustomerForm: false
+        einzelhaendler: newEinzelhaendlerList,
+        filteredEinzelhaendler: [...newEinzelhaendlerList],
+        showEinzelhaendlerForm: false
       });
     } else {
       this.setState({
-        showCustomerForm: false
+        showEinzelhaendlerForm: false
       });
     }
   }
 
-  /** Handels onChange events of the customer filter text field */
+  /** Behandelt das onChange Ereignis von dem Einzelhaendler filtern Textfeld */
   filterFieldValueChange = event => {
     const value = event.target.value.toLowerCase();
     this.setState({
-      filteredCustomers: this.state.customers.filter(customer => {
-        let firstNameContainsValue = customer.getFirstName().toLowerCase().includes(value);
-        let lastNameContainsValue = customer.getLastName().toLowerCase().includes(value);
-        return firstNameContainsValue || lastNameContainsValue;
+      filteredEinzelhaendler: this.state.einzelhaendler.filter(einzelhaendler => {
+        let NameContainsValue = einzelhaendler.getName().toLowerCase().includes(value);
+        return NameContainsValue;
       }),
-      UserGroupFilter: value
+      einzelhaendlerFilter: value
     });
   }
 
-  /** Handles the onClose event of the clear filter button */
+  /** Behandelt das onClose Ereignis von der Filter löschen Taste. */
   clearFilterFieldButtonClicked = () => {
-    // Reset the filter
+    // Setzt den Filter zurück
     this.setState({
-      filteredCustomers: [...this.state.customers],
-      UserGroupFilter: ''
+      filteredEinzelhaendler: [...this.state.einzelhaendler],
+      einzelhaendlerFilter: ''
     });
   }
 
-  /** Renders the component */
+  /** Rendert die Komponente */
   render() {
     const { classes } = this.props;
-    const { filteredCustomers, UserGroupFilter, expandedCustomerID, loadingInProgress, error, showCustomerForm } = this.state;
+    const { filteredEinzelhaendler, einzelhaendlerFilter, expandedEinzelhaendlerID, loadingInProgress, error, showEinzelhaendlerForm } = this.state;
 
     return (
       <div className={classes.root}>
-        <Grid className={classes.UserGroupFilter} container spacing={1} justify='flex-start' alignItems='center'>
+        <Grid className={classes.einzelhaendlerFilter} container spacing={1} justify='flex-start' alignItems='center'>
           <Grid item>
             <Typography>
-              Anwenderverbund suchen:
+              Filter Einzelhändlerliste nach Name:
               </Typography>
           </Grid>
           <Grid item xs={4}>
             <TextField
               autoFocus
               fullWidth
-              id='userGroupFilter'
+              id='einzelhaendlerFilter'
               type='text'
-              value={UserGroupFilter}
+              value={einzelhaendlerFilter}
               onChange={this.filterFieldValueChange}
               InputProps={{
                 endAdornment: <InputAdornment position='end'>
@@ -184,38 +184,47 @@ addUserGroupButtonClicked = event => {
           </Grid>
           <Grid item xs />
           <Grid item>
-            <Button variant='contained' color='primary' startIcon={<AddIcon />} onClick={this.addUserGroupButtonClicked}>
-              Anwenderverbund hinzufügen
+            <Button variant='contained' color='primary' startIcon={<AddIcon />} onClick={this.addEinzelhaendlerButtonClicked}>
+              Einzelhändler hinzufügen
           </Button>
           </Grid>
         </Grid>
-          <UserGroupDialog show={showCustomerForm} onClose={this.customerFormClosed} />
+        {
+          /** Zeigt die Liste der EinzelhaendlerListenEintrag Komponenten
+          // Benutze keinen strengen Vergleich, da expandedEinzelhaendlerID vielleicht ein string ist,
+           wenn dies von den URL Parametern gegeben ist. */
 
-
-
-
+          filteredEinzelhaendler.map(einzelhaendler =>
+            <EinzelhaendlerListenEintrag key={einzelhaendler.getID()} einzelhaendler={einzelhaendler} expandedState={expandedEinzelhaendlerID === einzelhaendler.getID()}
+              onExpandedStateChange={this.onExpandedStateChange}
+              onEinzelhaendlerDeleted={this.einzelhaendlerDeleted}
+            />)
+        }
+        <LoadingProgress show={loadingInProgress} />
+        <ContextErrorMessage error={error} contextErrorMsg={`Die Liste der Einzelhändler konnte nicht geladen werden.`} onReload={this.getEinzelhaendler} />
+        <EinzelhaendlerForm show={showEinzelhaendlerForm} onClose={this.einzelhaendlerFormClosed} />
       </div>
     );
   }
 }
 
-/** Component specific styles */
+/** Komponentenspezifische Stile */
 const styles = theme => ({
   root: {
     width: '100%',
   },
-  customerFilter: {
+  einzelhaendlerFilter: {
     marginTop: theme.spacing(2),
     marginBottom: theme.spacing(1),
   }
 });
 
 /** PropTypes */
-Verbundsliste.propTypes = {
+Einzelhaendler.propTypes = {
   /** @ignore */
   classes: PropTypes.object.isRequired,
   /** @ignore */
   location: PropTypes.object.isRequired,
 }
 
-export default withRouter(withStyles(styles)(Verbundsliste));
+export default withRouter(withStyles(styles)(Einzelhaendler));
