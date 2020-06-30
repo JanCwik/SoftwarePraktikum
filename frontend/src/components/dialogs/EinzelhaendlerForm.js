@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withStyles, Button, IconButton, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, TextField } from '@material-ui/core';
 import CloseIcon from '@material-ui/icons/Close';
-import { API, EinzelhaendlerBO } from '../../api';
+import  API from "../../api/API";
+import  EinzelhaendlerBO  from '../../api/EinzelhaendlerBO';
 import ContextErrorMessage from './ContextErrorMessage';
 import LoadingProgress from './LoadingProgress';
 
@@ -42,7 +43,7 @@ class EinzelhaendlerForm extends Component {
 
   /** Legt Einzelhaendler an */
   addEinzelhaendler = () => {
-    let newEinzelhaendler = new EinzelhaendlerBO(this.state.einzelhaendlerName);
+    let newEinzelhaendler = new EinzelhaendlerBO(this.state.einzelhaendlerName); //legt neues Einzelhändler-objekt mit name aus dem state an
     API.getAPI().addEinzelhaendlerAPI(newEinzelhaendler).then(einzelhaendler => {
       // Backend Aufruf erfolgreich
       // reinit den Dialog state für einen neuen leeren Einzelhaendler

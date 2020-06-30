@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withStyles, Button, IconButton, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, TextField } from '@material-ui/core';
 import CloseIcon from '@material-ui/icons/Close';
-import { API, ArtikelBO } from '../../api';
+import  ArtikelBO  from '../../api/ArtikelBO';
+import  API from '../../api/API';
 import ContextErrorMessage from './ContextErrorMessage';
 import LoadingProgress from './LoadingProgress';
 
@@ -42,8 +43,8 @@ class ArtikelForm extends Component {
 
   /** Legt Einzelhaendler an */
   addArtikel = () => {
-    let newArtikel = new ArtikelBO(this.state.artikelName);
-    API.getAPI().addArtikel(newArtikel).then(artikel => {
+    let newArtikel = new ArtikelBO(this.state.artikelName);  //legt neues Artikel-objekt mit name aus dem state an
+    API.getAPI().addArtikelAPI(newArtikel).then(artikel => {
       // Backend Aufruf erfolgreich
       // reinit den Dialog state für einen neuen leeren Einzelhaendler
       this.setState(this.baseState);
