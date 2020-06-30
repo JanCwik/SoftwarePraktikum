@@ -37,7 +37,8 @@ artikel = api.inherit('Artikel',namedBO , {
     'standardartikel': fields.Integer(attribute='_standardartikel', description='Standardartikel'),
 })
 
-einzelhaendler = api.inherit('Einzelhandler', namedBO)
+einzelhaendler = api.inherit('Einzelhandler', namedBO, bo) #wiso funktioniert es hier nicht sobald
+                                                            # ich es nicht direkt von bo erben lasse?
 
 
 @shopping.route('/artikel')
@@ -138,7 +139,7 @@ class EinzelhaendlerListOperations(Resource):
 
         test = Einzelhaendler.from_dict(api.payload)
         if test is not None:
-            a = adm.einzelhaendler_anlegen(test.get_id())
+            a = adm.einzelhaendler_anlegen(test.get_name(),test.get_id())
             return a, 200
         else:
             return '', 500
