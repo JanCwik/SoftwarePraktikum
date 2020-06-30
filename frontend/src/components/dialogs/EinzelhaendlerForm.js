@@ -43,7 +43,7 @@ class EinzelhaendlerForm extends Component {
   /** Legt Einzelhaendler an */
   addEinzelhaendler = () => {
     let newEinzelhaendler = new EinzelhaendlerBO(this.state.einzelhaendlerName);
-    API.getAPI().addEinzelhaendler(newEinzelhaendler).then(einzelhaendler => {
+    API.getAPI().addEinzelhaendlerAPI(newEinzelhaendler).then(einzelhaendler => {
       // Backend Aufruf erfolgreich
       // reinit den Dialog state für einen neuen leeren Einzelhaendler
       this.setState(this.baseState);
