@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withStyles, Button, IconButton, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions } from '@material-ui/core';
 import CloseIcon from '@material-ui/icons/Close';
-import { API } from '../../api';
+import { API, EinzelhaendlerBO } from '../../api';
 import ContextErrorMessage from './ContextErrorMessage';
 import LoadingProgress from './LoadingProgress';
 
@@ -68,7 +68,7 @@ class EinzelhaendlerLoeschen extends Component {
           </DialogTitle>
           <DialogContent>
             <DialogContentText>
-              Really delete einzelhaendler '{einzelhaendler.getEinzelhaendlerName()}' (ID: {einzelhaendler.getID()})?
+              Einzelhändler wirklich löschen? '{einzelhaendler.getEinzelhaendlerName()}' (ID: {einzelhaendler.getID()})?
             </DialogContentText>
             <LoadingProgress show={deletingInProgress} />
             <ContextErrorMessage error={deletingError} contextErrorMsg={`Der einzelhaendler '${einzelhaendler.getEinzelhaendlerName()}' (ID: ${einzelhaendler.getID()}) konnte nicht gelöscht werden.`}

@@ -9,6 +9,14 @@ export default class EinzelhaendlerBO extends NamedBO {
 
     }
 
+    setEinzelhaendlerName(name) {
+        this.name = name
+    }
+
+    getEinzelhaendlerName() {
+        return this.name
+    }
+
     setAdresse(adresse) {
         this.adresse = adresse
     }
