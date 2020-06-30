@@ -115,8 +115,8 @@ class ArtikelForm extends Component {
 
   /** Rendert die Komponente */
   render() {
-    const { classes, einzelhaendler, show } = this.props;
-    const { einzelhaendlerName, einzelhaendlerNameValidationFailed, einzelhaendlerNameEdited, addingInProgress,
+    const { classes, artikel, show } = this.props;
+    const { artikelName, artikelNameValidationFailed, artikelNameEdited, addingInProgress,
       addingError, updatingInProgress, updatingError } = this.state;
 
     let title = '';
@@ -152,7 +152,7 @@ class ArtikelForm extends Component {
             {
               // Zeigt Error Nachricht in Abhängigkeit des Einzelhaendler prop.
               artikel ?
-                <ContextErrorMessage error={updatingError} contextErrorMsg={`Der Artikel ${einzelhaendler.getID()} konnte nicht geupdatet werden.`} onReload={this.updateArtikel} />
+                <ContextErrorMessage error={updatingError} contextErrorMsg={`Der Artikel ${artikel.getID()} konnte nicht geupdatet werden.`} onReload={this.updateArtikel} />
                 :
                 <ContextErrorMessage error={addingError} contextErrorMsg={`Der Artikel konnte nicht hinzugefügt werden..`} onReload={this.addArtikel} />
             }
