@@ -4,7 +4,7 @@ import { withStyles, Button, TextField, InputAdornment, IconButton, Grid, Typogr
 import AddIcon from '@material-ui/icons/Add';
 import ClearIcon from '@material-ui/icons/Clear'
 import { withRouter } from 'react-router-dom';
-import { API } from '../api';
+import  API from "../api/API";
 import ContextErrorMessage from './dialogs/ContextErrorMessage';
 import LoadingProgress from './dialogs/LoadingProgress';
 import EinzelhaendlerForm from './dialogs/EinzelhaendlerForm';
@@ -40,7 +40,7 @@ class Einzelhaendler extends Component {
 
   /** Fetchet alle EinzelhaendlerBOs für das Backend */
   getEinzelhaendler = () => {
-    API.getAPI().getEinzelhaendler()
+    API.getAPI().getEinzelhaendlerAPI()
       .then(einzelhaendlerBOs =>
         this.setState({               // Setzt neues state wenn EinzelhaendlerBOs gefetcht wurden
           einzelhaendler: einzelhaendlerBOs,
@@ -64,11 +64,11 @@ class Einzelhaendler extends Component {
 
   /** Lebenszyklus Methode, welche aufgerufen wird, wenn die Komponente in das DOM des Browsers eingefügt wird.*/
 
-  /*
+
   componentDidMount() {
     this.getEinzelhaendler();
   }
-*/
+
   /**
    * Behandelt onExpandedStateChange Ereignisse von der EinzelhaendlerListenEintrag Komponente.
    * Schaltet das erweiterte state vom EinzelhaendlerListenEintrag vom gegebenen EinzelhaendlerBO um.

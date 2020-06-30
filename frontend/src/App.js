@@ -9,6 +9,7 @@ import { Grid, Typography } from '@material-ui/core';
 import AnwenderverbundBO from "./api/AnwenderverbundBO";
 import ArtikelBO from "./api/ArtikelBO";
 
+
 //import {Route} from 'react-router-dom'
 
 
@@ -40,7 +41,7 @@ class App extends React.Component {
                                 <Anwenderverbund/>
                             </Route>
 
-                            <Route path='/einzelhändler'>
+                            <Route path='/einzelhaendler'>
                                 <Einzelhaendler/>
                             </Route>
                     </div>
