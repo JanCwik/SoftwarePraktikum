@@ -73,11 +73,9 @@ CREATE TABLE einkaufsliste(
     name VARCHAR(30) NOT NULL,
     erstellungs_zeitpunkt datetime NOT NULL,
     aenderungs_zeitpunkt datetime,
+    anwenderverbund_id INT NOT NULL,
     PRIMARY KEY (id)
 );
-
-INSERT INTO anwenderverbund VALUES (1, "KW40","2020-05-16 15:15:15");
-INSERT INTO anwenderverbund VALUES (2, "Weihnachten","2020-05-16 15:15:15");
 
 
 

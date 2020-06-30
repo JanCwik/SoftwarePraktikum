@@ -2,10 +2,12 @@ from src.server.bo.Artikel import Artikel
 from src.server.bo.Einzelhaendler import Einzelhaendler
 from src.server.bo.Benutzer import Benutzer
 from src.server.bo.Anwenderverbund import Anwenderverbund
+from src.server.bo.Einkaufsliste import Einkaufsliste
 from src.server.db.ArtikelMapper import ArtikelMapper
 from src.server.db.EinzelhaendlerMapper import EinzelhaendlerMapper
 from src.server.db.BenutzerMapper import BenutzerMapper
 from src.server.db.AnwenderverbundMapper import AnwenderverbundMapper
+from src.server.db.EinkaufslisteMapper import EinkaufslistenMapper
 
 
 class ApplikationsAdministration(object):
@@ -211,3 +213,27 @@ class ApplikationsAdministration(object):
     def update_anwenderverbund(self, anwenderverbund):
         with AnwenderverbundMapper() as mapper:
             mapper.update(anwenderverbund)
+
+    """ Methode zum ausgeben aller Einkaufslisten die zum jeweiligen Anwenderverbund gehören"""
+
+    def get_all_einkaufslisten(self, anwenderverbund):
+        with AnwenderverbundMapper() as mapper:
+            return mapper.find_all_einkaufslisten(anwenderverbund)
+
+
+    """ METHODEN ZUR VERWALTUNG VON EINKAUSLISTEN IN DER DATENBANK"""
+
+    """______________________________________________________"""
+
+    """ Methode zum Anlegen einer neuen Einkaufsliste in der Datenbank"""
+
+    def einkaufsliste_anlegen(self, name, anwenderverbund):
+        einkaufsliste = Einkaufsliste()
+        einkaufsliste.set_name(name)
+        einkaufsliste.set_anwenderId(anwenderverbund.get_id())
+
+        with EinkaufslistenMapper() as mapper:
+            return mapper.insert(einkaufsliste)
+
+
+
