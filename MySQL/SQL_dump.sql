@@ -82,8 +82,8 @@ CREATE TABLE einkaufsliste(
     PRIMARY KEY (id)
 );
 
-INSERT INTO einkaufsliste VALUES (1, "KW40","2020-05-16 15:15:15","2020-05-16 15:15:15");
-INSERT INTO einkaufsliste VALUES (2, "Weihnachten","2020-05-16 15:15:15","2020-05-16 15:15:15");
+INSERT INTO einkaufsliste VALUES (1, "KW40","2020-05-16 15:15:15", None, 1);
+INSERT INTO einkaufsliste VALUES (1, "KW40","2020-05-16 15:15:15", None, 1);
 
 
 
