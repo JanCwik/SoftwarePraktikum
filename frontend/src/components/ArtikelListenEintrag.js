@@ -3,8 +3,8 @@ import PropTypes from 'prop-types';
 import { withStyles, Typography, ExpansionPanel, ExpansionPanelSummary, ExpansionPanelDetails, Grid } from '@material-ui/core';
 import { Button, ButtonGroup } from '@material-ui/core';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import EinzelhaendlerForm from './dialogs/EinzelhaendlerForm';
-import EinzelhaendlerLoeschen from "./dialogs/EinzelhaendlerLoeschen";
+import ArtikelForm from './dialogs/ArtikelForm';
+import ArtikelLoeschen from "./dialogs/ArtikelLoeschen";
 
 
 
@@ -13,66 +13,66 @@ import EinzelhaendlerLoeschen from "./dialogs/EinzelhaendlerLoeschen";
  * mit den Einzelhandler manipulations Funktionen. Wenn erweitert, wird eine EinzelhaendlerListe gerendert.
  */
 
-class EinzelhaendlerListenEintrag extends Component {
+class ArtikelListenEintrag extends Component {
 
   constructor(props) {
     super(props);
 
     // Init state
     this.state = {
-      einzelhaendler: props.einzelhaendler,
-      showEinzelhaendlerForm: false,
-      showEinzelhaendlerDeleteDialog: false,
+      artikel: props.artikel,
+      showArtikelForm: false,
+      showArtikelDeleteDialog: false,
     };
   }
 
   /** Behandelt onChange Ereignisse von den zugrunde liegenden Erweiterungsfeldern. */
   expansionPanelStateChanged = () => {
-    this.props.onExpandedStateChange(this.props.einzelhaendler);
+    this.props.onExpandedStateChange(this.props.artikel);
   }
 
 
   /** Behandlet das onClick Ereignis von der Einzelhaendler bearbeiten Taste. */
-  editEinzelhaendlerButtonClicked = (event) => {
+  editArtikelButtonClicked = (event) => {
     event.stopPropagation();
     this.setState({
-      showEinzelhaendlerForm: true
+      showArtikelForm: true
     });
   }
 
   /** Behandelt das onClose Ereignis vom EinzelhaendlerForm */
-  einzelhaendlerFormClosed = (einzelhaendler) => {
+  artikelFormClosed = (artikel) => {
     // Einzelhaendler ist nicht null und deshalb geändert.
-    if (einzelhaendler) {
+    if (artikel) {
       this.setState({
-        einzelhaendler: einzelhaendler,
-        showEinzelhaendlerForm: false
+        artikel: artikel,
+        showArtikelForm: false
       });
     } else {
       this.setState({
-        showEinzelhaendlerForm: false
+        showArtikelForm: false
       });
     }
   }
 
   /** Behandelt das onClick Ereignis von der Einzelhaendler löschen Taste. */
-  deleteEinzelhaendlerButtonClicked = (event) => {
+  deleteArtikelButtonClicked = (event) => {
     event.stopPropagation();
     this.setState({
-      showEinzelhaendlerDeleteDialog: true
+      showArtikelDeleteDialog: true
     });
   }
 
   /** Behandelt das onClose Ereignis vom EinzelhaendlerLoeschenDialog */
-  deleteEinzelhaendlerDialogClosed = (einzelhaendler) => {
+  deleteArtikelDialogClosed = (artikel) => {
     // Wenn der Einzelhaendler nicht gleich null ist, lösche ihn
-    if (einzelhaendler) {
-      this.props.onEinzelhaendlerDeleted(einzelhaendler);
+    if (artikel) {
+      this.props.onArtikelDeleted(artikel);
     };
 
     // Zeige nicht den Dialog
     this.setState({
-      showEinzelhaendlerDeleteDialog: false
+      showArtikelDeleteDialog: false
     });
   }
 
@@ -80,7 +80,7 @@ class EinzelhaendlerListenEintrag extends Component {
   render() {
     const { classes, expandedState } = this.props;
     // Benutz den states Einzelhaendler
-    const { einzelhaendler, showEinzelhaendlerForm, showEinzelhaendlerDeleteDialog } = this.state;
+    const { artikel, showArtikelForm, showArtikelDeleteDialog } = this.state;
 
     // console.log(this.state);
     return (
@@ -88,19 +88,19 @@ class EinzelhaendlerListenEintrag extends Component {
         <ExpansionPanel defaultExpanded={false} expanded={expandedState} onChange={this.expansionPanelStateChanged}>
           <ExpansionPanelSummary
             expandIcon={<ExpandMoreIcon />}
-            id={`einzelhaendler${einzelhaendler.getID()}accountpanel-header`}
+            id={`artikel${artikel.getID()}accountpanel-header`}
           >
             <Grid container spacing={1} justify='flex-start' alignItems='center'>
               <Grid item>
-                <Typography variant='body1' className={classes.heading}>{einzelhaendler.getName()}}
+                <Typography variant='body1' className={classes.heading}>{artikel.getName()}}
                 </Typography>
               </Grid>
               <Grid item>
                 <ButtonGroup variant='text' size='small'>
-                  <Button color='primary' onClick={this.editEinzelhaendlerButtonClicked}>
+                  <Button color='primary' onClick={this.editArtikelButtonClicked}>
                     edit
                   </Button>
-                  <Button color='secondary' onClick={this.deleteEinzelhaendlerButtonClicked}>
+                  <Button color='secondary' onClick={this.deleteArtikelButtonClicked}>
                     delete
                   </Button>
                 </ButtonGroup>
@@ -109,8 +109,8 @@ class EinzelhaendlerListenEintrag extends Component {
             </Grid>
           </ExpansionPanelSummary>
         </ExpansionPanel>
-        <EinzelhaendlerForm show={showEinzelhaendlerForm} einzelhaendler={einzelhaendler} onClose={this.einzelhaendlerFormClosed} />
-        <EinzelhaendlerLoeschen show={showEinzelhaendlerDeleteDialog} einzelhaendler={einzelhaendler} onClose={this.deleteEinzelhaendlerDialogClosed} />
+        <ArtikelForm show={showArtikelForm} artikel={artikel} onClose={this.artikelFormClosed} />
+        <ArtikelLoeschen show={showArtikelDeleteDialog} artikel={artikel} onClose={this.deleteArtikelDialogClosed} />
       </div>
     );
   }
@@ -124,11 +124,11 @@ const styles = theme => ({
 });
 
 /** PropTypes */
-EinzelhaendlerListenEintrag.propTypes = {
+ArtikelListenEintrag.propTypes = {
   /** @ignore */
   classes: PropTypes.object.isRequired,
   /** Das EinzelhaendlerBO gerendert */
-  einzelhaendler: PropTypes.object.isRequired,
+  artikel: PropTypes.object.isRequired,
   /** Das state von diesem EinzelhaendlerListenEintrag. Wenn true wird der Einzelhaendler mit seiner Adresse gezeigt */
   expandedState: PropTypes.bool.isRequired,
   /** Der verantwortliche Handler zum behandeln der erweiterten state Änderungen (erweiterbar/zusammenklappbar)
@@ -138,7 +138,7 @@ EinzelhaendlerListenEintrag.propTypes = {
   /**
    *  Ereignis Handler Funktion, welche aufgerufen wird, wenn ein Einzelhaendler erfolgreich gelöscht wurde.
    */
-  onEinzelhaendlerDeleted: PropTypes.func.isRequired
+  onArtikelDeleted: PropTypes.func.isRequired
 }
 
-export default withStyles(styles)(EinzelhaendlerListenEintrag);
+export default withStyles(styles)(ArtikelListenEintrag);
