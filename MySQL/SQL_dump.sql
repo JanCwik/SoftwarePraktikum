@@ -82,11 +82,42 @@ CREATE TABLE einkaufsliste(
     erstellungs_zeitpunkt datetime NOT NULL,
     aenderungs_zeitpunkt datetime,
     anwenderverbund_id INT NOT NULL,
-    PRIMARY KEY (id)
+    PRIMARY KEY (id),
+    FOREIGN KEY (anwenderverbund_id) REFERENCES anwenderverbund(id)
 );
 
 INSERT INTO einkaufsliste VALUES (1, "KW40","2020-05-16 15:15:15", null, 1);
 INSERT INTO einkaufsliste VALUES (2, "KW40","2020-05-16 15:15:15", null, 1);
+
+/*Erstellt die Tabelle "listeneintrag" mit den jeweiligen Attributen*/
+DROP TABLE IF EXISTS `listeneintrag`;
+CREATE TABLE listeneintrag(
+    id INT NOT NULL,
+    anzahl INT,
+    aenderungs_zeitpunkt datetime,
+    einkaufsliste_id INT NOT NULL,
+    einzelhaendler_id INT,
+    artikel_id INT,
+    benutzer_id INT,
+    PRIMARY KEY (id),
+    FOREIGN KEY (einkaufsliste_id) REFERENCES einkaufsliste(id),
+    FOREIGN KEY (einzelhaendler_id) REFERENCES einzelhaendler(id),
+    FOREIGN KEY (artikel_id) REFERENCES artikel(id),
+    FOREIGN KEY (benutzer_id) REFERENCES benutzer(id)
+);
+
+/*Erstellt die Tabelle "mitgliedschaft" mit den jeweiligen Attributen*/
+DROP TABLE IF EXISTS `mitgliedschaft`;
+CREATE TABLE mitgliedschaft(
+    id INT NOT NULL,
+    anwenderverbund_id INT,
+    benutzer_id INT,
+    PRIMARY KEY (id),
+    FOREIGN KEY (anwenderverbund_id) REFERENCES anwenderverbund(id),
+    FOREIGN KEY (benutzer_id) REFERENCES benutzer(id)
+);
+
+
 
 
 
