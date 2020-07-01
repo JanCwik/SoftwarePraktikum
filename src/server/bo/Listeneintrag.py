@@ -5,33 +5,33 @@ import datetime
 class Listeneintrag(BusinessObject):
     def __init__(self):
         super().__init__()
-        self._anzahl = None
-        self._erledigt = False
-        self._änderungs_zeitpunkt = datetime.datetime.now()
+        self.__anzahl = None
+        self.__erledigt = False
+        self.__änderungs_zeitpunkt = datetime.datetime.now()
 
     def set_anzahl(self, anzahl):
         """Setzen der Anzahl"""
-        self._anzahl = anzahl
+        self.__anzahl = anzahl
 
     def get_anzahl(self):
         """Auslesen der Anzahl"""
-        return self._anzahl
+        return self.__anzahl
 
     def set_erledigt(self, status):
         """Setzen des Status erledigt"""
-        self._erledigt = status
+        self.__erledigt = status
 
     def get_erledigt(self):
         """Auslesen von dem Status erledigt"""
-        return self._erledigt
+        return self.__erledigt
 
     def set_änderungs_zeitpunkt(self, erstellungs_zeitpunkt):
         """Setzen des Änderungszeitpunkt"""
-        self._änderungs_zeitpunkt = erstellungs_zeitpunkt
+        self.__änderungs_zeitpunkt = erstellungs_zeitpunkt
 
     def get_änderungs_zeitpunkt(self):
         """Auslesen des Änderungszeitpunkt"""
-        return self._änderungs_zeitpunkt
+        return self.__änderungs_zeitpunkt
 
 
     def benutzer_hinzufügen(self, Benutzer):
@@ -60,7 +60,7 @@ class Listeneintrag(BusinessObject):
 
     def __str__(self):
         """Erzeugen einer einfachen textuellen Darstellung der jeweiligen Instanz."""
-        return "Listeneintrag: {}, {}, {}, {}".format(self.get_id(), self._anzahl, self._erledigt, self._änderungs_zeitpunkt)
+        return "Listeneintrag: {}, {}, {}, {}".format(self.get_id(), self.__anzahl, self.__erledigt, self.__änderungs_zeitpunkt)
 
     @staticmethod
     def from_dict(dictionary=dict()):
