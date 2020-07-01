@@ -92,7 +92,7 @@ class AnwenderverbundListenEintrag extends Component {
           >
             <Grid container spacing={1} justify='flex-start' alignItems='center'>
               <Grid item>
-                <Typography variant='body1' className={classes.heading}>{anwenderverbund.getName()}}
+                <Typography variant='body1' className={classes.heading}>{anwenderverbund.getName()}
                 </Typography>
               </Grid>
               <Grid item>
@@ -138,7 +138,7 @@ AnwenderverbundListenEintrag.propTypes = {
   /**
    *  Ereignis Handler Funktion, welche aufgerufen wird, wenn ein Einzelhaendler erfolgreich gelöscht wurde.
    */
-  onEinzelhaendlerDeleted: PropTypes.func.isRequired
+  onAnwenderverbundDeleted: PropTypes.func.isRequired
 }
 
 export default withStyles(styles)(AnwenderverbundListenEintrag);

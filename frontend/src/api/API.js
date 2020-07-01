@@ -1,5 +1,6 @@
 import ArtikelBO from "./ArtikelBO";
 import EinzelhaendlerBO from "./EinzelhaendlerBO";
+import AnwenderverbundBO from "./AnwenderverbundBO";
 
 export default class API {
 
@@ -30,6 +31,11 @@ export default class API {
     #addEinzelhaendlerURL =()=> `${this.#ServerBaseURL}/einzelhaendler`;
     #deleteEinzelhaendlerURL=(id)=> `${this.#ServerBaseURL}/einzelhaendler-by-id/${id}`;
     #updateEinzelhaendlerURL=(id)=> `${this.#ServerBaseURL}/einzelhaendler-by-id/${id}`;
+
+    #getAnwenderverbundURL = () => `${this.#ServerBaseURL}/anwenderverbund`;
+    #addAnwenderverbundURL =()=> `${this.#ServerBaseURL}/anwenderverbund`;
+    #deleteAnwenderverbundURL=(id)=> `${this.#ServerBaseURL}/anwenderverbund-by-id/${id}`;
+    #updateAnwenderverbundURL=(id)=> `${this.#ServerBaseURL}/anwenderverbund-by-id/${id}`;
 
 
 
@@ -109,6 +115,10 @@ export default class API {
     }
 
 
+
+
+
+
  // Methode die den GET request ausführt und alle in der Datenbank gespeicherten Einzelhändler ausgibt
     getEinzelhaendlerAPI() {
         return this.#fetchAdvanced(this.#getEinzelhaendlerURL()).then((responseJSON) => {
@@ -168,4 +178,71 @@ export default class API {
             })
         })
     }
+
+
+
+
+
+
+ // Methode die den GET request ausführt und alle in der Datenbank gespeicherten Anwenderverbünde ausgibt
+    getAnwenderverbundAPI() {
+        return this.#fetchAdvanced(this.#getAnwenderverbundURL()).then((responseJSON) => {
+            let Anwenderverbund = AnwenderverbundBO.fromJSON(responseJSON);
+            return new Promise(function (resolve) {
+                resolve(Anwenderverbund);
+            })
+        })
+    }
+
+    //führt einen POST Request aus und schreibt dabei das als Parameter übergebene Anwenderverbund-objekt in den Body des Json
+    addAnwenderverbundAPI (newanw) {
+        return this.#fetchAdvanced(this.#addAnwenderverbundURL(), {
+          method: 'POST',
+          headers: {
+            'Accept': 'application/json, text/plain',
+            'Content-type': 'application/json',
+          },
+          body: JSON.stringify(newanw)
+        }).then((responseJSON) => {
+                // Zugriff auf das erste Anwenderverbund Objekt des Arrays, welches .fromJSON zurückgibt
+                let responseAnwenderverbundBO = AnwenderverbundBO.fromJSON(responseJSON)[0];
+                return new Promise(function (resolve) {
+                    resolve(responseAnwenderverbundBO);
+                })
+            })
+    }
+
+    //führt einen DELETE Request aus und gibt dabei die id des zu löschenden Anwenderverbunds weiter
+      deleteAnwenderverbundAPI(id) {
+        return this.#fetchAdvanced(this.#deleteAnwenderverbundURL(id), {
+            method: 'DELETE'
+        }).then((responseJSON) => {
+             // Zugriff auf das erste Anwenderverbund Objekt des Arrays, welches .fromJSON zurückgibt
+            let responseAnwenderverbundBO = AnwenderverbundBO.fromJSON(responseJSON)[0];
+            return new Promise(function (resolve) {
+                resolve(responseAnwenderverbundBO);
+            })
+        })
+    }
+
+    //Fürht ein PUT Request aus. Die ID des Anwenderverbunds der geupdatet werden soll wird an die URL gehängt
+    //und das aktualisierte Anwenderverbund-Objekt wird in den Body des JSON geschrieben
+     updateAnwenderverbundAPI(anw) {
+        return this.#fetchAdvanced(this.#updateAnwenderverbundURL(anw.getID()), {
+            method: 'PUT',
+            headers: {
+                'Accept': 'application/json, text/plain',
+                'Content-type': 'application/json',
+            },
+            body: JSON.stringify(anw)
+        }).then((responseJSON) => {
+             // Zugriff auf das erste Anwenderverbund Objekt des Arrays, welches .fromJSON zurückgibt
+            let responseAnwenderverbundBO = AnwenderverbundBO.fromJSON(responseJSON)[0];
+            return new Promise(function (resolve) {
+                resolve(responseAnwenderverbundBO);
+            })
+        })
+    }
+
+
 }
