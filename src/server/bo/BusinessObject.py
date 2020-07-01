@@ -5,12 +5,12 @@ class BusinessObject(ABC):
     """Gemeinsame Basisklasse aller Klassen in bo.
     Dadurch besitzt jedes BusinessObject eine ID."""
     def __init__(self):
-        self._id = 0
+        self.__id = 0
 
     def set_id(self,id):
         """Auslesen der ID."""
-        self._id = id
+        self.__id = id
 
     def get_id(self):
         """Setzen der ID."""
-        return self._id
+        return self.__id

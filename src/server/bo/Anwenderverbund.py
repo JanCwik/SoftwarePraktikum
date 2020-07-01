@@ -4,7 +4,7 @@ from src.server.bo.NamedBO import NamedBO
 class Anwenderverbund(NamedBO):
     def __init__(self):
         super().__init__()
-        self._einkauflisten = []
+        self.__einkauflisten = []
 
     def benutzer_hinzufügen(self, Benutzer):
         """Kann laut Thies gelöscht werden, in den BO-Klassen werden nur getter und setter-Methoden benötigt"""
@@ -16,7 +16,7 @@ class Anwenderverbund(NamedBO):
 
     def einkaufliste_hinzufügen(self, einkaufsliste):
         """Kann laut Thies gelöscht werden, in den BO-Klassen werden nur getter und setter-Methoden benötigt"""
-        self._einkauflisten.append(einkaufsliste)
+        self.__einkauflisten.append(einkaufsliste)
 
     def einkaufsliste_löschen(self):
         """Kann laut Thies gelöscht werden, in den BO-Klassen werden nur getter und setter-Methoden benötigt"""
