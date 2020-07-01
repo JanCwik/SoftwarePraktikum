@@ -7,20 +7,19 @@ class Anwenderverbund(NamedBO):
         self._einkauflisten = []
 
     def benutzer_hinzufügen(self, Benutzer):
-        """Dem Anwenderverbund einen Benutzer hinzufügen"""
+        """Kann laut Thies gelöscht werden, in den BO-Klassen werden nur getter und setter-Methoden benötigt"""
         pass
 
     def benutzer_löschen(self):
-        """Einen Benutzer aus dem Anwenderverbund löschen"""
+        """Kann laut Thies gelöscht werden, in den BO-Klassen werden nur getter und setter-Methoden benötigt"""
         pass
 
     def einkaufliste_hinzufügen(self, einkaufsliste):
-        """Einen Einkaufsliste hinzufügen
-            BRAUCHEN WIR DIE METHODE????"""
+        """Kann laut Thies gelöscht werden, in den BO-Klassen werden nur getter und setter-Methoden benötigt"""
         self._einkauflisten.append(einkaufsliste)
 
     def einkaufsliste_löschen(self):
-        """BRAUCHEN WIR DIE METHODE????"""
+        """Kann laut Thies gelöscht werden, in den BO-Klassen werden nur getter und setter-Methoden benötigt"""
 
 
     def __str__(self):

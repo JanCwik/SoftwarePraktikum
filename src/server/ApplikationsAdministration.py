@@ -236,5 +236,21 @@ class ApplikationsAdministration(object):
         with EinkaufslistenMapper() as mapper:
             return mapper.insert(einkaufsliste)
 
+    """ Methode zum ausgeben einer Einkaufsliste aus der Datenbank anhand deren ID"""
 
+    def get_einkaufsliste_by_id(self, id):
+        with EinkaufslistenMapper() as mapper:
+            return mapper.find_by_id(id)
+
+    """ Methode zum ausgeben einer Einkaufsliste aus der Datenbank anhand deren Name """
+
+    def get_einkaufslsite_by_name(self, name):
+        with EinkaufslistenMapper() as mapper:
+            return mapper.find_by_name(name)
+
+    """ Methode zum aktualisieren einer Einkaufsliste in der Datenbank (Name ändern)"""
+
+    def update_einkaufsliste(self, einkaufsliste):
+        with EinkaufslistenMapper() as mapper:
+            mapper.update(einkaufsliste)
 

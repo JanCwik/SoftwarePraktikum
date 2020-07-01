@@ -9,16 +9,16 @@ class Einkaufsliste(NamedBO):
         self._anwenderverbund_id = None
 
     def eintrag_hinzufügen(self):
-        """Einen Listeneintrag der Einkaufsliste hinzufügen"""
+        """Brauchen wir laut Thies nicht"""
         pass
 
     def eintrag_löschen(self):
-        """Einen Listeneintrag der Einkaufsliste löschen"""
+        """Brauchen wir laut Thies nicht"""
         pass
 
-    def set_änderungs_zeitpunkt(self, erstellungs_zeitpunkt):
+    def set_änderungs_zeitpunkt(self, aenderungs_zeitpunkt):
         """Setzen des Änderungszeitpunkt"""
-        self.änderungs_zeitpunkt = erstellungs_zeitpunkt
+        self.änderungs_zeitpunkt = aenderungs_zeitpunkt
 
     def get_änderungs_zeitpunkt(self):
         """Auslesen des Änderungszeitpunkt"""
