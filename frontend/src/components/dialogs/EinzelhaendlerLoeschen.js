@@ -2,60 +2,59 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withStyles, Button, IconButton, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions } from '@material-ui/core';
 import CloseIcon from '@material-ui/icons/Close';
-import { API } from '../../api';
+import  API from '../../api/API';
+import  EinzelhaendlerBO  from '../../api/EinzelhaendlerBO';
 import ContextErrorMessage from './ContextErrorMessage';
 import LoadingProgress from './LoadingProgress';
 
 /**
- * Shows a modal delete/cancle dialog, which asks for deleting a customer. The CustomerBO to be deleted must be given in prop customer.
- * In dependency of the user interaction (delete/cancel) the respective backendcall is made. After that, the function of the onClose prop
- * is called with the deleted CustomerBO object as parameter. When the dialog is canceled, onClose is called with null.
- *
- * @see See Material-UIs [Dialog](https://material-ui.com/components/dialogs)
- *
- * @author [Christoph Kunz](https://github.com/christophkunz)
+ * Zeigt einen modalen loeschen/abbrechen Dialog, der nach dem löschen eines Einzelhaendlers fragt. Um den EinzelhaendlerBO
+ * zu loeschen muss er in prop Einzelhaendler gegeben sein. In Abhängigkeit der Benutzerinteraktion (loeschen/abbrechen)
+ * wird jeweils der Backendaufruf gemacht. Danch wird die Funktion onClose prop mit dem EinzelhaendlerBO loeschen
+ * Objekt als Parameter aufgerufen. Wenn der Dialog abgebrochen wird, wird onClose mit null aufgerufen.
+ *  When the dialog is canceled, onClose is called with null.
  */
 class EinzelhaendlerLoeschen extends Component {
 
   constructor(props) {
     super(props);
 
-    // Init the state
+    // Init state
     this.state = {
       deletingInProgress: false,
       deletingError: null
     };
   }
 
-  /** Delete the customer */
+  /** Löschen des Einzelhaendlers */
   deleteEinzelhaendler = () => {
-    API.getAPI().deleteEinzelhaendler(this.props.einzelhaendler.getID()).then(einzelhaendler => {
+    API.getAPI().deleteEinzelhaendlerAPI(this.props.einzelhaendler.getID()).then(einzelhaendler => {
       this.setState({
-        deletingInProgress: false,              // disable loading indicator
-        deletingError: null                     // no error message
+        deletingInProgress: false,              // Ladeanzeige deaktivieren
+        deletingError: null                     // Keine Error Nachricht
       });
-      this.props.onClose(this.props.einzelhaendler);  // call the parent with the deleted customer
+      this.props.onClose(this.props.einzelhaendler);  // Aufruf des Urhebers mit dem geloeschten Einzelhaendler
     }).catch(e =>
       this.setState({
-        deletingInProgress: false,              // disable loading indicator
-        deletingError: e                        // show error message
+        deletingInProgress: false,              // Ladeanzeige deaktivieren
+        deletingError: e                        // Zeigt Error Nachricht
       })
     );
 
-    // set loading to true
+    // Setzt laden auf true
     this.setState({
-      deletingInProgress: true,                 // show loading indicator
-      deletingError: null                       // disable error message
+      deletingInProgress: true,                 // Ladeanzeige zeigen
+      deletingError: null                       // Error deaktivieren
     });
   }
 
-  /** Handles the close / cancel button click event */
+  /** Behandelt das schließen/abbrechen Tasten Klickereignis */
   handleClose = () => {
     // console.log(event);
     this.props.onClose(null);
   }
 
-  /** Renders the component */
+  /** Rendert die Komponente */
   render() {
     const { classes, einzelhaendler, show } = this.props;
     const { deletingInProgress, deletingError } = this.state;
@@ -70,10 +69,10 @@ class EinzelhaendlerLoeschen extends Component {
           </DialogTitle>
           <DialogContent>
             <DialogContentText>
-              Really delete einzelhaendler '{einzelhaendler.getEinzelhaendlerName()}' (ID: {einzelhaendler.getID()})?
+              Einzelhändler wirklich löschen? '{einzelhaendler.getEinzelhaendlerName()}' (ID: {einzelhaendler.getID()})?
             </DialogContentText>
             <LoadingProgress show={deletingInProgress} />
-            <ContextErrorMessage error={deletingError} contextErrorMsg={`The einzelhaendler '${einzelhaendler.getEinzelhaendlerName()}' (ID: ${einzelhaendler.getID()}) could not be deleted.`}
+            <ContextErrorMessage error={deletingError} contextErrorMsg={`Der einzelhaendler '${einzelhaendler.getEinzelhaendlerName()}' (ID: ${einzelhaendler.getID()}) konnte nicht gelöscht werden.`}
               onReload={this.deleteEinzelhaendler} />
           </DialogContent>
           <DialogActions>
@@ -90,7 +89,7 @@ class EinzelhaendlerLoeschen extends Component {
   }
 }
 
-/** Component specific styles */
+/** Komponentenspezifische Stile */
 const styles = theme => ({
   closeButton: {
     position: 'absolute',
@@ -104,15 +103,13 @@ const styles = theme => ({
 EinzelhaendlerLoeschen.propTypes = {
   /** @ignore */
   classes: PropTypes.object.isRequired,
-  /** The CustomerBO to be deleted */
+  /** Um das EinzelhaendlerBO zu loeschen */
   einzelhaendler: PropTypes.object.isRequired,
-  /** If true, the dialog is rendered */
+  /** Wenn true, wird der Dialog gerendert */
   show: PropTypes.bool.isRequired,
   /**
-   * Handler function which is called, when the dialog is closed.
-   * Sends the deleted CustomerBO as parameter or null, if cancel was pressed.
-   *
-   * Signature: onClose(CustomerBO customer);
+   * Handler Funktion, die aufgerufen wird, wenn der Dialog geschlossen wurde.
+   * Sendet das geloeschte EinzelhaendlerBO als Parameter oder null, wenn abbrechen gedrückt wurde.
    */
   onClose: PropTypes.func.isRequired,
 }
