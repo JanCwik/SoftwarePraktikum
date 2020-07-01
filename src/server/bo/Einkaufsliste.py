@@ -6,6 +6,7 @@ class Einkaufsliste(NamedBO):
     def __init__(self):
         super().__init__()
         self.änderungs_zeitpunkt = datetime.datetime.now()
+        self._anwenderverbund_id = None
 
     def eintrag_hinzufügen(self):
         """Einen Listeneintrag der Einkaufsliste hinzufügen"""
@@ -23,9 +24,19 @@ class Einkaufsliste(NamedBO):
         """Auslesen des Änderungszeitpunkt"""
         return self.änderungs_zeitpunkt
 
+
+    def set_anwenderId(self, anwenderID):
+        """Setzen der anwenderverbund_id"""
+        self._anwenderverbund_id = anwenderID
+
+    def get_anwenderId(self):
+        """Auslesen der anwenderverbund_id"""
+        return self._anwenderverbund_id
+
+
     def __str__(self):
         """Erzeugen einer einfachen textuellen Darstellung der jeweiligen Instanz."""
-        return "Einkaufsliste: {}, {}, {}, {}".format(self.get_id(), self.get_name(), self.get_erstellungs_zeitpunkt(), self.änderungs_zeitpunkt)
+        return "Einkaufsliste: {}, {}, {}, {}, {}".format(self.get_id(), self.get_name(), self.get_erstellungs_zeitpunkt(), self.änderungs_zeitpunkt, self._anwenderverbund_id)
 
     @staticmethod
     def from_dict(dictionary=dict()):
@@ -35,4 +46,5 @@ class Einkaufsliste(NamedBO):
         obj.set_name(dictionary["name"])
         obj.set_erstellungs_zeitpunkt(dictionary["erstellungs_zeitpunkt"])
         obj.set_änderungs_zeitpunkt(dictionary["änderungs_zeitpunkt"])
+        obj.set_anwenderId(dictionary["anwenderverbund_id"])
         return obj

@@ -4,6 +4,7 @@ from src.server.bo.NamedBO import NamedBO
 class Anwenderverbund(NamedBO):
     def __init__(self):
         super().__init__()
+        self._einkauflisten = []
 
     def benutzer_hinzufügen(self, Benutzer):
         """Dem Anwenderverbund einen Benutzer hinzufügen"""
@@ -13,13 +14,14 @@ class Anwenderverbund(NamedBO):
         """Einen Benutzer aus dem Anwenderverbund löschen"""
         pass
 
-    def einkaufliste_erstellen(self):
-        """Einen Einkaufsliste erstellen"""
-        pass
+    def einkaufliste_hinzufügen(self, einkaufsliste):
+        """Einen Einkaufsliste hinzufügen
+            BRAUCHEN WIR DIE METHODE????"""
+        self._einkauflisten.append(einkaufsliste)
 
     def einkaufsliste_löschen(self):
-        """Einkaufsliste löschen"""
-        pass
+        """BRAUCHEN WIR DIE METHODE????"""
+
 
     def __str__(self):
         """Erzeugen einer einfachen textuellen Darstellung der jeweiligen Instanz."""

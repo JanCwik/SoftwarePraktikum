@@ -1,48 +1,48 @@
 from src.server.db.Mapper import Mapper
-from src.server.bo.Artikel import Artikel
+from src.server.bo.Benutzer import Benutzer
 
 
-class ArtikelMapper(Mapper):
+class BenutzerMapper(Mapper):
 
     def __init__(self):
         super().__init__()
 
-    """ Mapper-Methode zum ausgeben aller Artikel aus der Datenbank"""
+    """ Mapper-Methode zum ausgeben aller Benutzer aus der Datenbank"""
 
-    """Hier werden via SQL-Abfrage alle Artikel aus der Datenbank ausgegeben.
+    """Hier werden via SQL-Abfrage alle Benutzer aus der Datenbank ausgegeben.
        Anschließend werden aus den Zeilen der Datenbank (welche ein Objekt mit dessen Attributen darstellen) 
        mit der fetchall-Methode Tupel erstellt. 
 
        Mittels For-Schleife werden die einzelnen Attribute aus einem Tupel gezogen und einer neuen Instanz der
-       Klasse "Artikel()" übergeben. Die einzelnen Instanzen werden in einem Array gespeichert.
+       Klasse "Benutzer()" übergeben. Die einzelnen Instanzen werden in einem Array gespeichert.
        Das Array mit allen Instanzen wird schließlich zurückgegeben."""
 
     def find_all(self):
 
         result = []
         cursor = self._cnx.cursor()
-        cursor.execute("SELECT * FROM artikel")
+        cursor.execute("SELECT * FROM benutzer")
         res = cursor.fetchall()
 
-        for (id, name, erstellungs_zeitpunkt, einheit, standardartikel) in res:
+        for (id, name, erstellungs_zeitpunkt, email, google_id) in res:
 
-            artikel = Artikel()
-            artikel.set_id(id)
-            artikel.set_name(name)
-            artikel.set_standardartikel(standardartikel)
-            artikel.set_einheit(einheit)
-            artikel.set_erstellungs_zeitpunkt(erstellungs_zeitpunkt)
-            result.append(artikel)
+            benutzer = Benutzer()
+            benutzer.set_id(id)
+            benutzer.set_name(name)
+            benutzer.set_erstellungs_zeitpunkt(erstellungs_zeitpunkt)
+            benutzer.set_email(email)
+            benutzer.set_google_id(google_id)
+            result.append(benutzer)
 
         self._cnx.commit()
         cursor.close()
 
         return result
 
-    """ Mapper-Methode zum speichern eines neuen Artikels in der Datenbank"""
+    """ Mapper-Methode zum speichern eines neuen Benutzers in der Datenbank"""
 
-    """ Beim Aufruf der Methode wird eine zuvor erstellte Instanz der Klasse "Artikel()" übergeben.
-        Anschließend wird via SQL-Abfrage die höchste ID aus der Tabelle "artikel" ausgegeben und dann
+    """ Beim Aufruf der Methode wird eine zuvor erstellte Instanz der Klasse "Benutzer()" übergeben.
+        Anschließend wird via SQL-Abfrage die höchste ID aus der Tabelle "benutzer" ausgegeben und dann
         mit der fetchall-Methode in einem Tupel gespeichert.
 
         Mit einer for-schleife wird anschließend geschaut ob bereits eine ID in der Tabelle vorhanden ist.
@@ -55,92 +55,91 @@ class ArtikelMapper(Mapper):
         werden die Attribute der Instanz an das SQL-Statement übergeben.
         """
 
-    def insert(self, artikel):
+    def insert(self, benutzer):
 
         cursor = self._cnx.cursor()
-        cursor.execute("SELECT MAX(id) AS maxid FROM artikel ")
+        cursor.execute("SELECT MAX(id) AS maxid FROM benutzer ")
         ins = cursor.fetchall()
 
         for (maxid) in ins:
             if maxid[0] is not None:
 
-                artikel.set_id(maxid[0] + 1)
+                benutzer.set_id(maxid[0] + 1)
             else:
 
-                artikel.set_id(1)
+                benutzer.set_id(1)
 
-        template = "INSERT INTO artikel (id, name, erstellungs_zeitpunkt, einheit, standardartikel) VALUES (%s,%s,%s,%s,%s)"
-        vals = (artikel.get_id(), artikel.get_name(), artikel.get_erstellungs_zeitpunkt(), artikel.get_einheit(), artikel.get_standardartikel())
+        template = "INSERT INTO benutzer (id, name, erstellungs_zeitpunkt, email, google_id) VALUES (%s,%s,%s,%s,%s)"
+        vals = (benutzer.get_id(), benutzer.get_name(), benutzer.get_erstellungs_zeitpunkt(), benutzer.get_email(), benutzer.get_google_id())
         cursor.execute(template, vals)
 
         self._cnx.commit()
         cursor.close()
 
-        return artikel
+        return benutzer
 
-    """ Mapper-Methode zum aktualisieren (der Attribute) eines Artikels in der Datenbank"""
+    """ Mapper-Methode zum aktualisieren (der Attribute) eines Benutzers in der Datenbank"""
 
-    """ Beim Aufruf Methode wird eine zuvor erstellte Instanz der Klasse "Artikel()" übergeben.
+    """ Beim Aufruf Methode wird eine zuvor erstellte Instanz der Klasse "Benutzer()" übergeben.
         Dann erfolgt ein SQL-Statement welches das Objekt in der Datenbank aktualisiert.
         Mittels der getter-Methoden, welche zuvor in der entsprechenden Business-Object-Klasse definierten wurden, 
         werden die Attribute der Instanz an das SQL-Statement übergeben."""
 
-    def update(self, artikel):
+    def update(self, benutzer):
 
         cursor = self._cnx.cursor()
 
-        template = "UPDATE artikel " + "SET name=%s, einheit=%s, standardartikel=%s WHERE id=%s"
-        vals = (artikel.get_name(), artikel.get_einheit(), artikel.get_standardartikel(), artikel.get_id())
+        template = "UPDATE benutzer " + "SET name=%s, email=%s, google_id=%s WHERE id=%s"
+        vals = (benutzer.get_name(), benutzer.get_email(), benutzer.get_google_id(), benutzer.get_id())
         cursor.execute(template, vals)
 
         self._cnx.commit()
         cursor.close()
 
-    """ Mapper-Methode zum löschen eines Artikels aus der Datenbank"""
+    """ Mapper-Methode zum löschen eines Benutzers aus der Datenbank"""
 
-    """ Beim Aufruf Methode wird eine zuvor erstellte Instanz der Klasse "Artikel()" übergeben.
+    """ Beim Aufruf Methode wird eine zuvor erstellte Instanz der Klasse "Benutzer()" übergeben.
         Dann erfolgt ein SQL-Statement welches das Objekt aus der Datenbank löscht.
         Mittels der getter-Methode, welche zuvor in der entsprechenden Business-Object-Klasse definierten wurde, 
         wird die entsprechende ID der Instanz an das SQL-Statement übergeben.."""
 
-    def delete(self, artikel):
+    def delete(self, benutzer):
 
         cursor = self._cnx.cursor()
 
-        template = "DELETE FROM artikel WHERE id={}".format(artikel.get_id())
+        template = "DELETE FROM benutzer WHERE id={}".format(benutzer.get_id())
         cursor.execute(template)
 
         self._cnx.commit()
         cursor.close()
 
-    """ Mapper-Methode zum ausgeben eines Artikels anhand dessen ID"""
+    """ Mapper-Methode zum ausgeben eines Benutzers anhand dessen ID"""
 
     """ Beim Aufruf Methode wird eine ID in der Variablen "id" gespeichert, welche schließlich an das SQL-Statement übergeben wird.
         Das entsprechende Objekt, welches aus der Datenbank ausgegeben wird, wird in einem Tupel gespeichert.
-        Anschließend werden die einzelnen Attribute aus dem Tupel an der Stelle 0 genommen und an eine neue Artikel-Instanz via
+        Anschließend werden die einzelnen Attribute aus dem Tupel an der Stelle 0 genommen und an eine neue Benutzer-Instanz via
         den Setter-Methoden übergeben.
         Sollte die Datenbank anhand der ID kein Objekt zurückliefern, wird ausgegeben was innerhalb des IndexErrors steht --> None
         Das Ergebnis wir schließlich von der Mehtode zurückgegeben."""
 
     def find_by_id(self, id):
 
-
         result = None
 
         cursor = self._cnx.cursor()
-        command = "SELECT id, name, erstellungs_zeitpunkt, einheit, standardartikel FROM artikel WHERE id={}".format(id)
+        command = "SELECT id, name, erstellungs_zeitpunkt, email, google_id FROM benutzer WHERE id={}".format(id)
         cursor.execute(command)
         tuples = cursor.fetchall()
 
         try:
-            (id, name, erstellungs_zeitpunkt, einheit, standardartikel) = tuples[0]
-            artikel = Artikel()
-            artikel.set_id(id)
-            artikel.set_name(name)
-            artikel.set_erstellungs_zeitpunkt(erstellungs_zeitpunkt)
-            artikel.set_einheit(einheit)
-            artikel.set_standardartikel(standardartikel)
-            result = artikel
+            (id, name, erstellungs_zeitpunkt, email, google_id) = tuples[0]
+            benutzer = Benutzer()
+            benutzer.set_id(id)
+            benutzer.set_name(name)
+            benutzer.set_erstellungs_zeitpunkt(erstellungs_zeitpunkt)
+            benutzer.set_email(email)
+            benutzer.set_google_id(google_id)
+            result = benutzer
         except IndexError:
             """Der IndexError wird oben beim Zugriff auf tuples[0] auftreten, wenn der vorherige SELECT-Aufruf
             keine Tupel liefert, sondern tuples = cursor.fetchall() eine leere Sequenz zurück gibt."""
@@ -151,11 +150,11 @@ class ArtikelMapper(Mapper):
 
         return result
 
-    """ Mapper-Methode zum ausgeben eines Artikels anhand dessen Name"""
+    """ Mapper-Methode zum ausgeben eines Benutzers anhand dessen Name"""
 
     """ Beim Aufruf Methode wird ein Name in der Variablen "name" gespeichert, welche schließlich an das SQL-Statement übergeben wird.
         Das entsprechende Objekt, welches aus der Datenbank ausgegeben wird, wird in einem Tupel gespeichert.
-        Anschließend werden die einzelnen Attribute aus dem Tupel an der Stelle 0 genommen und an eine neue Artikel-Instanz via
+        Anschließend werden die einzelnen Attribute aus dem Tupel an der Stelle 0 genommen und an eine neue Benutzer-Instanz via
         den Setter-Methoden übergeben.
         Sollte die Datenbank anhand des Namens kein Objekt zurückliefern, wird ausgegeben was innerhalb des IndexErrors steht --> None
         Das Ergebnis wir schließlich von der Mehtode zurückgegeben.
@@ -166,19 +165,19 @@ class ArtikelMapper(Mapper):
         result = None
 
         cursor = self._cnx.cursor()
-        command = "SELECT id, name, erstellungs_zeitpunkt, einheit, standardartikel FROM artikel WHERE name LIKE '{}' ORDER BY name".format(name)
+        command = "SELECT id, name, erstellungs_zeitpunkt, email, google_id FROM benutzer WHERE name LIKE '{}' ORDER BY name".format(name)
         cursor.execute(command)
         tuples = cursor.fetchall()
 
         try:
-            (id, name, erstellungs_zeitpunkt, einheit, standardartikel) = tuples[0]
-            artikel = Artikel()
-            artikel.set_id(id)
-            artikel.set_name(name)
-            artikel.set_erstellungs_zeitpunkt(erstellungs_zeitpunkt)
-            artikel.set_einheit(einheit)
-            artikel.set_standardartikel(standardartikel)
-            result = artikel
+            (id, name, erstellungs_zeitpunkt, email, google_id) = tuples[0]
+            benutzer = Benutzer()
+            benutzer.set_id(id)
+            benutzer.set_name(name)
+            benutzer.set_erstellungs_zeitpunkt(erstellungs_zeitpunkt)
+            benutzer.set_email(email)
+            benutzer.set_google_id(google_id)
+            result = benutzer
         except IndexError:
             """Der IndexError wird oben beim Zugriff auf tuples[0] auftreten, wenn der vorherige SELECT-Aufruf
             keine Tupel liefert, sondern tuples = cursor.fetchall() eine leere Sequenz zurück gibt."""
@@ -188,14 +187,3 @@ class ArtikelMapper(Mapper):
         cursor.close()
 
         return result
-
-
-
-
-
-
-
-
-
-
-

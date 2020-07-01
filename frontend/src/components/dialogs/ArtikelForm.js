@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withStyles, Button, IconButton, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, TextField } from '@material-ui/core';
 import CloseIcon from '@material-ui/icons/Close';
-import  API from "../../api/API";
-import  EinzelhaendlerBO  from '../../api/EinzelhaendlerBO';
+import  ArtikelBO  from '../../api/ArtikelBO';
+import  API from '../../api/API';
 import ContextErrorMessage from './ContextErrorMessage';
 import LoadingProgress from './LoadingProgress';
 
@@ -17,21 +17,21 @@ import LoadingProgress from './LoadingProgress';
  * mit dem angelegt/upgedated EinzelhaendlerBO Objekt als Parameter aufgerufen. Wenn der Dialog beendet ist,
  * wird onClose mit null aufgerufen.
  */
-class EinzelhaendlerForm extends Component {
+class ArtikelForm extends Component {
 
   constructor(props) {
     super(props);
 
-    let en = ''
-    if (props.einzelhaendler) {
-      en = props.einzelhaendler.getName();
+    let an = ''
+    if (props.artikel) {
+      an = props.artikel.getName();
     }
 
     // Init state
     this.state = {
-      einzelhaendlerName: en,
-      einzelhaendlerNameValidationFailed: false,
-      einzelhaendlerNameEdited: false,
+      artikelName: an,
+      artikelNameValidationFailed: false,
+      artikelNameEdited: false,
       addingInProgress: false,
       updatingInProgress: false,
       addingError: null,
@@ -42,13 +42,13 @@ class EinzelhaendlerForm extends Component {
   }
 
   /** Legt Einzelhaendler an */
-  addEinzelhaendler = () => {
-    let newEinzelhaendler = new EinzelhaendlerBO(this.state.einzelhaendlerName); //legt neues Einzelhändler-objekt mit name aus dem state an
-    API.getAPI().addEinzelhaendlerAPI(newEinzelhaendler).then(einzelhaendler => {
+  addArtikel = () => {
+    let newArtikel = new ArtikelBO(this.state.artikelName);  //legt neues Artikel-objekt mit name aus dem state an
+    API.getAPI().addArtikelAPI(newArtikel).then(artikel => {
       // Backend Aufruf erfolgreich
       // reinit den Dialog state für einen neuen leeren Einzelhaendler
       this.setState(this.baseState);
-      this.props.onClose(einzelhaendler); // Aufruf mit Hilfe des Einzelhaendler Objekts aus dem Backend
+      this.props.onClose(artikel); // Aufruf mit Hilfe des Einzelhaendler Objekts aus dem Backend
     }).catch(e =>
       this.setState({
         updatingInProgress: false,    // Ladeanzeige deaktivieren
@@ -64,19 +64,19 @@ class EinzelhaendlerForm extends Component {
   }
 
   /** Updates the customer */
-  updateEinzelhaendler = () => {
+  updateArtikel = () => {
     // Klont den originalen Einzelhaendler, wenn der Backend Aufruf fehlschlägt
-    let updatedEinzelhaendler = Object.assign(new EinzelhaendlerBO(), this.props.einzelhaendler);
+    let updatedArtikel = Object.assign(new ArtikelBO(), this.props.artikel);
     // Setzt die neuen Attribute aus dem Dialog
-    updatedEinzelhaendler.setName(this.state.einzelhaendlerName);
-    API.getAPI().updateEinzelhaendlerAPI(updatedEinzelhaendler).then(einzelhaendler => {
+    updatedArtikel.setName(this.state.artikelName);
+    API.getAPI().updateArtikelAPI(updatedArtikel).then(artikel => {
       this.setState({
         updatingInProgress: false,              // Ladeanzeige deaktivieren
         updatingError: null                     // Keine Error Nachricht
       });
       // Behalte das neue state als Grund state
-      this.baseState.einzelhaendlerName = this.state.einzelhaendlerName;
-      this.props.onClose(updatedEinzelhaendler);      // Aufruf mit dem neuen Einzelhaendler
+      this.baseState.artikelName = this.state.artikelName;
+      this.props.onClose(updatedArtikel);      // Aufruf mit dem neuen Einzelhaendler
     }).catch(e =>
       this.setState({
         updatingInProgress: false,              // Ladeanzeige deaktivieren
@@ -116,20 +116,20 @@ class EinzelhaendlerForm extends Component {
 
   /** Rendert die Komponente */
   render() {
-    const { classes, einzelhaendler, show } = this.props;
-    const { einzelhaendlerName, einzelhaendlerNameValidationFailed, einzelhaendlerNameEdited, addingInProgress,
+    const { classes, artikel, show } = this.props;
+    const { artikelName, artikelNameValidationFailed, artikelNameEdited, addingInProgress,
       addingError, updatingInProgress, updatingError } = this.state;
 
     let title = '';
     let header = '';
 
-    if (einzelhaendler) {
+    if (artikel) {
       // customer defindet, so ist an edit dialogmmmmmmmmmmmmmmmmmmmmmmmmmmmm
-      title = 'Update des Einzelhändlers';
-      header = `Einzelhändler ID: ${einzelhaendler.getID()}`;
+      title = 'Update des Artikels';
+      header = `Artikel ID: ${artikel.getID()}`;
     } else {
-      title = 'Erstelle einen neuen Einzelhändler';
-      header = 'Gebe Einzelhändlerdaten ein';
+      title = 'Erstelle einen neuen Artikel';
+      header = 'Gebe Artikeldaten ein';
     }
 
     return (
@@ -145,17 +145,17 @@ class EinzelhaendlerForm extends Component {
               {header}
             </DialogContentText>
             <form className={classes.root} noValidate autoComplete='off'>
-              <TextField autoFocus type='text' required fullWidth margin='normal' id='einzelhaendlerName' label='Einzelhändler Name:' value={einzelhaendlerName}
-                onChange={this.textFieldValueChange} error={einzelhaendlerNameValidationFailed}
-                helperText={einzelhaendlerNameValidationFailed ? 'Der Name muss mindestens ein Zeichen enthalten' : ' '} />
+              <TextField autoFocus type='text' required fullWidth margin='normal' id='artikelName' label='Artikel Name:' value={artikelName}
+                onChange={this.textFieldValueChange} error={artikelNameValidationFailed}
+                helperText={artikelNameValidationFailed ? 'Der Name muss mindestens ein Zeichen enthalten' : ' '} />
             </form>
             <LoadingProgress show={addingInProgress || updatingInProgress} />
             {
               // Zeigt Error Nachricht in Abhängigkeit des Einzelhaendler prop.
-              einzelhaendler ?
-                <ContextErrorMessage error={updatingError} contextErrorMsg={`The Einzelhändler ${einzelhaendler.getID()} konnte nicht geupdatet werden.`} onReload={this.updateEinzelhaendler} />
+              artikel ?
+                <ContextErrorMessage error={updatingError} contextErrorMsg={`Der Artikel ${artikel.getID()} konnte nicht geupdatet werden.`} onReload={this.updateArtikel} />
                 :
-                <ContextErrorMessage error={addingError} contextErrorMsg={`Der Einzelhändler konnte nicht hinzugefügt werden..`} onReload={this.addEinzelhaendler} />
+                <ContextErrorMessage error={addingError} contextErrorMsg={`Der Artikel konnte nicht hinzugefügt werden..`} onReload={this.addArtikel} />
             }
           </DialogContent>
           <DialogActions>
@@ -164,11 +164,11 @@ class EinzelhaendlerForm extends Component {
             </Button>
             {
               // Wenn Einzelhaendler vorhanden ist, zeige eine Update Taste, sonst eine Anlegen Taste.
-              einzelhaendler ?
-                <Button disabled={einzelhaendlerNameValidationFailed} variant='contained' onClick={this.updateEinzelhaendler} color='primary'>
+              artikel ?
+                <Button disabled={artikelNameValidationFailed} variant='contained' onClick={this.updateArtikel} color='primary'>
                   Update
               </Button>
-                : <Button disabled={einzelhaendlerNameValidationFailed || !einzelhaendlerNameEdited} variant='contained' onClick={this.addEinzelhaendler} color='primary'>
+                : <Button disabled={artikelNameValidationFailed || !artikelNameEdited} variant='contained' onClick={this.addArtikel} color='primary'>
                   Hinzufügen
              </Button>
             }
@@ -193,11 +193,11 @@ const styles = theme => ({
 });
 
 /** PropTypes */
-EinzelhaendlerForm.propTypes = {
+ArtikelForm.propTypes = {
   /** @ignore */
   classes: PropTypes.object.isRequired,
   /** Das EinzelhaendlerBO wird editiert. */
-  einzelhaendler: PropTypes.object,
+  artikel: PropTypes.object,
   /** Wenn true, wird das Formular gerendert. */
   show: PropTypes.bool.isRequired,
   /**
@@ -208,4 +208,4 @@ EinzelhaendlerForm.propTypes = {
   onClose: PropTypes.func.isRequired,
 }
 
-export default withStyles(styles)(EinzelhaendlerForm);
+export default withStyles(styles)(ArtikelForm);
