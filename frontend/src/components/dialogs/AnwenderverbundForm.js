@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withStyles, Button, IconButton, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, TextField } from '@material-ui/core';
 import CloseIcon from '@material-ui/icons/Close';
-import { API, AnwenderverbundBO } from '../../api';
+import API from '../../api/API';
+import AnwenderverbundBO from "../../api/AnwenderverbundBO";
 import ContextErrorMessage from './ContextErrorMessage';
 import LoadingProgress from './LoadingProgress';
 
@@ -43,7 +44,7 @@ class AnwenderverbundForm extends Component {
   /** Legt Einzelhaendler an */
   addAnwenderverbund = () => {
     let newAnwenderverbund = new AnwenderverbundBO(this.state.anwenderverbundName);
-    API.getAPI().addAnwenderverbund(newAnwenderverbund).then(anwenderverbund => {
+    API.getAPI().addAnwenderverbundAPI(newAnwenderverbund).then(anwenderverbund => {
       // Backend Aufruf erfolgreich
       // reinit den Dialog state für einen neuen leeren Anwenderverbunds
       this.setState(this.baseState);
@@ -68,7 +69,7 @@ class AnwenderverbundForm extends Component {
     let updatedAnwenderverbund = Object.assign(new AnwenderverbundBO(), this.props.anwenderverbund);
     // Setzt die neuen Attribute aus dem Dialog
     updatedAnwenderverbund.setName(this.state.anwenderverbundName);
-    API.getAPI().updateAnwenderverbund(updatedAnwenderverbund).then(anwenderverbund => {
+    API.getAPI().updateAnwenderverbundAPI(updatedAnwenderverbund).then(anwenderverbund => {
       this.setState({
         updatingInProgress: false,              // Ladeanzeige deaktivieren
         updatingError: null                     // Keine Error Nachricht

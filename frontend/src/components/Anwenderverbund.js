@@ -4,11 +4,12 @@ import { withStyles, Button, TextField, InputAdornment, IconButton, Grid, Typogr
 import AddIcon from '@material-ui/icons/Add';
 import ClearIcon from '@material-ui/icons/Clear'
 import { withRouter } from 'react-router-dom';
-import { API } from '../api';
+import  API  from '../api/API';
 import ContextErrorMessage from './dialogs/ContextErrorMessage';
 import LoadingProgress from './dialogs/LoadingProgress';
 import AnwenderverbundForm from "./dialogs/AnwenderverbundForm";
 import AnwenderverbundListenEintrag from "./AnwenderverbundListenEintrag";
+
 
 /**
  * Kontrolliert eine Liste von EinzelhaendlerListenEintraegen um ein Akkordeon für jeden
@@ -40,7 +41,7 @@ class Anwenderverbund extends Component {
 
   /** Fetchet alle AnwenderverbundBOs für das Backend */
   getAnwenderverbund = () => {
-    API.getAPI().getAnwenderverbund()
+    API.getAPI().getAnwenderverbundAPI()
       .then(anwenderverbundBOs =>
         this.setState({               // Setzt neues state wenn EinzelhaendlerBOs gefetcht wurden
           anwenderverbund: anwenderverbundBOs,
@@ -64,11 +65,11 @@ class Anwenderverbund extends Component {
 
   /** Lebenszyklus Methode, welche aufgerufen wird, wenn die Komponente in das DOM des Browsers eingefügt wird.*/
 
-  /*
+
   componentDidMount() {
-    this.getEinzelhaendler();
+    this.getAnwenderverbund();
   }
-*/
+
   /**
    * Behandelt onExpandedStateChange Ereignisse von der EinzelhaendlerListenEintrag Komponente.
    * Schaltet das erweiterte state vom EinzelhaendlerListenEintrag vom gegebenen EinzelhaendlerBO um.
@@ -197,7 +198,7 @@ class Anwenderverbund extends Component {
           filteredAnwenderverbund.map(anwenderverbund =>
             <AnwenderverbundListenEintrag key={anwenderverbund.getID()} anwenderverbund={anwenderverbund} expandedState={expandedAnwenderverbundID === anwenderverbund.getID()}
               onExpandedStateChange={this.onExpandedStateChange}
-              onEinzelhaendlerDeleted={this.anwenderverbundDeleted}
+              onAnwenderverbundDeleted={this.anwenderverbundDeleted}
             />)
         }
         <LoadingProgress show={loadingInProgress} />
