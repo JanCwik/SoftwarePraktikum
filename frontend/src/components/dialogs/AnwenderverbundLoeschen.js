@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withStyles, Button, IconButton, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions } from '@material-ui/core';
 import CloseIcon from '@material-ui/icons/Close';
-import { API } from '../../api';
+import  API  from '../../api/API';
 import ContextErrorMessage from './ContextErrorMessage';
 import LoadingProgress from './LoadingProgress';
 
@@ -27,7 +27,7 @@ class AnwenderverbundLoeschen extends Component {
 
   /** Löschen des Einzelhaendlers */
   deleteAnwenderverbund = () => {
-    API.getAPI().deleteAnwenderverbund(this.props.anwenderverbund.getID()).then(anwenderverbund => {
+    API.getAPI().deleteAnwenderverbundAPI(this.props.anwenderverbund.getID()).then(anwenderverbund => {
       this.setState({
         deletingInProgress: false,              // Ladeanzeige deaktivieren
         deletingError: null                     // Keine Error Nachricht
@@ -68,10 +68,10 @@ class AnwenderverbundLoeschen extends Component {
           </DialogTitle>
           <DialogContent>
             <DialogContentText>
-              Really delete anwenderverbund '{anwenderverbund.getAnwenderverbundName()}' (ID: {anwenderverbund.getID()})?
+              Really delete anwenderverbund '{anwenderverbund.getName()}' (ID: {anwenderverbund.getID()})?
             </DialogContentText>
             <LoadingProgress show={deletingInProgress} />
-            <ContextErrorMessage error={deletingError} contextErrorMsg={`Der Anwenderverbund '${anwenderverbund.getanwenderverbundName()}' (ID: ${anwenderverbund.getID()}) konnte nicht gelöscht werden.`}
+            <ContextErrorMessage error={deletingError} contextErrorMsg={`Der Anwenderverbund '${anwenderverbund.getName()}' (ID: ${anwenderverbund.getID()}) konnte nicht gelöscht werden.`}
               onReload={this.deleteAnwenderverbund} />
           </DialogContent>
           <DialogActions>
