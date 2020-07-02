@@ -4,28 +4,28 @@ from src.server.bo.NamedBO import NamedBO
 class Artikel(NamedBO):
     def __init__(self):
         super().__init__()
-        self.__einheit = ""
-        self.__standardartikel = False
+        self._einheit = ""
+        self._standardartikel = False
 
     def set_einheit(self, einheit):
         """Setzen der Einheit"""
-        self.__einheit = einheit
+        self._einheit = einheit
 
     def get_einheit(self):
         """Auslesen der Einheit"""
-        return self.__einheit
+        return self._einheit
 
     def set_standardartikel(self, wert):
         """Setzen des Standartartikel"""
-        self.__standardartikel = wert
+        self._standardartikel = wert
 
     def get_standardartikel(self):
         """Auslesen des Standartartikel"""
-        return self.__standardartikel
+        return self._standardartikel
 
     def __str__(self):
         """Erzeugen einer einfachen textuellen Darstellung der jeweiligen Instanz."""
-        return "Artikel: {}, {}, {}, {}, {}".format(self.get_id(), self.get_name(), self.__einheit, self.__standardartikel, self.get_erstellungs_zeitpunkt())
+        return "Artikel: {}, {}, {}, {}, {}".format(self.get_id(), self.get_name(), self._einheit, self._standardartikel, self.get_erstellungs_zeitpunkt())
 
     @staticmethod
     def from_dict(dictionary=dict()):

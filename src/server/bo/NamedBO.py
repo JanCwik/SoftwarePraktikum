@@ -9,21 +9,21 @@ class NamedBO(BusinessObject, ABC):
     einen Namen und einen Erstellungszeitpunkt."""
     def __init__(self):
         super().__init__()
-        self.__erstellungs_zeitpunkt = datetime.datetime.now()
-        self.__name = ""
+        self._erstellungs_zeitpunkt = datetime.datetime.now()
+        self._name = ""
 
     def set_erstellungs_zeitpunkt(self, erstellungs_zeitpunkt):
         """Setzen des Erstellungszeitpunkt"""
-        self.__erstellungs_zeitpunkt = erstellungs_zeitpunkt
+        self._erstellungs_zeitpunkt = erstellungs_zeitpunkt
 
     def get_erstellungs_zeitpunkt(self):
         """Auslesen des Erstellungszeitpunkt"""
-        return self.__erstellungs_zeitpunkt
+        return self._erstellungs_zeitpunkt
 
     def set_name(self, name):
         """Setzen des Namens"""
-        self.__name = name
+        self._name = name
 
     def get_name(self):
         """Auslesen des Namens"""
-        return self.__name
+        return self._name

@@ -5,8 +5,8 @@ import datetime
 class Einkaufsliste(NamedBO):
     def __init__(self):
         super().__init__()
-        self.__änderungs_zeitpunkt = datetime.datetime.now()
-        self.__anwenderverbund_id = None
+        self._änderungs_zeitpunkt = datetime.datetime.now()
+        self._anwenderverbund_id = None
 
     def eintrag_hinzufügen(self):
         """Brauchen wir laut Thies nicht"""
@@ -18,25 +18,25 @@ class Einkaufsliste(NamedBO):
 
     def set_änderungs_zeitpunkt(self, aenderungs_zeitpunkt):
         """Setzen des Änderungszeitpunkt"""
-        self.__änderungs_zeitpunkt = aenderungs_zeitpunkt
+        self._änderungs_zeitpunkt = aenderungs_zeitpunkt
 
     def get_änderungs_zeitpunkt(self):
         """Auslesen des Änderungszeitpunkt"""
-        return self.__änderungs_zeitpunkt
+        return self._änderungs_zeitpunkt
 
 
     def set_anwenderId(self, anwenderID):
         """Setzen der anwenderverbund_id"""
-        self.__anwenderverbund_id = anwenderID
+        self._anwenderverbund_id = anwenderID
 
     def get_anwenderId(self):
         """Auslesen der anwenderverbund_id"""
-        return self.__anwenderverbund_id
+        return self._anwenderverbund_id
 
 
     def __str__(self):
         """Erzeugen einer einfachen textuellen Darstellung der jeweiligen Instanz."""
-        return "Einkaufsliste: {}, {}, {}, {}, {}".format(self.get_id(), self.get_name(), self.get_erstellungs_zeitpunkt(), self.__änderungs_zeitpunkt, self.__anwenderverbund_id)
+        return "Einkaufsliste: {}, {}, {}, {}, {}".format(self.get_id(), self.get_name(), self.get_erstellungs_zeitpunkt(), self._änderungs_zeitpunkt, self._anwenderverbund_id)
 
     @staticmethod
     def from_dict(dictionary=dict()):
