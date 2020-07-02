@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { withStyles, Button, IconButton, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, TextField } from '@material-ui/core';
+import { withStyles, Button, IconButton, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, TextField, MenuItem, FormControl, InputLabel, Select } from '@material-ui/core';
 import CloseIcon from '@material-ui/icons/Close';
 import  ArtikelBO  from '../../api/ArtikelBO';
 import  API from '../../api/API';
@@ -22,9 +22,11 @@ class ArtikelForm extends Component {
   constructor(props) {
     super(props);
 
-    let an = ''
+    let an = '', sa = '', ae = '';
     if (props.artikel) {
       an = props.artikel.getName();
+      sa = props.artikel.getStandardartikel();
+      ae = props.artikel.getEinheit();
     }
 
     // Init state
@@ -32,6 +34,10 @@ class ArtikelForm extends Component {
       artikelName: an,
       artikelNameValidationFailed: false,
       artikelNameEdited: false,
+      artikelStandardartikel: sa,
+      artikelStandardartikelEdited: false,
+      artikelEinheit: ae,
+      artikelEinheitEdited: false,
       addingInProgress: false,
       updatingInProgress: false,
       addingError: null,
@@ -43,7 +49,8 @@ class ArtikelForm extends Component {
 
   /** Legt Einzelhaendler an */
   addArtikel = () => {
-    let newArtikel = new ArtikelBO(this.state.artikelName);  //legt neues Artikel-objekt mit name aus dem state an
+    let newArtikel = new ArtikelBO(this.state.artikelName,
+        this.state.artikelStandardartikel, this.state.artikelEinheit);  //legt neues Artikel-objekt mit name aus dem state an
     API.getAPI().addArtikelAPI(newArtikel).then(artikel => {
       // Backend Aufruf erfolgreich
       // reinit den Dialog state für einen neuen leeren Einzelhaendler
@@ -69,6 +76,8 @@ class ArtikelForm extends Component {
     let updatedArtikel = Object.assign(new ArtikelBO(), this.props.artikel);
     // Setzt die neuen Attribute aus dem Dialog
     updatedArtikel.setName(this.state.artikelName);
+    updatedArtikel.setStandardartikel(this.state.artikelStandardartikel);
+    updatedArtikel.setEinheit(this.state.artikelEinheit);
     API.getAPI().updateArtikelAPI(updatedArtikel).then(artikel => {
       this.setState({
         updatingInProgress: false,              // Ladeanzeige deaktivieren
@@ -76,6 +85,8 @@ class ArtikelForm extends Component {
       });
       // Behalte das neue state als Grund state
       this.baseState.artikelName = this.state.artikelName;
+      this.baseState.artikelStandardartikel = this.state.artikelStandardartikel;
+      this.baseState.artikelEinheit = this.state.artikelEinheit;
       this.props.onClose(updatedArtikel);      // Aufruf mit dem neuen Einzelhaendler
     }).catch(e =>
       this.setState({
@@ -107,6 +118,21 @@ class ArtikelForm extends Component {
     });
   }
 
+/**  inputFieldValueChange = (event) => {
+    const value = event.target.value;
+
+    let error = false;
+    if (value.trim() == null) {
+      error = true;
+    }
+
+    this.setState({
+      [event.target.id]: event.target.value,
+      [event.target.id + 'ValidationFailed']: error,
+      [event.target.id + 'Edited']: true
+    });
+  }
+ */
   /** Behandelt das schließen/abbrechen Tasten klick Ereignis. */
   handleClose = () => {
     // Setzt state zurück
@@ -117,8 +143,9 @@ class ArtikelForm extends Component {
   /** Rendert die Komponente */
   render() {
     const { classes, artikel, show } = this.props;
-    const { artikelName, artikelNameValidationFailed, artikelNameEdited, addingInProgress,
-      addingError, updatingInProgress, updatingError } = this.state;
+    const { artikelName, artikelNameValidationFailed, artikelNameEdited, artikelStandardartikel,
+        artikelStandardartikelEdited, artikelEinheit, artikelEinheitEdited, addingInProgress,
+        addingError, updatingInProgress, updatingError } = this.state;
 
     let title = '';
     let header = '';
@@ -148,6 +175,31 @@ class ArtikelForm extends Component {
               <TextField autoFocus type='text' required fullWidth margin='normal' id='artikelName' label='Artikel Name:' value={artikelName}
                 onChange={this.textFieldValueChange} error={artikelNameValidationFailed}
                 helperText={artikelNameValidationFailed ? 'Der Name muss mindestens ein Zeichen enthalten' : ' '} />
+          <FormControl className={classes.formControl}>
+            <InputLabel id="artikelStandardartikelLabel">Standartartikel?</InputLabel>
+              <Select
+                labelId="artikelStandardartikelLabel"
+                id="artikelStandardartikel"
+                value={this.artikelStandardartikel}
+                onChange={this.inputFieldValueChange}
+              >
+                <MenuItem value={1}>Ja</MenuItem>
+                <MenuItem value={2}>Nein</MenuItem>
+              </Select>
+          </FormControl>
+          <FormControl className={classes.formControl}>
+            <InputLabel id="artikelEinheitLabel">Einheit</InputLabel>
+              <Select
+                labelId="artikelEinheitLabel"
+                id="artikelEinheit"
+                value={this.artikelEinheit}
+                onChange={this.handleChange}
+              >
+                <MenuItem value={1}>Kilogramm</MenuItem>
+                <MenuItem value={2}>Liter</MenuItem>
+                <MenuItem value={3}>Packung</MenuItem>
+              </Select>
+          </FormControl>
             </form>
             <LoadingProgress show={addingInProgress || updatingInProgress} />
             {
@@ -190,6 +242,10 @@ const styles = theme => ({
     top: theme.spacing(1),
     color: theme.palette.grey[500],
   },
+  formControl: {
+    minWidth: 150,
+    margin: 5,
+  }
 });
 
 /** PropTypes */
