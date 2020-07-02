@@ -85,12 +85,8 @@ class EinzelhaendlerListenEintrag extends Component {
     // console.log(this.state);
     return (
       <div>
-        <ExpansionPanel defaultExpanded={false} expanded={expandedState} onChange={this.expansionPanelStateChanged}>
-          <ExpansionPanelSummary
-            expandIcon={<ExpandMoreIcon />}
-            id={`einzelhaendler${einzelhaendler.getID()}accountpanel-header`}
-          >
-            <Grid container spacing={1} justify='flex-start' alignItems='center'>
+
+            <Grid container spacing={3} justify='flex-start' alignItems='center'>
               <Grid item>
                 <Typography variant='body1' className={classes.heading}>{einzelhaendler.getName()}
                 </Typography>
@@ -107,8 +103,7 @@ class EinzelhaendlerListenEintrag extends Component {
               </Grid>
               <Grid item xs />
             </Grid>
-          </ExpansionPanelSummary>
-        </ExpansionPanel>
+
         <EinzelhaendlerForm show={showEinzelhaendlerForm} einzelhaendler={einzelhaendler} onClose={this.einzelhaendlerFormClosed} />
         <EinzelhaendlerLoeschen show={showEinzelhaendlerDeleteDialog} einzelhaendler={einzelhaendler} onClose={this.deleteEinzelhaendlerDialogClosed} />
       </div>
