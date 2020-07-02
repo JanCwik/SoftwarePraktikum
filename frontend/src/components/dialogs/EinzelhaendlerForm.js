@@ -145,7 +145,7 @@ class EinzelhaendlerForm extends Component {
               {header}
             </DialogContentText>
             <form className={classes.root} noValidate autoComplete='off'>
-              <TextField autoFocus type='text' required fullWidth margin='normal' id='einzelhaendlerName' label='Einzelhändler Name:' value={einzelhaendlerName}
+              <TextField autoFocus type='text' required fullWidth margin='normal' id='einzelhaendlerName' label='Einzelhändler Name' value={einzelhaendlerName}
                 onChange={this.textFieldValueChange} error={einzelhaendlerNameValidationFailed}
                 helperText={einzelhaendlerNameValidationFailed ? 'Der Name muss mindestens ein Zeichen enthalten' : ' '} />
             </form>
@@ -168,7 +168,8 @@ class EinzelhaendlerForm extends Component {
                 <Button disabled={einzelhaendlerNameValidationFailed} variant='contained' onClick={this.updateEinzelhaendler} color='primary'>
                   Update
               </Button>
-                : <Button disabled={einzelhaendlerNameValidationFailed || !einzelhaendlerNameEdited} variant='contained' onClick={this.addEinzelhaendler} color='primary'>
+                : <Button disabled={einzelhaendlerNameValidationFailed || !einzelhaendlerNameEdited} variant='contained'
+                          onClick={this.addEinzelhaendler} color='primary'>
                   Hinzufügen
              </Button>
             }
@@ -186,7 +187,7 @@ const styles = theme => ({
   },
   closeButton: {
     position: 'absolute',
-    right: theme.spacing(1),
+    right: theme.spacing(-1),
     top: theme.spacing(1),
     color: theme.palette.grey[500],
   },

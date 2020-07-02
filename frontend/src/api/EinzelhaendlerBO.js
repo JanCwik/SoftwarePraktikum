@@ -19,14 +19,6 @@ export default class EinzelhaendlerBO extends NamedBO {
         return this.name
     }
 
-    setAdresse(adresse) {
-        this.adresse = adresse
-    }
-
-    getAdresse() {
-        return this.adresse
-    }
-
 
       // Returns an Array of CustomerBOs from a given JSON structure
     static fromJSON(einz) {
