@@ -37,7 +37,7 @@ class Header extends Component {
         <div>
 
         <Typography variant='h3' component='h1' align='center'>
-         Einkaufsliste
+         SharedShoppingList
         </Typography>
         <Typography variant='h4' component='h2' align='center'>
           Meine Einkäufe
