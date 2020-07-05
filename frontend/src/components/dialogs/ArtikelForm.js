@@ -118,11 +118,11 @@ class ArtikelForm extends Component {
     });
   }
 
-/**  inputFieldValueChange = (event) => {
+  inputFieldValueChange = (event) => {
     const value = event.target.value;
 
     let error = false;
-    if (value.trim() == null) {
+    if (value == null) {
       error = true;
     }
 
@@ -132,7 +132,7 @@ class ArtikelForm extends Component {
       [event.target.id + 'Edited']: true
     });
   }
- */
+
   /** Behandelt das schließen/abbrechen Tasten klick Ereignis. */
   handleClose = () => {
     // Setzt state zurück
