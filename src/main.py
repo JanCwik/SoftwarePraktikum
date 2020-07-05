@@ -36,19 +36,19 @@ namedBO = api.inherit('namedBO', bo, {
 })
 
 artikel = api.inherit('Artikel',namedBO , {
-    'einheit': fields.String(attribute='__einheit', description='Name eines Artikels'),
-    'standardartikel': fields.Boolean(attribute='__standardartikel', description='Standardartikel'),
+    'einheit': fields.String(attribute='_einheit', description='Name eines Artikels'),
+    'standardartikel': fields.Boolean(attribute='_standardartikel', description='Standardartikel'),
 })
 
 einzelhaendler = api.inherit('Einzelhandler', namedBO, bo) #wiso funktioniert es hier nicht sobald
                                                             # ich es nicht direkt von bo erben lasse?
 benutzer = api.inherit('Benutzer', namedBO, {
-    'email': fields.String(attribute='__email', description='Email des Benutzers'),
-    'google_id': fields.Integer(attribute='__google_id', description='Google ID des Benutzers')
+    'email': fields.String(attribute='_email', description='Email des Benutzers'),
+    'google_id': fields.Integer(attribute='_google_id', description='Google ID des Benutzers')
 })
 
 einkaufsliste = api.inherit('Einkaufsliste', namedBO, {
-    'änderungs_zeitraum': fields.String(attribute='änderungs_zeitpunkt', description='Änderungszeitpunkt'),
+    'änderungs_zeitraum': fields.String(attribute='_änderungs_zeitpunkt', description='Änderungszeitpunkt'),
     'anwenderverbund_id': fields.Integer(attribute='_anwenderverbund_id', description='ID des Anwenderverbundes')
 })
 
