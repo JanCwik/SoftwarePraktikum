@@ -33,7 +33,7 @@ class Einkaufslisten extends Component {
   getEinkaufslisten = () => {
     API.getAPI().getEinkaufslistenForAnwenderverbund(this.props.anwenderverbund.getID()).then(einkaufslisteBOs =>
       this.setState({  // Set new state when AccountBOs have been fetched
-        einkaufslisten: accountBOs,
+        einkaufslisten: einkaufslisteBOs,
         loadingInProgress: false, // loading indicator
         loadingEinkaufslistenError: null
       })).catch(e =>
@@ -107,13 +107,13 @@ class Einkaufslisten extends Component {
       <div className={classes.root}>
         <List className={classes.accountList}>
           {
-            einkaufslisten.map(account => <einzelneEinkaufsListe key={einkaufsliste.getID()} anwenderverbund={anwenderverbund} einkaufsliste={einkaufsliste} onEinkaufslisteDeleted={this.deleteEinkaufslisteHandler}
+            einkaufslisten.map(einkaufslisten => <einzelneEinkaufsListe key={einkaufslisten.getID()} anwenderverbund={anwenderverbund} einkaufslisten={einkaufslisten} onEinkaufslisteDeleted={this.deleteEinkaufslisteHandler}
               show={this.props.show} />)
           }
           <ListItem>
             <LoadingProgress show={loadingInProgress} />
             <ContextErrorMessage error={loadingAccountError} contextErrorMsg={`Einkaufslisten für den Verbund ${anwenderverbund.getID()} konnte nicht geladen werden`} onReload={this.getEinkaufslisten} />
-            <ContextErrorMessage error={addingAccountError} contextErrorMsg={`EInkaufslisten ${einkaufsliste.getID()} konnte nicht hinzugefügt werden.`} onReload={this.addEinkaufsliste} />
+            <ContextErrorMessage error={addingAccountError} contextErrorMsg={`EInkaufslisten ${einkaufslisten.getID()} konnte nicht hinzugefügt werden.`} onReload={this.addEinkaufsliste} />
           </ListItem>
         </List>
         <Button className={classes.addEinkaufslisteButton} variant='contained' color='primary' startIcon={<AddIcon />} onClick={this.addEinkaufsliste}>
