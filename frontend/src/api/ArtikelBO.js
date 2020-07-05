@@ -6,8 +6,8 @@ export default class ArtikelBO extends NamedBO {
 // und an die superklasse NapedBo weitergegeben werden
     constructor(name, einheit, standardartikel) {
         super(name);
-        this.einheit=einheit
-        this.standardartikel= standardartikel
+        this.einheit=einheit;
+        this.standardartikel= standardartikel;
 
     }
 
