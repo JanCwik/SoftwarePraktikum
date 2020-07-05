@@ -49,9 +49,9 @@ class ArtikelForm extends Component {
 
   /** Legt Einzelhaendler an */
   addArtikel = () => {
-    let newArtikel = new ArtikelBO()
-    newArtikel.setName(this.state.artikelName)
-    newArtikel.setStandardartikel(this.state.artikelStandardartikel)
+    let newArtikel = new ArtikelBO();
+    newArtikel.setName(this.state.artikelName);
+    newArtikel.setStandardartikel(this.state.artikelStandardartikel);
     newArtikel.setEinheit(this.state.artikelEinheit);    //legt neues Artikel-objekt mit name aus dem state an
     API.getAPI().addArtikelAPI(newArtikel).then(artikel => {
       // Backend Aufruf erfolgreich
@@ -128,10 +128,10 @@ nameChange = (event) => {
       artikelNameEdited: true
     });
   }
-  StandartartikelChange = (event) => {
-    let Standardartikel = event.target.value;
+  standartartikelChange = (event) => {
+    let standardartikel = event.target.value;
     this.setState({
-      artikelStandardartikel: Standardartikel,
+      artikelStandardartikel: standardartikel,
       artikelStandardartikelEdited: true
     });
   }
@@ -189,11 +189,10 @@ nameChange = (event) => {
           <FormControl className={classes.formControl}>
             <InputLabel id="artikelStandardartikel">Standartartikel?</InputLabel>
               <Select
-                labelId="artikelStandardartikel"
                 id="artikelStandardartikel"
+                label="artikelStandardartikel"
                 value={artikelStandardartikel}
-                onChange={this.StandartartikelChange}
-
+                onChange={this.standartartikelChange}
               >
                 <MenuItem value={true}>Ja</MenuItem>
                 <MenuItem value={false}>Nein</MenuItem>
@@ -232,7 +231,7 @@ nameChange = (event) => {
                 <Button disabled={artikelNameValidationFailed} variant='contained' onClick={this.updateArtikel} color='primary'>
                   Update
               </Button>
-                : <Button disabled={artikelNameValidationFailed || !artikelNameEdited} variant='contained' onClick={this.addArtikel} color='primary'>
+                : <Button disabled={artikelNameValidationFailed || !artikelNameEdited || !artikelEinheitEdited || !artikelStandardartikelEdited} variant='contained' onClick={this.addArtikel} color='primary'>
                   Hinzufügen
              </Button>
             }
