@@ -49,6 +49,7 @@ class ArtikelForm extends Component {
 
   /** Legt Einzelhaendler an */
   addArtikel = () => {
+
     let newArtikel = new ArtikelBO()
     newArtikel.setName(this.state.artikelName)
     newArtikel.setStandardartikel(this.state.artikelStandardartikel)
@@ -70,6 +71,7 @@ class ArtikelForm extends Component {
       updatingInProgress: true,       // Ladeanzeige anzeigen
       updatingError: null             // Fehlermeldung deaktivieren
     });
+
   }
 
   /** Updates the customer */
@@ -136,7 +138,7 @@ nameChange = (event) => {
     });
   }
 
-  eiheitChange= (event) => {
+  einheitChange= (event) => {
     let einheit = event.target.value;
     this.setState({
       artikelEinheit: einheit,
@@ -152,7 +154,7 @@ nameChange = (event) => {
   }
 
   /** Rendert die Komponente */
-  render() {
+  render(){
     const { classes, artikel, show } = this.props;
     const { artikelName, artikelNameValidationFailed, artikelNameEdited, artikelStandardartikel,
         artikelStandardartikelEdited, artikelEinheit, artikelEinheitEdited, addingInProgress,
@@ -187,9 +189,9 @@ nameChange = (event) => {
                 onChange={this.nameChange} error={artikelNameValidationFailed}
                 helperText={artikelNameValidationFailed ? 'Der Name muss mindestens ein Zeichen enthalten' : ' '} />
           <FormControl className={classes.formControl}>
-            <InputLabel id="artikelStandardartikel">Standartartikel?</InputLabel>
+            <InputLabel id="artikelStandardartikelLabel">Standartartikel?</InputLabel>
               <Select
-                labelId="artikelStandardartikel"
+                labelId="artikelStandardartikelLabel"
                 id="artikelStandardartikel"
                 value={artikelStandardartikel}
                 onChange={this.StandartartikelChange}
@@ -200,12 +202,12 @@ nameChange = (event) => {
               </Select>
           </FormControl>
           <FormControl className={classes.formControl}>
-            <InputLabel id="artikelEinheit">Einheit</InputLabel>
+            <InputLabel id="artikelEinheitLabel">Einheit </InputLabel>
               <Select
                 labelId="artikelEinheitLabel"
                 id="artikelEinheit"
                 value={artikelEinheit}
-                 onChange={this.eiheitChange}
+                onChange={this.einheitChange}
               >
                 <MenuItem value={"Kilogramm"}>Kilogramm</MenuItem>
                 <MenuItem value={"Liter"}>Liter</MenuItem>
