@@ -34,10 +34,10 @@ class ArtikelForm extends Component {
       artikelName: an,
       artikelNameValidationFailed: false,
       artikelNameEdited: false,
-      artikelStandardartikel: sa,
-      artikelStandardartikelEdited: false,
-      artikelEinheit: ae,
-      artikelEinheitEdited: false,
+      Standardartikel: sa,
+      StandardartikelEdited: false,
+      Einheit: ae,
+      EinheitEdited: false,
       addingInProgress: false,
       updatingInProgress: false,
       addingError: null,
@@ -50,7 +50,7 @@ class ArtikelForm extends Component {
   /** Legt Einzelhaendler an */
   addArtikel = () => {
     let newArtikel = new ArtikelBO(this.state.artikelName,
-        this.state.artikelStandardartikel, this.state.artikelEinheit);  //legt neues Artikel-objekt mit name aus dem state an
+        this.state.Standardartikel, this.state.Einheit);  //legt neues Artikel-objekt mit name aus dem state an
     API.getAPI().addArtikelAPI(newArtikel).then(artikel => {
       // Backend Aufruf erfolgreich
       // reinit den Dialog state für einen neuen leeren Einzelhaendler
@@ -76,8 +76,8 @@ class ArtikelForm extends Component {
     let updatedArtikel = Object.assign(new ArtikelBO(), this.props.artikel);
     // Setzt die neuen Attribute aus dem Dialog
     updatedArtikel.setName(this.state.artikelName);
-    updatedArtikel.setStandardartikel(this.state.artikelStandardartikel);
-    updatedArtikel.setEinheit(this.state.artikelEinheit);
+    updatedArtikel.setStandardartikel(this.state.Standardartikel);
+    updatedArtikel.setEinheit(this.state.Einheit);
     API.getAPI().updateArtikelAPI(updatedArtikel).then(artikel => {
       this.setState({
         updatingInProgress: false,              // Ladeanzeige deaktivieren
@@ -85,8 +85,8 @@ class ArtikelForm extends Component {
       });
       // Behalte das neue state als Grund state
       this.baseState.artikelName = this.state.artikelName;
-      this.baseState.artikelStandardartikel = this.state.artikelStandardartikel;
-      this.baseState.artikelEinheit = this.state.artikelEinheit;
+      this.baseState.Standardartikel = this.state.Standardartikel;
+      this.baseState.Einheit = this.state.Einheit;
       this.props.onClose(updatedArtikel);      // Aufruf mit dem neuen Einzelhaendler
     }).catch(e =>
       this.setState({
@@ -119,17 +119,9 @@ class ArtikelForm extends Component {
   }
 
   inputFieldValueChange = (event) => {
-    const value = event.target.value;
-
-    let error = false;
-    if (value == null) {
-      error = true;
-    }
-
+    let Standardartikel = event.target.value;
     this.setState({
-      [event.target.id]: event.target.value,
-      [event.target.id + 'ValidationFailed']: error,
-      [event.target.id + 'Edited']: true
+      Standardartikel: Standardartikel
     });
   }
 
@@ -143,8 +135,8 @@ class ArtikelForm extends Component {
   /** Rendert die Komponente */
   render() {
     const { classes, artikel, show } = this.props;
-    const { artikelName, artikelNameValidationFailed, artikelNameEdited, artikelStandardartikel,
-        artikelStandardartikelEdited, artikelEinheit, artikelEinheitEdited, addingInProgress,
+    const { artikelName, artikelNameValidationFailed, artikelNameEdited, Standardartikel,
+        StandardartikelEdited, Einheit, EinheitEdited, addingInProgress,
         addingError, updatingInProgress, updatingError } = this.state;
 
     let title = '';
@@ -178,26 +170,26 @@ class ArtikelForm extends Component {
           <FormControl className={classes.formControl}>
             <InputLabel id="artikelStandardartikelLabel">Standartartikel?</InputLabel>
               <Select
-                labelId="artikelStandardartikelLabel"
-                id="artikelStandardartikel"
-                value={this.artikelStandardartikel}
+                labelId="StandardartikelLabel"
+                id="Standardartikel"
+                value={this.Standardartikel}
                 onChange={this.inputFieldValueChange}
               >
-                <MenuItem value={1}>Ja</MenuItem>
-                <MenuItem value={2}>Nein</MenuItem>
+                <MenuItem value={true}>Ja</MenuItem>
+                <MenuItem value={false}>Nein</MenuItem>
               </Select>
           </FormControl>
           <FormControl className={classes.formControl}>
-            <InputLabel id="artikelEinheitLabel">Einheit</InputLabel>
+            <InputLabel id="EinheitLabel">Einheit</InputLabel>
               <Select
-                labelId="artikelEinheitLabel"
-                id="artikelEinheit"
-                value={this.artikelEinheit}
+                labelId="EinheitLabel"
+                id="Einheit"
+                value={this.Einheit}
                 onChange={this.handleChange}
               >
-                <MenuItem value={1}>Kilogramm</MenuItem>
-                <MenuItem value={2}>Liter</MenuItem>
-                <MenuItem value={3}>Packung</MenuItem>
+                <MenuItem value={'Kilogramm'}>Kilogramm</MenuItem>
+                <MenuItem value={'Liter'}>Liter</MenuItem>
+                <MenuItem value={'Packung'}>Packung</MenuItem>
               </Select>
           </FormControl>
             </form>
