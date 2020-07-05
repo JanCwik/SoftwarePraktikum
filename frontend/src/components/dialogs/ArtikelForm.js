@@ -187,10 +187,10 @@ nameChange = (event) => {
                 onChange={this.nameChange} error={artikelNameValidationFailed}
                 helperText={artikelNameValidationFailed ? 'Der Name muss mindestens ein Zeichen enthalten' : ' '} />
           <FormControl className={classes.formControl}>
-            <InputLabel id="artikelStandardartikel">Standartartikel?</InputLabel>
+            <InputLabel id="artikelStandardartikelLabel">Standartartikel?</InputLabel>
               <Select
+                labelId="artikelStandardartikelLabel"
                 id="artikelStandardartikel"
-                label="artikelStandardartikel"
                 value={artikelStandardartikel}
                 onChange={this.standartartikelChange}
               >
@@ -199,12 +199,12 @@ nameChange = (event) => {
               </Select>
           </FormControl>
           <FormControl className={classes.formControl}>
-            <InputLabel id="artikelEinheit">Einheit</InputLabel>
+            <InputLabel id="artikelEinheitLabel">Einheit </InputLabel>
               <Select
                 labelId="artikelEinheitLabel"
                 id="artikelEinheit"
                 value={artikelEinheit}
-                 onChange={this.einheitChange}
+                onChange={this.einheitChange}
               >
                 <MenuItem value={"Kilogramm"}>Kilogramm</MenuItem>
                 <MenuItem value={"Liter"}>Liter</MenuItem>
