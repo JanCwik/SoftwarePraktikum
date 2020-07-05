@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { withStyles, ListItem } from '@material-ui/core';
 import { Button, List } from '@material-ui/core';
 import AddIcon from '@material-ui/icons/Add';
-import { API } from '../api';
+import  API  from '../api/API';
 import ContextErrorMessage from './dialogs/ContextErrorMessage';
 import LoadingProgress from './dialogs/LoadingProgress';
 import Einkaufsliste from "./einzelneEinkaufsListe";
