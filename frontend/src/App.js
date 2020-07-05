@@ -8,6 +8,7 @@ import Einzelhaendler from "./components/Einzelhaendler";
 import { Grid, Typography } from '@material-ui/core';
 import AnwenderverbundBO from "./api/AnwenderverbundBO";
 import ArtikelBO from "./api/ArtikelBO";
+import Listeneintrag from "./components/ListenEintrag";
 
 
 //import {Route} from 'react-router-dom'
@@ -39,10 +40,12 @@ class App extends React.Component {
 
                             <Route path='/anwenderverbund'>
                                 <Anwenderverbund/>
+                                <Listeneintrag/>
                             </Route>
 
                             <Route path='/einzelhaendler'>
                                 <Einzelhaendler/>
+
                             </Route>
                     </div>
                 </Router>
