@@ -136,7 +136,7 @@ nameChange = (event) => {
     });
   }
 
-  eiheitChange= (event) => {
+  einheitChange= (event) => {
     let einheit = event.target.value;
     this.setState({
       artikelEinheit: einheit,
@@ -162,7 +162,7 @@ nameChange = (event) => {
     let header = '';
 
     if (artikel) {
-      // customer defindet, so ist an edit dialogmmmmmmmmmmmmmmmmmmmmmmmmmmmm
+      // Erstellt einen neuen Artikel, wenn nicht bereits einer vorhanden ist.
       title = 'Update des Artikels';
       header = `Artikel ID: ${artikel.getID()}`;
     } else {
@@ -205,7 +205,7 @@ nameChange = (event) => {
                 labelId="artikelEinheitLabel"
                 id="artikelEinheit"
                 value={artikelEinheit}
-                 onChange={this.eiheitChange}
+                 onChange={this.einheitChange}
               >
                 <MenuItem value={"Kilogramm"}>Kilogramm</MenuItem>
                 <MenuItem value={"Liter"}>Liter</MenuItem>
