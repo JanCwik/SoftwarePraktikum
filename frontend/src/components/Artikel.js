@@ -202,7 +202,7 @@ class Artikel extends Component {
         }
         <LoadingProgress show={loadingInProgress} />
         <ContextErrorMessage error={error} contextErrorMsg={`Die Liste der Artikel konnte nicht geladen werden.`} onReload={this.getArtikel} />
-        <ArtikelForm show={showArtikelForm} onClose={this.artikelFormClosed} artikel ={this.state.artikel}/>
+        <ArtikelForm show={showArtikelForm} onClose={this.artikelFormClosed} />
       </div>
     );
   }
