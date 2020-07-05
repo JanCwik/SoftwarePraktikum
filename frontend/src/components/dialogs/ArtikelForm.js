@@ -183,8 +183,8 @@ class ArtikelForm extends Component {
                 value={this.artikelStandardartikel}
                 onChange={this.inputFieldValueChange}
               >
-                <MenuItem value={1}>Ja</MenuItem>
-                <MenuItem value={2}>Nein</MenuItem>
+                <MenuItem value={true}>Ja</MenuItem>
+                <MenuItem value={false}>Nein</MenuItem>
               </Select>
           </FormControl>
           <FormControl className={classes.formControl}>
@@ -195,9 +195,9 @@ class ArtikelForm extends Component {
                 value={this.artikelEinheit}
                 onChange={this.handleChange}
               >
-                <MenuItem value={1}>Kilogramm</MenuItem>
-                <MenuItem value={2}>Liter</MenuItem>
-                <MenuItem value={3}>Packung</MenuItem>
+                <MenuItem value={"Kilogramm"}>Kilogramm</MenuItem>
+                <MenuItem value={"Liter"}>Liter</MenuItem>
+                <MenuItem value={"Packung"}>Packung</MenuItem>
               </Select>
           </FormControl>
             </form>
