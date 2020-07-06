@@ -27,9 +27,9 @@ class SignIn extends Component {
 
 		return (
 			<div>
-				<Typography className={classes.root} align='center' variant='h6'>Wilkommen zur Shared Shopping List</Typography>
-				<Typography className={classes.root} align='center'>It appears, that you are not signed in.</Typography>
-				<Typography className={classes.root} align='center'>To use the services of the HdM Bank please</Typography>
+				<Typography className={classes.root} align='center' variant='h6'>Willkommen zur Shared Shopping List</Typography>
+
+				<Typography className={classes.root} align='center'>Melden Sie sich an um die Shopping List zu nutzen</Typography>
 				<Grid container justify='center'>
 					<Grid item>
 						<Button variant='contained' color='primary' onClick={this.handleSignInButtonClicked}>
