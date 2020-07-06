@@ -94,10 +94,10 @@ class EinzelhaendlerListenEintrag extends Component {
               <Grid item>
                 <ButtonGroup variant='text' size='small'>
                   <Button color='primary' onClick={this.editEinzelhaendlerButtonClicked}>
-                    edit
+                    bearbeiten
                   </Button>
                   <Button color='secondary' onClick={this.deleteEinzelhaendlerButtonClicked}>
-                    delete
+                    löschen
                   </Button>
                 </ButtonGroup>
               </Grid>
