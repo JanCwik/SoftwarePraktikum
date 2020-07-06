@@ -13,6 +13,7 @@ export default class EinkaufslisteBOBO extends NamedBO {
 
 
       // Returns an Array of CustomerBOs from a given JSON structure
+    static EinkaufslisteBO;
     static fromJSON(eink) {
         let result = [];
 
@@ -24,7 +25,7 @@ export default class EinkaufslisteBOBO extends NamedBO {
         } else {
             // Es handelt sich offenbar um ein singuläres Objekt
             let c = eink;
-            Object.setPrototypeOf(c, EinkaufslisteBO.prototype)
+            Object.setPrototypeOf(c, this.EinkaufslisteBO.prototype)
             result.push(c)
         }
 
