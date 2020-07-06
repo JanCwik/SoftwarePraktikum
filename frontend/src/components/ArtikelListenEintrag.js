@@ -98,10 +98,10 @@ class ArtikelListenEintrag extends Component {
               <Grid item>
                 <ButtonGroup variant='text' size='small'>
                   <Button color='primary' onClick={this.editArtikelButtonClicked}>
-                    edit
+                    bearbeiten
                   </Button>
                   <Button color='secondary' onClick={this.deleteArtikelButtonClicked}>
-                    delete
+                    löschen
                   </Button>
                 </ButtonGroup>
               </Grid>
