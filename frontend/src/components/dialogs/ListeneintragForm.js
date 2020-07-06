@@ -22,9 +22,10 @@ class ListeneintragForm extends Component {
   constructor(props) {
     super(props);
 
-    let an = '', en = '', bn = '', lm = '';
+    let an = '', en = '', bn = '', lm = '', ae = '';
     if (props.artikel) {
       an = props.artikel.getName();
+      ae = props.artikel.getEinheit();
     }
     if (props.einzelhaendler) {
       en = props.einzelhaendler.getName();
@@ -41,6 +42,8 @@ class ListeneintragForm extends Component {
       artikelName: an,
       artikelNameValidationFailed: false,
       artikelNameEdited: false,
+      artikelEinheit: ae,
+      artikelEinheitEdited: false,
       einzelhaendlerName: en,
       einzelhaendlerNameEdited: false,
       benutzerName: bn,
@@ -132,19 +135,12 @@ nameChange = (event) => {
       artikelNameEdited: true
     });
   }
-  standartartikelChange = (event) => {
-    let standardartikel = event.target.value;
-    this.setState({
-      artikelStandardartikel: standardartikel,
-      artikelStandardartikelEdited: true
-    });
-  }
 
-  einheitChange= (event) => {
-    let einheit = event.target.value;
+  mengeChange= (event) => {
+    let menge = event.target.value;
     this.setState({
-      artikelEinheit: einheit,
-      artikelEinheitEdited: true
+      listeneintragMenge: menge,
+      listeneintragMengeEdited: true
     });
   }
 
@@ -158,20 +154,21 @@ nameChange = (event) => {
   /** Rendert die Komponente */
   render() {
     const { classes, artikel, show } = this.props;
-    const { artikelName, artikelNameValidationFailed, artikelNameEdited, artikelStandardartikel,
-        artikelStandardartikelEdited, artikelEinheit, artikelEinheitEdited, addingInProgress,
-        addingError, updatingInProgress, updatingError } = this.state;
+    const { artikelName, artikelNameValidationFailed, artikelNameEdited, artikelEinheit,
+            artikelEinheitEdited, einzelhaendlerName, einzelhaendlerNameEdited, benutzerName,
+            benutzerNameEdited, listeneintragMenge, addingInProgress, listeneintragMengeEdited,
+            addingError, updatingInProgress, updatingError } = this.state;
 
     let title = '';
     let header = '';
 
-    if (artikel) {
+    if (listeneintrag) {
       // Erstellt einen neuen Artikel, wenn nicht bereits einer vorhanden ist.
-      title = 'Update des Artikels';
-      header = `Artikel ID: ${artikel.getID()}`;
+      title = 'Update des Listeneintrags';
+      header = `Listeneintrag ID: ${listeneintrag.getID()}`;
     } else {
-      title = 'Erstelle einen neuen Artikel';
-      header = 'Gebe Artikeldaten ein';
+      title = 'Erstelle einen neuen Listeneintrag';
+      header = 'Gebe Listeneintragdaten ein';
     }
 
     return (
@@ -190,6 +187,8 @@ nameChange = (event) => {
               <TextField autoFocus type='text' required fullWidth margin='normal' id='artikelName' label='Artikel Name' value={artikelName}
                 onChange={this.nameChange} error={artikelNameValidationFailed}
                 helperText={artikelNameValidationFailed ? 'Der Name muss mindestens ein Zeichen enthalten' : ' '} />
+                <TextField autoFocus type='text' required fullWidth margin='normal' id='listeneintragMenge' label='Listeneintragmenge' value={listeneintragMenge}
+                onChange={this.mengeChange}/>
           <FormControl className={classes.formControl}>
             <InputLabel id="artikelStandardartikelLabel">Standartartikel?</InputLabel>
               <Select
