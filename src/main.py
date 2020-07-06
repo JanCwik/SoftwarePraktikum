@@ -35,13 +35,13 @@ namedBO = api.inherit('namedBO', bo, {
     'erstellungs_zeitpunkt': fields.String(attribute='_erstellungs_zeitpunkt', description='Erstellungszeitpunkt'),
 })
 
-artikel = api.inherit('Artikel',namedBO , {
+artikel = api.inherit('Artikel',namedBO, {
     'einheit': fields.String(attribute='_einheit', description='Name eines Artikels'),
     'standardartikel': fields.Boolean(attribute='_standardartikel', description='Standardartikel'),
 })
 
-einzelhaendler = api.inherit('Einzelhandler', namedBO, bo) #wiso funktioniert es hier nicht sobald
-                                                            # ich es nicht direkt von bo erben lasse?
+einzelhaendler = api.inherit('Einzelhandler', namedBO, bo)
+
 benutzer = api.inherit('Benutzer', namedBO, {
     'email': fields.String(attribute='_email', description='Email des Benutzers'),
     'google_id': fields.Integer(attribute='_google_id', description='Google ID des Benutzers')
@@ -56,12 +56,23 @@ anwenderverbund = api.inherit('Anwenderverbund', namedBO, {
     'einkaufslisten': fields.String(attribute='_einkaufslisten', description='Einkaufslisten im Anwenderverbund')
 })
 
+listeneintrag = api.inherit('Listeneintrag', bo, {
+    'anzahl': fields.String(attribute='_anzahl', description='Anzahl'),
+    'erledigt': fields.Boolean(attribute='_erledigt', description='Status'),
+    'änderungs_zeitpunkt': fields.String(attribute='_änderungs_zeitpunkt', description='Änderungszeitpunkt'),
+    'einkaufsliste_id': fields.Integer(attribute='_einkaufsliste_id', description='ID der Einkaufsliste'),
+    'einzelhaendler_id': fields.Integer(attribute='_einzelhaendler_id', description='ID des Einzehändler'),
+    'artikel_id': fields.Integer(attribute='_artikel_id', description='ID des Artikels'),
+    'benutzer_id': fields.Integer(attribute='_benutzer_id', description='ID des Benutzer'),
+
+
+})
 
 @shopping.route('/artikel')
 @shopping.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
 class ArtikelListOperations(Resource):
     @shopping.marshal_list_with(artikel)
-    @secured
+    #@secured
     def get(self):
         """Auslesen aller Artikel"""
         adm = ApplikationsAdministration()
@@ -155,8 +166,7 @@ class EinzelhaendlerListOperations(Resource):
 
         test = Einzelhaendler.from_dict(api.payload)
         if test is not None:
-            a = adm.einzelhaendler_anlegen(test.get_name(),test.get_id())
-            #ist get_id() nötig (Referenz zu BO statt namedBO, Artikel benötigt keine get_ID von BO-Klasse
+            a = adm.einzelhaendler_anlegen(test.get_name(), test.get_id())
             return a, 200
         else:
             return '', 500
@@ -301,7 +311,7 @@ class EinkaufslisteListOperations(Resource):
     def get(self):                                          #evtl. unnötig bzw. muss mit anwenderverbund definiert werden
         """Auslesen aller Einkaufslisten"""
         adm = ApplikationsAdministration()
-        einkaufsliste = adm.get_all_einkaufslisten()
+        einkaufsliste = adm.get_all_einkaufslisten(anwenderverbund)
         return einkaufsliste
 
     @shopping.marshal_with(einkaufsliste)
@@ -447,17 +457,22 @@ class AnwenderverbundByNameOperations(Resource):
         anwenderverbund = adm.get_anwenderverbund_by_name(name)
         return anwenderverbund
 
-@shopping.route('/anwenderverbund/<int:id>/einkauflisten/')
+@shopping.route('/anwenderverbund/<int:id>/einkauflisten')
 @shopping.response(500, 'Serverfehler')
 @shopping.param('id', 'ID des Anwenderverbundes')
-class EinkaufslistenInAnwenderverbundOperations(Resource):
-    @shopping.marshal_with(anwenderverbund)
+class AnwenderverbundRelatedEinkaufslisteOperations(Resource):
+    @shopping.marshal_with(einkaufsliste)
     #@secured
     def get(self, id):
-        """Auslesen aller Einkaufslisten in einem Anwenderverbund"""
+        """Auslesen aller Einkaufslisten in einem durch Id definierten Anwenderverbund"""
         adm = ApplikationsAdministration()
-        anwenderverbund = adm.get_all_einkaufslisten(id)
-        return anwenderverbund
+        verbund = adm.get_anwenderverbund_by_id(id)
+
+        if verbund is not None:
+            einkaufslisten = adm.get_all_einkaufslisten(verbund)
+            return einkaufslisten
+        else:
+            return "Einkaufsliste nicht gefunden", 500
 
 
 """Anwenderverbund DONE. Listeneintrag NEXT"""
