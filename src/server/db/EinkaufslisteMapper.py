@@ -141,3 +141,23 @@ class EinkaufslistenMapper(Mapper):
         cursor.close()
 
         return result
+
+    """ Mapper-Methode zum löschen einer Einkaufsliste aus der Datenbank"""
+
+    """ Beim Aufruf Methode wird eine zuvor erstellte Instanz der Klasse "Einkaufsliste()" übergeben.
+        Dann erfolgt ein SQL-Statement welches das Objekt aus der Datenbank löscht.
+        Mittels der getter-Methode, welche zuvor in der entsprechenden Business-Object-Klasse definierten wurde, 
+        wird die entsprechende ID der Instanz an das SQL-Statement übergeben.."""
+
+    def delete(self, einkaufsliste):
+
+        cursor = self._cnx.cursor()
+
+        eintraege = "DELETE FROM listeneintrag WHERE einkaufsliste_id={}".format(einkaufsliste.get_id())
+        cursor.execute(eintraege)
+
+        template = "DELETE FROM einkaufsliste WHERE id={}".format(einkaufsliste.get_id())
+        cursor.execute(template)
+
+        self._cnx.commit()
+        cursor.close()
