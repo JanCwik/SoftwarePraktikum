@@ -99,6 +99,7 @@ CREATE TABLE listeneintrag(
     einzelhaendler_id INT,
     artikel_id INT,
     benutzer_id INT,
+    erledigt bool,
     PRIMARY KEY (id),
     FOREIGN KEY (einkaufsliste_id) REFERENCES einkaufsliste(id),
     FOREIGN KEY (einzelhaendler_id) REFERENCES einzelhaendler(id),
