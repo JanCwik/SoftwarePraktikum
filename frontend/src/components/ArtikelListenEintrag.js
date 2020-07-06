@@ -98,16 +98,24 @@ class ArtikelListenEintrag extends Component {
               <Grid item>
                 <ButtonGroup variant='text' size='small'>
                   <Button color='primary' onClick={this.editArtikelButtonClicked}>
-                    edit
+                    bearbeiten
                   </Button>
                   <Button color='secondary' onClick={this.deleteArtikelButtonClicked}>
-                    delete
+                    löschen
                   </Button>
                 </ButtonGroup>
               </Grid>
               <Grid item xs />
             </Grid>
           </ExpansionPanelSummary>
+          <ExpansionPanelDetails>
+            <Typography className={classes.panelDetails}>
+              Standardartikel: {`${artikel.getStandardartikel()} `}
+            </Typography>
+            <Typography className>
+              Einheit: {`${artikel.getEinheit()}`}
+            </Typography>
+        </ExpansionPanelDetails>
         </ExpansionPanel>
         <ArtikelForm show={showArtikelForm} artikel={artikel} onClose={this.artikelFormClosed} />
         <ArtikelLoeschen show={showArtikelDeleteDialog} artikel={artikel} onClose={this.deleteArtikelDialogClosed} />
@@ -120,6 +128,9 @@ class ArtikelListenEintrag extends Component {
 const styles = theme => ({
   root: {
     width: '100%',
+  },
+  panelDetails: {
+    flexBasis: '15%',
   }
 });
 
