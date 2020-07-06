@@ -61,7 +61,7 @@ anwenderverbund = api.inherit('Anwenderverbund', namedBO, {
 @shopping.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
 class ArtikelListOperations(Resource):
     @shopping.marshal_list_with(artikel)
-    #@secured
+    @secured
     def get(self):
         """Auslesen aller Artikel"""
         adm = ApplikationsAdministration()
