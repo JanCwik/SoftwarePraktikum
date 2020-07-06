@@ -165,7 +165,10 @@ class ApplikationsAdministration(object):
         with BenutzerMapper() as mapper:
             mapper.update(benutzer)
 
-
+    def get_user_by_google_user_id(self, id):
+        """Den Benutzer mit der gegebenen Google ID auslesen."""
+        with BenutzerMapper() as mapper:
+            return mapper.find_by_google_user_id(id)
 
     """ METHODEN ZUR VERWALTUNG VON ANWENDERVERBUNDE IN DER DATENBANK"""
 
