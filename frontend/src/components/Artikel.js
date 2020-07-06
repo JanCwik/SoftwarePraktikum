@@ -11,15 +11,14 @@ import ArtikelForm from './dialogs/ArtikelForm';
 import ArtikelListenEintrag from "./ArtikelListenEintrag";
 
 /**
- * Kontrolliert eine Liste von EinzelhaendlerListenEintraegen um ein Akkordeon für jeden
- * Einzelhaendler zu erstellen.
+ * Kontrolliert eine Liste von ArtikelListenEintraegen um ein ExpansionPanel für jeden
+ * Artikel zu erstellen.
  */
 class Artikel extends Component {
 
   constructor(props) {
     super(props);
 
-    // console.log(props);
     let expandedID = null;
 
     if (this.props.location.expandArtikel) {
@@ -38,11 +37,11 @@ class Artikel extends Component {
     };
   }
 
-  /** Fetchet alle EinzelhaendlerBOs für das Backend */
+  /** Fetchet alle ArtikelBOs für das Backend */
   getArtikel = () => {
     API.getAPI().getArtikelAPI()
       .then(artikelBOs =>
-        this.setState({               // Setzt neues state wenn EinzelhaendlerBOs gefetcht wurden
+        this.setState({               // Setzt neues state wenn ArtikelBOs gefetcht wurden
           artikel: artikelBOs,
           filteredArtikel: [...artikelBOs], // Speichert eine Kopie
           loadingInProgress: false,   // Ladeanzeige deaktivieren
@@ -70,30 +69,28 @@ class Artikel extends Component {
   }
 
   /**
-   * Behandelt onExpandedStateChange Ereignisse von der EinzelhaendlerListenEintrag Komponente.
-   * Schaltet das erweiterte state vom EinzelhaendlerListenEintrag vom gegebenen EinzelhaendlerBO um.
-   * @param {Einzelhaendler} EinzelhaendlerBO von dem EinzelhaendlerListenEintrag umgeschaltet werden.
+   * Behandelt onExpandedStateChange Ereignisse von der ArtikelListenEintrag Komponente.
+   * Schaltet das erweiterte state vom ArtikelListenEintrag vom gegebenen ArtikelBO um.
+   * @param {Artikel} ArtikelBO von dem ArtikelListenEintrag umgeschaltet werden.
    */
   onExpandedStateChange = artikel => {
-    // console.log(artikelID);
-    // Setzt erweiterten Einzelhaendler Eintrag standardmäßig auf null
+    // Setzt erweiterten Artikeleintrag standardmäßig auf null
     let newID = null;
 
-    // Wenn der selbe Einzelhaendler Eintrag geklickt wird, klappe ihn zusammen oder erweitere einen Neuen
+    // Wenn der selbe Artikeleintrag geklickt wird, klappe ihn zusammen oder erweitere einen Neuen
     if (artikel.getID() !== this.state.expandedArtikelID) {
-      // Erweitere den Einzelhaendler Eintrag mit einzelhaendlerID
+      // Erweitere den Artikeleintrag mit artikelID
       newID = artikel.getID();
     }
-    // console.log(newID);
     this.setState({
       expandedArtikelID: newID,
     });
   }
 
   /**
-   * Behandelt onEinzelhaendlerLoeschen Ereignisse von der EinzelhaendlerListenEintrag Komponente.
+   * Behandelt artikelDeleted Ereignisse von der  ArtikelListenEintrag Komponente.
    *
-   * @param {Einzelhaendler} EinzelhaendlerBO von dem EinzelhaendlerListenEintrag um gelöscht zu werde
+   * @param {Artikel} ArtikelBO von dem ArtikelListenEintrag um gelöscht zu werde
    */
   artikelDeleted = artikel => {
     const newArtikelList = this.state.artikel.filter(artikelFromState => artikelFromState.getID() !== artikel.getID());
@@ -104,19 +101,19 @@ class Artikel extends Component {
     });
   }
 
-  /** Behandelt das onClick Ereignis, der Einzelhaendler anlegen Taste. */
+  /** Behandelt das onClick Ereignis, der Artikel anlegen Taste. */
   addArtikelButtonClicked = event => {
     // Nicht das erweiterte state umschalten
     event.stopPropagation();
-    //Zeige den EinzelhaendlerForm
+    //Zeige den ArtikelForm
     this.setState({
       showArtikelForm: true
     });
   }
 
-  /** Behandelt das onClose Ereignis vom EinzelhaendlerForm */
+  /** Behandelt das onClose Ereignis vom ArtikelForm */
   artikelFormClosed = artikel => {
-    // Einzelhaendler ist nicht null und deshalb erstellt
+    // Artikel ist nicht null und deshalb erstellt
     if (artikel) {
       const newArtikelList = [...this.state.artikel, artikel];
       this.setState({
@@ -131,7 +128,7 @@ class Artikel extends Component {
     }
   }
 
-  /** Behandelt das onChange Ereignis von dem Einzelhaendler filtern Textfeld */
+  /** Behandelt das onChange Ereignis von dem Artikel filtern Textfeld */
   filterFieldValueChange = event => {
     const value = event.target.value.toLowerCase();
     this.setState({
@@ -190,8 +187,8 @@ class Artikel extends Component {
           </Grid>
         </Grid>
         {
-          /** Zeigt die Liste der EinzelhaendlerListenEintrag Komponenten
-          // Benutze keinen strengen Vergleich, da expandedEinzelhaendlerID vielleicht ein string ist,
+          /** Zeigt die Liste der ArtikelListenEintrag Komponenten
+          // Benutze keinen strengen Vergleich, da expandedArtikelID vielleicht ein string ist,
            wenn dies von den URL Parametern gegeben ist. */
 
           filteredArtikel.map(artikel =>
