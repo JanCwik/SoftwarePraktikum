@@ -55,7 +55,7 @@ def secured(function):
                         in unserem System geupdated."""
                         user.set_name(name)
                         user.set_email(email)
-                        adm.save_user(user)
+                        adm.update_benutzer(user)
                         #set_name und set_email benennen wie in Benutzer.py
                         #adm.save-user benennen wie in ApplikationsAdministration.py
                     else:
@@ -63,7 +63,7 @@ def secured(function):
                         Wir legen daher ein neues User-Objekt an, um dieses ggf. später
                         nutzen zu können.
                         """
-                        user = adm.create_user(name, email, google_user_id)
+                        user = adm.update_benutzer(name, email, google_user_id)
                         #Benennen wie in ApplikationsAdministration
 
                     print(request.method, request.path, "angefragt durch:", name, email)
