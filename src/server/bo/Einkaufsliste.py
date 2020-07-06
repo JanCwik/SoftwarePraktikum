@@ -8,13 +8,6 @@ class Einkaufsliste(NamedBO):
         self._änderungs_zeitpunkt = datetime.datetime.now()
         self._anwenderverbund_id = None
 
-    def eintrag_hinzufügen(self):
-        """Brauchen wir laut Thies nicht"""
-        pass
-
-    def eintrag_löschen(self):
-        """Brauchen wir laut Thies nicht"""
-        pass
 
     def set_änderungs_zeitpunkt(self, aenderungs_zeitpunkt):
         """Setzen des Änderungszeitpunkt"""
@@ -23,7 +16,6 @@ class Einkaufsliste(NamedBO):
     def get_änderungs_zeitpunkt(self):
         """Auslesen des Änderungszeitpunkt"""
         return self._änderungs_zeitpunkt
-
 
     def set_anwenderId(self, anwenderID):
         """Setzen der anwenderverbund_id"""

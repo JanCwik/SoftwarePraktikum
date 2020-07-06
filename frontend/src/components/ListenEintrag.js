@@ -9,6 +9,7 @@ import List from '@material-ui/core/List';
 import Checkbox from '@material-ui/core/Checkbox';
 import IconButton from '@material-ui/core/IconButton';
 
+
 /**
  * Renders a AccountBO object within a ListEntry and provides a delete button to delete it. Links accounts
  * to a list of transactions. This is done by routing the link to /transactions and passing the CustomerBO and
@@ -39,107 +40,38 @@ class ListenEintrag extends Component {
       loadingError: null,
       deletingError: null,
       showMoneyTransferDialog: false,
-      checked:0
+      checked:false
+
     };
   }
 
 
-  const [checked, setChecked] = React.useState([0]);
+handleCheck =(event)=>{
+    this.setState({
+      checked: event.target.checked
+        }
 
+    )
 
 }
 
-  const currentIndex = checked.indexOf(value);
-    const newChecked = [...checked];
 
 
-  /** Lifecycle method, which is called when the component gets inserted into the browsers DOM
-  componentDidMount() {
-    // load initial balance
-    this.getBalance();
-  }
-
-  /** Lifecycle method, which is called when the component was updated
-  componentDidUpdate(prevProps) {
-    if ((this.props.show) && (this.props.show !== prevProps.show)) {
-      this.getBalance();
-    }
-  }
-*/
-  /** gets the balance for this account
-  getBalance = () => {
-    API.getAPI().getBalanceOfAccount(this.props.account.getID()).then(balance =>
-      this.setState({
-        balance: balance,
-        loadingInProgress: false, // loading indicator
-        loadingError: null
-      })).catch(e =>
-        this.setState({ // Reset state with error from catch
-          balance: null,
-          loadingInProgress: false,
-          loadingError: e
-        })
-      );
-
-    // set loading to true
-    this.setState({
-      balance: 'loading',
-      loadingInProgress: true,
-      loadingError: null
-    });
-  }
-*/
-  /** Deletes this account
-  deleteAccount = () => {
-    const { account } = this.props;
-    API.getAPI().deleteAccount(account.getID()).then(() => {
-      this.setState({  // Set new state when AccountBOs have been fetched
-        deletingInProgress: false, // loading indicator
-        deletingError: null
-      })
-      // console.log(account);
-      this.props.onAccountDeleted(account);
-    }).catch(e =>
-      this.setState({ // Reset state with error from catch
-        deletingInProgress: false,
-        deletingError: e
-      })
-    );
-
-    // set loading to true
-    this.setState({
-      deletingInProgress: true,
-      deletingError: null
-    });
-  }
-*/
-  /** Handles click events from the transfer money button
-  transferMoney = () => {
-    this.setState({
-      showMoneyTransferDialog: true
-    });
-  }
-
-  /** Handles the onClose event from the transfer money dialog
-  moneyTransferDialogClosed = (transaction) => {
-    this.setState({
-      showMoneyTransferDialog: false
-    });
-    if (transaction) {
-      // Transaction is not null and therefore was performed
-      this.getBalance();
-    }
-  }
-*/
   /** Renders the component */
   render() {
     const { classes, customer, account } = this.props;
-    const { loadingInProgress, deletingInProgress, loadingError, deletingError, balance, showMoneyTransferDialog } = this.state;
+    const { loadingInProgress, deletingInProgress, loadingError, deletingError, balance, showMoneyTransferDialog,checked } = this.state;
 
     return (
       <div >
         <List  className={classes.Liste} >
         <ListItem >
+          <Checkbox
+              checked={checked}
+              onChange={this.handleCheck}
+              inputProps={{ 'aria-label': 'primary checkbox' }}
+          />
+
           <Typography color='textPrimary' className={classes.accountEntry} >
             Artikel
 
