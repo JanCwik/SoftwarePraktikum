@@ -84,6 +84,10 @@ handleCheck =(event)=>{
             Einkaufsort
           </Typography>
 
+          <Typography className={classes.Benutzer} color='textPrimary'>
+            Benutzer
+          </Typography>
+
           <ListItemSecondaryAction>
 
             <Button color='secondary' size='small' startIcon={<DeleteIcon />} onClick={this.deleteAccount}>
@@ -130,6 +134,11 @@ const styles = theme => ({
 
     },
 
+    Benutzer: {
+    fontSize: theme.typography.pxToRem(15),
+    flexBasis: '33.33%',
+    flexShrink: 0,
+    }
 
 });
 
