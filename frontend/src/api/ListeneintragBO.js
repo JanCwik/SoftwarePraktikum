@@ -1,8 +1,8 @@
 import NamedBO from './NamedBO';
 
-export default class ListeneintragBO extends NamedBO {
+export default class  extends NamedBO {
 //damit direkt über diese KLasse ein Name angelegt werden kann
-// muss der Parameter im Constructor entgegengenommen werden
+ListeneintragBO// muss der Parameter im Constructor entgegengenommen werden
 // und an die superklasse NapedBo weitergegeben werden
     constructor(name) {
         super(name);
