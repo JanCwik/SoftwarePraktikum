@@ -8,6 +8,10 @@ class Listeneintrag(BusinessObject):
         self._anzahl = None
         self._erledigt = False
         self._änderungs_zeitpunkt = datetime.datetime.now()
+        self._einkaufsliste_id = None
+        self._einzelhaendler_id = None
+        self._artikel_id = None
+        self._benutzer_id = None
 
     def set_anzahl(self, anzahl):
         """Setzen der Anzahl"""
@@ -33,34 +37,42 @@ class Listeneintrag(BusinessObject):
         """Auslesen des Änderungszeitpunkt"""
         return self._änderungs_zeitpunkt
 
+    def set_einkaufslisteId(self, einkaufslisteID):
+        """Setzen der einkaufsliste_id"""
+        self._einkaufsliste_id = einkaufslisteID
 
-    def benutzer_hinzufügen(self, Benutzer):
-        """Dem Listeneintrag einen Benutzer hinzufügen"""
-        pass
+    def get_einkaufslisteId(self):
+        """Auslesen der einkaufsliste_id"""
+        return self._einkaufsliste_id
 
-    def benutzer_löschen(self):
-        """Einen Benutzer aus dem Listeneintrag löschen"""
-        pass
+    def set_einzelhaendlerId(self, einzelhaendlerId):
+        """Setzen der einzelhaendler_id"""
+        self._einzelhaendler_id = einzelhaendlerId
 
-    def artikel_hinzufügen(self, Benutzer):
-        """Dem Listeneintrag einen Artikel hinzufügen"""
-        pass
+    def get_einzelhaendlerId(self):
+        """Auslesen der einzelhaendler_id"""
+        return self._einzelhaendler_id
 
-    def artikel_löschen(self):
-        """Einen Artikel aus dem Listeneintrag löschen"""
-        pass
+    def set_artikelId(self, artikelId):
+        """Setzen der artikel_id"""
+        self._artikel_id = artikelId
 
-    def einzelhaendler_hinzufügen(self, Benutzer):
-        """Dem Listeneintrag einen Einzelhaendler hinzufügen"""
-        pass
+    def get_artikelId(self):
+        """Auslesen der artikel_id"""
+        return self._artikel_id
 
-    def einzelhaendler_löschen(self):
-        """Einen Einzelhaendler aus dem Listeneintrag löschen"""
-        pass
+    def set_benutzerId(self, benutzerId):
+        """Setzen der benutzer_id"""
+        self._benutzer_id = benutzerId
+
+    def get_benutzerId(self):
+        """Auslesen der benutzer_id"""
+        return self._benutzer_id
+
 
     def __str__(self):
         """Erzeugen einer einfachen textuellen Darstellung der jeweiligen Instanz."""
-        return "Listeneintrag: {}, {}, {}, {}".format(self.get_id(), self._anzahl, self._erledigt, self._änderungs_zeitpunkt)
+        return "Listeneintrag: {}, {}, {}, {}, {}, {}, {}, {}".format(self.get_id(), self._anzahl, self._erledigt, self._änderungs_zeitpunkt, self._einkaufsliste_id, self._einzelhaendler_id, self._artikel_id, self._benutzer_id)
 
     @staticmethod
     def from_dict(dictionary=dict()):
@@ -70,4 +82,8 @@ class Listeneintrag(BusinessObject):
         obj.set_anzahl(dictionary["anzahl"])
         obj.set_erledigt(dictionary["erledigt"])
         obj.set_änderungs_zeitpunkt(dictionary["änderungs_zeitpunkt"])
+        obj.set_einkaufslisteId(dictionary["einkaufsliste_id"])
+        obj.set_einzelhaendlerId(dictionary["einzelhaendler_id"])
+        obj.set_artikelId(dictionary["artikel_id"])
+        obj.set_benutzerId(dictionary["benutzer_id"])
         return obj
