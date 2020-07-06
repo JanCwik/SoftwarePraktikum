@@ -56,7 +56,17 @@ anwenderverbund = api.inherit('Anwenderverbund', namedBO, {
     'einkaufslisten': fields.String(attribute='_einkaufslisten', description='Einkaufslisten im Anwenderverbund')
 })
 
+listeneintrag = api.inherit('Listeneintrag', bo, {
+    'anzahl': fields.String(attribute='_anzahl', description='Anzahl'),
+    'erledigt': fields.Boolean(attribute='_erledigt', description='Status'),
+    'änderungs_zeitpunkt': fields.String(attribute='_änderungs_zeitpunkt', description='Änderungszeitpunkt'),
+    'einkaufsliste_id': fields.Integer(attribute='_einkaufsliste_id', description='ID der Einkaufsliste'),
+    'einzelhaendler_id': fields.Integer(attribute='_einzelhaendler_id', description='ID des Einzehändler'),
+    'artikel_id': fields.Integer(attribute='_artikel_id', description='ID des Artikels'),
+    'benutzer_id': fields.Integer(attribute='_benutzer_id', description='ID des Benutzer'),
 
+
+})
 
 @shopping.route('/artikel')
 @shopping.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
