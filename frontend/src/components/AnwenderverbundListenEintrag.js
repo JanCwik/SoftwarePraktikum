@@ -5,7 +5,7 @@ import { Button, ButtonGroup } from '@material-ui/core';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import AnwenderverbundForm from "./dialogs/AnwenderverbundForm";
 import AnwenderverbundLoeschen from "./dialogs/AnwenderverbundLoeschen";
-import Einkaufslisten from "./Einkaufslisten";
+import Einkaufsliste from "./Einkaufsliste";
 
 
 
