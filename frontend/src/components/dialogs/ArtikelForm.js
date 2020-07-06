@@ -209,6 +209,7 @@ nameChange = (event) => {
                 <MenuItem value={"Kilogramm"}>Kilogramm</MenuItem>
                 <MenuItem value={"Liter"}>Liter</MenuItem>
                 <MenuItem value={"Packung"}>Packung</MenuItem>
+                <MenuItem value={"Stück"}>Stück</MenuItem>
               </Select>
           </FormControl>
             </form>
