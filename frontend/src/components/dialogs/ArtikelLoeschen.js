@@ -7,9 +7,9 @@ import ContextErrorMessage from './ContextErrorMessage';
 import LoadingProgress from './LoadingProgress';
 
 /**
- * Zeigt einen modalen loeschen/abbrechen Dialog, der nach dem löschen eines Einzelhaendlers fragt. Um den EinzelhaendlerBO
- * zu loeschen muss er in prop Einzelhaendler gegeben sein. In Abhängigkeit der Benutzerinteraktion (loeschen/abbrechen)
- * wird jeweils der Backendaufruf gemacht. Danch wird die Funktion onClose prop mit dem EinzelhaendlerBO loeschen
+ * Zeigt einen modalen loeschen/abbrechen Dialog, der nach dem löschen eines Artikels fragt. Um den ArtikelBO
+ * zu loeschen muss er in prop Artikel gegeben sein. In Abhängigkeit der Benutzerinteraktion (loeschen/abbrechen)
+ * wird jeweils der Backendaufruf gemacht. Danch wird die Funktion onClose prop mit dem ArtikelBO loeschen
  * Objekt als Parameter aufgerufen. Wenn der Dialog abgebrochen wird, wird onClose mit null aufgerufen.
  */
 class ArtikelLoeschen extends Component {
@@ -24,14 +24,14 @@ class ArtikelLoeschen extends Component {
     };
   }
 
-  /** Löschen des Einzelhaendlers */
+  /** Löschen des Artikels */
   deleteArtikel = () => {
     API.getAPI().deleteArtikelAPI(this.props.artikel.getID()).then(artikel => {
       this.setState({
         deletingInProgress: false,              // Ladeanzeige deaktivieren
         deletingError: null                     // Keine Error Nachricht
       });
-      this.props.onClose(this.props.artikel);  // Aufruf des Urhebers mit dem geloeschten Einzelhaendler
+      this.props.onClose(this.props.artikel);  // Aufruf des Urhebers mit dem geloeschten Artikel
     }).catch(e =>
       this.setState({
         deletingInProgress: false,              // Ladeanzeige deaktivieren
@@ -101,13 +101,13 @@ const styles = theme => ({
 ArtikelLoeschen.propTypes = {
   /** @ignore */
   classes: PropTypes.object.isRequired,
-  /** Um das EinzelhaendlerBO zu loeschen */
+  /** Um das ArtikelBO zu loeschen */
   artikel: PropTypes.object.isRequired,
   /** Wenn true, wird der Dialog gerendert */
   show: PropTypes.bool.isRequired,
   /**
    * Handler Funktion, die aufgerufen wird, wenn der Dialog geschlossen wurde.
-   * Sendet das geloeschte EinzelhaendlerBO als Parameter oder null, wenn abbrechen gedrückt wurde.
+   * Sendet das geloeschte ArtikelBO als Parameter oder null, wenn abbrechen gedrückt wurde.
    */
   onClose: PropTypes.func.isRequired,
 }
