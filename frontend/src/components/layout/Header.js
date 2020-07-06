@@ -43,6 +43,8 @@ class Header extends Component {
           Meine Einkäufe
         </Typography>
 
+         {
+          user ?
 
             <Tabs indicatorColor='primary' textColor='primary' centered value={this.state.tabindex} onChange={this.handleTabChange} >
               <Tab icon ={<FastfoodIcon/>} label='Artikel' component={RouterLink} to={`/artikel`} />
@@ -50,6 +52,10 @@ class Header extends Component {
               <Tab icon ={<ShoppingCartIcon/>} label='Einzelhändler' component={RouterLink} to={`/einzelhaendler`}/>
               <Tab icon ={<BarChartIcon/>} label='Statistik' component={RouterLink} to={`/statistik`}/>
             </Tabs>
+             : null
+        }
+
+
         </Paper>
         //</Router>
     )
