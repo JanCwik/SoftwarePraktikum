@@ -15,7 +15,7 @@ import LoadingProgress from './dialogs/LoadingProgress';
  *
  * @author [Christoph Kunz](https://github.com/christophkunz)
  */
-class Einkaufslisten extends Component {
+class Einkaufsliste extends Component {
 
   constructor(props) {
     super(props);
@@ -140,7 +140,7 @@ const styles = theme => ({
 });
 
 /** PropTypes */
-Einkaufslisten.propTypes = {
+Einkaufsliste.propTypes = {
   /** @ignore */
   classes: PropTypes.object.isRequired,
   /** The CustomerBO of this AccountList */
@@ -149,4 +149,4 @@ Einkaufslisten.propTypes = {
   show: PropTypes.bool.isRequired
 }
 
-export default withStyles(styles)(Einkaufslisten);
+export default withStyles(styles)(Einkaufsliste);
