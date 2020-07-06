@@ -3,11 +3,13 @@ from src.server.bo.Einzelhaendler import Einzelhaendler
 from src.server.bo.Benutzer import Benutzer
 from src.server.bo.Anwenderverbund import Anwenderverbund
 from src.server.bo.Einkaufsliste import Einkaufsliste
+from src.server.bo.Listeneintrag import Listeneintrag
 from src.server.db.ArtikelMapper import ArtikelMapper
 from src.server.db.EinzelhaendlerMapper import EinzelhaendlerMapper
 from src.server.db.BenutzerMapper import BenutzerMapper
 from src.server.db.AnwenderverbundMapper import AnwenderverbundMapper
 from src.server.db.EinkaufslisteMapper import EinkaufslistenMapper
+from src.server.db.ListeneintragMapper import ListeneintragMapper
 
 
 class ApplikationsAdministration(object):
@@ -253,4 +255,46 @@ class ApplikationsAdministration(object):
     def update_einkaufsliste(self, einkaufsliste):
         with EinkaufslistenMapper() as mapper:
             mapper.update(einkaufsliste)
+
+    """ Methode zum löschen einer Einkaufslite aus der Datenbank"""
+
+    def delete_einkaufsliste(self, einkaufsliste):
+        with EinkaufslistenMapper() as mapper:
+            mapper.delete(einkaufsliste)
+
+    """ METHODEN ZUR VERWALTUNG VON Listeneinträgen IN DER DATENBANK"""
+
+    """______________________________________________________"""
+
+    """ Methode zum Anlegen eines neuen Listeneintrags in der Datenbank"""
+
+    def listeneintrag_anlegen(self, anzahl, einkaufsliste, einzelhaendler, artikel, benutzer, erledigt):
+        listeneintrag = Listeneintrag()
+        listeneintrag.set_anzahl(anzahl)
+        listeneintrag.set_einkaufslisteId(einkaufsliste.get_id())
+        listeneintrag.set_einzelhaendlerId(einzelhaendler.get_id())
+        listeneintrag.set_artikelId(artikel.get_id())
+        listeneintrag.set_benutzerId(benutzer.get_id())
+        listeneintrag.set_erledigt(erledigt)
+
+        with ListeneintragMapper() as mapper:
+            return mapper.insert(listeneintrag)
+
+    """ Methode zum aktualisieren eines Listeneintrags in der Datenbank """
+
+    def update_listeneintrag(self, listeneintrag):
+        with ListeneintragMapper() as mapper:
+            mapper.update(listeneintrag)
+
+    """ Methode zum ausgeben eines Listeneintrags aus der Datenbank anhand dessen ID"""
+
+    def get_listeneintrag_by_id(self, id):
+        with ListeneintragMapper() as mapper:
+            return mapper.find_by_id(id)
+
+    """ Methode zum löschen eines Listeneintrags aus der Datenbank"""
+
+    def delete_listeneintrag(self, listeneintrag):
+        with ListeneintragMapper() as mapper:
+            mapper.delete(listeneintrag)
 
