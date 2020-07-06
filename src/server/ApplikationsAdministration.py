@@ -167,10 +167,17 @@ class ApplikationsAdministration(object):
         with BenutzerMapper() as mapper:
             mapper.update(benutzer)
 
+    """ Methode zum ausgeben eines Benutzers anhand seiner Google ID"""
+
     def get_user_by_google_user_id(self, id):
-        """Den Benutzer mit der gegebenen Google ID auslesen."""
         with BenutzerMapper() as mapper:
             return mapper.find_by_google_user_id(id)
+
+    """ Methode zum ausgeben aller Listeneinträge für die der Benutzer verantwortlich ist"""
+
+    def get_all_listeneintraege_benutzer(self, id):
+        with BenutzerMapper() as mapper:
+            return mapper.find_all_listeneintraege(id)
 
     """ METHODEN ZUR VERWALTUNG VON ANWENDERVERBUNDE IN DER DATENBANK"""
 

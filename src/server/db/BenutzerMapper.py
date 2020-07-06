@@ -1,5 +1,6 @@
 from src.server.db.Mapper import Mapper
 from src.server.bo.Benutzer import Benutzer
+from src.server.bo.Listeneintrag import Listeneintrag
 
 
 class BenutzerMapper(Mapper):
@@ -215,6 +216,30 @@ class BenutzerMapper(Mapper):
             """Der IndexError wird oben beim Zugriff auf tuples[0] auftreten, wenn der vorherige SELECT-Aufruf
             keine Tupel liefert, sondern tuples = cursor.fetchall() eine leere Sequenz zurück gibt."""
             result = None
+
+        self._cnx.commit()
+        cursor.close()
+
+        return result
+
+    def find_all_listeneintraege(self, id):
+        result = []
+        cursor = self._cnx.cursor()
+        cursor.execute("SELECT * FROM listeneintrag WHERE benutzer_id={}".format(id))
+        res = cursor.fetchall()
+
+        for(id, anzahl, aenderungs_zeitpunkt, einkaufsliste_id, einzelhaendler_id, artikel_id, benutzer_id, erledigt) in res:
+
+            listeneintrag = Listeneintrag()
+            listeneintrag.set_id(id)
+            listeneintrag.set_anzahl(anzahl)
+            listeneintrag.set_änderungs_zeitpunkt(aenderungs_zeitpunkt)
+            listeneintrag.set_einkaufslisteId(einkaufsliste_id)
+            listeneintrag.set_einzelhaendlerId(einzelhaendler_id)
+            listeneintrag.set_artikelId(artikel_id)
+            listeneintrag.set_benutzerId(benutzer_id)
+            listeneintrag.set_erledigt(erledigt)
+            result.append(listeneintrag)
 
         self._cnx.commit()
         cursor.close()
