@@ -48,7 +48,7 @@ benutzer = api.inherit('Benutzer', namedBO, {
 })
 
 einkaufsliste = api.inherit('Einkaufsliste', namedBO, {
-    'änderungs_zeitraum': fields.String(attribute='_änderungs_zeitpunkt', description='Änderungszeitpunkt'),
+    'änderungs_zeitpunkt': fields.String(attribute='_änderungs_zeitpunkt', description='Änderungszeitpunkt'),
     'anwenderverbund_id': fields.Integer(attribute='_anwenderverbund_id', description='ID des Anwenderverbundes')
 })
 
@@ -211,7 +211,7 @@ class ArtikelByNameOperations(Resource):
         einzelhaendler = adm.get_einzelhaendler_by_name(name)
         return einzelhaendler
 
-"""Einzelhändler DONE. Benutzer NEXT"""
+"""Einzelhändler DONE -> keine Error. Benutzer NEXT. """
 
 @shopping.route('/benutzer')
 @shopping.response(500, 'Serverfehler')
@@ -298,7 +298,7 @@ class BenutzerByNameOperations(Resource):
 class EinkaufslisteListOperations(Resource):
     @shopping.marshal_list_with(einkaufsliste)
     #@secured
-    def get(self):
+    def get(self):                                          #evtl. unnötig bzw. muss mit anwenderverbund definiert werden
         """Auslesen aller Einkaufslisten"""
         adm = ApplikationsAdministration()
         einkaufsliste = adm.get_all_einkaufslisten()
@@ -307,7 +307,7 @@ class EinkaufslisteListOperations(Resource):
     @shopping.marshal_with(einkaufsliste)
     @shopping.expect(einkaufsliste)
     #@secured
-    def post(self):
+    def post(self):                                         #Anwenderverbund muss definiert sein
         """Anlegen einer Einkaufsliste"""
         adm = ApplikationsAdministration()
 
@@ -323,7 +323,7 @@ class EinkaufslisteListOperations(Resource):
 @shopping.route('/einkaufsliste-by-id/<int:id>')
 @shopping.response(500, 'Serverfehler')
 @shopping.param('id', 'ID der Einkaufsliste')
-class EinkaufslisteOperations(Resource):
+class EinkaufslisteOperations(Resource):                                    #id von Einkaufsliste muss mit id von Anwenderverbund angegeben werden
     @shopping.marshal_with(einkaufsliste)
     #@secured
     def get(self, id):
@@ -359,7 +359,7 @@ class EinkaufslisteOperations(Resource):
 @shopping.route('/einkaufsliste-by-name/<string:name>')
 @shopping.response(500, 'Serverfehler')
 @shopping.param('name', 'Name der Einkaufsliste')
-class EinkaufslisteByNameOperations(Resource):
+class EinkaufslisteByNameOperations(Resource):                                  #name evtl. nicht eindeutig
     @shopping.marshal_with(einkaufsliste)
     #@secured
     def get(self, name):
@@ -447,7 +447,22 @@ class AnwenderverbundByNameOperations(Resource):
         anwenderverbund = adm.get_anwenderverbund_by_name(name)
         return anwenderverbund
 
-#find_all_einkaufsliste fehlt noch
+@shopping.route('/anwenderverbund/<int:id>/einkauflisten/')
+@shopping.response(500, 'Serverfehler')
+@shopping.param('id', 'ID des Anwenderverbundes')
+class EinkaufslistenInAnwenderverbundOperations(Resource):
+    @shopping.marshal_with(anwenderverbund)
+    #@secured
+    def get(self, id):
+        """Auslesen aller Einkaufslisten in einem Anwenderverbund"""
+        adm = ApplikationsAdministration()
+        anwenderverbund = adm.get_all_einkaufslisten(id)
+        return anwenderverbund
+
+
+"""Anwenderverbund DONE. Listeneintrag NEXT"""
+
+
 
 if __name__ == '__main__':
     app.run(debug=True)
