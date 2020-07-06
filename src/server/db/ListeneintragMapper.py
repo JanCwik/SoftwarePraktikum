@@ -1,17 +1,17 @@
 from src.server.db.Mapper import Mapper
-from src.server.bo.Einkaufsliste import Einkaufsliste
+from src.server.bo.Listeneintrag import Listeneintrag
 import datetime
 
 
-class EinkaufslistenMapper(Mapper):
+class ListeneintragMapper(Mapper):
 
     def __init__(self):
         super().__init__()
 
-    """ Mapper-Methode zum speichern einer neuen Einkaufsliste in der Datenbank"""
+    """ Mapper-Methode zum speichern eines neuen Listeneintrags in der Datenbank"""
 
-    """ Beim Aufruf der Methode wird eine zuvor erstellte Instanz der Klasse "Einkaufsliste()" übergeben.
-        Anschließend wird via SQL-Abfrage die höchste ID aus der Tabelle "einkaufsliste" ausgegeben und dann
+    """ Beim Aufruf der Methode wird eine zuvor erstellte Instanz der Klasse "Listeneintrag()" übergeben.
+        Anschließend wird via SQL-Abfrage die höchste ID aus der Tabelle "listeneintrag" ausgegeben und dann
         mit der fetchall-Methode in einem Tupel gespeichert.
 
         Mit einer for-schleife wird anschließend geschaut ob bereits eine ID in der Tabelle vorhanden ist.
@@ -23,7 +23,8 @@ class EinkaufslistenMapper(Mapper):
         Mittels der getter-Methoden, welche zuvor in der entsprechenden Business-Object-Klasse definierten wurden, 
         werden die Attribute der Instanz an das SQL-Statement übergeben.
         """
-    def insert(self, einkaufsliste):
+    def insert(self, listeneintrag):
+        aenderungs_zeitpunkt = datetime.datetime.now()
 
         cursor = self._cnx.cursor()
         cursor.execute("SELECT MAX(id) AS maxid FROM einkaufsliste ")
@@ -32,19 +33,19 @@ class EinkaufslistenMapper(Mapper):
         for (maxid) in ins:
             if maxid[0] is not None:
 
-                einkaufsliste.set_id(maxid[0] + 1)
+                listeneintrag.set_id(maxid[0] + 1)
             else:
 
-                einkaufsliste.set_id(1)
+                listeneintrag.set_id(1)
 
-        template = "INSERT INTO einkaufsliste (id, name, erstellungs_zeitpunkt, aenderungs_zeitpunkt, anwenderverbund_id) VALUES (%s,%s,%s,%s,%s)"
-        vals = (einkaufsliste.get_id(), einkaufsliste.get_name(), einkaufsliste.get_erstellungs_zeitpunkt(), einkaufsliste.get_änderungs_zeitpunkt(), einkaufsliste.get_anwenderId())
+        template = "INSERT INTO listeneintrag (id, anzahl, aenderungs_zeitpunkt, einkaufsliste_id, einzelhaendler_id, artikel_id, benutzer_id, erledigt) VALUES (%s,%s,%s,%s,%s,%s,%s,,%s)"
+        vals = (listeneintrag.get_id(), listeneintrag.get_anzahl(), aenderungs_zeitpunkt, listeneintrag.get_einkaufsliste_id, listeneintrag.get_einzelhaendler_id, listeneintrag.get_artikel_id, listeneintrag.get_benutzer_id, listeneintrag.get_erledigt())
         cursor.execute(template, vals)
 
         self._cnx.commit()
         cursor.close()
 
-        return einkaufsliste
+        return listeneintrag
 
     """ Mapper-Methode zum aktualisieren (des Namens) einer Einkaufsliste in der Datenbank"""
 
@@ -54,13 +55,13 @@ class EinkaufslistenMapper(Mapper):
         Mittels der getter-Methoden, welche zuvor in der entsprechenden Business-Object-Klasse definierten wurden, 
         werden die Attribute der Instanz an das SQL-Statement übergeben."""
 
-    def update(self, einkaufsliste):
+    def update(self, listeneintrag):
         aenderungs_zeitpunkt = datetime.datetime.now()
 
         cursor = self._cnx.cursor()
 
-        template = "UPDATE einkaufsliste " + "SET name=%s, aenderungs_zeitpunkt=%s WHERE id=%s"
-        vals = (einkaufsliste.get_name(), aenderungs_zeitpunkt, einkaufsliste.get_id())
+        template = "UPDATE listeneneintrag " + "SET anzahl=%s, aenderungs_zeitpunkt=%s WHERE id=%s"
+        vals = (listeneintrag.get_anzahl(), aenderungs_zeitpunkt, listeneintrag.get_einzelhaendler_id, listeneintrag.get_artikel_id, listeneintrag.get_benutzer_id, listeneintrag.get_erledigt())
         cursor.execute(template, vals)
 
         self._cnx.commit()
