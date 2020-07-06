@@ -1,12 +1,12 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
-import {Typography,Tabs, Tab} from "@material-ui/core";
+import {Typography,Tabs, Tab, Paper} from "@material-ui/core";
 import {Link as RouterLink} from "react-router-dom"
 import FastfoodIcon from "@material-ui/icons/Fastfood";
 import PeopleIcon from "@material-ui/icons/People";
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
 import BarChartIcon from '@material-ui/icons/BarChart';
-
+import ProfileDropDown from '../dialogs/ProfileDropDown';
 
 class Header extends Component {
 
@@ -29,13 +29,13 @@ class Header extends Component {
 
   /** Renders the component */
   render() {
-   //const { user } = this.props;
+   const { user } = this.props;
 
     return (
       //<Router>
 
-        <div>
-
+        <Paper variant='outlined'>
+        <ProfileDropDown user={user} />
         <Typography variant='h3' component='h1' align='center'>
          SharedShoppingList
         </Typography>
@@ -50,7 +50,7 @@ class Header extends Component {
               <Tab icon ={<ShoppingCartIcon/>} label='Einzelhändler' component={RouterLink} to={`/einzelhaendler`}/>
               <Tab icon ={<BarChartIcon/>} label='Statistik' component={RouterLink} to={`/statistik`}/>
             </Tabs>
-        </div>
+        </Paper>
         //</Router>
     )
   }
