@@ -75,6 +75,16 @@ class ArtikelListenEintrag extends Component {
       showArtikelDeleteDialog: false
     });
   }
+  StandardartikelAusgeben=()=> {
+    let  a;
+    let ausgabe;
+    a = this.state.artikel.getStandardartikel()
+        a ?
+        ausgabe = "Ja"
+        :
+        ausgabe = "Nein"
+    return ausgabe
+  }
 
   /** Rendert den Komponent */
   render() {
@@ -109,7 +119,7 @@ class ArtikelListenEintrag extends Component {
           </ExpansionPanelSummary>
           <ExpansionPanelDetails>
             <Typography className={classes.panelDetails}>
-              Standardartikel: {`${artikel.getStandardartikel()} `}
+              Standardartikel: {`${this.StandardartikelAusgeben()} `}
             </Typography>
             <Typography className>
               Einheit: {`${artikel.getEinheit()}`}
