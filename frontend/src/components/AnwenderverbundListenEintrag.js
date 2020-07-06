@@ -107,10 +107,10 @@ class AnwenderverbundListenEintrag extends Component {
               <Grid item>
                 <ButtonGroup variant='text' size='small'>
                   <Button color='primary' onClick={this.editAnwenderverbundButtonClicked}>
-                    edit
+                    bearbeiten
                   </Button>
                   <Button color='secondary' onClick={this.deleteAnwenderverbundButtonClicked}>
-                    delete
+                    löschen
                   </Button>
                 </ButtonGroup>
               </Grid>
