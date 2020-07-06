@@ -222,12 +222,12 @@ class ApplikationsAdministration(object):
 
     """ Methode zum ausgeben aller Einkaufslisten die zum jeweiligen Anwenderverbund gehören"""
 
-    def get_all_einkaufslisten(self, anwenderverbund):
+    def get_all_einkaufslisten(self, id):
         with AnwenderverbundMapper() as mapper:
-            return mapper.find_all_einkaufslisten(anwenderverbund)
+            return mapper.find_all_einkaufslisten(id)
 
 
-    """ METHODEN ZUR VERWALTUNG VON EINKAUSLISTEN IN DER DATENBANK"""
+    """ METHODEN ZUR VERWALTUNG VON EINKAUFSLISTEN IN DER DATENBANK"""
 
     """______________________________________________________"""
 
@@ -265,6 +265,12 @@ class ApplikationsAdministration(object):
         with EinkaufslistenMapper() as mapper:
             mapper.delete(einkaufsliste)
 
+    """ Methode zum ausgeben aller Listeneinträge die zur jeweiligen Einkaufsliste gehören"""
+
+    def get_all_listeneintraege_einkaufslisten(self, id):
+        with EinkaufslistenMapper() as mapper:
+            return mapper.find_all_listeneintraege(id)
+
     """ METHODEN ZUR VERWALTUNG VON Listeneinträgen IN DER DATENBANK"""
 
     """______________________________________________________"""
@@ -300,4 +306,3 @@ class ApplikationsAdministration(object):
     def delete_listeneintrag(self, listeneintrag):
         with ListeneintragMapper() as mapper:
             mapper.delete(listeneintrag)
-
