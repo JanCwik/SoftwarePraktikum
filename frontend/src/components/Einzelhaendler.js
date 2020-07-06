@@ -91,7 +91,7 @@ class Einzelhaendler extends Component {
   }
 
   /**
-   * Behandelt onEinzelhaendlerLoeschen Ereignisse von der EinzelhaendlerListenEintrag Komponente.
+   * Behandelt einzelhaendlerDeleted Ereignisse von der EinzelhaendlerListenEintrag Komponente.
    *
    * @param {Einzelhaendler} EinzelhaendlerBO von dem EinzelhaendlerListenEintrag um gelöscht zu werde
    */
@@ -208,7 +208,7 @@ class Einzelhaendler extends Component {
   }
 }
 
-/** Komponentenspezifische Stile */
+/** Komponentenspezifisches Styling */
 const styles = theme => ({
   root: {
     width: '100%',

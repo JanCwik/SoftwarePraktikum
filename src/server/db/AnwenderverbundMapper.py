@@ -179,8 +179,8 @@ class AnwenderverbundMapper(Mapper):
         return result
 
 
-    def find_all_einkaufslisten(self, anwenderverbund):
-        id = anwenderverbund.get_id()
+    def find_all_einkaufslisten(self, id):
+        #id = anwenderverbund.get_id()
         result = []
         cursor = self._cnx.cursor()
         cursor.execute("SELECT * FROM einkaufsliste WHERE anwenderverbund_id={}".format(id))

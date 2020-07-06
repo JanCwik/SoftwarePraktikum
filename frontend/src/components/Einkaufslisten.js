@@ -6,7 +6,7 @@ import AddIcon from '@material-ui/icons/Add';
 import  API  from '../api/API';
 import ContextErrorMessage from './dialogs/ContextErrorMessage';
 import LoadingProgress from './dialogs/LoadingProgress';
-import Einkaufsliste from "./einzelneEinkaufsListe";
+
 
 /**
  * Renders a list of AccountListEntry objects.
