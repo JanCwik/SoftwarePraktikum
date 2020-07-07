@@ -143,7 +143,7 @@ class ArtikelByNameOperations(Resource):
         artikel = adm.get_artikel_by_name(name)
         return artikel
 
-"""Artikel DONE. Einzelhändler NEXT"""
+"""Artikel DONE -> keine Error. Einzelhändler NEXT"""
 
 
 @shopping.route('/einzelhaendler')
@@ -299,6 +299,8 @@ class BenutzerByNameOperations(Resource):
         return benutzer
 
 
+
+
 """Benutzer DONE. Einkaufsliste NEXT"""
 
 
@@ -327,7 +329,7 @@ class EinkaufslisteListOperations(Resource):
             return a, 200
         else:
             return '', 500
-
+    #Fehler: AttributeError: 'int' object has no attribute 'get_id'
 
 
 @shopping.route('/einkaufsliste-by-id/<int:id>')
@@ -473,7 +475,7 @@ class AnwenderverbundRelatedEinkaufslisteOperations(Resource):
             return einkaufslisten
         else:
             return "Einkaufsliste nicht gefunden", 500
-
+    #in ApplikationsAdministration bei get_all_einkaufslisten beachte Notiz (an Maik)
 
 """Anwenderverbund DONE. Listeneintrag NEXT"""
 
