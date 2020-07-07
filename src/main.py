@@ -67,6 +67,11 @@ listeneintrag = api.inherit('Listeneintrag', bo, {
 
 })
 
+
+
+
+
+
 @shopping.route('/artikel')
 @shopping.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
 class ArtikelListOperations(Resource):
@@ -91,7 +96,6 @@ class ArtikelListOperations(Resource):
             return a, 200
         else:
             return '', 500
-
 
 
 @shopping.route('/artikel-by-id/<int:id>')
@@ -130,6 +134,7 @@ class ArtikelOperations(Resource):
         else:
             return '', 500
 
+
 @shopping.route('/artikel-by-name/<string:name>')
 @shopping.response(500, 'Serverfehler')
 @shopping.param('name', 'Name des Artikels')
@@ -142,7 +147,20 @@ class ArtikelByNameOperations(Resource):
         artikel = adm.get_artikel_by_name(name)
         return artikel
 
+
+
+
+
+
+
 """Artikel DONE -> keine Error. Listeneintrag NEXT"""
+
+
+
+
+
+
+
 
 @shopping.route('/listeneintrag')
 @shopping.response(500, 'Server-Error')
@@ -160,7 +178,6 @@ class ListeneintragOperations(Resource):
             return a, 200
         else:
             return '', 500
-
 
 
 @shopping.route('/listeneintrag-by-id/<int:id>')
@@ -199,7 +216,18 @@ class ListeneintragOperations(Resource):
         else:
             return '', 500
 
+
+
+
+
+
 """Listeneintrag DONE. Einzelhaendler NEXT"""
+
+
+
+
+
+
 
 @shopping.route('/einzelhaendler')
 @shopping.response(500, 'Serverfehler')
@@ -225,7 +253,6 @@ class EinzelhaendlerListOperations(Resource):
             return a, 200
         else:
             return '', 500
-
 
 
 @shopping.route('/einzelhaendler-by-id/<int:id>')
@@ -264,6 +291,7 @@ class EinzelhaendlerOperations(Resource):
         else:
             return '', 500
 
+
 @shopping.route('/einzelhaendler-by-name/<string:name>')
 @shopping.response(500, 'Serverfehler')
 @shopping.param('name', 'Name des Einzelhändler')
@@ -276,7 +304,19 @@ class ArtikelByNameOperations(Resource):
         einzelhaendler = adm.get_einzelhaendler_by_name(name)
         return einzelhaendler
 
+
+
+
+
+
+
 """Einzelhändler DONE -> keine Error. Benutzer NEXT. """
+
+
+
+
+
+
 
 @shopping.route('/benutzer')
 @shopping.response(500, 'Serverfehler')
@@ -302,7 +342,6 @@ class BenutzerListOperations(Resource):
             return a, 200
         else:
             return '', 500
-
 
 
 @shopping.route('/benutzer-by-id/<int:id>')
@@ -341,6 +380,7 @@ class BenutzerOperations(Resource):
         else:
             return '', 500
 
+
 @shopping.route('/benutzer-by-name/<string:name>')
 @shopping.response(500, 'Serverfehler')
 @shopping.param('name', 'Name des Benutzers')
@@ -371,10 +411,23 @@ class BenutzerRelatedListeneintragOperations(Resource):
         else:
             return "Benutzer nicht gefunden", 500
 
+
+
+
 #get Benutzer by email fehlt
 
 
+
+
+
 """Benutzer DONE. Einkaufsliste NEXT"""
+
+
+
+
+
+
+
 
 
 
@@ -392,7 +445,7 @@ class EinkaufslisteListOperations(Resource):
     @shopping.marshal_with(einkaufsliste)
     @shopping.expect(einkaufsliste)
     #@secured
-    def post(self):                                         #Anwenderverbund muss definiert sein
+    def post(self):                                         #id von Einkaufsliste muss mit id von Anwenderverbund angegeben werden, sonst Server-Error!
         """Anlegen einer Einkaufsliste"""
         adm = ApplikationsAdministration()
 
@@ -402,13 +455,12 @@ class EinkaufslisteListOperations(Resource):
             return a, 200
         else:
             return '', 500
-    #Fehler: AttributeError: 'int' object has no attribute 'get_id'
 
 
 @shopping.route('/einkaufsliste-by-id/<int:id>')
 @shopping.response(500, 'Serverfehler')
 @shopping.param('id', 'ID der Einkaufsliste')
-class EinkaufslisteOperations(Resource):                                    #id von Einkaufsliste muss mit id von Anwenderverbund angegeben werden
+class EinkaufslisteOperations(Resource):
     @shopping.marshal_with(einkaufsliste)
     #@secured
     def get(self, id):
@@ -441,6 +493,8 @@ class EinkaufslisteOperations(Resource):                                    #id 
         else:
             return '', 500
 
+
+"""
 @shopping.route('/einkaufsliste-by-name/<string:name>')
 @shopping.response(500, 'Serverfehler')
 @shopping.param('name', 'Name der Einkaufsliste')
@@ -448,13 +502,22 @@ class EinkaufslisteByNameOperations(Resource):                                  
     @shopping.marshal_with(einkaufsliste)
     #@secured
     def get(self, name):
-        """Auslesen einer bestimmten Einkaufsliste anhand dessen Namen"""
+        "Auslesen einer bestimmten Einkaufsliste anhand dessen Namen"
         adm = ApplikationsAdministration()
         einkaufsliste = adm.get_einkaufsliste_by_name(name)
         return einkaufsliste
+"""
+
+#Suche per Name nicht sinnvoll da nicht eindeutig!
+
 
 
 """Einkaufsliste DONE. Anwenderverbund NEXT"""
+
+
+
+
+
 
 
 @shopping.route('/anwenderverbund')
@@ -481,7 +544,6 @@ class AnwenderverbundListOperations(Resource):
             return a, 200
         else:
             return '', 500
-
 
 
 @shopping.route('/anwenderverbund-by-id/<int:id>')
@@ -520,6 +582,7 @@ class AnwenderverbundOperations(Resource):
         else:
             return '', 500
 
+
 @shopping.route('/anwenderverbund-by-name/<string:name>')
 @shopping.response(500, 'Serverfehler')
 @shopping.param('name', 'Name des Anwenderverbundes')
@@ -531,6 +594,7 @@ class AnwenderverbundByNameOperations(Resource):
         adm = ApplikationsAdministration()
         anwenderverbund = adm.get_anwenderverbund_by_name(name)
         return anwenderverbund
+
 
 @shopping.route('/anwenderverbund/<int:id>/einkauflisten')
 @shopping.response(500, 'Serverfehler')
@@ -549,7 +613,12 @@ class AnwenderverbundRelatedEinkaufslisteOperations(Resource):
         else:
             return "Einkaufsliste nicht gefunden", 500
 
-"""Anwenderverbund DONE. Listeneintrag NEXT"""
+
+
+
+
+"""Anwenderverbund DONE"""
+
 
 
 
