@@ -67,7 +67,7 @@ handleCheck =(event)=>{
               inputProps={{ 'aria-label': 'primary checkbox' }}
           />
 
-          <Typography color='textPrimary' className={classes.accountEntry} >
+          <Typography color='textPrimary' className={classes.Artikel} >
             Artikel
 
           </Typography>
@@ -85,8 +85,8 @@ handleCheck =(event)=>{
 
           <ListItemSecondaryAction>
 
-            <Button color='secondary' size='small' startIcon={<DeleteIcon />} onClick={this.deleteAccount}>
-              Delete
+            <Button  color='secondary' size='small' startIcon={<DeleteIcon />} onClick={this.deleteAccount}>
+
             </Button>
           </ListItemSecondaryAction>
         </ListItem>
@@ -105,10 +105,11 @@ const styles = theme => ({
   buttonMargin: {
     marginRight: theme.spacing(2),
   },
-    accountEntry: {
+    Artikel: {
     fontSize: theme.typography.pxToRem(15),
-    flexBasis: '33.33%',
+    flexBasis: '25%',
     flexShrink: 0,
+    align:'justify'
 
   },
     Liste:{
@@ -118,22 +119,29 @@ const styles = theme => ({
 
     Menge: {
     fontSize: theme.typography.pxToRem(15),
-    flexBasis: '33.33%',
+    flexBasis: '25%',
     flexShrink: 0,
+    align:'justify'
     },
 
     Ort: {
     fontSize: theme.typography.pxToRem(15),
-    flexBasis: '23.33%',
+    flexBasis: '25%',
     flexShrink: 0,
+    align:'justify'
 
     },
 
     Benutzer: {
     fontSize: theme.typography.pxToRem(15),
-    flexBasis: '33.33%',
+    flexBasis: '25%',
     flexShrink: 0,
-    }
+    align:'justify'
+
+    },
+
+
+
 
 });
 

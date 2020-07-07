@@ -159,6 +159,13 @@ class ApplikationsAdministration(object):
             return mapper.find_by_name(name)
 
 
+    """ Methode zum ausgeben eines Benutzers aus der Datenbank anhand dessen Email """
+
+    def get_benutzer_by_email(self, email):
+        with BenutzerMapper() as mapper:
+            return mapper.find_by_email(email)
+
+
     """ Methode zum aktualisieren eines Benutzers in der Datenbank (Attribute ändern)"""
 
     def update_benutzer(self, benutzer):
@@ -227,9 +234,9 @@ class ApplikationsAdministration(object):
 
     """ Methode zum ausgeben aller Einkaufslisten die zum jeweiligen Anwenderverbund gehören"""
 
-    def get_all_einkaufslisten(self, id):
+    def get_all_einkaufslisten(self, anwenderverbund):              #hier muss anwenderverbund statt nur id stehen, sonst mysql syntax error
         with AnwenderverbundMapper() as mapper:
-            return mapper.find_all_einkaufslisten(id)
+            return mapper.find_all_einkaufslisten(anwenderverbund.get_id())     #hier muss anwenderverbund.get_id() stehen
 
     """ Methode zum Mitglieder hinzufügen"""
 
