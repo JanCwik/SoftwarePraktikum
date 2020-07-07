@@ -79,6 +79,7 @@ class ApplikationsAdministration(object):
         einzelhaendler = Einzelhaendler()
         einzelhaendler.set_name(name)
         einzelhaendler.set_id(id)
+        #Änderung: Hier wird auch id übergeben, da sie als response zu sehen sein soll
 
 
 
@@ -175,9 +176,10 @@ class ApplikationsAdministration(object):
 
     """ Methode zum ausgeben aller Listeneinträge für die der Benutzer verantwortlich ist"""
 
-    def get_all_listeneintraege_benutzer(self, id):
+    def get_all_listeneintraege_benutzer(self, benutzer):
         with BenutzerMapper() as mapper:
-            return mapper.find_all_listeneintraege(id)
+            return mapper.find_all_listeneintraege(benutzer)
+        #Änderung: Hier wird ganze Instanz übergeben, statt nur ID
 
     """ METHODEN ZUR VERWALTUNG VON ANWENDERVERBUNDE IN DER DATENBANK"""
 
@@ -229,9 +231,10 @@ class ApplikationsAdministration(object):
 
     """ Methode zum ausgeben aller Einkaufslisten die zum jeweiligen Anwenderverbund gehören"""
 
-    def get_all_einkaufslisten(self, anwenderverbund):              #hier muss anwenderverbund statt nur id stehen, sonst mysql syntax error
+    def get_all_einkaufslisten(self, anwenderverbund):
         with AnwenderverbundMapper() as mapper:
-            return mapper.find_all_einkaufslisten(anwenderverbund.get_id())     #hier muss anwenderverbund.get_id() stehen
+            return mapper.find_all_einkaufslisten(anwenderverbund)
+        #Änderung: Hier wird ganze Instanz übergeben statt nur id
 
     def mitglieder_hinzufuegen(self, anwenderverbund, benutzer):
         with AnwenderverbundMapper() as mapper:
@@ -251,7 +254,8 @@ class ApplikationsAdministration(object):
     def einkaufsliste_anlegen(self, name, anwenderverbund):
         einkaufsliste = Einkaufsliste()
         einkaufsliste.set_name(name)
-        einkaufsliste.set_anwenderId(anwenderverbund.get_id())
+        einkaufsliste.set_anwenderId(anwenderverbund)
+        #Änderung: hier wird ganze Instanz übergeben statt nur id
 
         with EinkaufslistenMapper() as mapper:
             return mapper.insert(einkaufsliste)
@@ -295,11 +299,12 @@ class ApplikationsAdministration(object):
     def listeneintrag_anlegen(self, anzahl, einkaufsliste, einzelhaendler, artikel, benutzer, erledigt):
         listeneintrag = Listeneintrag()
         listeneintrag.set_anzahl(anzahl)
-        listeneintrag.set_einkaufslisteId(einkaufsliste.get_id())
-        listeneintrag.set_einzelhaendlerId(einzelhaendler.get_id())
-        listeneintrag.set_artikelId(artikel.get_id())
-        listeneintrag.set_benutzerId(benutzer.get_id())
+        listeneintrag.set_einkaufslisteId(einkaufsliste)
+        listeneintrag.set_einzelhaendlerId(einzelhaendler)
+        listeneintrag.set_artikelId(artikel)
+        listeneintrag.set_benutzerId(benutzer)
         listeneintrag.set_erledigt(erledigt)
+        #Änderung: die ...Id-Setter übergeben nun die ganze Instanz, nichtmehr nur die ID durch .get_ID()
 
         with ListeneintragMapper() as mapper:
             return mapper.insert(listeneintrag)
