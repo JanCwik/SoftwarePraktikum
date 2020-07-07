@@ -110,14 +110,13 @@ CREATE TABLE listeneintrag(
 /*Erstellt die Tabelle "mitgliedschaft" mit den jeweiligen Attributen*/
 DROP TABLE IF EXISTS `mitgliedschaft`;
 CREATE TABLE mitgliedschaft(
-    id INT NOT NULL,
     anwenderverbund_id INT,
     benutzer_id INT,
-    PRIMARY KEY (id),
     FOREIGN KEY (anwenderverbund_id) REFERENCES anwenderverbund(id),
     FOREIGN KEY (benutzer_id) REFERENCES benutzer(id)
 );
 
+ALTER TABLE `mitgliedschaft` ADD CONSTRAINT PK_Mitgliedschaft PRIMARY KEY (`anwenderverbund_id`,`benutzer_id`);
 
 
 
