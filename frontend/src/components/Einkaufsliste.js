@@ -1,152 +1,230 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { withStyles, ListItem } from '@material-ui/core';
-import { Button, List } from '@material-ui/core';
+import { withStyles, Button, TextField, InputAdornment, IconButton, Grid, Typography } from '@material-ui/core';
 import AddIcon from '@material-ui/icons/Add';
-import  API  from '../api/API';
+import ClearIcon from '@material-ui/icons/Clear'
+import { withRouter } from 'react-router-dom';
+import  API from "../api/API";
 import ContextErrorMessage from './dialogs/ContextErrorMessage';
 import LoadingProgress from './dialogs/LoadingProgress';
-
+import EinkaufslisteForm from './dialogs/EinzelhaendlerForm';
+import EinkaufslisteListenEintrag from "./EinzelhaendlerListenEintrag";
 
 /**
- * Renders a list of AccountListEntry objects.
- *
- * @see See [AccountListEntry](#accountlistentry)
- *
- * @author [Christoph Kunz](https://github.com/christophkunz)
+ * Kontrolliert eine Liste von EinzelhaendlerListenEintraegen um ein Akkordeon für jeden
+ * Einzelhaendler zu erstellen.
  */
 class Einkaufsliste extends Component {
 
   constructor(props) {
     super(props);
 
-    // Init the state
+    // console.log(props);
+    let expandedID = null;
+
+    if (this.props.location.expandEinkaufsliste) {
+      expandedID = this.props.location.expandEinkaufsliste.getID();
+    }
+
+    // Init ein leeres state
     this.state = {
-      einkaufslisten: [],
+      einkaufsliste: [],
+      filteredEinkaufsliste: [],
+      einzelhaendlerFilterStr: '',
+      error: null,
       loadingInProgress: false,
-      loadingEinkaufslistenError: null,
-      addingEinkaufslistenError: null,
+      expandedEinkaufslisteID: expandedID,
+      showEinkaufslisteForm: false
     };
   }
 
-  /** Fetches AccountBOs for the current customer */
-  getEinkaufslisten = () => {
-    API.getAPI().getEinkaufslistenForAnwenderverbund(this.props.anwenderverbund.getID()).then(einkaufslisteBOs =>
-      this.setState({  // Set new state when AccountBOs have been fetched
-        einkaufslisten: einkaufslisteBOs,
-        loadingInProgress: false, // loading indicator
-        loadingEinkaufslistenError: null
-      })).catch(e =>
-        this.setState({ // Reset state with error from catch
-          accounts: [],
-          loadingInProgress: false,
-          loadingEinkaufslistenError: e
-        })
-      );
+  /** Fetchet alle EinzelhaendlerBOs für das Backend */
+  getEinkaufsliste = () => {
+    API.getAPI().getEinkaufslisteAPI()
+      .then(einkaufslisteBOs =>
+        this.setState({               // Setzt neues state wenn EinzelhaendlerBOs gefetcht wurden
+          einkaufsliste: einkaufslisteBOs,
+          filteredEinkaufsliste: [...einzelhaendlerBOs], // Speichert eine Kopie
+          loadingInProgress: false,   // Ladeanzeige deaktivieren
+          error: null
+        })).catch(e =>
+          this.setState({             // Setzt state mit Error vom catch zurück
+            einkaufsliste: [],
+            loadingInProgress: false, // Ladeanzeige deaktivieren
+            error: e
+          })
+        );
 
-    // set loading to true
+    // Setzt laden auf true
     this.setState({
       loadingInProgress: true,
-      loadingEinkaufslistenError: null
+      error: null
     });
   }
 
-  /** Lifecycle method, which is called when the component gets inserted into the browsers DOM */
+  /** Lebenszyklus Methode, welche aufgerufen wird, wenn die Komponente in das DOM des Browsers eingefügt wird.*/
+
+
   componentDidMount() {
-    this.getEinkaufslisten();
+    this.getEinzelhaendler();
   }
 
-  /** Lifecycle method, which is called when the component was updated */
-  componentDidUpdate(prevProps) {
-    // reload accounts if shown state changed. Occures if the CustomerListEntrys ExpansionPanel was expanded
-    // if ((this.props.show !== prevProps.show)) {
-    //   this.getAccounts();
-    // }
-  }
+  /**
+   * Behandelt onExpandedStateChange Ereignisse von der EinzelhaendlerListenEintrag Komponente.
+   * Schaltet das erweiterte state vom EinzelhaendlerListenEintrag vom gegebenen EinzelhaendlerBO um.
+   * @param {Einzelhaendler} EinzelhaendlerBO von dem EinzelhaendlerListenEintrag umgeschaltet werden.
+   */
+  onExpandedStateChange = einkaufsliste => {
+    // console.log(einzelhaendlerID);
+    // Setzt erweiterten Einzelhaendler Eintrag standardmäßig auf null
+    let newID = null;
 
-  /** Adds an account for the current customer */
-  addEinkaufsliste = () => {
-    API.getAPI().addEinkaufslisteForCustomer(this.props.anwenderverbund.getID()).then(einkaufslisteBO => {
-      // console.log(accountBO)
-      this.setState({  // Set new state when AccountBOs have been fetched
-        einkaufslisten: [...this.state.einkaufslisten, einkaufslisteBO],
-        loadingInProgress: false, // loading indicator
-        addingEinkaufslisteError: null
-      })
-    }).catch(e =>
-      this.setState({ // Reset state with error from catch
-        accounts: [],
-        loadingInProgress: false,
-        addingEinkaufslisteError: e
-      })
-    );
-
-    // set loading to true
+    // Wenn der selbe Einzelhaendler Eintrag geklickt wird, klappe ihn zusammen oder erweitere einen Neuen
+    if (einkaufsliste.getID() !== this.state.expandedEinkaufslisteID) {
+      // Erweitere den Einzelhaendler Eintrag mit einzelhaendlerID
+      newID = einkaufsliste.getID();
+    }
+    // console.log(newID);
     this.setState({
-      loadingInProgress: true,
-      addingEInkaufslisteError: null
+      expandedEinkaufslisteID: newID,
     });
   }
 
-  /** Handles onAccountDelete events from an AccountListEntry  */
-  deleteEinkaufslisteHandler = (deletedEinkaufsliste) => {
-    // console.log(deletedAccount.getID());
+  /**
+   * Behandelt einzelhaendlerDeleted Ereignisse von der EinzelhaendlerListenEintrag Komponente.
+   *
+   * @param {Einzelhaendler} EinzelhaendlerBO von dem EinzelhaendlerListenEintrag um gelöscht zu werde
+   */
+  einkaufslisteDeleted = einkaufsliste => {
+    const newEinkaufslisteList = this.state.einkaufsliste.filter(einkaufslisteFromState => einkaufslisteFromState.getID() !== einkaufsliste.getID());
     this.setState({
-      einkaufslisten: this.state.einkaufslisten.filter(einkaufsliste => einkaufsliste.getID() !== deletedEinkaufsliste.getID())
-    })
+      einkaufsliste: newEinkaufslisteList,
+      filteredEinkaufsliste: [...newEinkaufslisteList],
+      showEinkaufslisteForm: false
+    });
   }
 
-  /** Renders the component */
-  render() {
-    const { classes, anwenderverbund } = this.props;
-    // Use the states customer
-    const { einkaufslisten, loadingInProgress, loadingAccountError, addingAccountError } = this.state;
+  /** Behandelt das onClick Ereignis, der Einzelhaendler anlegen Taste. */
+  addEinkaufslisteButtonClicked = event => {
+    // Nicht das erweiterte state umschalten
+    event.stopPropagation();
+    //Zeige den EinzelhaendlerForm
+    this.setState({
+      showEinkaufslisteForm: true
+    });
+  }
 
-    // console.log(this.props);
+  /** Behandelt das onClose Ereignis vom EinzelhaendlerForm */
+  einkaufslisteFormClosed = einkaufsliste => {
+    // Einzelhaendler ist nicht null und deshalb erstellt
+    if (einkaufsliste) {
+      const newEinkaufslisteList = [...this.state.einkaufsliste, einkaufsliste];
+      this.setState({
+        einkaufsliste: newEinkaufslisteList,
+        filteredEinkaufsliste: [...newEinzelhaendlerList],
+        showEinzelhaendlerForm: false
+      });
+    } else {
+      this.setState({
+        showEinkaufslisteForm: false
+      });
+    }
+  }
+
+  /** Behandelt das onChange Ereignis von dem Einzelhaendler filtern Textfeld */
+  filterFieldValueChange = event => {
+    const value = event.target.value.toLowerCase();
+    this.setState({
+      filteredEin: this.state.einzelhaendler.filter(einzelhaendler => {
+        let NameContainsValue = einzelhaendler.getName().toLowerCase().includes(value);
+        return NameContainsValue;
+      }),
+      einzelhaendlerFilter: value
+    });
+  }
+
+  /** Behandelt das onClose Ereignis von der Filter löschen Taste. */
+  clearFilterFieldButtonClicked = () => {
+    // Setzt den Filter zurück
+    this.setState({
+      filteredEinzelhaendler: [...this.state.einzelhaendler],
+      einzelhaendlerFilter: ''
+    });
+  }
+
+  /** Rendert die Komponente */
+  render() {
+    const { classes } = this.props;
+    const { filteredEinzelhaendler, einzelhaendlerFilter, expandedEinzelhaendlerID, loadingInProgress, error, showEinzelhaendlerForm } = this.state;
+
     return (
       <div className={classes.root}>
-        <List className={classes.accountList}>
-          {
-            einkaufslisten.map(einkaufslisten => <einzelneEinkaufsListe key={einkaufslisten.getID()} anwenderverbund={anwenderverbund} einkaufslisten={einkaufslisten} onEinkaufslisteDeleted={this.deleteEinkaufslisteHandler}
-              show={this.props.show} />)
-          }
-          <ListItem>
-            <LoadingProgress show={loadingInProgress} />
-            <ContextErrorMessage error={loadingAccountError} contextErrorMsg={`Einkaufslisten für den Verbund ${anwenderverbund.getID()} konnte nicht geladen werden`} onReload={this.getEinkaufslisten} />
-            <ContextErrorMessage error={addingAccountError} contextErrorMsg={`EInkaufslisten ${einkaufslisten.getID()} konnte nicht hinzugefügt werden.`} onReload={this.addEinkaufsliste} />
-          </ListItem>
-        </List>
-        <Button className={classes.addEinkaufslisteButton} variant='contained' color='primary' startIcon={<AddIcon />} onClick={this.addEinkaufsliste}>
-          Einkaufsliste hinzufügen
-        </Button>
+        <Grid className={classes.einzelhaendlerFilter} container spacing={1} justify='flex-start' alignItems='center'>
+          <Grid item>
+            <Typography>
+              Filter Einzelhändlerliste nach Name:
+              </Typography>
+          </Grid>
+          <Grid item xs={4}>
+            <TextField
+              autoFocus
+              fullWidth
+              id='einzelhaendlerFilter'
+              type='text'
+              value={einzelhaendlerFilter}
+              onChange={this.filterFieldValueChange}
+              InputProps={{
+                endAdornment: <InputAdornment position='end'>
+                  <IconButton onClick={this.clearFilterFieldButtonClicked}>
+                    <ClearIcon />
+                  </IconButton>
+                </InputAdornment>,
+              }}
+            />
+          </Grid>
+          <Grid item xs />
+          <Grid item>
+            <Button variant='contained' color='primary' startIcon={<AddIcon />} onClick={this.addEinzelhaendlerButtonClicked}>
+              Einzelhändler hinzufügen
+          </Button>
+          </Grid>
+        </Grid>
+        {
+          /** Zeigt die Liste der EinzelhaendlerListenEintrag Komponenten
+          // Benutze keinen strengen Vergleich, da expandedEinzelhaendlerID vielleicht ein string ist,
+           wenn dies von den URL Parametern gegeben ist. */
+
+          filteredEinzelhaendler.map(einzelhaendler =>
+            <EinzelhaendlerListenEintrag key={einzelhaendler.getID()} einzelhaendler={einzelhaendler} expandedState={expandedEinzelhaendlerID === einzelhaendler.getID()}
+              onExpandedStateChange={this.onExpandedStateChange}
+              onEinzelhaendlerDeleted={this.einzelhaendlerDeleted}
+            />)
+        }
+        <LoadingProgress show={loadingInProgress} />
+        <ContextErrorMessage error={error} contextErrorMsg={`Die Liste der Einzelhändler konnte nicht geladen werden.`} onReload={this.getEinzelhaendler} />
+        <EinzelhaendlerForm show={showEinzelhaendlerForm} onClose={this.einzelhaendlerFormClosed} />
       </div>
     );
   }
 }
 
-/** Component specific styles */
+/** Komponentenspezifisches Styling */
 const styles = theme => ({
   root: {
     width: '100%',
   },
-  accountList: {
-    marginBottom: theme.spacing(2),
-  },
-  addEinkaufslisteButton: {
-    position: 'absolute',
-    right: theme.spacing(3),
-    bottom: theme.spacing(1),
+  einzelhaendlerFilter: {
+    marginTop: theme.spacing(2),
+    marginBottom: theme.spacing(1),
   }
 });
 
 /** PropTypes */
-Einkaufsliste.propTypes = {
+Einzelhaendler.propTypes = {
   /** @ignore */
   classes: PropTypes.object.isRequired,
-  /** The CustomerBO of this AccountList */
-  anwenderverbund: PropTypes.object.isRequired,
-  /** If true, accounts are (re)loaded */
-  show: PropTypes.bool.isRequired
+  /** @ignore */
+  location: PropTypes.object.isRequired,
 }
 
-export default withStyles(styles)(Einkaufsliste);
+export default withRouter(withStyles(styles)(Einzelhaendler));
