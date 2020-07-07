@@ -1,11 +1,20 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { withStyles, Typography, ExpansionPanel, ExpansionPanelSummary, ExpansionPanelDetails, Grid } from '@material-ui/core';
+import {
+  withStyles,
+  Typography,
+  ExpansionPanel,
+  ExpansionPanelSummary,
+  ExpansionPanelDetails,
+  Grid,
+  Link
+} from '@material-ui/core';
 import { Button, ButtonGroup } from '@material-ui/core';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import AnwenderverbundForm from "./dialogs/AnwenderverbundForm";
 import AnwenderverbundLoeschen from "./dialogs/AnwenderverbundLoeschen";
 import Einkaufsliste from "./Einkaufsliste";
+import AnwenderverbundEinkaufslisten from "./AnwenderverbundEinkaufslisten";
 
 
 
@@ -84,6 +93,22 @@ class AnwenderverbundListenEintrag extends Component {
       showAnwenderverbundDeleteDialog: false
     });
   }
+einkaufslisteanzeigen=()=> einkaufslisten.map( einkaufsliste=>{
+  return <Link component={RouterLink} to={{
+              pathname: '/transactions',
+              owner: {
+                customer: customer,
+                account: account
+              }
+            }} >
+              einkaufsliste.getName()
+            </Link>
+})
+
+  addeinkaufsliste=()=>{
+    pass
+  }
+  //wenn aufgeklappt : get einkaufsliste by anwenderverbund
 
   /** Rendert den Komponent */
   render() {
@@ -120,7 +145,15 @@ class AnwenderverbundListenEintrag extends Component {
               </Grid>
             </Grid>
           </ExpansionPanelSummary>
-
+          <Typography className>
+            {this.einkaufslisteanzeigen}
+            </Typography>
+          <Button>
+            einkaufsliste hinzufügen
+          </Button>
+          <ExpansionPanelDetails>
+            <AnwenderverbundEinkaufslisten show={expandedState} anwenderverbund={anwenderverbund} />
+          </ExpansionPanelDetails>
         </ExpansionPanel>
         <AnwenderverbundForm show={showAnwenderverbundForm} anwenderverbund={anwenderverbund} onClose={this.anwenderverbundFormClosed} />
         <AnwenderverbundLoeschen show={showAnwenderverbundDeleteDialog} anwenderverbund={anwenderverbund} onClose={this.deleteAnwenderverbundDialogClosed} />
