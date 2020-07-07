@@ -189,6 +189,45 @@ class BenutzerMapper(Mapper):
 
         return result
 
+
+    def find_by_email(self, email):
+        """Mapper-Methode zum ausgeben eines Benutzers anhand dessen Email
+
+        Beim Aufruf Methode wird ein Email in der Variablen "email" gespeichert, welche schließlich an das SQL-Statement übergeben wird.
+        Das entsprechende Objekt, welches aus der Datenbank ausgegeben wird, wird in einem Tupel gespeichert.
+        Anschließend werden die einzelnen Attribute aus dem Tupel an der Stelle 0 genommen und an eine neue Benutzer-Instanz via
+        den Setter-Methoden übergeben.
+        Sollte die Datenbank anhand der Email kein Objekt zurückliefern, wird ausgegeben was innerhalb des IndexErrors steht --> None
+        Das Ergebnis wir schließlich von der Mehtode zurückgegeben.
+        """
+        result = None
+
+        cursor = self._cnx.cursor()
+        command = "SELECT id, name, erstellungs_zeitpunkt, email, google_id FROM benutzer WHERE email LIKE '{}' ORDER BY email".format(email)
+        cursor.execute(command)
+        tuples = cursor.fetchall()
+
+        try:
+            (id, name, erstellungs_zeitpunkt, email, google_id) = tuples[0]
+            benutzer = Benutzer()
+            benutzer.set_id(id)
+            benutzer.set_name(name)
+            benutzer.set_erstellungs_zeitpunkt(erstellungs_zeitpunkt)
+            benutzer.set_email(email)
+            benutzer.set_google_id(google_id)
+            result = benutzer
+        except IndexError:
+            """Der IndexError wird oben beim Zugriff auf tuples[0] auftreten, wenn der vorherige SELECT-Aufruf
+            keine Tupel liefert, sondern tuples = cursor.fetchall() eine leere Sequenz zurück gibt."""
+            result = None
+
+        self._cnx.commit()
+        cursor.close()
+
+        return result
+
+
+
     def find_by_google_user_id(self, google_Benutzer_id):
         """Suchen eines Benutzers mit vorgegebener Google ID. Da diese eindeutig ist,
         wird genau ein Objekt zurückgegeben.
