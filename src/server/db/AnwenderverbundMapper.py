@@ -1,6 +1,7 @@
 from src.server.db.Mapper import Mapper
 from src.server.bo.Anwenderverbund import Anwenderverbund
 from src.server.bo.Einkaufsliste import Einkaufsliste
+from src.server.bo.Benutzer import Benutzer
 
 
 class AnwenderverbundMapper(Mapper):
@@ -220,3 +221,31 @@ class AnwenderverbundMapper(Mapper):
         cursor.close()
 
         return result
+
+    def benutzer_hinzufuegen(self, anwenderverbund, benutzer):
+        cursor = self._cnx.cursor()
+
+        template = "INSERT INTO mitgliedschaft (anwenderverbund_id, benutzer_id) VALUES (%s,%s)"
+        vals = (anwenderverbund.get_id(), benutzer.get_id())
+        cursor.execute(template, vals)
+
+        self._cnx.commit()
+        cursor.close()
+
+    def alle_benutzer_ausgeben(self, anwenderverbund):
+
+        result = []
+        cursor = self._cnx.cursor()
+        cursor.execute("SELECT benutzer_id FROM mitgliedschaft WHERE anwenderverbund_id={}".format(anwenderverbund.get_id()))
+        res = cursor.fetchall()
+
+        for i in res:
+            for i in i:
+                print(i)
+
+        self._cnx.commit()
+        cursor.close()
+
+        return result
+
+
