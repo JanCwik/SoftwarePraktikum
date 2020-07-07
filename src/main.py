@@ -8,7 +8,7 @@ from src.server.bo.Einzelhaendler import Einzelhaendler
 from src.server.bo.Benutzer import Benutzer
 from src.server.bo.Einkaufsliste import Einkaufsliste
 from src.server.bo.Anwenderverbund import Anwenderverbund
-
+from src.server.bo.Listeneintrag import Listeneintrag
 
 
 from src.SecurityDecorator import secured
@@ -57,14 +57,13 @@ anwenderverbund = api.inherit('Anwenderverbund', namedBO, {
 })
 
 listeneintrag = api.inherit('Listeneintrag', bo, {
-    'anzahl': fields.String(attribute='_anzahl', description='Anzahl'),
+    'anzahl': fields.Integer(attribute='_anzahl', description='Anzahl'),
     'erledigt': fields.Boolean(attribute='_erledigt', description='Status'),
     'änderungs_zeitpunkt': fields.String(attribute='_änderungs_zeitpunkt', description='Änderungszeitpunkt'),
     'einkaufsliste_id': fields.Integer(attribute='_einkaufsliste_id', description='ID der Einkaufsliste'),
     'einzelhaendler_id': fields.Integer(attribute='_einzelhaendler_id', description='ID des Einzehändler'),
     'artikel_id': fields.Integer(attribute='_artikel_id', description='ID des Artikels'),
     'benutzer_id': fields.Integer(attribute='_benutzer_id', description='ID des Benutzer'),
-
 
 })
 
@@ -143,8 +142,64 @@ class ArtikelByNameOperations(Resource):
         artikel = adm.get_artikel_by_name(name)
         return artikel
 
-"""Artikel DONE -> keine Error. Einzelhändler NEXT"""
+"""Artikel DONE -> keine Error. Listeneintrag NEXT"""
 
+@shopping.route('/listeneintrag')
+@shopping.response(500, 'Server-Error')
+class ListeneintragOperations(Resource):
+    @shopping.marshal_with(listeneintrag)
+    @shopping.expect(listeneintrag)
+    #@secured
+    def post(self):
+        """Anlegen eines Listeneintrages"""
+        adm = ApplikationsAdministration()
+
+        test = Listeneintrag.from_dict(api.payload)
+        if test is not None:
+            a = adm.listeneintrag_anlegen(test.get_anzahl(), test.get_einkaufslisteId(), test.get_einzelhaendlerId(), test.get_artikelId(), test.get_benutzerId(), test.get_erledigt())
+            return a, 200
+        else:
+            return '', 500
+
+
+
+@shopping.route('/listeneintrag-by-id/<int:id>')
+@shopping.response(500, 'Serverfehler')
+@shopping.param('id', 'ID des Listeneintrages')
+class ListeneintragOperations(Resource):
+    @shopping.marshal_with(listeneintrag)
+    #@secured
+    def get(self, id):
+        """Auslesen eines bestimmten Listeneintrages anhand einer id"""
+        adm = ApplikationsAdministration()
+        listeneintrag = adm.get_listeneintrag_by_id(id)
+        return listeneintrag
+
+    #@secured
+    def delete(self, id):
+        """Löschen eines Listeneintrages anhand einer id"""
+        adm = ApplikationsAdministration()
+        listeneintrag = adm.get_listeneintrag_by_id(id)
+        adm.delete_listeneintrag(listeneintrag)
+        return ''
+
+    @shopping.marshal_with(listeneintrag)
+    @shopping.expect(listeneintrag)
+    #@secured
+    def put(self, id):
+        """Update eines durch eine id bestimmten Listeneintrag"""
+
+        adm = ApplikationsAdministration()
+        a = Listeneintrag.from_dict(api.payload)
+
+        if a is not None:
+            a.set_id(id)
+            adm.update_listeneintrag(a)
+            return '', 200
+        else:
+            return '', 500
+
+"""Listeneintrag DONE. Einzelhaendler NEXT"""
 
 @shopping.route('/einzelhaendler')
 @shopping.response(500, 'Serverfehler')
@@ -299,6 +354,24 @@ class BenutzerByNameOperations(Resource):
         return benutzer
 
 
+@shopping.route('/benutzer/<int:id>/listeneintraege')
+@shopping.response(500, 'Serverfehler')
+@shopping.param('id', 'ID des Benutzer')
+class BenutzerRelatedListeneintragOperations(Resource):
+    @shopping.marshal_with(listeneintrag)
+    #@secured
+    def get(self, id):
+        """Auslesen aller Listeneinträge für einen durch Id definierten Benutzer"""
+        adm = ApplikationsAdministration()
+        benutzer = adm.get_benutzer_by_id(id)
+
+        if benutzer is not None:
+            listeneintraege = adm.get_all_listeneintraege_benutzer(benutzer)
+            return listeneintraege
+        else:
+            return "Benutzer nicht gefunden", 500
+
+#get Benutzer by email fehlt
 
 
 """Benutzer DONE. Einkaufsliste NEXT"""
@@ -475,7 +548,6 @@ class AnwenderverbundRelatedEinkaufslisteOperations(Resource):
             return einkaufslisten
         else:
             return "Einkaufsliste nicht gefunden", 500
-    #in ApplikationsAdministration bei get_all_einkaufslisten beachte Notiz (an Maik)
 
 """Anwenderverbund DONE. Listeneintrag NEXT"""
 
