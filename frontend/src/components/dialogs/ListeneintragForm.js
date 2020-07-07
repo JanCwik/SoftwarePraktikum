@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withStyles, Button, IconButton, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, TextField, MenuItem, FormControl, InputLabel, Select } from '@material-ui/core';
 import CloseIcon from '@material-ui/icons/Close';
-import  ArtikelBO  from '../../api/ArtikelBO';
+import ListeneintragBO from "../../api/ListeneintragBO";
 import  API from '../../api/API';
 import ContextErrorMessage from './ContextErrorMessage';
 import LoadingProgress from './LoadingProgress';
@@ -187,8 +187,8 @@ nameChange = (event) => {
               <TextField autoFocus type='text' required fullWidth margin='normal' id='artikelName' label='Artikel Name' value={artikelName}
                 onChange={this.nameChange} error={artikelNameValidationFailed}
                 helperText={artikelNameValidationFailed ? 'Der Name muss mindestens ein Zeichen enthalten' : ' '} />
-                <TextField autoFocus type='text' required fullWidth margin='normal' id='listeneintragMenge' label='Listeneintragmenge' value={listeneintragMenge}
-                onChange={this.mengeChange}/>
+                <TextField autoFocus type='text' required fullWidth margin='normal' id='listeneintragMenge'
+                           label='Listeneintragmenge' value={listeneintragMenge} onChange={this.mengeChange}/>
           <FormControl className={classes.formControl}>
             <InputLabel id="artikelStandardartikelLabel">Standartartikel?</InputLabel>
               <Select
