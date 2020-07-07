@@ -75,12 +75,10 @@ class ApplikationsAdministration(object):
 
 
     """ Methode zum Anlegen eines neuen Einzelhändlers in der Datenbank"""
-    def einzelhaendler_anlegen(self, name, id):
+    """ID wieder entfernt, kann aber auch wieder hinzugefügt werden(Maik)"""
+    def einzelhaendler_anlegen(self, name):
         einzelhaendler = Einzelhaendler()
         einzelhaendler.set_name(name)
-        einzelhaendler.set_id(id)
-
-
 
         with EinzelhaendlerMapper() as mapper:
             return mapper.insert(einzelhaendler)
@@ -233,13 +231,23 @@ class ApplikationsAdministration(object):
         with AnwenderverbundMapper() as mapper:
             return mapper.find_all_einkaufslisten(id)
 
+    """ Methode zum Mitglieder hinzufügen"""
+
     def mitglieder_hinzufuegen(self, anwenderverbund, benutzer):
         with AnwenderverbundMapper() as mapper:
             return mapper.benutzer_hinzufuegen(anwenderverbund, benutzer)
 
+    """ Methode zum ausgeben aller Mitglieder"""
+
     def mitglieder_ausgeben(self, anwenderverbund):
         with AnwenderverbundMapper() as mapper:
             return mapper.alle_benutzer_ausgeben(anwenderverbund)
+
+    """ Methode zum löschen einzelner Mitglieder"""
+
+    def mitglieder_loeschen(self, anwenderverbund, benutzer):
+        with AnwenderverbundMapper() as mapper:
+            return mapper.benutzer_loeschen(anwenderverbund, benutzer)
 
 
     """ METHODEN ZUR VERWALTUNG VON EINKAUFSLISTEN IN DER DATENBANK"""

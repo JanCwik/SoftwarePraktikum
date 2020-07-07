@@ -108,6 +108,9 @@ class BenutzerMapper(Mapper):
 
         cursor = self._cnx.cursor()
 
+        mitgliedschaftloeschen = "DELETE FROM mitgliedschaft WHERE benutzer_id={}".format(benutzer.get_id())
+        cursor.execute(mitgliedschaftloeschen)
+
         template = "DELETE FROM benutzer WHERE id={}".format(benutzer.get_id())
         cursor.execute(template)
 
