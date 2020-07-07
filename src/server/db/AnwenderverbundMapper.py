@@ -103,6 +103,9 @@ class AnwenderverbundMapper(Mapper):
     def delete(self, anwenderverbund):
         cursor = self._cnx.cursor()
 
+        mitgliedschaftloeschen = "DELETE FROM mitgliedschaft WHERE anwenderverbund_id={}".format(anwenderverbund.get_id())
+        cursor.execute(mitgliedschaftloeschen)
+
         listenauslesen = "SELECT id FROM einkaufsliste WHERE anwenderverbund_id={}".format(anwenderverbund.get_id())
         cursor.execute(listenauslesen)
         listen = cursor.fetchall()
@@ -200,8 +203,9 @@ class AnwenderverbundMapper(Mapper):
         return result
 
 
-    def find_all_einkaufslisten(self, id):
-        #id = anwenderverbund.get_id()
+    def find_all_einkaufslisten(self, anwenderverbund):
+        id = anwenderverbund.get_id()
+        #Änderung: Hier wird ganze Instanz übegeben und erst hier die ID genommen
         result = []
         cursor = self._cnx.cursor()
         cursor.execute("SELECT * FROM einkaufsliste WHERE anwenderverbund_id={}".format(id))
@@ -226,6 +230,16 @@ class AnwenderverbundMapper(Mapper):
         cursor = self._cnx.cursor()
 
         template = "INSERT INTO mitgliedschaft (anwenderverbund_id, benutzer_id) VALUES (%s,%s)"
+        vals = (anwenderverbund.get_id(), benutzer.get_id())
+        cursor.execute(template, vals)
+
+        self._cnx.commit()
+        cursor.close()
+
+    def benutzer_loeschen(self, anwenderverbund, benutzer):
+        cursor = self._cnx.cursor()
+
+        template = "DELETE FROM mitgliedschaft " + "WHERE anwenderverbund_id=%s AND benutzer_id=%s"
         vals = (anwenderverbund.get_id(), benutzer.get_id())
         cursor.execute(template, vals)
 
