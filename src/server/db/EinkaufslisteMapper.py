@@ -69,8 +69,8 @@ class EinkaufslistenMapper(Mapper):
 
                         neueID = 1
 
-                template2 = "INSERT INTO listeneintrag (id, einkaufsliste_id, artikel_id) VALUES (%s,%s,%s)"
-                vals2 = (neueID, einkaufsliste.get_id(), i)
+                template2 = "INSERT INTO listeneintrag (id, einkaufsliste_id, artikel_id, erledigt) VALUES (%s,%s,%s,%s)"
+                vals2 = (neueID, einkaufsliste.get_id(), i, False)
                 cursor.execute(template2, vals2)
 
 

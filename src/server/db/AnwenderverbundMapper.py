@@ -102,8 +102,28 @@ class AnwenderverbundMapper(Mapper):
     def delete(self, anwenderverbund):
         cursor = self._cnx.cursor()
 
-        template = "DELETE FROM anwenderverbund WHERE id={}".format(anwenderverbund.get_id())
-        cursor.execute(template)
+        listenauslesen = "SELECT id FROM einkaufsliste WHERE anwenderverbund_id={}".format(anwenderverbund.get_id())
+        cursor.execute(listenauslesen)
+        listen = cursor.fetchall()
+
+        for i in listen:
+            for i in i:
+                eintraegeauslesen = "SELECT id FROM listeneintrag WHERE einkaufsliste_id={}".format(i)
+                cursor.execute(eintraegeauslesen)
+                eintraege = cursor.fetchall()
+
+                for i in eintraege:
+                    for i in i:
+                        eintraegeloeschen = "DELETE FROM listeneintrag WHERE id={}".format(i)
+                        cursor.execute(eintraegeloeschen)
+
+
+        listenloeschen = "DELETE FROM einkaufsliste WHERE anwenderverbund_id={}".format(anwenderverbund.get_id())
+        cursor.execute(listenloeschen)
+
+
+        anwenderverbundloeschen = "DELETE FROM anwenderverbund WHERE id={}".format(anwenderverbund.get_id())
+        cursor.execute(anwenderverbundloeschen)
 
         self._cnx.commit()
         cursor.close()
