@@ -222,7 +222,9 @@ class BenutzerMapper(Mapper):
 
         return result
 
-    def find_all_listeneintraege(self, id):
+    def find_all_listeneintraege(self, benutzer):
+        id = benutzer.get_id()
+        #Änderung: Hier wird erst get_id() verwenden
         result = []
         cursor = self._cnx.cursor()
         cursor.execute("SELECT * FROM listeneintrag WHERE benutzer_id={}".format(id))
