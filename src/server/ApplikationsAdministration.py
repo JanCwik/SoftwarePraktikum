@@ -233,6 +233,14 @@ class ApplikationsAdministration(object):
         with AnwenderverbundMapper() as mapper:
             return mapper.find_all_einkaufslisten(id)
 
+    def mitglieder_hinzufuegen(self, anwenderverbund, benutzer):
+        with AnwenderverbundMapper() as mapper:
+            return mapper.benutzer_hinzufuegen(anwenderverbund, benutzer)
+
+    def mitglieder_ausgeben(self, anwenderverbund):
+        with AnwenderverbundMapper() as mapper:
+            return mapper.alle_benutzer_ausgeben(anwenderverbund)
+
 
     """ METHODEN ZUR VERWALTUNG VON EINKAUFSLISTEN IN DER DATENBANK"""
 
