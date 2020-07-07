@@ -222,9 +222,9 @@ class ApplikationsAdministration(object):
 
     """ Methode zum ausgeben aller Einkaufslisten die zum jeweiligen Anwenderverbund gehören"""
 
-    def get_all_einkaufslisten(self, id):
+    def get_all_einkaufslisten(self, anwenderverbund):              #hier muss anwenderverbund statt nur id stehen, sonst mysql syntax error
         with AnwenderverbundMapper() as mapper:
-            return mapper.find_all_einkaufslisten(id)
+            return mapper.find_all_einkaufslisten(anwenderverbund.get_id())     #hier muss anwenderverbund.get_id() stehen
 
 
     """ METHODEN ZUR VERWALTUNG VON EINKAUFSLISTEN IN DER DATENBANK"""
