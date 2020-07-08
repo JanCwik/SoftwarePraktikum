@@ -1,6 +1,7 @@
 import ArtikelBO from "./ArtikelBO";
 import EinzelhaendlerBO from "./EinzelhaendlerBO";
 import AnwenderverbundBO from "./AnwenderverbundBO";
+import EinkaufslisteBO from "./EinkaufslisteBO";
 
 export default class API {
 
@@ -37,6 +38,8 @@ export default class API {
     #deleteAnwenderverbundURL=(id)=> `${this.#ServerBaseURL}/anwenderverbund-by-id/${id}`;
     #updateAnwenderverbundURL=(id)=> `${this.#ServerBaseURL}/anwenderverbund-by-id/${id}`;
 
+    #addEinkaufslisteURL =()=> `${this.#ServerBaseURL}/einkaufliste`;
+    #getEinkaufslistenByAnwenderverbundURL=(id)=> `${this.#ServerBaseURL}/anwenderverbund/${id}/einkauflisten`;
 
 
 
@@ -244,6 +247,38 @@ export default class API {
         })
     }
 
+
+
+
+
+     getEinkaufslistenByAnwenderverbundAPI(id) {
+        return this.#fetchAdvanced(this.#getEinkaufslistenByAnwenderverbundURL(id)).then((responseJSON) => {
+            let liste = EinkaufslisteBO.fromJSON(responseJSON);
+            return new Promise(function (resolve) {
+                resolve(liste);
+            })
+        })
+    }
+
+
+
+ //führt einen POST Request aus und schreibt dabei das als Parameter übergebene Anwenderverbund-objekt in den Body des Json
+    addEinkaufslisteAPI (neweinkl) {
+        return this.#fetchAdvanced(this.#addEinkaufslisteURL(), {
+          method: 'POST',
+          headers: {
+            'Accept': 'application/json, text/plain',
+            'Content-type': 'application/json',
+          },
+          body: JSON.stringify(neweinkl)
+        }).then((responseJSON) => {
+                // Zugriff auf das erste Anwenderverbund Objekt des Arrays, welches .fromJSON zurückgibt
+                let responseBO = EinkaufslisteBO.fromJSON(responseJSON)[0];
+                return new Promise(function (resolve) {
+                    resolve(responseBO);
+                })
+            })
+    }
 
 
 
