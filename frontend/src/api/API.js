@@ -33,11 +33,12 @@ export default class API {
     #deleteEinzelhaendlerURL=(id)=> `${this.#ServerBaseURL}/einzelhaendler-by-id/${id}`;
     #updateEinzelhaendlerURL=(id)=> `${this.#ServerBaseURL}/einzelhaendler-by-id/${id}`;
 
-    #getAnwenderverbundURL = () => `${this.#ServerBaseURL}/anwenderverbund`;
+    #getAnwenderverbuendeURL = () => `${this.#ServerBaseURL}/anwenderverbund`;
     #addAnwenderverbundURL =()=> `${this.#ServerBaseURL}/anwenderverbund`;
     #deleteAnwenderverbundURL=(id)=> `${this.#ServerBaseURL}/anwenderverbund-by-id/${id}`;
     #updateAnwenderverbundURL=(id)=> `${this.#ServerBaseURL}/anwenderverbund-by-id/${id}`;
 
+    #getEinkaufslistenURL = () => `${this.#ServerBaseURL}/einkaufliste`
     #addEinkaufslisteURL =()=> `${this.#ServerBaseURL}/einkaufliste`;
     #getEinkaufslistenByAnwenderverbundURL=(id)=> `${this.#ServerBaseURL}/anwenderverbund/${id}/einkauflisten`;
 
@@ -188,8 +189,8 @@ export default class API {
 
 
  // Methode die den GET request ausführt und alle in der Datenbank gespeicherten Anwenderverbünde ausgibt
-    getAnwenderverbundAPI() {
-        return this.#fetchAdvanced(this.#getAnwenderverbundURL()).then((responseJSON) => {
+    getAnwenderverbuendeAPI() {
+        return this.#fetchAdvanced(this.#getAnwenderverbuendeURL()).then((responseJSON) => {
             let Anwenderverbund = AnwenderverbundBO.fromJSON(responseJSON);
             return new Promise(function (resolve) {
                 resolve(Anwenderverbund);
@@ -251,15 +252,18 @@ export default class API {
 
 
 
-     getEinkaufslistenByAnwenderverbundAPI(id) {
-        return this.#fetchAdvanced(this.#getEinkaufslistenByAnwenderverbundURL(id)).then((responseJSON) => {
-            let liste = EinkaufslisteBO.fromJSON(responseJSON);
+
+
+
+
+    getEinkaufslistenAPI(){
+        return this.#fetchAdvanced(this.#getEinkaufslistenURL()).then((responseJSON) => {
+            let Einkaufslisten = EinkaufslisteBO.fromJSON(responseJSON);
             return new Promise(function (resolve) {
-                resolve(liste);
+                resolve(Einkaufslisten);
             })
         })
     }
-
 
 
  //führt einen POST Request aus und schreibt dabei das als Parameter übergebene Anwenderverbund-objekt in den Body des Json
@@ -281,5 +285,13 @@ export default class API {
     }
 
 
+     getEinkaufslistenByAnwenderverbundAPI(id) {
+            return this.#fetchAdvanced(this.#getEinkaufslistenByAnwenderverbundURL(id)).then((responseJSON) => {
+                let liste = EinkaufslisteBO.fromJSON(responseJSON);
+                return new Promise(function (resolve) {
+                    resolve(liste);
+                })
+            })
+        }
 
 }

@@ -9,8 +9,8 @@ import EinzelhaendlerLoeschen from "./dialogs/EinzelhaendlerLoeschen";
 
 
 /**
- * Rendert ein EinzelhaendlerBO innerhalb eines erweiterbaren/zusammenklappbaren EinzelhaendlerListenEintrags
- * mit den Einzelhandler manipulations Funktionen. Wenn erweitert, wird eine EinzelhaendlerListe gerendert.
+ * Rendert ein EinzelhaendlerBO innerhalb eines  EinzelhaendlerListenEintrags
+ * mit den Einzelhandler manipulations Funktionen.
  */
 
 class EinzelhaendlerListenEintrag extends Component {
@@ -26,10 +26,6 @@ class EinzelhaendlerListenEintrag extends Component {
     };
   }
 
-  /** Behandelt onChange Ereignisse von den zugrunde liegenden Erweiterungsfeldern. */
-  expansionPanelStateChanged = () => {
-    this.props.onExpandedStateChange(this.props.einzelhaendler);
-  }
 
 
   /** Behandlet das onClick Ereignis von der Einzelhaendler bearbeiten Taste. */
@@ -78,7 +74,7 @@ class EinzelhaendlerListenEintrag extends Component {
 
   /** Rendert den Komponent */
   render() {
-    const { classes, expandedState } = this.props;
+    const { classes } = this.props;
     // Benutz den states Einzelhaendler
     const { einzelhaendler, showEinzelhaendlerForm, showEinzelhaendlerDeleteDialog } = this.state;
 
@@ -124,13 +120,7 @@ EinzelhaendlerListenEintrag.propTypes = {
   classes: PropTypes.object.isRequired,
   /** Das EinzelhaendlerBO gerendert */
   einzelhaendler: PropTypes.object.isRequired,
-  /** Das state von diesem EinzelhaendlerListenEintrag. Wenn true wird der Einzelhaendler mit seiner Adresse gezeigt */
-  expandedState: PropTypes.bool.isRequired,
-  /** Der verantwortliche Handler zum behandeln der erweiterten state Änderungen (erweiterbar/zusammenklappbar)
-   * von diesem EinzelhaendlerListenEintrag.
-   */
-  onExpandedStateChange: PropTypes.func.isRequired,
-  /**
+   /**
    *  Ereignis Handler Funktion, welche aufgerufen wird, wenn ein Einzelhaendler erfolgreich gelöscht wurde.
    */
   onEinzelhaendlerDeleted: PropTypes.func.isRequired
