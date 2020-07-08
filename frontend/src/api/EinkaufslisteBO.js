@@ -1,6 +1,6 @@
 import NamedBO from './NamedBO';
 
-export default class EinkaufslisteBOBO extends NamedBO {
+export default class EinkaufslisteBO extends NamedBO {
 //damit direkt über diese KLasse ein Name angelegt werden kann
 // muss der Parameter im Constructor entgegengenommen werden
 // und an die superklasse NapedBo weitergegeben werden
