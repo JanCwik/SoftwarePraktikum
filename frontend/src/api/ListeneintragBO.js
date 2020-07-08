@@ -1,11 +1,11 @@
-import NamedBO from './NamedBO';
+import BusinessObject from "./BusinessObject";
 
-export default class ListeneintragBO extends NamedBO {
+export default class ListeneintragBO extends BusinessObject {
 //damit direkt über diese KLasse ein Name angelegt werden kann
 // muss der Parameter im Constructor entgegengenommen werden
 // und an die superklasse NapedBo weitergegeben werden
-    constructor(name) {
-        super(name);
+    constructor() {
+        super();
         this.menge=""
         this.erledigt= false
         this.aenderungs_zeitpunkt= ""
