@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import {Typography,Tabs, Tab, Paper} from "@material-ui/core";
 import {Link as RouterLink} from "react-router-dom"
 import FastfoodIcon from "@material-ui/icons/Fastfood";
+import ListAltIcon from '@material-ui/icons/ListAlt';
 import PeopleIcon from "@material-ui/icons/People";
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
 import BarChartIcon from '@material-ui/icons/BarChart';
@@ -47,7 +48,7 @@ class Header extends Component {
           user ?
 
             <Tabs indicatorColor='primary' textColor='primary' centered value={this.state.tabindex} onChange={this.handleTabChange} >
-              <Tab icon ={<FastfoodIcon/>} label='Einkaufslisten' component={RouterLink} to={`/einkaufslisten`} />
+              <Tab icon ={<ListAltIcon/>} label='Einkaufslisten' component={RouterLink} to={`/einkaufslisten`} />
               <Tab icon ={<FastfoodIcon/>} label='Artikel' component={RouterLink} to={`/artikel`} />
               <Tab icon ={<PeopleIcon/>} label='Anwenderverbund' component={RouterLink} to={`/anwenderverbund`}/>
               <Tab icon ={<ShoppingCartIcon/>} label='Einzelhändler' component={RouterLink} to={`/einzelhaendler`}/>
