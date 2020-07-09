@@ -242,7 +242,7 @@ class BenutzerMapper(Mapper):
         result = None
 
         cursor = self._cnx.cursor()
-        command = "SELECT id, name, email, google_Benutzer_id FROM benutzer WHERE google_Benutzer_id='{}'".format(google_Benutzer_id)
+        command = "SELECT id, name, email, google_id FROM benutzer WHERE google_id='{}'".format(google_Benutzer_id) #Änderung: aus google_benutzer_id wurde google_id
         cursor.execute(command)
         tuples = cursor.fetchall()
 
