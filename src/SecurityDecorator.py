@@ -39,7 +39,7 @@ def secured(function):
                     id_token, firebase_request_adapter)
 
                 if claims is not None:
-                    adm = ApplikationsAdministration
+                    adm = ApplikationsAdministration()
 
                     google_user_id = claims.get("user_id")
                     email = claims.get("email")
@@ -55,7 +55,9 @@ def secured(function):
                         in unserem System geupdated."""
                         user.set_name(name)
                         user.set_email(email)
+                        user.set_google_id(google_user_id)
                         adm.update_benutzer(user)
+
                         #set_name und set_email benennen wie in Benutzer.py
                         #adm.save-user benennen wie in ApplikationsAdministration.py
                     else:
@@ -63,7 +65,7 @@ def secured(function):
                         Wir legen daher ein neues User-Objekt an, um dieses ggf. später
                         nutzen zu können.
                         """
-                        user = adm.update_benutzer(name, email, google_user_id)
+                        adm.benutzer_anlegen(name, email, google_user_id)
                         #Benennen wie in ApplikationsAdministration
 
                     print(request.method, request.path, "angefragt durch:", name, email)
