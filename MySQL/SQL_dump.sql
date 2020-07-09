@@ -50,7 +50,7 @@ CREATE TABLE benutzer(
     name VARCHAR(30) NOT NULL,
     erstellungs_zeitpunkt datetime NOT NULL,
     email varchar(60) NOT NULL,
-    google_id INT NOT NULL,
+    google_id varchar(60) NOT NULL, /* Änderung: von Int zu varchar */
     PRIMARY KEY (id)
 );
 
