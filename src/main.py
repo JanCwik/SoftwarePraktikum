@@ -76,7 +76,7 @@ listeneintrag = api.inherit('Listeneintrag', bo, {
 @shopping.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
 class ArtikelListOperations(Resource):
     @shopping.marshal_list_with(artikel)
-    #@secured
+    @secured
     def get(self):
         """Auslesen aller Artikel"""
         adm = ApplikationsAdministration()
@@ -406,7 +406,7 @@ class BenutzerRelatedListeneintragOperations(Resource):
         benutzer = adm.get_benutzer_by_id(id)
 
         if benutzer is not None:
-            listeneintraege = adm.get_all_listeneintraege_benutzer(benutzer)
+            listeneintraege = adm.get_all_listeneintraege_of_benutzer(benutzer)
             return listeneintraege
         else:
             return "Benutzer nicht gefunden", 500
@@ -613,9 +613,37 @@ class AnwenderverbundRelatedEinkaufslisteOperations(Resource):
         else:
             return "Einkaufsliste nicht gefunden", 500
 
+@shopping.route('/anwenderverbund/<int:id>/mitglieder')
+@shopping.response(500, 'Serverfehler')
+@shopping.param('id', 'ID des Anwenderverbundes')
+class AnwenderverbundRelatedBenutzerOperations(Resource):
+    @shopping.marshal_with(benutzer)
+    #@secured
+    def get(self, id):
+        """Auslesen aller Mitglieder in einem durch Id definierten Anwenderverbund"""
+        adm = ApplikationsAdministration()
+        verbund = adm.get_anwenderverbund_by_id(id)
 
+        if verbund is not None:
+            mitglieder = adm.mitglieder_ausgeben(verbund)
+            return mitglieder
+        else:
+            return "Mitglieder nicht gefunden", 500
 
+    @shopping.marshal_with(benutzer)
+    @shopping.expect(benutzer)
+    #@secured
+    def post(self, id):                                         #id von Einkaufsliste muss mit id von Anwenderverbund angegeben werden, sonst Server-Error!
+        """Hinzufügen eines Benutzers in einem Anwenderverbund"""
+        adm = ApplikationsAdministration()
 
+        verbund = adm.get_anwenderverbund_by_id(id)
+        test = Benutzer.from_dict(api.payload)
+        if verbund is not None:
+            result = adm.mitglieder_hinzufuegen(verbund, test)
+            return result
+        else:
+            return "Benutzer oder Anwenderverbund unbekannt", 500
 
 """Anwenderverbund DONE"""
 

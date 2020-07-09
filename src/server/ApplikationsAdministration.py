@@ -184,7 +184,7 @@ class ApplikationsAdministration(object):
 
     """ Methode zum ausgeben aller Listeneinträge für die der Benutzer verantwortlich ist"""
 
-    def get_all_listeneintraege_benutzer(self, benutzer):
+    def get_all_listeneintraege_of_benutzer(self, benutzer): #Name geändert!
         with BenutzerMapper() as mapper:
             return mapper.find_all_listeneintraege(benutzer)
         #Änderung: Hier wird ganze Instanz übergeben, statt nur ID
