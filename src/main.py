@@ -456,7 +456,7 @@ class BenutzerRelatedListeneintragOperations(Resource):
 
 
 
-"""
+
 
 @shopping.route('/einkaufsliste')
 @shopping.response(500, 'Serverfehler')
@@ -467,9 +467,9 @@ class EinkaufslisteListOperations(Resource):
         adm = ApplikationsAdministration()
         einkaufsliste = adm.get_all_all_einkaufslisten()
         return einkaufsliste
-"""
 
-#unnötig bzw. muss mit anwenderverbund definiert werden
+
+#ja diese Methode ist unnöti aber sie wird zurzeit vom frontend benutzt bis wir es richtig hinkriegen
 
 @shopping.route('/einkaufsliste')
 @shopping.response(500, 'Serverfehler')
