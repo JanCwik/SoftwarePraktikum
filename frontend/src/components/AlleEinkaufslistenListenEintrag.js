@@ -5,6 +5,7 @@ import { Button, ButtonGroup } from '@material-ui/core';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import EinkaufslisteForm from "./dialogs/EinkaufslisteForm";
 import EinkaufslisteLoeschen from "./dialogs/EinkaufslisteLoeschen";
+import EinzelhaendlerLoeschen from "./dialogs/EinzelhaendlerLoeschen";
 
 
 
@@ -22,7 +23,7 @@ import EinkaufslisteLoeschen from "./dialogs/EinkaufslisteLoeschen";
         // Init state
         this.state = {
             einkaufsliste: props.einkaufsliste,
-            showEinkaufslistenForm: false,
+            showEinkaufslisteForm: false,
             showEinkaufslisteDeleteDialog: false,
         };
 
@@ -32,7 +33,7 @@ import EinkaufslisteLoeschen from "./dialogs/EinkaufslisteLoeschen";
     editEinkaufslisteButtonClicked = (event) => {
         event.stopPropagation();
         this.setState({
-            showEinkaufslistenForm: true
+            showEinkaufslisteForm: true
         });
     }
 
@@ -42,11 +43,11 @@ import EinkaufslisteLoeschen from "./dialogs/EinkaufslisteLoeschen";
         if (einkaufsliste) {
             this.setState({
                 einkaufsliste: einkaufsliste,
-                showEinkaufslistenForm: false
+                showEinkaufslisteForm: false
             });
         } else {
             this.setState({
-                showEinkaufslistenForm: false
+                showEinkaufslisteForm: false
             });
         }
     }
@@ -79,7 +80,7 @@ import EinkaufslisteLoeschen from "./dialogs/EinkaufslisteLoeschen";
   render() {
     const { classes } = this.props;
     // Benutz den state
-    const { einkaufsliste, showEinkaufslistenForm, showEinkaufslisteDeleteDialog } = this.state;
+    const { einkaufsliste, showEinkaufslisteForm, showEinkaufslisteDeleteDialog } = this.state;
 
     // console.log(this.state);
     return (
@@ -102,8 +103,8 @@ import EinkaufslisteLoeschen from "./dialogs/EinkaufslisteLoeschen";
               </Grid>
               <Grid item xs />
             </Grid>
-
-
+          <EinkaufslisteForm show={showEinkaufslisteForm} einkaufsliste={einkaufsliste} onClose={this.einkaufslisteFormClosed} />
+          <EinkaufslisteLoeschen show={showEinkaufslisteDeleteDialog} einkaufsliste={einkaufsliste} onClose={this.deleteEinkaufslisteDialogClosed} />
       </div>
     );
   }
