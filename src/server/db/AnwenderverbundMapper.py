@@ -147,9 +147,7 @@ class AnwenderverbundMapper(Mapper):
             anwenderverbund.set_erstellungs_zeitpunkt(erstellungs_zeitpunkt)
             result = anwenderverbund
         except IndexError:
-            """Der IndexError wird oben beim Zugriff auf tuples[0] auftreten, wenn der vorherige SELECT-Aufruf
-            keine Tupel liefert, sondern tuples = cursor.fetchall() eine leere Sequenz zurück gibt."""
-            result = None
+           result = None
 
         self._cnx.commit()
         cursor.close()
@@ -181,9 +179,7 @@ class AnwenderverbundMapper(Mapper):
             anwenderverbund.set_erstellungs_zeitpunkt(erstellungs_zeitpunkt)
             result = anwenderverbund
         except IndexError:
-            """Der IndexError wird oben beim Zugriff auf tuples[0] auftreten, wenn der vorherige SELECT-Aufruf
-            keine Tupel liefert, sondern tuples = cursor.fetchall() eine leere Sequenz zurück gibt."""
-            result = None
+             result = None
 
         self._cnx.commit()
         cursor.close()
@@ -200,7 +196,6 @@ class AnwenderverbundMapper(Mapper):
         res = cursor.fetchall()
 
         for(id, name, erstellungs_zeitpunkt, aenderungs_zeitpunkt, anwenderverbund_id) in res:
-
             einkaufsliste = Einkaufsliste()
             einkaufsliste.set_id(id)
             einkaufsliste.set_name(name)
