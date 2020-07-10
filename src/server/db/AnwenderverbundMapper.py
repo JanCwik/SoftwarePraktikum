@@ -249,8 +249,8 @@ class AnwenderverbundMapper(Mapper):
         Anschließend werden aus den Zeilen der Datenbank (welche ein Objekt mit dessen Attributen darstellen)
         mit der fetchall-Methode Tupel erstellt.
 
-        Mittels For-Schleife werden die einzelnen Attribute aus einem Tupel gezogen und einer neuen Instanz übergeben.
-        Die einzelnen Instanzen werden in einem Array gespeichert. Das Array mit allen Instanzen wird schließlich zurückgegeben."""
+        Mittels For-Schleife werden die einzelnen Attribute aus einem Tupel gezogen und einer neuen Instanz übergeben
+        und dann zurückgegeben."""
         result = []
         cursor = self._cnx.cursor()
         cursor.execute("SELECT benutzer_id FROM mitgliedschaft WHERE anwenderverbund_id={}".format(anwenderverbund.get_id()))
