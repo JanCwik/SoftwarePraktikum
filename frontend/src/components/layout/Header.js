@@ -48,7 +48,7 @@ class Header extends Component {
           user ?
 
             <Tabs indicatorColor='primary' textColor='primary' centered value={this.state.tabindex} onChange={this.handleTabChange} >
-              <Tab icon ={<ListAltIcon/>} label='Einkaufslisten' component={RouterLink} to={`/einkaufslisten`} />
+              <Tab icon ={<ListAltIcon/>} label='Einkaufslisten' component={RouterLink} to={`/alleEinkaufslisten`} />
               <Tab icon ={<FastfoodIcon/>} label='Artikel' component={RouterLink} to={`/artikel`} />
               <Tab icon ={<PeopleIcon/>} label='Anwenderverbund' component={RouterLink} to={`/anwenderverbund`}/>
               <Tab icon ={<ShoppingCartIcon/>} label='Einzelhändler' component={RouterLink} to={`/einzelhaendler`}/>

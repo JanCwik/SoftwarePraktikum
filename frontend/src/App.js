@@ -132,10 +132,15 @@ class App extends React.Component {
 							currentUser ?
                             <>
 
-                            <Redirect from='/' to='/einkaufslisten'/>
+                            <Redirect from='/' to='/alleEinkaufslisten'/>
 
-                            <Route path='/einkaufslisten'>
+                            <Route path='/alleEinkaufslisten'>
                                 <AlleEinkaufslisten/>
+
+                            </Route>
+
+							<Route path='/einkaufsliste'>
+                                <Einkaufsliste/>
 
                             </Route>
 

@@ -25,8 +25,6 @@ class Einkaufsliste extends Component {
     // Init ein leeres state
     this.state = {
       listeneintraege: [],
-      filteredListeneintraege: [],
-      listeneintragFilterStr: '',
       error: null,
       loadingInProgress: false,
       showListeneintragForm: false
@@ -35,11 +33,12 @@ class Einkaufsliste extends Component {
 
   /** Fetchet alle EinzelhaendlerBOs für das Backend */
   getListeneintrege = () => {
-    API.getAPI().getListeneintraegeAPI()
+    API.getAPI().getListeneintraegeByEinkaufslisteAPI(this.props.location.einkaufsliste.getID())
       .then(ListeneintragBOs =>
-        this.setState({               // Setzt neues state wenn EinzelhaendlerBOs gefetcht wurden
+          console.log(ListeneintragBOs)
+       /* this.setState({               // Setzt neues state wenn EinzelhaendlerBOs gefetcht wurden
           listeneintraege: ListeneintragBOs,
-          filteredListeneintraege: [...ListeneintragBOs], // Speichert eine Kopie
+
           loadingInProgress: false,   // Ladeanzeige deaktivieren
           error: null
         })).catch(e =>
@@ -48,6 +47,8 @@ class Einkaufsliste extends Component {
             loadingInProgress: false, // Ladeanzeige deaktivieren
             error: e
           })
+
+        */
         );
 
     // Setzt laden auf true
@@ -60,10 +61,12 @@ class Einkaufsliste extends Component {
   /** Lebenszyklus Methode, welche aufgerufen wird, wenn die Komponente in das DOM des Browsers eingefügt wird.*/
 
 
-  /*componentDidMount() {
+  componentDidMount() {
     this.getListeneintrege();
   }
-*/
+
+
+
 
   /**
    * Behandelt einzelhaendlerDeleted Ereignisse von der EinzelhaendlerListenEintrag Komponente.
@@ -74,7 +77,7 @@ class Einkaufsliste extends Component {
     const newListeneintragList = this.state.listeneintraege.filter(listeneintragFromState => listeneintragFromState.getID() !== listeneintrag.getID());
     this.setState({
       listeneintraege: newListeneintragList,
-      filteredListeneintraege: [...newListeneintragList],
+
       showEinzelhaendlerForm: false
     });
   }
@@ -115,7 +118,7 @@ class Einkaufsliste extends Component {
   /** Rendert die Komponente */
   render() {
     const { classes } = this.props;
-    const { filteredListeneintraege, ListeneintraegeFilter, loadingInProgress, error, showListeneintragForm } = this.state;
+    const { listeneintraege, ListeneintraegeFilter, loadingInProgress, error, showListeneintragForm } = this.state;
 
     return (
       <div className={classes.root}>
@@ -130,7 +133,7 @@ class Einkaufsliste extends Component {
           /** Zeigt die Liste der EinzelhaendlerListenEintrag Komponenten
          */
 
-          filteredListeneintraege.map(listeneintrag =>
+          listeneintraege.map(listeneintrag =>
             <ListenEintrag key={listeneintrag.getID()} listeneintrag={listeneintrag}
               onListeneintragDeleted={this.listeneintragDeleted()}
             />)

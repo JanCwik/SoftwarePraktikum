@@ -42,17 +42,22 @@ export default class API {
     #addEinkaufslisteURL = () => `${this.#ServerBaseURL}/einkaufsliste`;
     #getEinkaufslistenByAnwenderverbundURL = (id) => `${this.#ServerBaseURL}/anwenderverbund/${id}/einkauflisten`;
     #getListeneintragByIdURL = (id) => `${this.#ServerBaseURL}/listeneintrag-by-id/${id}`;
+    #getListeneintragByEinkaufslisteURL = (id) => `${this.#ServerBaseURL}'/einkaufsliste/${id}/listeneintraege`;
 
 
     //führt die fetch-Funktion aus, fängt dabei mögliche Errors ab und führt anschließend schon die json-Funktion mit der Response aus.
     #fetchAdvanced = (url, init) =>
         fetch(url, init)
-            .then(res => {
+            .then(res =>
+                //console.log(res)
+{
                     if (!res.ok) {
                         throw Error(`${res.status} ${res.statusText}`);
                     }
                     return res.json();
                 }
+
+
             )
 
 
@@ -287,7 +292,14 @@ export default class API {
             })
         })
     }
-
+    getListeneintraegeByEinkaufslisteAPI(id) {
+        return this.#fetchAdvanced(this.#getListeneintragByEinkaufslisteURL(id)).then((responseJSON) => {
+            let eintrag = ListeneintragBO.fromJSON(responseJSON);
+            return new Promise(function (resolve) {
+                resolve(eintrag);
+            })
+        })
+    }
 
 
 }
