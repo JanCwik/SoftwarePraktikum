@@ -69,10 +69,10 @@ class EinkaufslisteLoeschen extends Component {
           </DialogTitle>
           <DialogContent>
             <DialogContentText>
-              Einkaufsliste wirklich löschen? '{einkaufsliste.getEinkaufslisteName()}' (ID: {einkaufsliste.getID()})?
+              Einkaufsliste wirklich löschen? '{einkaufsliste.getName()}' (ID: {einkaufsliste.getID()})?
             </DialogContentText>
             <LoadingProgress show={deletingInProgress} />
-            <ContextErrorMessage error={deletingError} contextErrorMsg={`Die Einkaufsliste '${einkaufsliste.getEinkaufslisteName()}' (ID: ${einkaufsliste.getID()}) konnte nicht gelöscht werden.`}
+            <ContextErrorMessage error={deletingError} contextErrorMsg={`Die Einkaufsliste '${einkaufsliste.getName()}' (ID: ${einkaufsliste.getID()}) konnte nicht gelöscht werden.`}
               onReload={this.deleteEinkaufsliste} />
           </DialogContent>
           <DialogActions>
