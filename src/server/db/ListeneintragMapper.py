@@ -8,11 +8,13 @@ class ListeneintragMapper(Mapper):
     def __init__(self):
         super().__init__()
 
-    """ Mapper-Methode zum speichern eines neuen Listeneintrags in der Datenbank"""
+    def insert(self, listeneintrag):
+        """Mapper-Methode zum speichern eines neuen Listeneintrags in der Datenbank
 
-    """ Beim Aufruf der Methode wird eine zuvor erstellte Instanz der Klasse "Listeneintrag()" übergeben.
-        Anschließend wird via SQL-Abfrage die höchste ID aus der Tabelle "listeneintrag" ausgegeben und dann
-        mit der fetchall-Methode in einem Tupel gespeichert.
+        Beim Aufruf der Methode wird eine zuvor erstellte Instanz der Klasse "Listeneintrag()" übergeben.
+        Anschließend wird der Änderungszeitpunkt mittels der set_änderungs_zeitpunkt-Methode bei der Instanz gesetzt.
+        Anschließend wird via SQL-Abfrage die höchste ID aus der Tabelle "listeneintrag" ausgegeben.
+        Die ID wird anschließend von der fetchall()-Methode als Tupel zurückgegeben.
 
         Mit einer for-schleife wird anschließend geschaut ob bereits eine ID in der Tabelle vorhanden ist.
         Falls ja, wird diese genommen und um +1 hochgezählt und anschließend der Instanz, welche in der Datenbank gespeichert
@@ -20,11 +22,9 @@ class ListeneintragMapper(Mapper):
         Falls noch keine ID in der Tabelle vorhanden sein sollte, wird die Zahl 1 an die Instanz weitergegeben
 
         Dann erfolgt erneut ein SQL-Statement welches die Instanz in der Datenbank speichert.
-        Mittels der getter-Methoden, welche zuvor in der entsprechenden Business-Object-Klasse definierten wurden, 
-        werden die Attribute der Instanz an das SQL-Statement übergeben.
-        """
-    def insert(self, listeneintrag):
-        aenderungs_zeitpunkt = datetime.datetime.now()
+        Mittels der getter-Methoden, welche zuvor in der entsprechenden Business-Object-Klasse definierten wurden,
+        werden die Attribute der Instanz an das SQL-Statement übergeben."""
+        listeneintrag.set_änderungs_zeitpunkt(datetime.datetime.now())
 
         cursor = self._cnx.cursor()
         cursor.execute("SELECT MAX(id) AS maxid FROM listeneintrag ")
@@ -39,7 +39,7 @@ class ListeneintragMapper(Mapper):
                 listeneintrag.set_id(1)
 
         template = "INSERT INTO listeneintrag (id, anzahl, aenderungs_zeitpunkt, einkaufsliste_id, einzelhaendler_id, artikel_id, benutzer_id, erledigt) VALUES (%s,%s,%s,%s,%s,%s,%s,%s)"
-        vals = (listeneintrag.get_id(), listeneintrag.get_anzahl(), aenderungs_zeitpunkt, listeneintrag.get_einkaufslisteId(), listeneintrag.get_einzelhaendlerId(), listeneintrag.get_artikelId(), listeneintrag.get_benutzerId(), listeneintrag.get_erledigt())
+        vals = (listeneintrag.get_id(), listeneintrag.get_anzahl(), listeneintrag.get_änderungs_zeitpunkt(), listeneintrag.get_einkaufslisteId(), listeneintrag.get_einzelhaendlerId(), listeneintrag.get_artikelId(), listeneintrag.get_benutzerId(), listeneintrag.get_erledigt())
         cursor.execute(template, vals)
 
         self._cnx.commit()
@@ -47,39 +47,36 @@ class ListeneintragMapper(Mapper):
 
         return listeneintrag
 
-    """ Mapper-Methode zum aktualisieren (des Namens) einer Einkaufsliste in der Datenbank"""
+    def update(self, listeneintrag):
+        """Mapper-Methode zum aktualisieren eines Listeneintrags in der Datenbank
 
-    """ Beim Aufruf Methode wird eine zuvor erstellte Instanz der Klasse "Einkaufsliste()" übergeben.
+        Beim Aufruf der Methode wird eine zuvor erstellte Instanz der Klasse "Listeneintrag()" übergeben.
         Zuerst wird der Zeitpunkt festgehalten, wann das Update erfolgt ist.
         Dann erfolgt ein SQL-Statement welches das Objekt in der Datenbank aktualisiert.
-        Mittels der getter-Methoden, welche zuvor in der entsprechenden Business-Object-Klasse definierten wurden, 
+        Mittels der getter-Methoden, welche zuvor in der entsprechenden Business-Object-Klasse definierten wurden,
         werden die Attribute der Instanz an das SQL-Statement übergeben."""
-
-    def update(self, listeneintrag):
-        aenderungs_zeitpunkt = datetime.datetime.now()
+        listeneintrag.set_änderungs_zeitpunkt(datetime.datetime.now())
 
         cursor = self._cnx.cursor()
 
         template = "UPDATE listeneintrag " + "SET anzahl=%s, aenderungs_zeitpunkt=%s, einzelhaendler_id=%s, artikel_id=%s, benutzer_id=%s, erledigt=%s WHERE id=%s"
-        vals = (listeneintrag.get_anzahl(), aenderungs_zeitpunkt, listeneintrag.get_einzelhaendlerId(), listeneintrag.get_artikelId(), listeneintrag.get_benutzerId(), listeneintrag.get_erledigt(), listeneintrag.get_id())
+        vals = (listeneintrag.get_anzahl(), listeneintrag.get_änderungs_zeitpunkt(), listeneintrag.get_einzelhaendlerId(), listeneintrag.get_artikelId(), listeneintrag.get_benutzerId(), listeneintrag.get_erledigt(), listeneintrag.get_id())
         cursor.execute(template, vals)
 
         self._cnx.commit()
         cursor.close()
 
-    """ Mapper-Methode zum ausgeben einer Einkaufslsite anhand deren ID"""
+    def find_by_id(self, id):
+        """Mapper-Methode zum ausgeben eines Listeneintrags anhand dessen ID
 
-    """ Beim Aufruf der Methode wird eine ID in der Variablen "id" gespeichert, welche schließlich an das SQL-Statement übergeben wird.
-        Das entsprechende Objekt, welches aus der Datenbank ausgegeben wird, wird in einem Tupel gespeichert.
-        Anschließend werden die einzelnen Attribute aus dem Tupel an der Stelle 0 genommen und an eine neue Artikel-Instanz via
+        Beim Aufruf der Methode wird eine ID welche in der Variablen "id" gespeichert ist übergeben und anschließend sucht
+        das SQL-Statement das entsprechende Objekt aus der Datenbank.
+        Das Objekt wird anschließend von der fetchall()-Methode als Tupel zurückgegeben.
+
+        Anschließend werden die einzelnen Attribute aus dem Tupel an der Stelle 0 genommen und an eine neue Listeneintrag-Instanz via
         den Setter-Methoden übergeben.
         Sollte die Datenbank anhand der ID kein Objekt zurückliefern, wird ausgegeben was innerhalb des IndexErrors steht --> None
-        Das Ergebnis wir schließlich von der Mehtode zurückgegeben."""
-
-    def find_by_id(self, id):
-
-
-        result = None
+        Die Variable "result" wird schließlich von der Mehtode zurückgegeben."""
 
         cursor = self._cnx.cursor()
         command = "SELECT id, anzahl, aenderungs_zeitpunkt, einkaufsliste_id, einzelhaendler_id, artikel_id, benutzer_id, erledigt FROM listeneintrag WHERE id={}".format(id)
@@ -99,8 +96,6 @@ class ListeneintragMapper(Mapper):
             listeneintrag.set_erledigt(erledigt)
             result = listeneintrag
         except IndexError:
-            """Der IndexError wird oben beim Zugriff auf tuples[0] auftreten, wenn der vorherige SELECT-Aufruf
-            keine Tupel liefert, sondern tuples = cursor.fetchall() eine leere Sequenz zurück gibt."""
             result = None
 
         self._cnx.commit()
@@ -108,14 +103,13 @@ class ListeneintragMapper(Mapper):
 
         return result
 
-    """ Mapper-Methode zum löschen eines Listeneintrags aus der Datenbank"""
-
-    """ Beim Aufruf Methode wird eine zuvor erstellte Instanz der Klasse "Listeneintrag()" übergeben.
-        Dann erfolgt ein SQL-Statement welches das Objekt aus der Datenbank löscht.
-        Mittels der getter-Methode, welche zuvor in der entsprechenden Business-Object-Klasse definierten wurde, 
-        wird die entsprechende ID der Instanz an das SQL-Statement übergeben.."""
-
     def delete(self, listeneintrag):
+        """Mapper-Methode zum löschen eines Listeneintrags aus der Datenbank
+
+        Beim Aufruf der Methode wird eine zuvor erstellte Instanz der Klasse "Listeneintrag()" übergeben.
+        Dann erfolgt ein SQL-Statement welches das Objekt aus der Datenbank löscht.
+        Mittels der getter-Methode, welche zuvor in der entsprechenden Business-Object-Klasse definierten wurde,
+        wird die entsprechende ID der Instanz an das SQL-Statement übergeben.."""
 
         cursor = self._cnx.cursor()
 
