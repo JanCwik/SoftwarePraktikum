@@ -6,7 +6,7 @@ export default class EinzelhaendlerBO extends NamedBO {
 // und an die superklasse NapedBo weitergegeben werden
     constructor(name) {
         super(name);
-        this.adresse=""
+
 
 
     }

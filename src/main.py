@@ -465,7 +465,7 @@ class EinkaufslisteListOperations(Resource):
     #@secured
     def get(self):                                          
         adm = ApplikationsAdministration()
-        einkaufsliste = adm.get_all_einkaufslisten(anwenderverbund)
+        einkaufsliste = adm.get_all_all_einkaufslisten()
         return einkaufsliste
 """
 
