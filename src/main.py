@@ -44,7 +44,7 @@ einzelhaendler = api.inherit('Einzelhandler', namedBO, bo)
 
 benutzer = api.inherit('Benutzer', namedBO, {
     'email': fields.String(attribute='_email', description='Email des Benutzers'),
-    'google_id': fields.Integer(attribute='_google_id', description='Google ID des Benutzers')
+    'google_id': fields.String(attribute='_google_id', description='Google ID des Benutzers')
 })
 
 einkaufsliste = api.inherit('Einkaufsliste', namedBO, {
@@ -394,6 +394,19 @@ class BenutzerByNameOperations(Resource):
         return benutzer
 
 
+@shopping.route('/benutzer-by-email/<string:email>')
+@shopping.response(500, 'Serverfehler')
+@shopping.param('email', 'Email des Benutzers')
+class BenutzerByEmailOperations(Resource):
+    @shopping.marshal_with(benutzer)
+    #@secured
+    def get(self, email):
+        """Auslesen eines bestimmten Benutzers anhand seiner Email"""
+        adm = ApplikationsAdministration()
+        benutzer = adm.get_benutzer_by_email(email)
+        return benutzer
+
+
 @shopping.route('/benutzer/<int:id>/listeneintraege')
 @shopping.response(500, 'Serverfehler')
 @shopping.param('id', 'ID des Benutzer')
@@ -429,19 +442,24 @@ class BenutzerRelatedListeneintragOperations(Resource):
 
 
 
-
+"""
 
 @shopping.route('/einkaufsliste')
 @shopping.response(500, 'Serverfehler')
 class EinkaufslisteListOperations(Resource):
     @shopping.marshal_list_with(einkaufsliste)
     #@secured
-    def get(self):                                          #evtl. unnötig bzw. muss mit anwenderverbund definiert werden
-        """Auslesen aller Einkaufslisten"""
+    def get(self):                                          
         adm = ApplikationsAdministration()
         einkaufsliste = adm.get_all_einkaufslisten(anwenderverbund)
         return einkaufsliste
+"""
 
+#unnötig bzw. muss mit anwenderverbund definiert werden
+
+@shopping.route('/einkaufsliste')
+@shopping.response(500, 'Serverfehler')
+class EinkaufslisteListOperations(Resource):
     @shopping.marshal_with(einkaufsliste)
     @shopping.expect(einkaufsliste)
     #@secured
@@ -633,14 +651,29 @@ class AnwenderverbundRelatedBenutzerOperations(Resource):
     @shopping.marshal_with(benutzer)
     @shopping.expect(benutzer)
     #@secured
-    def post(self, id):                                         #id von Einkaufsliste muss mit id von Anwenderverbund angegeben werden, sonst Server-Error!
+    def post(self, id):
         """Hinzufügen eines Benutzers in einem Anwenderverbund"""
         adm = ApplikationsAdministration()
 
         verbund = adm.get_anwenderverbund_by_id(id)
-        test = Benutzer.from_dict(api.payload)
+        mitglied = Benutzer.from_dict(api.payload)
         if verbund is not None:
-            result = adm.mitglieder_hinzufuegen(verbund, test)
+            result = adm.mitglieder_hinzufuegen(verbund, mitglied)
+            return result
+        else:
+            return "Benutzer oder Anwenderverbund unbekannt", 500
+
+    @shopping.marshal_with(benutzer)
+    @shopping.expect(benutzer)
+    #@secured
+    def delete(self, id):
+        """Löschen eines Benutzers in einem Anwenderverbund"""
+        adm = ApplikationsAdministration()
+
+        verbund = adm.get_anwenderverbund_by_id(id)
+        mitglied = Benutzer.from_dict(api.payload)
+        if verbund is not None:
+            result = adm.mitglieder_loeschen(verbund, mitglied)
             return result
         else:
             return "Benutzer oder Anwenderverbund unbekannt", 500
