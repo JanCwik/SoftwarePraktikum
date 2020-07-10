@@ -439,7 +439,7 @@ class EinkaufslisteListOperations(Resource):
     def get(self):                                          #evtl. unnötig bzw. muss mit anwenderverbund definiert werden
         """Auslesen aller Einkaufslisten"""
         adm = ApplikationsAdministration()
-        einkaufsliste = adm.get_all_einkaufslisten(anwenderverbund)
+        einkaufsliste = adm.get_all_all_einkaufslisten()
         return einkaufsliste
 
     @shopping.marshal_with(einkaufsliste)
