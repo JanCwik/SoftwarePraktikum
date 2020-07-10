@@ -1,3 +1,4 @@
+/*
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withStyles, Button, IconButton, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, TextField, MenuItem, FormControl, InputLabel, Select } from '@material-ui/core';
@@ -17,6 +18,7 @@ import LoadingProgress from './LoadingProgress';
  * mit dem angelegt/upgedated ArtikelBO Objekt als Parameter aufgerufen. Wenn der Dialog beendet ist,
  * wird onClose mit null aufgerufen.
  */
+/*
 class ListeneintragForm extends Component {
 
   constructor(props) {
@@ -49,7 +51,7 @@ class ListeneintragForm extends Component {
       benutzerName: bn,
       benutzerNameEdited: false,
       listeneintragMenge: lm,
-      listeneintragMengeEdited: false
+      listeneintragMengeEdited: false,
       addingInProgress: false,
       updatingInProgress: false,
       addingError: null,
@@ -60,6 +62,7 @@ class ListeneintragForm extends Component {
   }
 
   /** Legt Artikel an */
+/*
   addListeneintrag = () => {
     let newListeneintrag = new ListeneintragBO();
     newListeneintrag.setMenge(this.state.listeneintragMenge); //legt neues Artikelobjekt mit name aus dem state an
@@ -83,6 +86,7 @@ class ListeneintragForm extends Component {
   }
 
   /** Updates the customer */
+/*
   updateListeneintrag = () => {
     // Klont den originalen Artikel, wenn der Backend Aufruf fehlschlägt
     let updatedListeneintrag = Object.assign(new ListeneintragBO(), this.props.listeneintrag);
@@ -127,7 +131,7 @@ console.log([event.target.id])
     });
   }
  */
-
+/*
 nameChange = (event) => {
     let name = event.target.value;
     this.setState({
@@ -145,6 +149,7 @@ nameChange = (event) => {
   }
 
   /** Behandelt das schließen/abbrechen Tasten klick Ereignis. */
+/*
   handleClose = () => {
     // Setzt state zurück
     this.setState(this.baseState);
@@ -152,6 +157,7 @@ nameChange = (event) => {
   }
 
   /** Rendert die Komponente */
+/*
   render() {
     const { classes, artikel, show } = this.props;
     const { artikelName, artikelNameValidationFailed, artikelNameEdited, artikelEinheit,
@@ -247,6 +253,7 @@ nameChange = (event) => {
 }
 
 /** Componentenspezifische Stile */
+/*
 const styles = theme => ({
   root: {
     width: '100%',
@@ -264,19 +271,26 @@ const styles = theme => ({
 });
 
 /** PropTypes */
+/*
 ArtikelForm.propTypes = {
   /** @ignore */
+/*
   classes: PropTypes.object.isRequired,
   /** Das ArtikelBO wird editiert. */
+/*
   artikel: PropTypes.object,
   /** Wenn true, wird das Formular gerendert. */
+/*
   show: PropTypes.bool.isRequired,
   /**
    * Handler Funktion, die aufgerufen wird wenn der Dialog geschlossen ist.
    * Sendet das editierte oder angelegte ArtikelBO als Parameter oder null,
    * wenn abbrechen gedrückt wurde.
    */
+/*
   onClose: PropTypes.func.isRequired,
 }
 
 export default withStyles(styles)(ListeneintragForm);
+*/
+
