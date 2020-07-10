@@ -196,7 +196,8 @@ class EinkaufslistenMapper(Mapper):
         self._cnx.commit()
         cursor.close()
 
-    def find_all_listeneintraege(self, id):
+    def find_all_listeneintraege(self, einkaufsliste):
+        id = einkaufsliste.get_id()         #erst hier wird die id der Einkaufsliste ausgelesen
         result = []
         cursor = self._cnx.cursor()
         cursor.execute("SELECT * FROM listeneintrag WHERE einkaufsliste_id={}".format(id))

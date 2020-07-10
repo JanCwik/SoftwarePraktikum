@@ -286,7 +286,7 @@ class ApplikationsAdministration(object):
 
     """ Methode zum ausgeben einer Einkaufsliste aus der Datenbank anhand deren Name """
 
-    def get_einkaufslsite_by_name(self, name):
+    def get_einkaufsliste_by_name(self, name):      #evtl. unnötig, da name nicht eindeutig ist
         with EinkaufslistenMapper() as mapper:
             return mapper.find_by_name(name)
 
@@ -304,9 +304,9 @@ class ApplikationsAdministration(object):
 
     """ Methode zum ausgeben aller Listeneinträge die zur jeweiligen Einkaufsliste gehören"""
 
-    def get_all_listeneintraege_einkaufslisten(self, id):
+    def get_all_listeneintraege_of_einkaufslisten(self, einkaufsliste):     #Änderung: statt id wird nun ganzes Objekt übergeben
         with EinkaufslistenMapper() as mapper:
-            return mapper.find_all_listeneintraege(id)
+            return mapper.find_all_listeneintraege(einkaufsliste)
 
     """ METHODEN ZUR VERWALTUNG VON Listeneinträgen IN DER DATENBANK"""
 
