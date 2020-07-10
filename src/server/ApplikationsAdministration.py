@@ -239,6 +239,7 @@ class ApplikationsAdministration(object):
 
     """ Methode zum ausgeben aller Einkaufslisten die zum jeweiligen Anwenderverbund gehören"""
 
+
     def get_all_einkaufslisten(self, anwenderverbund):
         with AnwenderverbundMapper() as mapper:
             return mapper.find_all_einkaufslisten(anwenderverbund)
@@ -266,6 +267,12 @@ class ApplikationsAdministration(object):
     """ METHODEN ZUR VERWALTUNG VON EINKAUFSLISTEN IN DER DATENBANK"""
 
     """______________________________________________________"""
+
+    """ Methode zum ausgeben aller Einkaufslisten aus der Datenbank"""
+
+    def get_all_all_einkaufslisten(self):
+        with EinkaufslistenMapper() as mapper:
+            return mapper.find_all_all_einkaufslisten()
 
     """ Methode zum Anlegen einer neuen Einkaufsliste in der Datenbank"""
 

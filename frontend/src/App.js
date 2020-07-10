@@ -5,7 +5,7 @@ import {BrowserRouter as Router, Route, Redirect} from "react-router-dom";
 import Artikel from "./components/Artikel";
 import Anwenderverbund from "./components/Anwenderverbund";
 import Einzelhaendler from "./components/Einzelhaendler";
-import alleEinkaufslisten from "./components/alleEinkaufslisten";
+import AlleEinkaufslisten from "./components/AlleEinkaufslisten";
 import { Grid, Typography } from '@material-ui/core';
 import AnwenderverbundBO from "./api/AnwenderverbundBO";
 import ArtikelBO from "./api/ArtikelBO";
@@ -119,7 +119,7 @@ class App extends React.Component {
     render() {
 
 	    const { currentUser, appError, authError, authLoading } = this.state;
-
+		//console.log(this.state.currentUser)
         return (
             <div className="App">
 
@@ -135,7 +135,7 @@ class App extends React.Component {
                             <Redirect from='/' to='/einkaufslisten'/>
 
                             <Route path='/einkaufslisten'>
-                                <alleEinkaufslisten/>
+                                <AlleEinkaufslisten/>
 
                             </Route>
 

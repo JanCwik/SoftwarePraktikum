@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
+import {PropTypes} from 'prop-types';
 import { withStyles, Button, TextField, InputAdornment, IconButton, Grid, Typography } from '@material-ui/core';
 import AddIcon from '@material-ui/icons/Add';
 import ClearIcon from '@material-ui/icons/Clear'
-import { withRouter } from 'react-router-dom';
+import {withRouter}  from 'react-router-dom';
 import  API  from '../api/API';
 import ContextErrorMessage from './dialogs/ContextErrorMessage';
 import LoadingProgress from './dialogs/LoadingProgress';
-import alleEinkaufslistenListenEintrag from "./alleEinkaufslistenListenEintrag";
+import AlleEinkaufslistenListenEintrag from "./AlleEinkaufslistenListenEintrag";
 import EinkaufslisteForm from "./dialogs/EinkaufslisteForm";
 
 
@@ -16,7 +16,7 @@ import EinkaufslisteForm from "./dialogs/EinkaufslisteForm";
  * Einkaufsliste zu erstellen.
  */
 
-class alleEinkaufslisten extends Component{
+class AlleEinkaufslisten extends Component{
 
     constructor(props) {
     super(props);
@@ -37,11 +37,12 @@ class alleEinkaufslisten extends Component{
 
 
   /** Fetchet alle Einkaufslisten für das Backend */
+
   getEinkaufslisten = () => {
     API.getAPI().getEinkaufslistenAPI()
       .then(EinkaufslistenBOs =>
-          console.log(EinkaufslistenBOs)
-       /* this.setState({               // Setzt neues state wenn EinzelhaendlerBOs gefetcht wurden
+
+        this.setState({               // Setzt neues state wenn EinkaufslistenBOs gefetcht wurden
           alle_einkaufslisten: EinkaufslistenBOs,
           filteredEinkaufslisten: [...EinkaufslistenBOs], // Speichert eine Kopie
           loadingInProgress: false,   // Ladeanzeige deaktivieren
@@ -60,7 +61,7 @@ class alleEinkaufslisten extends Component{
       error: null
     }
 
-        */
+
     );
 
   }
@@ -68,6 +69,7 @@ class alleEinkaufslisten extends Component{
 
 
  /** Lebenszyklus Methode, welche aufgerufen wird, wenn die Komponente in das DOM des Browsers eingefügt wird.*/
+
   componentDidMount() {
     this.getEinkaufslisten();
   }
@@ -76,10 +78,12 @@ class alleEinkaufslisten extends Component{
   /**
    * Behandelt EinkaufslisteDeleted Ereignisse von der Einkaufsliste-ListenEintrag Komponente.
    *
-   * @param {Einkaufsliste} EinkaufslisteBO von dem Einkaufsliste-ListenEintrag um gelöscht zu werde
+   * @param einkaufsliste
+   * EinkaufslisteBO von dem Einkaufsliste-ListenEintrag um gelöscht zu werde
    */
-  EinkaufslisteDeleted = Einkaufsliste => {
-    const newEinkaufslisteList = this.state.alle_einkaufslisten.filter(EinkaufslisteFromState => EinkaufslisteFromState.getID() !== Einkaufsliste.getID());
+
+  EinkaufslisteDeleted = einkaufsliste => {
+    const newEinkaufslisteList = this.state.alle_einkaufslisten.filter(EinkaufslisteFromState => EinkaufslisteFromState.getID() !== einkaufsliste.getID());
     this.setState({
       alle_einkaufslisten: newEinkaufslisteList,
       filteredEinkaufslisten: [...newEinkaufslisteList],
@@ -88,6 +92,7 @@ class alleEinkaufslisten extends Component{
   }
 
   /** Behandelt das onClick Ereignis, der Einkaufsliste anlegen Taste. */
+
   addEinkaufslisteButtonClicked = event => {
     // Nicht das erweiterte state umschalten
     event.stopPropagation();
@@ -99,6 +104,7 @@ class alleEinkaufslisten extends Component{
 
 
   /** Behandelt das onClose Ereignis vom EinkaufslisteForm */
+
   einkaufslisteFormClosed = Einkaufsliste => {
     // Einkaufsliste ist nicht null und deshalb erstellt
     if (Einkaufsliste) {
@@ -117,6 +123,7 @@ class alleEinkaufslisten extends Component{
 
 
    /** Behandelt das onChange Ereignis von dem Einkaufslisten filtern Textfeld */
+
   filterFieldValueChange = event => {
     const value = event.target.value.toLowerCase();
     this.setState({
@@ -129,6 +136,7 @@ class alleEinkaufslisten extends Component{
   }
 
   /** Behandelt das onClose Ereignis von der Filter löschen Taste. */
+
   clearFilterFieldButtonClicked = () => {
     // Setzt den Filter zurück
     this.setState({
@@ -145,7 +153,7 @@ class alleEinkaufslisten extends Component{
 
     return (
       <div className={classes.root}>
-        <Grid className={classes.einkaufslistenFilter} container spacing={1} justify='flex-start' alignItems='center'>
+        <Grid className={classes.einkaufslisteFilter} container spacing={1} justify='flex-start' alignItems='center'>
           <Grid item>
             <Typography>
               Suchen:
@@ -176,18 +184,20 @@ class alleEinkaufslisten extends Component{
           </Grid>
         </Grid>
         {
-          /** Zeigt die Liste der Einkaufslisten-ListenEintrag Komponenten
-          */
+          // Zeigt die Liste der Einkaufslisten-ListenEintrag Komponenten
+
 
           filteredEinkaufslisten.map(einkaufsliste =>
-            <alleEinkaufslistenListenEintrag key={einkaufsliste.getID()} einkaufsliste={einkaufsliste}
+            <AlleEinkaufslistenListenEintrag key={einkaufsliste.getID()} einkaufsliste={einkaufsliste}
               onEinkaufslisteDeleted={this.EinkaufslisteDeleted}
             />)
         }
         <LoadingProgress show={loadingInProgress} />
         <ContextErrorMessage error={error} contextErrorMsg={`Einkaufslisten konnten nicht geladen werden.`} onReload={this.getEinkaufslisten} />
-        <EinkaufslisteForm show={showEinkaufslistenForm} onClose={this.einkaufslisteFormClosed} />
+
+
       </div>
+
     );
   }
 }
@@ -205,12 +215,12 @@ const styles = theme => ({
 });
 
 /** PropTypes */
-alleEinkaufslisten.propTypes = {
+AlleEinkaufslisten.propTypes = {
   /** @ignore */
   classes: PropTypes.object.isRequired,
   /** @ignore */
   location: PropTypes.object.isRequired,
 }
 
-export default withRouter(withStyles(styles)(alleEinkaufslisten));
+export default withRouter(withStyles(styles)(AlleEinkaufslisten));
 
