@@ -2,21 +2,21 @@ import ArtikelBO from "./ArtikelBO";
 import EinzelhaendlerBO from "./EinzelhaendlerBO";
 import AnwenderverbundBO from "./AnwenderverbundBO";
 import EinkaufslisteBO from "./EinkaufslisteBO";
+import ListeneintragBO from "./ListeneintragBO";
 
 export default class API {
 
 
+    static #api = null;
 
-     static #api = null;
 
-
-     //diese Klassenmethode realisiert die Umsetztung als Singelton, dadurch kann nur eine Instanz dieser Klasse existieren
-     static getAPI() {
-          if (this.#api == null) {
-              this.#api = new API();
-          }
-          return this.#api;
-      }
+    //diese Klassenmethode realisiert die Umsetztung als Singelton, dadurch kann nur eine Instanz dieser Klasse existieren
+    static getAPI() {
+        if (this.#api == null) {
+            this.#api = new API();
+        }
+        return this.#api;
+    }
 
 
     //Attribut um im späteren verlauf des Projekts das angeben aller URLs zu erleichtern
@@ -24,24 +24,24 @@ export default class API {
 
     //private Methoden um das angeben aller URLs zu erleichtern
     #getArtikelURL = () => `${this.#ServerBaseURL}/artikel`;
-    #addArtikelURL =()=> `${this.#ServerBaseURL}/artikel`;
+    #addArtikelURL = () => `${this.#ServerBaseURL}/artikel`;
     #deleteArtikelURL = (id) => `${this.#ServerBaseURL}/artikel-by-id/${id}`;
-    #updateArtikelURL=(id)=>`${this.#ServerBaseURL}/artikel-by-id/${id}`;
+    #updateArtikelURL = (id) => `${this.#ServerBaseURL}/artikel-by-id/${id}`;
 
     #getEinzelhaendlerURL = () => `${this.#ServerBaseURL}/einzelhaendler`;
-    #addEinzelhaendlerURL =()=> `${this.#ServerBaseURL}/einzelhaendler`;
-    #deleteEinzelhaendlerURL=(id)=> `${this.#ServerBaseURL}/einzelhaendler-by-id/${id}`;
-    #updateEinzelhaendlerURL=(id)=> `${this.#ServerBaseURL}/einzelhaendler-by-id/${id}`;
+    #addEinzelhaendlerURL = () => `${this.#ServerBaseURL}/einzelhaendler`;
+    #deleteEinzelhaendlerURL = (id) => `${this.#ServerBaseURL}/einzelhaendler-by-id/${id}`;
+    #updateEinzelhaendlerURL = (id) => `${this.#ServerBaseURL}/einzelhaendler-by-id/${id}`;
 
     #getAnwenderverbuendeURL = () => `${this.#ServerBaseURL}/anwenderverbund`;
-    #addAnwenderverbundURL =()=> `${this.#ServerBaseURL}/anwenderverbund`;
-    #deleteAnwenderverbundURL=(id)=> `${this.#ServerBaseURL}/anwenderverbund-by-id/${id}`;
-    #updateAnwenderverbundURL=(id)=> `${this.#ServerBaseURL}/anwenderverbund-by-id/${id}`;
+    #addAnwenderverbundURL = () => `${this.#ServerBaseURL}/anwenderverbund`;
+    #deleteAnwenderverbundURL = (id) => `${this.#ServerBaseURL}/anwenderverbund-by-id/${id}`;
+    #updateAnwenderverbundURL = (id) => `${this.#ServerBaseURL}/anwenderverbund-by-id/${id}`;
 
-    #getEinkaufslistenURL = () => `${this.#ServerBaseURL}/einkaufliste`
-    #addEinkaufslisteURL =()=> `${this.#ServerBaseURL}/einkaufliste`;
-    #getEinkaufslistenByAnwenderverbundURL=(id)=> `${this.#ServerBaseURL}/anwenderverbund/${id}/einkauflisten`;
-
+    #getEinkaufslistenURL = () => `${this.#ServerBaseURL}/einkaufsliste`
+    #addEinkaufslisteURL = () => `${this.#ServerBaseURL}/einkaufsliste`;
+    #getEinkaufslistenByAnwenderverbundURL = (id) => `${this.#ServerBaseURL}/anwenderverbund/${id}/einkauflisten`;
+    #getListeneintragByIdURL = (id) => `${this.#ServerBaseURL}/listeneintrag-by-id/${id}`;
 
 
     //führt die fetch-Funktion aus, fängt dabei mögliche Errors ab und führt anschließend schon die json-Funktion mit der Response aus.
@@ -56,7 +56,6 @@ export default class API {
             )
 
 
-
     // Methode die den GET request ausführt und alle in der Datenbank gespeicherten Artikel ausgibt
     getArtikelAPI() {
         return this.#fetchAdvanced(this.#getArtikelURL()).then((responseJSON) => {
@@ -69,15 +68,15 @@ export default class API {
 
 
     //führt einen POST Request aus und schreibt dabei das als Parameter übergebene Artikelobjekt in den Body des Json
-   addArtikelAPI (newArt) {
-    return this.#fetchAdvanced(this.#addArtikelURL(), {
-      method: 'POST',
-      headers: {
-        'Accept': 'application/json, text/plain',
-        'Content-type': 'application/json',
-      },
-      body: JSON.stringify(newArt)
-    }).then((responseJSON) => {
+    addArtikelAPI(newArt) {
+        return this.#fetchAdvanced(this.#addArtikelURL(), {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json, text/plain',
+                'Content-type': 'application/json',
+            },
+            body: JSON.stringify(newArt)
+        }).then((responseJSON) => {
             // Zugriff auf das erste Artikel Objekt des Arrays, welches .fromJSON zurückgibt
             let responseArtikelBO = ArtikelBO.fromJSON(responseJSON)[0];
             return new Promise(function (resolve) {
@@ -119,11 +118,7 @@ export default class API {
     }
 
 
-
-
-
-
- // Methode die den GET request ausführt und alle in der Datenbank gespeicherten Einzelhändler ausgibt
+    // Methode die den GET request ausführt und alle in der Datenbank gespeicherten Einzelhändler ausgibt
     getEinzelhaendlerAPI() {
         return this.#fetchAdvanced(this.#getEinzelhaendlerURL()).then((responseJSON) => {
             let Einzelhaendler = EinzelhaendlerBO.fromJSON(responseJSON);
@@ -134,29 +129,29 @@ export default class API {
     }
 
     //führt einen POST Request aus und schreibt dabei das als Parameter übergebene Einzelhändler-objekt in den Body des Json
-    addEinzelhaendlerAPI (neweinz) {
+    addEinzelhaendlerAPI(neweinz) {
         return this.#fetchAdvanced(this.#addEinzelhaendlerURL(), {
-          method: 'POST',
-          headers: {
-            'Accept': 'application/json, text/plain',
-            'Content-type': 'application/json',
-          },
-          body: JSON.stringify(neweinz)
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json, text/plain',
+                'Content-type': 'application/json',
+            },
+            body: JSON.stringify(neweinz)
         }).then((responseJSON) => {
-                // Zugriff auf das erste Einzelhändler Objekt des Arrays, welches .fromJSON zurückgibt
-                let responseEinzelhaendlerBO = EinzelhaendlerBO.fromJSON(responseJSON)[0];
-                return new Promise(function (resolve) {
-                    resolve(responseEinzelhaendlerBO);
-                })
+            // Zugriff auf das erste Einzelhändler Objekt des Arrays, welches .fromJSON zurückgibt
+            let responseEinzelhaendlerBO = EinzelhaendlerBO.fromJSON(responseJSON)[0];
+            return new Promise(function (resolve) {
+                resolve(responseEinzelhaendlerBO);
             })
+        })
     }
 
     //führt einen DELETE Request aus und gibt dabei die id des zu löschenden Einzelhändlers weiter
-      deleteEinzelhaendlerAPI(id) {
+    deleteEinzelhaendlerAPI(id) {
         return this.#fetchAdvanced(this.#deleteEinzelhaendlerURL(id), {
             method: 'DELETE'
         }).then((responseJSON) => {
-             // Zugriff auf das erste Einzelhändler Objekt des Arrays, welches .fromJSON zurückgibt
+            // Zugriff auf das erste Einzelhändler Objekt des Arrays, welches .fromJSON zurückgibt
             let responseEinzelhaendlerBO = EinzelhaendlerBO.fromJSON(responseJSON)[0];
             return new Promise(function (resolve) {
                 resolve(responseEinzelhaendlerBO);
@@ -166,7 +161,7 @@ export default class API {
 
     //Fürht ein PUT Request aus. Die ID des Einzelhändlers der geupdatet werden soll wird an die URL gehängt
     //und das aktualisierte Einzelhändler-Objekt wird in den Body des JSON geschrieben
-     updateEinzelhaendlerAPI(einz) {
+    updateEinzelhaendlerAPI(einz) {
         return this.#fetchAdvanced(this.#updateEinzelhaendlerURL(einz.getID()), {
             method: 'PUT',
             headers: {
@@ -175,7 +170,7 @@ export default class API {
             },
             body: JSON.stringify(einz)
         }).then((responseJSON) => {
-             // Zugriff auf das erste Einzelhändler Objekt des Arrays, welches .fromJSON zurückgibt
+            // Zugriff auf das erste Einzelhändler Objekt des Arrays, welches .fromJSON zurückgibt
             let responseEinzBO = EinzelhaendlerBO.fromJSON(responseJSON)[0];
             return new Promise(function (resolve) {
                 resolve(responseEinzBO);
@@ -184,11 +179,7 @@ export default class API {
     }
 
 
-
-
-
-
- // Methode die den GET request ausführt und alle in der Datenbank gespeicherten Anwenderverbünde ausgibt
+    // Methode die den GET request ausführt und alle in der Datenbank gespeicherten Anwenderverbünde ausgibt
     getAnwenderverbuendeAPI() {
         return this.#fetchAdvanced(this.#getAnwenderverbuendeURL()).then((responseJSON) => {
             let Anwenderverbund = AnwenderverbundBO.fromJSON(responseJSON);
@@ -199,29 +190,29 @@ export default class API {
     }
 
     //führt einen POST Request aus und schreibt dabei das als Parameter übergebene Anwenderverbund-objekt in den Body des Json
-    addAnwenderverbundAPI (newanw) {
+    addAnwenderverbundAPI(newanw) {
         return this.#fetchAdvanced(this.#addAnwenderverbundURL(), {
-          method: 'POST',
-          headers: {
-            'Accept': 'application/json, text/plain',
-            'Content-type': 'application/json',
-          },
-          body: JSON.stringify(newanw)
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json, text/plain',
+                'Content-type': 'application/json',
+            },
+            body: JSON.stringify(newanw)
         }).then((responseJSON) => {
-                // Zugriff auf das erste Anwenderverbund Objekt des Arrays, welches .fromJSON zurückgibt
-                let responseAnwenderverbundBO = AnwenderverbundBO.fromJSON(responseJSON)[0];
-                return new Promise(function (resolve) {
-                    resolve(responseAnwenderverbundBO);
-                })
+            // Zugriff auf das erste Anwenderverbund Objekt des Arrays, welches .fromJSON zurückgibt
+            let responseAnwenderverbundBO = AnwenderverbundBO.fromJSON(responseJSON)[0];
+            return new Promise(function (resolve) {
+                resolve(responseAnwenderverbundBO);
             })
+        })
     }
 
     //führt einen DELETE Request aus und gibt dabei die id des zu löschenden Anwenderverbunds weiter
-      deleteAnwenderverbundAPI(id) {
+    deleteAnwenderverbundAPI(id) {
         return this.#fetchAdvanced(this.#deleteAnwenderverbundURL(id), {
             method: 'DELETE'
         }).then((responseJSON) => {
-             // Zugriff auf das erste Anwenderverbund Objekt des Arrays, welches .fromJSON zurückgibt
+            // Zugriff auf das erste Anwenderverbund Objekt des Arrays, welches .fromJSON zurückgibt
             let responseAnwenderverbundBO = AnwenderverbundBO.fromJSON(responseJSON)[0];
             return new Promise(function (resolve) {
                 resolve(responseAnwenderverbundBO);
@@ -231,7 +222,7 @@ export default class API {
 
     //Fürht ein PUT Request aus. Die ID des Anwenderverbunds der geupdatet werden soll wird an die URL gehängt
     //und das aktualisierte Anwenderverbund-Objekt wird in den Body des JSON geschrieben
-     updateAnwenderverbundAPI(anw) {
+    updateAnwenderverbundAPI(anw) {
         return this.#fetchAdvanced(this.#updateAnwenderverbundURL(anw.getID()), {
             method: 'PUT',
             headers: {
@@ -240,7 +231,7 @@ export default class API {
             },
             body: JSON.stringify(anw)
         }).then((responseJSON) => {
-             // Zugriff auf das erste Anwenderverbund Objekt des Arrays, welches .fromJSON zurückgibt
+            // Zugriff auf das erste Anwenderverbund Objekt des Arrays, welches .fromJSON zurückgibt
             let responseAnwenderverbundBO = AnwenderverbundBO.fromJSON(responseJSON)[0];
             return new Promise(function (resolve) {
                 resolve(responseAnwenderverbundBO);
@@ -249,14 +240,7 @@ export default class API {
     }
 
 
-
-
-
-
-
-
-
-    getEinkaufslistenAPI(){
+    getEinkaufslistenAPI() {
         return this.#fetchAdvanced(this.#getEinkaufslistenURL()).then((responseJSON) => {
             let Einkaufslisten = EinkaufslisteBO.fromJSON(responseJSON);
             return new Promise(function (resolve) {
@@ -266,32 +250,44 @@ export default class API {
     }
 
 
- //führt einen POST Request aus und schreibt dabei das als Parameter übergebene Anwenderverbund-objekt in den Body des Json
-    addEinkaufslisteAPI (neweinkl) {
+    //führt einen POST Request aus und schreibt dabei das als Parameter übergebene Anwenderverbund-objekt in den Body des Json
+    addEinkaufslisteAPI(neweinkl) {
         return this.#fetchAdvanced(this.#addEinkaufslisteURL(), {
-          method: 'POST',
-          headers: {
-            'Accept': 'application/json, text/plain',
-            'Content-type': 'application/json',
-          },
-          body: JSON.stringify(neweinkl)
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json, text/plain',
+                'Content-type': 'application/json',
+            },
+            body: JSON.stringify(neweinkl)
         }).then((responseJSON) => {
-                // Zugriff auf das erste Anwenderverbund Objekt des Arrays, welches .fromJSON zurückgibt
-                let responseBO = EinkaufslisteBO.fromJSON(responseJSON)[0];
-                return new Promise(function (resolve) {
-                    resolve(responseBO);
-                })
+            // Zugriff auf das erste Anwenderverbund Objekt des Arrays, welches .fromJSON zurückgibt
+            let responseBO = EinkaufslisteBO.fromJSON(responseJSON)[0];
+            return new Promise(function (resolve) {
+                resolve(responseBO);
             })
+        })
     }
 
 
-     getEinkaufslistenByAnwenderverbundAPI(id) {
-            return this.#fetchAdvanced(this.#getEinkaufslistenByAnwenderverbundURL(id)).then((responseJSON) => {
-                let liste = EinkaufslisteBO.fromJSON(responseJSON);
-                return new Promise(function (resolve) {
-                    resolve(liste);
-                })
+    getEinkaufslistenByAnwenderverbundAPI(id) {
+        return this.#fetchAdvanced(this.#getEinkaufslistenByAnwenderverbundURL(id)).then((responseJSON) => {
+            let liste = EinkaufslisteBO.fromJSON(responseJSON);
+            return new Promise(function (resolve) {
+                resolve(liste);
             })
-        }
+        })
+    }
+
+
+    getListeneintragByIdAPI(id) {
+        return this.#fetchAdvanced(this.#getListeneintragByIdURL(id)).then((responseJSON) => {
+            let eintrag = ListeneintragBO.fromJSON(responseJSON);
+            return new Promise(function (resolve) {
+                resolve(eintrag);
+            })
+        })
+    }
+
+
 
 }
