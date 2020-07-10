@@ -16,7 +16,7 @@ import EinkaufslisteForm from "./dialogs/EinkaufslisteForm";
  * Einkaufsliste zu erstellen.
  */
 
-class alleEinkaufslisten extends Component{
+class AlleEinkaufslisten extends Component{
 
     constructor(props) {
     super(props);
@@ -26,7 +26,7 @@ class alleEinkaufslisten extends Component{
 
     // Init ein leeres state
     this.state = {
-      alle_einkaufslisten: [],
+      alleEinkaufslisten: [],
       filteredEinkaufslisten: [],
       einkaufslistenFilter: '',
       error: null,
@@ -205,12 +205,12 @@ const styles = theme => ({
 });
 
 /** PropTypes */
-alleEinkaufslisten.propTypes = {
+AlleEinkaufslisten.propTypes = {
   /** @ignore */
   classes: PropTypes.object.isRequired,
   /** @ignore */
   location: PropTypes.object.isRequired,
 }
 
-export default withRouter(withStyles(styles)(alleEinkaufslisten));
+export default withRouter(withStyles(styles)(AlleEinkaufslisten));
 
