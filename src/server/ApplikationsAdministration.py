@@ -192,6 +192,19 @@ class ApplikationsAdministration(object):
         with AnwenderverbundMapper() as mapper:
             return mapper.benutzer_loeschen(anwenderverbund, benutzer)
 
+
+    """ METHODEN ZUR VERWALTUNG VON EINKAUFSLISTEN IN DER DATENBANK"""
+
+    """______________________________________________________"""
+
+    """ Methode zum ausgeben aller Einkaufslisten aus der Datenbank"""
+
+    def get_all_all_einkaufslisten(self):
+        with EinkaufslistenMapper() as mapper:
+            return mapper.find_all_all_einkaufslisten()
+
+    """ Methode zum Anlegen einer neuen Einkaufsliste in der Datenbank"""
+
     def einkaufsliste_anlegen(self, name, anwenderverbund):
         """Methode zum Anlegen einer neuen Einkaufsliste in der Datenbank"""
         einkaufsliste = Einkaufsliste()

@@ -13,7 +13,7 @@ import EinkaufslisteLoeschen from "./dialogs/EinkaufslisteLoeschen";
  * mit den Einkaufsliste manipulations Funktionen.
  */
 
- class alleEinkaufslistenListenEintrag extends Component {
+ class AlleEinkaufslistenListenEintrag extends Component {
 
     constructor(props) {
         super(props);
@@ -38,7 +38,7 @@ import EinkaufslisteLoeschen from "./dialogs/EinkaufslisteLoeschen";
 
     /** Behandelt das onClose Ereignis vom EinkaufslistenForm */
     einkaufslisteFormClosed = (einkaufsliste) => {
-        // Einzelhaendler ist nicht null und deshalb geändert.
+        // einkaufsliste ist nicht null und deshalb geändert.
         if (einkaufsliste) {
             this.setState({
                 einkaufsliste: einkaufsliste,
@@ -103,8 +103,7 @@ import EinkaufslisteLoeschen from "./dialogs/EinkaufslisteLoeschen";
               <Grid item xs />
             </Grid>
 
-        <EinkaufslisteForm show={showEinkaufslistenForm} einkaufsliste={einkaufsliste} onClose={this.einkaufslisteFormClosed} />
-        <EinkaufslisteLoeschen show={showEinkaufslisteDeleteDialog} einkaufsliste={einkaufsliste} onClose={this.deleteEinkaufslisteDialogClosed} />
+
       </div>
     );
   }
@@ -118,16 +117,16 @@ const styles = theme => ({
 });
 
 /** PropTypes */
-alleEinkaufslistenListenEintrag.propTypes = {
+AlleEinkaufslistenListenEintrag.propTypes = {
   /** @ignore */
   classes: PropTypes.object.isRequired,
-  /** Das EinzelhaendlerBO gerendert */
+  /** Das EinkaufslisteBO gerendert */
   einkaufsliste: PropTypes.object.isRequired,
    /**
-   *  Ereignis Handler Funktion, welche aufgerufen wird, wenn ein Einzelhaendler erfolgreich gelöscht wurde.
+   *  Ereignis Handler Funktion, welche aufgerufen wird, wenn ein EinkaufslisteBO erfolgreich gelöscht wurde.
    */
   onEinkaufslisteDeleted: PropTypes.func.isRequired
 }
 
-export default withStyles(styles)(alleEinkaufslistenListenEintrag);
+export default withStyles(styles)(AlleEinkaufslistenListenEintrag);
 
