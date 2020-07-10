@@ -168,10 +168,9 @@ class EinkaufslistenMapper(Mapper):
 
     def find_all_listeneintraege(self, einkaufsliste):
         """Mapper-Methode zum ausgeben aller Listeneinträge zu einer EInkaufsliste."""
-        id = einkaufsliste.get_id()         #erst hier wird die id der Einkaufsliste ausgelesen
         result = []
         cursor = self._cnx.cursor()
-        cursor.execute("SELECT * FROM listeneintrag WHERE einkaufsliste_id={}".format(id))
+        cursor.execute("SELECT * FROM listeneintrag WHERE einkaufsliste_id={}".format(einkaufsliste.get_id()))
         res = cursor.fetchall()
 
         for(id, anzahl, aenderungs_zeitpunkt, einkaufsliste_id, einzelhaendler_id, artikel_id, benutzer_id, erledigt) in res:
