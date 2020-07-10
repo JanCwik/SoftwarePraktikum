@@ -60,13 +60,9 @@ class AlleEinkaufslisten extends Component{
       loadingInProgress: true,
       error: null
     }
-
-
     );
 
   }
-
-
 
  /** Lebenszyklus Methode, welche aufgerufen wird, wenn die Komponente in das DOM des Browsers eingefügt wird.*/
 
@@ -82,12 +78,12 @@ class AlleEinkaufslisten extends Component{
    * EinkaufslisteBO von dem Einkaufsliste-ListenEintrag um gelöscht zu werde
    */
 
-  EinkaufslisteDeleted = einkaufsliste => {
+  einkaufslisteDeleted = einkaufsliste => {
     const newEinkaufslisteList = this.state.alle_einkaufslisten.filter(EinkaufslisteFromState => EinkaufslisteFromState.getID() !== einkaufsliste.getID());
     this.setState({
       alle_einkaufslisten: newEinkaufslisteList,
       filteredEinkaufslisten: [...newEinkaufslisteList],
-      showEinkaufslistenForm: false
+      showEinkaufslisteForm: false
     });
   }
 
@@ -98,7 +94,7 @@ class AlleEinkaufslisten extends Component{
     event.stopPropagation();
     //Zeige den EinkaufslisteForm
     this.setState({
-      showEinkaufslistenForm: true
+      showEinkaufslisteForm: true
     });
   }
 
@@ -112,11 +108,11 @@ class AlleEinkaufslisten extends Component{
       this.setState({
         alle_einkaufslisten: newEinkaufslisteList,
         filteredEinkaufslisten: [...newEinkaufslisteList],
-        showEinkaufslistenForm: false
+        showEinkaufslisteForm: false
       });
     } else {
       this.setState({
-        showEinkaufslistenForm: false
+        showEinkaufslisteForm: false
       });
     }
   }
@@ -149,14 +145,14 @@ class AlleEinkaufslisten extends Component{
   /** Rendert die Komponente */
   render() {
     const { classes } = this.props;
-    const { filteredEinkaufslisten, einkaufslistenFilter, loadingInProgress, error, showEinkaufslistenForm } = this.state;
+    const { filteredEinkaufslisten, einkaufslistenFilter, loadingInProgress, error, showEinkaufslisteForm } = this.state;
 
     return (
       <div className={classes.root}>
         <Grid className={classes.einkaufslisteFilter} container spacing={1} justify='flex-start' alignItems='center'>
           <Grid item>
             <Typography>
-              Suchen:
+              Filter Einkaufslisten nach Name:
               </Typography>
           </Grid>
           <Grid item xs={4}>
@@ -194,8 +190,7 @@ class AlleEinkaufslisten extends Component{
         }
         <LoadingProgress show={loadingInProgress} />
         <ContextErrorMessage error={error} contextErrorMsg={`Einkaufslisten konnten nicht geladen werden.`} onReload={this.getEinkaufslisten} />
-
-
+        <EinkaufslisteForm show={showEinkaufslisteForm} onClose={this.einkaufslisteFormClosed} />
       </div>
 
     );

@@ -85,7 +85,7 @@ class ArtikelListOperations(Resource):
 
     @shopping.marshal_with(artikel)
     @shopping.expect(artikel)
-    #@secured
+    @secured
     def post(self):
         """Anlegen eines Artikels"""
         adm = ApplikationsAdministration()
@@ -103,14 +103,14 @@ class ArtikelListOperations(Resource):
 @shopping.param('id', 'ID des Artikels')
 class ArtikelOperations(Resource):
     @shopping.marshal_with(artikel)
-    #@secured
+    @secured
     def get(self, id):
         """Auslesen eines bestimmten Artikel anhand einer id"""
         adm = ApplikationsAdministration()
         artikel = adm.get_artikel_by_id(id)
         return artikel
 
-    #@secured
+    @secured
     def delete(self, id):
         """Löschen eines Artikels anhand einer id"""
         adm = ApplikationsAdministration()
@@ -120,7 +120,7 @@ class ArtikelOperations(Resource):
 
     @shopping.marshal_with(artikel)
     @shopping.expect(artikel)
-    #@secured
+    @secured
     def put(self, id):
         """Update eines durch eine id bestimmten Artikel"""
      
@@ -140,7 +140,7 @@ class ArtikelOperations(Resource):
 @shopping.param('name', 'Name des Artikels')
 class ArtikelByNameOperations(Resource):
     @shopping.marshal_with(artikel)
-    #@secured
+    @secured
     def get(self, name):
         """Auslesen eines bestimmten Artikel anhand dessen Namen"""
         adm = ApplikationsAdministration()
@@ -167,7 +167,7 @@ class ArtikelByNameOperations(Resource):
 class ListeneintragOperations(Resource):
     @shopping.marshal_with(listeneintrag)
     @shopping.expect(listeneintrag)
-    #@secured
+    @secured
     def post(self):
         """Anlegen eines Listeneintrages"""
         adm = ApplikationsAdministration()
@@ -202,14 +202,14 @@ class ListeneintragOperations(Resource):
 @shopping.param('id', 'ID des Listeneintrages')
 class ListeneintragOperations(Resource):
     @shopping.marshal_with(listeneintrag)
-    #@secured
+    @secured
     def get(self, id):
         """Auslesen eines bestimmten Listeneintrages anhand einer id"""
         adm = ApplikationsAdministration()
         listeneintrag = adm.get_listeneintrag_by_id(id)
         return listeneintrag
 
-    #@secured
+    @secured
     def delete(self, id):
         """Löschen eines Listeneintrages anhand einer id"""
         adm = ApplikationsAdministration()
@@ -219,7 +219,7 @@ class ListeneintragOperations(Resource):
 
     @shopping.marshal_with(listeneintrag)
     @shopping.expect(listeneintrag)
-    #@secured
+    @secured
     def put(self, id):
         """Update eines durch eine id bestimmten Listeneintrag"""
 
@@ -250,7 +250,7 @@ class ListeneintragOperations(Resource):
 @shopping.response(500, 'Serverfehler')
 class EinzelhaendlerListOperations(Resource):
     @shopping.marshal_list_with(einzelhaendler)
-    #@secured
+    @secured
     def get(self):
         """Auslesen aller Einzelhändler"""
         adm = ApplikationsAdministration()
@@ -259,7 +259,7 @@ class EinzelhaendlerListOperations(Resource):
 
     @shopping.marshal_with(einzelhaendler)
     @shopping.expect(einzelhaendler)
-    #@secured
+    @secured
     def post(self):
         """Anlegen eines Einzelhändlers"""
         adm = ApplikationsAdministration()
@@ -277,14 +277,14 @@ class EinzelhaendlerListOperations(Resource):
 @shopping.param('id', 'ID des Einzelhaendler')
 class EinzelhaendlerOperations(Resource):
     @shopping.marshal_with(einzelhaendler)
-    #@secured
+    @secured
     def get(self, id):
         """Auslesen eines bestimmten Einzelhändlers anhand einer id"""
         adm = ApplikationsAdministration()
         einzelhaendler = adm.get_einzelhaendler_by_id(id)
         return einzelhaendler
 
-    #@secured
+    @secured
     def delete(self, id):
         """Löschen eines Einzelhändlers anhand einer id"""
         adm = ApplikationsAdministration()
@@ -294,7 +294,7 @@ class EinzelhaendlerOperations(Resource):
 
     @shopping.marshal_with(einzelhaendler)
     @shopping.expect(einzelhaendler)
-    #@secured
+    @secured
     def put(self, id):
         """Update eines durch eine id bestimmten Einzelhändlers"""
 
@@ -314,7 +314,7 @@ class EinzelhaendlerOperations(Resource):
 @shopping.param('name', 'Name des Einzelhändler')
 class ArtikelByNameOperations(Resource):
     @shopping.marshal_with(einzelhaendler)
-    #@secured
+    @secured
     def get(self, name):
         """Auslesen eines bestimmten Einzelhändlers anhand dessen Namen"""
         adm = ApplikationsAdministration()
@@ -339,7 +339,7 @@ class ArtikelByNameOperations(Resource):
 @shopping.response(500, 'Serverfehler')
 class BenutzerListOperations(Resource):
     @shopping.marshal_list_with(benutzer)
-    #@secured
+    @secured
     def get(self):
         """Auslesen aller Benutzer"""
         adm = ApplikationsAdministration()
@@ -348,7 +348,7 @@ class BenutzerListOperations(Resource):
 
     @shopping.marshal_with(benutzer)
     @shopping.expect(benutzer)
-    #@secured
+    @secured
     def post(self):
         """Anlegen eines Benutzers"""
         adm = ApplikationsAdministration()
@@ -366,14 +366,14 @@ class BenutzerListOperations(Resource):
 @shopping.param('id', 'ID des Benutzers')
 class BenutzerOperations(Resource):
     @shopping.marshal_with(benutzer)
-    #@secured
+    @secured
     def get(self, id):
         """Auslesen eines bestimmten Benutzers anhand einer id"""
         adm = ApplikationsAdministration()
         benutzer = adm.get_benutzer_by_id(id)
         return benutzer
 
-    #@secured
+    @secured
     def delete(self, id):
         """Löschen eines Benutzers anhand einer id"""
         adm = ApplikationsAdministration()
@@ -383,7 +383,7 @@ class BenutzerOperations(Resource):
 
     @shopping.marshal_with(benutzer)
     @shopping.expect(benutzer)
-    #@secured
+    @secured
     def put(self, id):
         """Update eines durch eine id bestimmten Benutzer"""
 
@@ -403,7 +403,7 @@ class BenutzerOperations(Resource):
 @shopping.param('name', 'Name des Benutzers')
 class BenutzerByNameOperations(Resource):
     @shopping.marshal_with(benutzer)
-    #@secured
+    @secured
     def get(self, name):
         """Auslesen eines bestimmten Benutzers anhand seines Namen"""
         adm = ApplikationsAdministration()
@@ -416,7 +416,7 @@ class BenutzerByNameOperations(Resource):
 @shopping.param('email', 'Email des Benutzers')
 class BenutzerByEmailOperations(Resource):
     @shopping.marshal_with(benutzer)
-    #@secured
+    @secured
     def get(self, email):
         """Auslesen eines bestimmten Benutzers anhand seiner Email"""
         adm = ApplikationsAdministration()
@@ -429,7 +429,7 @@ class BenutzerByEmailOperations(Resource):
 @shopping.param('id', 'ID des Benutzer')
 class BenutzerRelatedListeneintragOperations(Resource):
     @shopping.marshal_with(listeneintrag)
-    #@secured
+    @secured
     def get(self, id):
         """Auslesen aller Listeneinträge für einen durch Id definierten Benutzer"""
         adm = ApplikationsAdministration()
@@ -462,7 +462,7 @@ class BenutzerRelatedListeneintragOperations(Resource):
 @shopping.response(500, 'Serverfehler')
 class EinkaufslisteListOperations(Resource):
     @shopping.marshal_list_with(einkaufsliste)
-    #@secured
+    @secured
     def get(self):                                          
         adm = ApplikationsAdministration()
         einkaufsliste = adm.get_all_all_einkaufslisten()
@@ -476,7 +476,7 @@ class EinkaufslisteListOperations(Resource):
 class EinkaufslisteListOperations(Resource):
     @shopping.marshal_with(einkaufsliste)
     @shopping.expect(einkaufsliste)
-    #@secured
+    @secured
     def post(self):                                         #id von Einkaufsliste muss mit id von Anwenderverbund angegeben werden, sonst Server-Error!
         """Anlegen einer Einkaufsliste"""
         adm = ApplikationsAdministration()
@@ -494,14 +494,14 @@ class EinkaufslisteListOperations(Resource):
 @shopping.param('id', 'ID der Einkaufsliste')
 class EinkaufslisteOperations(Resource):
     @shopping.marshal_with(einkaufsliste)
-    #@secured
+    @secured
     def get(self, id):
         """Auslesen einer bestimmten Einkaufsliste anhand einer id"""
         adm = ApplikationsAdministration()
         einkaufsliste = adm.get_einkaufsliste_by_id(id)
         return einkaufsliste
 
-    #@secured
+    @secured
     def delete(self, id):
         """Löschen einer Einkaufsliste anhand einer id"""
         adm = ApplikationsAdministration()
@@ -511,7 +511,7 @@ class EinkaufslisteOperations(Resource):
 
     @shopping.marshal_with(einkaufsliste)
     @shopping.expect(einkaufsliste)
-    #@secured
+    @secured
     def put(self, id):
         """Update einer durch id bestimmten Einkaufsliste"""
 
@@ -547,7 +547,7 @@ class EinkaufslisteByNameOperations(Resource):                                  
 @shopping.param('id', 'ID der Einkaufsliste')
 class EinkaufslisteRelatedListeneintraegeOperations(Resource):
     @shopping.marshal_with(listeneintrag)
-    #@secured
+    @secured
     def get(self, id):
         """Auslesen aller Listeneinträge in einem durch Id definierten Einkaufsliste"""
         adm = ApplikationsAdministration()
@@ -576,7 +576,7 @@ class EinkaufslisteRelatedListeneintraegeOperations(Resource):
 @shopping.response(500, 'Serverfehler')
 class AnwenderverbundListOperations(Resource):
     @shopping.marshal_list_with(anwenderverbund)
-    #@secured
+    @secured
     def get(self):
         """Auslesen aller Anwenderverbünde"""
         adm = ApplikationsAdministration()
@@ -585,7 +585,7 @@ class AnwenderverbundListOperations(Resource):
 
     @shopping.marshal_with(anwenderverbund)
     @shopping.expect(anwenderverbund)
-    #@secured
+    @secured
     def post(self):
         """Anlegen eines Anwenderverbundes"""
         adm = ApplikationsAdministration()
@@ -603,14 +603,14 @@ class AnwenderverbundListOperations(Resource):
 @shopping.param('id', 'ID des Anwenderverbundes')
 class AnwenderverbundOperations(Resource):
     @shopping.marshal_with(anwenderverbund)
-    #@secured
+    @secured
     def get(self, id):
         """Auslesen eines bestimmten Anwenderverbundes anhand einer id"""
         adm = ApplikationsAdministration()
         anwenderverbund = adm.get_anwenderverbund_by_id(id)
         return anwenderverbund
 
-    #@secured
+    @secured
     def delete(self, id):
         """Löschen eines Anwenderverbundes anhand einer id"""
         adm = ApplikationsAdministration()
@@ -620,7 +620,7 @@ class AnwenderverbundOperations(Resource):
 
     @shopping.marshal_with(anwenderverbund)
     @shopping.expect(anwenderverbund)
-    #@secured
+    @secured
     def put(self, id):
         """Update eines durch eine id bestimmten Anwenderverbundes"""
 
@@ -640,7 +640,7 @@ class AnwenderverbundOperations(Resource):
 @shopping.param('name', 'Name des Anwenderverbundes')
 class AnwenderverbundByNameOperations(Resource):
     @shopping.marshal_with(anwenderverbund)
-    #@secured
+    @secured
     def get(self, name):
         """Auslesen eines bestimmten Anwenderverbundes anhand dessen Namen"""
         adm = ApplikationsAdministration()
@@ -653,7 +653,7 @@ class AnwenderverbundByNameOperations(Resource):
 @shopping.param('id', 'ID des Anwenderverbundes')
 class AnwenderverbundRelatedEinkaufslisteOperations(Resource):
     @shopping.marshal_with(einkaufsliste)
-    #@secured
+    @secured
     def get(self, id):
         """Auslesen aller Einkaufslisten in einem durch Id definierten Anwenderverbund"""
         adm = ApplikationsAdministration()
@@ -670,7 +670,7 @@ class AnwenderverbundRelatedEinkaufslisteOperations(Resource):
 @shopping.param('id', 'ID des Anwenderverbundes')
 class AnwenderverbundRelatedBenutzerOperations(Resource):
     @shopping.marshal_with(benutzer)
-    #@secured
+    @secured
     def get(self, id):
         """Auslesen aller Mitglieder in einem durch Id definierten Anwenderverbund"""
         adm = ApplikationsAdministration()
@@ -684,7 +684,7 @@ class AnwenderverbundRelatedBenutzerOperations(Resource):
 
     @shopping.marshal_with(benutzer)
     @shopping.expect(benutzer)
-    #@secured
+    @secured
     def post(self, id):
         """Hinzufügen eines Benutzers in einem Anwenderverbund"""
         adm = ApplikationsAdministration()
@@ -699,7 +699,7 @@ class AnwenderverbundRelatedBenutzerOperations(Resource):
 
     @shopping.marshal_with(benutzer)
     @shopping.expect(benutzer)
-    #@secured
+    @secured
     def delete(self, id):
         """Löschen eines Benutzers in einem Anwenderverbund"""
         adm = ApplikationsAdministration()
