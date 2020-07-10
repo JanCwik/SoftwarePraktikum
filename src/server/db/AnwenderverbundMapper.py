@@ -132,8 +132,6 @@ class AnwenderverbundMapper(Mapper):
         den Setter-Methoden übergeben.
         Sollte die Datenbank anhand der ID kein Objekt zurückliefern, wird ausgegeben was innerhalb des IndexErrors steht --> None
         Das Ergebnis wir schließlich von der Mehtode zurückgegeben."""
-        result = None
-
         cursor = self._cnx.cursor()
         command = "SELECT id, name, erstellungs_zeitpunkt FROM anwenderverbund WHERE id={}".format(id)
         cursor.execute(command)
@@ -163,8 +161,6 @@ class AnwenderverbundMapper(Mapper):
         den Setter-Methoden übergeben.
         Sollte die Datenbank anhand des Namens kein Objekt zurückliefern, wird ausgegeben was innerhalb des IndexErrors steht --> None
         Das Ergebnis wir schließlich von der Mehtode zurückgegeben."""
-        result = None
-
         cursor = self._cnx.cursor()
         command = "SELECT id, name, erstellungs_zeitpunkt FROM anwenderverbund WHERE name LIKE '{}' ORDER BY name".format(
             name)
