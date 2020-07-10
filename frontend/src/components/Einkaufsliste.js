@@ -44,7 +44,7 @@ class Einkaufsliste extends Component {
       .then(einkaufslisteBOs =>
         this.setState({               // Setzt neues state wenn EinzelhaendlerBOs gefetcht wurden
           einkaufsliste: einkaufslisteBOs,
-          filteredEinkaufsliste: [...einzelhaendlerBOs], // Speichert eine Kopie
+          filteredEinkaufsliste: [...einkaufslisteBOs], // Speichert eine Kopie
           loadingInProgress: false,   // Ladeanzeige deaktivieren
           error: null
         })).catch(e =>
@@ -121,7 +121,7 @@ class Einkaufsliste extends Component {
       const newEinkaufslisteList = [...this.state.einkaufsliste, einkaufsliste];
       this.setState({
         einkaufsliste: newEinkaufslisteList,
-        filteredEinkaufsliste: [...newEinzelhaendlerList],
+        filteredEinkaufsliste: [...newEinkaufslisteList],
         showEinzelhaendlerForm: false
       });
     } else {
@@ -195,14 +195,14 @@ class Einkaufsliste extends Component {
            wenn dies von den URL Parametern gegeben ist. */
 
           filteredEinzelhaendler.map(einzelhaendler =>
-            <EinzelhaendlerListenEintrag key={einzelhaendler.getID()} einzelhaendler={einzelhaendler} expandedState={expandedEinzelhaendlerID === einzelhaendler.getID()}
+            <EinkaufslisteListenEintrag key={einzelhaendler.getID()} einzelhaendler={einzelhaendler} expandedState={expandedEinzelhaendlerID === einzelhaendler.getID()}
               onExpandedStateChange={this.onExpandedStateChange}
               onEinzelhaendlerDeleted={this.einzelhaendlerDeleted}
             />)
         }
         <LoadingProgress show={loadingInProgress} />
         <ContextErrorMessage error={error} contextErrorMsg={`Die Liste der Einzelhändler konnte nicht geladen werden.`} onReload={this.getEinzelhaendler} />
-        <EinzelhaendlerForm show={showEinzelhaendlerForm} onClose={this.einzelhaendlerFormClosed} />
+        <EinkaufslisteForm show={showEinzelhaendlerForm} onClose={this.einzelhaendlerFormClosed} />
       </div>
     );
   }
@@ -220,11 +220,11 @@ const styles = theme => ({
 });
 
 /** PropTypes */
-Einzelhaendler.propTypes = {
+Einkaufsliste.propTypes = {
   /** @ignore */
   classes: PropTypes.object.isRequired,
   /** @ignore */
   location: PropTypes.object.isRequired,
 }
 
-export default withRouter(withStyles(styles)(Einzelhaendler));
+export default withRouter(withStyles(styles)(Einkaufsliste));
