@@ -17,15 +17,15 @@ import LoadingProgress from './LoadingProgress';
  * mit dem angelegt/upgedated ArtikelBO Objekt als Parameter aufgerufen. Wenn der Dialog beendet ist,
  * wird onClose mit null aufgerufen.
  */
-class ArtikelForm extends Component {
+class ListeneintragForm extends Component {
 
   constructor(props) {
     super(props);
 
-    let an = '', sa = '', ae = '';
+    let an = '', lm = '', ae = '';
     if (props.artikel) {
       an = props.artikel.getName();
-      sa = props.artikel.getStandardartikel();
+      lm = props.artikel.getlisteneintragMenge();
       ae = props.artikel.getEinheit();
     }
 
@@ -34,10 +34,12 @@ class ArtikelForm extends Component {
       artikelName: an,
       artikelNameValidationFailed: false,
       artikelNameEdited: false,
-      artikelStandardartikel: sa,
-      artikelStandardartikelEdited: false,
       artikelEinheit: ae,
       artikelEinheitEdited: false,
+      listeneintragMenge: lm,
+      listeneintragMengeEdited: false,
+      benutzerName: bn,
+      benutzerNameEdited: false,
       addingInProgress: false,
       updatingInProgress: false,
       addingError: null,
@@ -48,16 +50,17 @@ class ArtikelForm extends Component {
   }
 
   /** Legt Artikel an */
-  addArtikel = () => {
-    let newArtikel = new ArtikelBO();
-    newArtikel.setName(this.state.artikelName);
-    newArtikel.setStandardartikel(this.state.artikelStandardartikel);
-    newArtikel.setEinheit(this.state.artikelEinheit);    //legt neues Artikelobjekt mit name aus dem state an
-    API.getAPI().addArtikelAPI(newArtikel).then(artikel => {
+  addListeneintrag = () => {
+    let newListeneintrag = new ListeneintragBO();
+    newListeneintrag.setArtikel(this.state.artikelName);
+    newListeneintrag.setEinheit(this.state.artikelEinheit);
+    newListeneintrag.setMenge(this.state.listeneintragMenge);
+    newListeneintrag.setBenutzer_id(this.state.benutzerName)//legt neues Artikelobjekt mit name aus dem state an
+    API.getAPI().addListeneintragAPI(newListeneintrag).then(listeneintrag => {
       // Backend Aufruf erfolgreich
       // reinit den Dialog state für einen neuen leeren Artikel
       this.setState(this.baseState);
-      this.props.onClose(artikel); // Aufruf mit Hilfe des Artikel Objekts aus dem Backend
+      this.props.onClose(listeneintrag); // Aufruf mit Hilfe des Artikel Objekts aus dem Backend
     }).catch(e =>
       this.setState({
         updatingInProgress: false,    // Ladeanzeige deaktivieren
@@ -73,23 +76,24 @@ class ArtikelForm extends Component {
   }
 
   /** Updates the customer */
-  updateArtikel = () => {
+  updateListeneintrag = () => {
     // Klont den originalen Artikel, wenn der Backend Aufruf fehlschlägt
     let updatedArtikel = Object.assign(new ArtikelBO(), this.props.artikel);
     // Setzt die neuen Attribute aus dem Dialog
-    updatedArtikel.setName(this.state.artikelName);
-    updatedArtikel.setStandardartikel(this.state.artikelStandardartikel);
-    updatedArtikel.setEinheit(this.state.artikelEinheit);
-    API.getAPI().updateArtikelAPI(updatedArtikel).then(artikel => {
+    updatedListeneintrag.getName(this.state.artikelName);
+    updatedListeneintrag.getEinheit(this.state.artikelEinheit);
+    updatedListeneintrag.setMenge(this.state.listeneintragMenge);
+    updatedListeneintrag.getGoogleID(this.state.benutzerName);
+    API.getAPI().updateListeneintragAPI(updatedListeneintrag).then(listeneintrag => {
       this.setState({
         updatingInProgress: false,              // Ladeanzeige deaktivieren
         updatingError: null                     // Keine Error Nachricht
       });
       // Behalte das neue state als Base state
       this.baseState.artikelName = this.state.artikelName;
-      this.baseState.artikelStandardartikel = this.state.artikelStandardartikel;
       this.baseState.artikelEinheit = this.state.artikelEinheit;
-      this.props.onClose(updatedArtikel);      // Aufruf mit dem neuen Artikel
+      this.baseState.listeneintragMenge = this.state.listeneintragMenge;
+      this.props.onClose(updatedListeneintrag);      // Aufruf mit dem neuen Artikel
     }).catch(e =>
       this.setState({
         updatingInProgress: false,              // Ladeanzeige deaktivieren
@@ -121,26 +125,27 @@ console.log([event.target.id])
   }
  */
 
-nameChange = (event) => {
+artikelChange = (event) => {
     let name = event.target.value;
     this.setState({
       artikelName: name,
       artikelNameEdited: true
     });
   }
-  standartartikelChange = (event) => {
-    let standardartikel = event.target.value;
+
+  mengeChange = (event) => {
+    let menge = event.target.value;
     this.setState({
-      artikelStandardartikel: standardartikel,
-      artikelStandardartikelEdited: true
+      listeneintragMenge: menge,
+      listeneintragMengeEdited: true
     });
   }
 
-  einheitChange= (event) => {
-    let einheit = event.target.value;
+  benutzerChange= (event) => {
+    let name = event.target.value;
     this.setState({
-      artikelEinheit: einheit,
-      artikelEinheitEdited: true
+      benutzerName: name,
+      benutzerNameEdited: true
     });
   }
 
