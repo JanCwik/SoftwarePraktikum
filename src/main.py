@@ -173,8 +173,25 @@ class ListeneintragOperations(Resource):
         adm = ApplikationsAdministration()
 
         test = Listeneintrag.from_dict(api.payload)
+
+        # Hinzugefügt, da ganze Instanzen übergeben werden sollen, Maik
+        einkaufsliste_id = test.get_einkaufslisteId()
+        einkaufsliste = adm.get_einkaufsliste_by_id(einkaufsliste_id)
+
+        # Hinzugefügt, da ganze Instanzen übergeben werden sollen, Maik
+        einzelhaendler_id = test.get_einzelhaendlerId()
+        einzelhaendler = adm.get_einzelhaendler_by_id(einzelhaendler_id)
+
+        # Hinzugefügt, da ganze Instanzen übergeben werden sollen, Maik
+        artikel_id = test.get_artikelId()
+        artikel = adm.get_artikel_by_id(artikel_id)
+
+        # Hinzugefügt, da ganze Instanzen übergeben werden sollen, Maik
+        benutzer_id = test.get_benutzerId()
+        benutzer = adm.get_benutzer_by_id(benutzer_id)
+
         if test is not None:
-            a = adm.listeneintrag_anlegen(test.get_anzahl(), test.get_einkaufslisteId(), test.get_einzelhaendlerId(), test.get_artikelId(), test.get_benutzerId(), test.get_erledigt())
+            a = adm.listeneintrag_anlegen(test.get_anzahl(), einkaufsliste, einzelhaendler, artikel, benutzer, test.get_erledigt())
             return a, 200
         else:
             return '', 500
@@ -439,7 +456,7 @@ class BenutzerRelatedListeneintragOperations(Resource):
 
 
 
-"""
+
 
 @shopping.route('/einkaufsliste')
 @shopping.response(500, 'Serverfehler')
@@ -448,11 +465,11 @@ class EinkaufslisteListOperations(Resource):
     #@secured
     def get(self):                                          
         adm = ApplikationsAdministration()
-        einkaufsliste = adm.get_all_einkaufslisten(anwenderverbund)
+        einkaufsliste = adm.get_all_all_einkaufslisten()
         return einkaufsliste
-"""
 
-#unnötig bzw. muss mit anwenderverbund definiert werden
+
+#ja diese Methode ist unnöti aber sie wird zurzeit vom frontend benutzt bis wir es richtig hinkriegen
 
 @shopping.route('/einkaufsliste')
 @shopping.response(500, 'Serverfehler')
@@ -690,7 +707,7 @@ class AnwenderverbundRelatedBenutzerOperations(Resource):
         verbund = adm.get_anwenderverbund_by_id(id)
         mitglied = Benutzer.from_dict(api.payload)
         if verbund is not None:
-            result = adm.mitglieder_loeschen(verbund, mitglied)
+            result = adm.mitglieder_entfernen(verbund, mitglied)#Name der Methode geändert,Maik
             return result
         else:
             return "Benutzer oder Anwenderverbund unbekannt", 500
