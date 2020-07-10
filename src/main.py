@@ -52,14 +52,13 @@ einkaufsliste = api.inherit('Einkaufsliste', namedBO, {
     'anwenderverbund_id': fields.Integer(attribute='_anwenderverbund_id', description='ID des Anwenderverbundes')
 })
 
-anwenderverbund = api.inherit('Anwenderverbund', namedBO, {
-    'einkaufslisten': fields.String(attribute='_einkaufslisten', description='Einkaufslisten im Anwenderverbund')
-})
+anwenderverbund = api.inherit('Anwenderverbund', namedBO,bo )
+
 
 listeneintrag = api.inherit('Listeneintrag', bo, {
-    'anzahl': fields.Integer(attribute='_anzahl', description='Anzahl'),
+    'menge': fields.Integer(attribute='_anzahl', description='Anzahl'),
     'erledigt': fields.Boolean(attribute='_erledigt', description='Status'),
-    'änderungs_zeitpunkt': fields.String(attribute='_änderungs_zeitpunkt', description='Änderungszeitpunkt'),
+    'aenderungs_zeitpunkt': fields.String(attribute='_änderungs_zeitpunkt', description='Änderungszeitpunkt'),
     'einkaufsliste_id': fields.Integer(attribute='_einkaufsliste_id', description='ID der Einkaufsliste'),
     'einzelhaendler_id': fields.Integer(attribute='_einzelhaendler_id', description='ID des Einzehändler'),
     'artikel_id': fields.Integer(attribute='_artikel_id', description='ID des Artikels'),

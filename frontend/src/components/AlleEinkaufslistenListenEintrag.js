@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { withStyles, Typography, ExpansionPanel, ExpansionPanelSummary, ExpansionPanelDetails, Grid } from '@material-ui/core';
+import { withStyles, Typography, ExpansionPanel, ExpansionPanelSummary, ExpansionPanelDetails, Grid ,Link} from '@material-ui/core';
 import { Button, ButtonGroup } from '@material-ui/core';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import EinkaufslisteForm from "./dialogs/EinkaufslisteForm";
 import EinkaufslisteLoeschen from "./dialogs/EinkaufslisteLoeschen";
+import { Link as RouterLink } from 'react-router-dom';
 
 
 
@@ -88,7 +89,16 @@ import EinkaufslisteLoeschen from "./dialogs/EinkaufslisteLoeschen";
 
             <Grid container spacing={3} justify='flex-start' alignItems='center'>
               <Grid item>
-                <Typography variant='body1' className={classes.heading}>{einkaufsliste.getName()}
+                <Typography variant='body1' className={classes.heading}>
+
+                    <Link component={RouterLink} to={{
+                          pathname: '/einkaufsliste',
+                          einkaufsliste: einkaufsliste
+
+                        }} >
+                          {einkaufsliste.getName()}
+                     </Link>
+
                 </Typography>
               </Grid>
               <Grid item>
