@@ -69,10 +69,10 @@ class EinzelhaendlerLoeschen extends Component {
           </DialogTitle>
           <DialogContent>
             <DialogContentText>
-              Einzelhändler wirklich löschen? '{einzelhaendler.getEinzelhaendlerName()}' (ID: {einzelhaendler.getID()})?
+              Einzelhändler wirklich löschen? '{einzelhaendler.getName()}' (ID: {einzelhaendler.getID()})?
             </DialogContentText>
             <LoadingProgress show={deletingInProgress} />
-            <ContextErrorMessage error={deletingError} contextErrorMsg={`Der einzelhaendler '${einzelhaendler.getEinzelhaendlerName()}' (ID: ${einzelhaendler.getID()}) konnte nicht gelöscht werden.`}
+            <ContextErrorMessage error={deletingError} contextErrorMsg={`Der einzelhaendler '${einzelhaendler.getName()}' (ID: ${einzelhaendler.getID()}) konnte nicht gelöscht werden.`}
               onReload={this.deleteEinzelhaendler} />
           </DialogContent>
           <DialogActions>
