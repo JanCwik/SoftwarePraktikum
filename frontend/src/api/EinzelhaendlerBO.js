@@ -6,18 +6,8 @@ export default class EinzelhaendlerBO extends NamedBO {
 // und an die superklasse NapedBo weitergegeben werden
     constructor(name) {
         super(name);
-
-
-
     }
 
-    setEinzelhaendlerName(name) {
-        this.name = name
-    }
-
-    getEinzelhaendlerName() {
-        return this.name
-    }
 
 
       // Returns an Array of CustomerBOs from a given JSON structure
