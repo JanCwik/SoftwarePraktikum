@@ -2,33 +2,23 @@ from src.server.db.Mapper import Mapper
 from src.server.bo.Einzelhaendler import Einzelhaendler
 
 
-
-
 class EinzelhaendlerMapper(Mapper):
 
     def __init__(self):
         super().__init__()
 
-
-    """ Mapper-Methode zum ausgeben aller Einzelhändler aus der Datenbank"""
-
-    """Hier werden via SQL-Abfrage alle Einzelhändler aus der Datenbank ausgegeben.
-       Anschließend werden aus den Zeilen der Datenbank (welche ein Objekt mit dessen Attributen darstellen) 
-       mit der fetchall-Methode Tupel erstellt. 
-       
-       !!!NOCHMAL NACHSCHAUEN WAS DIE FETCHALL TECHNISCH GENAU MACHT!!!
-       
-       Mittels For-Schleife werden die einzelnen Attribute aus einem Tupel gezogen und einer neuen Instanz der
-       Klasse "Einzelhaendler()" übergeben. Die einzelnen Instanzen werden in einem Array gespeichert.
-       Das Array mit allen Instanzen wird schließlich zurückgegeben."""
-
     def find_all(self):
+        """Mapper-Methode zum ausgeben aller Einzelhändler aus der Datenbank
 
+        Hier werden via SQL-Abfrage alle Einzelhändler aus der Datenbank ausgegeben.
+        Die Einzelhändler-Objekte werden anschließend von der fetchall()-Methode als Tupel zurückgegeben.
+        Mittels For-Schleife werden die einzelnen Attribute aus einem Tupel gezogen und einer neuen Instanz der
+        Klasse "Einzelhaendler()" übergeben. Die einzelnen Instanzen werden in einem Array gespeichert.
+        Das Array mit allen Instanzen wird schließlich zurückgegeben."""
         result = []
         cursor = self._cnx.cursor()
-        cursor.execute("SELECT * FROM einzelhaendler")
-        res= cursor.fetchall()
-
+        cursor.execute("SELECT id, name, erstellungs_zeitpunkt FROM einzelhaendler")
+        res = cursor.fetchall()
 
         for (id, name, erstellungs_zeitpunkt) in res:
 
@@ -44,26 +34,21 @@ class EinzelhaendlerMapper(Mapper):
 
         return result
 
+    def insert(self, einzelhaendler):
+        """Mapper-Methode zum speichern eines neuen Einzelhändlers in der Datenbank
 
-    """ Mapper-Methode zum speichern eines neuen Einzelhändlers in der Datenbank"""
+        Beim Aufruf der Methode wird eine zuvor erstellte Instanz der Klasse "Einzelhaendler()" übergeben.
+        Anschließend wird via SQL-Abfrage die höchste ID aus der Tabelle "einzelhaendler" ausgegeben.
+        Die ID wird anschließend von der fetchall()-Methode als Tupel zurückgegeben.
 
-    """ Beim Aufruf der Methode wird eine zuvor erstellte Instanz der Klasse "Einzelhaendler()" übergeben.
-        Anschließend wird via SQL-Abfrage die höchste ID aus der Tabelle "einzelhaendler" ausgegeben und dann
-        mit der fetchall-Methode in einem Tupel gespeichert.
-        
         Mit einer for-schleife wird anschließend geschaut ob bereits eine ID in der Tabelle vorhanden ist.
         Falls ja, wird diese genommen und um +1 hochgezählt und anschließend der Instanz, welche in der Datenbank gespeichert
         werden soll übergeben.
         Falls noch keine ID in der Tabelle vorhanden sein sollte, wird die Zahl 1 an die Instanz weitergegeben
-        
-        Dann erfolgt erneut ein SQL-Statement welches die Instanz in der Datenbank speichert.
-        Mittels der getter-Methoden, welche zuvor in der entsprechenden Business-Object-Klasse definierten wurden, 
-        werden die Attribute der Instanz an das SQL-Statement übergeben.
-        
-        !!! WIESO KOMMT AM ENDE NOCHMALS EIN RETURN EINZELHAENDLER ? !!!
-        """
-    def insert(self, einzelhaendler):
 
+        Dann erfolgt erneut ein SQL-Statement welches die Instanz in der Datenbank speichert.
+        Mittels der getter-Methoden, welche zuvor in der entsprechenden Business-Object-Klasse definierten wurden,
+        werden die Attribute der Instanz an das SQL-Statement übergeben."""
         cursor = self._cnx.cursor()
         cursor.execute("SELECT MAX(id) AS maxid FROM einzelhaendler ")
         ins = cursor.fetchall()
@@ -85,17 +70,13 @@ class EinzelhaendlerMapper(Mapper):
 
         return einzelhaendler
 
-
-    """ Mapper-Methode zum aktualisieren (der Attribute) eines Einzelhändlers in der Datenbank"""
-
-    """ Beim Aufruf Methode wird eine zuvor erstellte Instanz der Klasse "Einzelhaendler()" übergeben.
-        Dann erfolgt ein SQL-Statement welches das Objekt in der Datenbank aktualisiert.
-        Mittels der getter-Methoden, welche zuvor in der entsprechenden Business-Object-Klasse definierten wurden, 
-        werden die Attribute der Instanz an das SQL-Statement übergeben."""
-
     def update(self, einzelhaendler):
+        """Mapper-Methode zum aktualisieren eines Einzelhändlers in der Datenbank
 
-
+        Beim Aufruf der Methode wird eine zuvor erstellte Instanz der Klasse "Einzelhaendler()" übergeben.
+        Dann erfolgt ein SQL-Statement welches das Objekt in der Datenbank aktualisiert.
+        Mittels der getter-Methoden, welche zuvor in der entsprechenden Business-Object-Klasse definierten wurden,
+        werden die Attribute der Instanz an das SQL-Statement übergeben."""
         cursor = self._cnx.cursor()
 
         template = "UPDATE einzelhaendler " + "SET name=%s WHERE id=%s"
@@ -105,17 +86,13 @@ class EinzelhaendlerMapper(Mapper):
         self._cnx.commit()
         cursor.close()
 
-
-    """ Mapper-Methode zum löschen eines Einzelhändlers aus der Datenbank"""
-
-    """ Beim Aufruf Methode wird eine zuvor erstellte Instanz der Klasse "Einzelhaendler()" übergeben.
-        Dann erfolgt ein SQL-Statement welches das Objekt aus der Datenbank löscht.
-        Mittels der getter-Methode, welche zuvor in der entsprechenden Business-Object-Klasse definierten wurde, 
-        wird die entsprechende ID der Instanz an das SQL-Statement übergeben.."""
-
-
     def delete(self, einzelhaendler):
+        """Mapper-Methode zum löschen eines Einzelhändlers aus der Datenbank
 
+        Beim Aufruf der Methode wird eine zuvor erstellte Instanz der Klasse "Einzelhaendler()" übergeben.
+        Dann erfolgt ein SQL-Statement welches das Objekt aus der Datenbank löscht.
+        Mittels der getter-Methode, welche zuvor in der entsprechenden Business-Object-Klasse definierten wurde,
+        wird die entsprechende ID der Instanz an das SQL-Statement übergeben.."""
         cursor = self._cnx.cursor()
 
         template = "DELETE FROM einzelhaendler WHERE id={}".format(einzelhaendler.get_id())
@@ -124,23 +101,17 @@ class EinzelhaendlerMapper(Mapper):
         self._cnx.commit()
         cursor.close()
 
+    def find_by_id(self, id):
+        """Mapper-Methode zum ausgeben eines Einzelhändlers anhand dessen ID
 
-    """ Mapper-Methode zum ausgeben eines Einzelhändlers anhand dessen ID"""
+        Beim Aufruf der Methode wird eine ID welche in der Variablen "id" gespeichert ist übergeben und anschließend sucht
+        das SQL-Statement das entsprechende Objekt aus der Datenbank.
+        Das Objekt wird anschließend von der fetchall()-Methode als Tupel zurückgegeben.
 
-    """ Beim Aufruf Methode wird eine ID in der Variablen "id" gespeichert, welche schließlich an das SQL-Statement übergeben wird.
-        Das entsprechende Objekt, welches aus der Datenbank ausgegeben wird, wird in einem Tupel gespeichert.
         Anschließend werden die einzelnen Attribute aus dem Tupel an der Stelle 0 genommen und an eine neue Einzelhändler-Instanz via
         den Setter-Methoden übergeben.
         Sollte die Datenbank anhand der ID kein Objekt zurückliefern, wird ausgegeben was innerhalb des IndexErrors steht --> None
-        Das Ergebnis wir schließlich von der Mehtode zurückgegeben.
-        """
-
-
-    def find_by_id(self, id):
-
-
-        result = None
-
+        Die Variable "result" wird schließlich von der Mehtode zurückgegeben."""
         cursor = self._cnx.cursor()
         command = "SELECT id, name, erstellungs_zeitpunkt FROM einzelhaendler WHERE id={}".format(id)
         cursor.execute(command)
@@ -154,8 +125,6 @@ class EinzelhaendlerMapper(Mapper):
             einzelhaendler.set_erstellungs_zeitpunkt(erstellungs_zeitpunkt)
             result = einzelhaendler
         except IndexError:
-            """Der IndexError wird oben beim Zugriff auf tuples[0] auftreten, wenn der vorherige SELECT-Aufruf
-            keine Tupel liefert, sondern tuples = cursor.fetchall() eine leere Sequenz zurück gibt."""
             result = None
 
         self._cnx.commit()
@@ -163,22 +132,16 @@ class EinzelhaendlerMapper(Mapper):
 
         return result
 
+    def find_by_name(self, name):
+        """Mapper-Methode zum ausgeben eines Einzelhändlers anhand dessen Name
 
-    """ Mapper-Methode zum ausgeben eines Einzelhändlers anhand dessen Name"""
-
-    """ Beim Aufruf Methode wird ein Name in der Variablen "name" gespeichert, welche schließlich an das SQL-Statement übergeben wird.
-        Das entsprechende Objekt, welches aus der Datenbank ausgegeben wird, wird in einem Tupel gespeichert.
+        Beim Aufruf der Methode wird ein Name welche in der Variablen "name" gespeichert ist übergeben und anschließend sucht
+        das SQL-Statement das entsprechende Objekt aus der Datenbank.
+        Das Objekt wird anschließend von der fetchall()-Methode als Tupel zurückgegeben.
         Anschließend werden die einzelnen Attribute aus dem Tupel an der Stelle 0 genommen und an eine neue Einzelhändler-Instanz via
         den Setter-Methoden übergeben.
         Sollte die Datenbank anhand des Namens kein Objekt zurückliefern, wird ausgegeben was innerhalb des IndexErrors steht --> None
-        Das Ergebnis wir schließlich von der Mehtode zurückgegeben.
-        """
-
-
-    def find_by_name(self, name):
-
-        result = None
-
+        Die Variable "result" wird schließlich von der Mehtode zurückgegeben."""
         cursor = self._cnx.cursor()
         command = "SELECT id, name, erstellungs_zeitpunkt FROM einzelhaendler WHERE name LIKE '{}' ORDER BY name".format(name)
         cursor.execute(command)
@@ -192,8 +155,6 @@ class EinzelhaendlerMapper(Mapper):
             einzelhaendler.set_erstellungs_zeitpunkt(erstellungs_zeitpunkt)
             result = einzelhaendler
         except IndexError:
-            """Der IndexError wird oben beim Zugriff auf tuples[0] auftreten, wenn der vorherige SELECT-Aufruf
-            keine Tupel liefert, sondern tuples = cursor.fetchall() eine leere Sequenz zurück gibt."""
             result = None
 
         self._cnx.commit()
