@@ -34,10 +34,8 @@ class EinkaufslistenMapper(Mapper):
 
         for (maxid) in ins:
             if maxid[0] is not None:
-
                 einkaufsliste.set_id(maxid[0] + 1)
             else:
-
                 einkaufsliste.set_id(1)
 
         template = "INSERT INTO einkaufsliste (id, name, erstellungs_zeitpunkt, aenderungs_zeitpunkt, anwenderverbund_id) VALUES (%s,%s,%s,%s,%s)"
