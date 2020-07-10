@@ -9,17 +9,16 @@ class AnwenderverbundMapper(Mapper):
     def __init__(self):
         super().__init__()
 
-    """ Mapper-Methode zum ausgeben aller Anwenderverbunde aus der Datenbank"""
-
-    """Hier werden via SQL-Abfrage alle Anwenderverbunde aus der Datenbank ausgegeben.
-       Anschließend werden aus den Zeilen der Datenbank (welche ein Objekt mit dessen Attributen darstellen) 
-       mit der fetchall-Methode Tupel erstellt. 
-
-       Mittels For-Schleife werden die einzelnen Attribute aus einem Tupel gezogen und einer neuen Instanz der
-       Klasse "Anwenderverbund()" übergeben. Die einzelnen Instanzen werden in einem Array gespeichert.
-       Das Array mit allen Instanzen wird schließlich zurückgegeben."""
-
     def find_all(self):
+        """ Mapper-Methode zum ausgeben aller Anwenderverbunde aus der Datenbank.
+
+        Hier werden via SQL-Abfrage alle Anwenderverbunde aus der Datenbank ausgegeben.
+        Anschließend werden aus den Zeilen der Datenbank (welche ein Objekt mit dessen Attributen darstellen)
+        mit der fetchall-Methode Tupel erstellt.
+
+        Mittels For-Schleife werden die einzelnen Attribute aus einem Tupel gezogen und einer neuen Instanz der
+        Klasse "Anwenderverbund()" übergeben. Die einzelnen Instanzen werden in einem Array gespeichert.
+        Das Array mit allen Instanzen wird schließlich zurückgegeben."""
         result = []
         cursor = self._cnx.cursor()
         cursor.execute("SELECT * FROM anwenderverbund")
@@ -38,33 +37,29 @@ class AnwenderverbundMapper(Mapper):
 
         return result
 
-    """ Mapper-Methode zum speichern eines neuen Anwenderverbunds in der Datenbank"""
+    def insert(self, anwenderverbund):
+        """ Mapper-Methode zum speichern eines neuen Anwenderverbunds in der Datenbank.
 
-    """ Beim Aufruf der Methode wird eine zuvor erstellte Instanz der Klasse "Anwenderverbund()" übergeben.
+        Beim Aufruf der Methode wird eine zuvor erstellte Instanz der Klasse "Anwenderverbund()" übergeben.
         Anschließend wird via SQL-Abfrage die höchste ID aus der Tabelle "anwenderverbund" ausgegeben und dann
         mit der fetchall-Methode in einem Tupel gespeichert.
 
         Mit einer for-schleife wird anschließend geschaut ob bereits eine ID in der Tabelle vorhanden ist.
         Falls ja, wird diese genommen und um +1 hochgezählt und anschließend der Instanz, welche in der Datenbank gespeichert
         werden soll übergeben.
-        Falls noch keine ID in der Tabelle vorhanden sein sollte, wird die Zahl 1 an die Instanz weitergegeben
+        Falls noch keine ID in der Tabelle vorhanden sein sollte, wird die Zahl 1 an die Instanz weitergegeben.
 
         Dann erfolgt erneut ein SQL-Statement welches die Instanz in der Datenbank speichert.
-        Mittels der getter-Methoden, welche zuvor in der entsprechenden Business-Object-Klasse definierten wurden, 
-        werden die Attribute der Instanz an das SQL-Statement übergeben.
-        """
-
-    def insert(self, anwenderverbund):
+        Mittels der getter-Methoden, welche zuvor in der entsprechenden Business-Object-Klasse definierten wurden,
+        werden die Attribute der Instanz an das SQL-Statement übergeben."""
         cursor = self._cnx.cursor()
         cursor.execute("SELECT MAX(id) AS maxid FROM anwenderverbund ")
         ins = cursor.fetchall()
 
         for (maxid) in ins:
             if maxid[0] is not None:
-
                 anwenderverbund.set_id(maxid[0] + 1)
             else:
-
                 anwenderverbund.set_id(1)
 
         template = "INSERT INTO anwenderverbund (id, name, erstellungs_zeitpunkt) VALUES (%s,%s,%s)"
@@ -76,14 +71,13 @@ class AnwenderverbundMapper(Mapper):
 
         return anwenderverbund
 
-    """ Mapper-Methode zum aktualisieren (der Attribute) eines Anwenderverbunds in der Datenbank"""
-
-    """ Beim Aufruf Methode wird eine zuvor erstellte Instanz der Klasse "Anwenderverbund()" übergeben.
-        Dann erfolgt ein SQL-Statement welches das Objekt in der Datenbank aktualisiert.
-        Mittels der getter-Methoden, welche zuvor in der entsprechenden Business-Object-Klasse definierten wurden, 
-        werden die Attribute der Instanz an das SQL-Statement übergeben."""
-
     def update(self, anwenderverbund):
+        """ Mapper-Methode zum aktualisieren (der Attribute) eines Anwenderverbunds in der Datenbank.
+
+        Beim Aufruf der Methode wird eine zuvor erstellte Instanz der Klasse "Anwenderverbund()" übergeben.
+        Dann erfolgt ein SQL-Statement welches das Objekt in der Datenbank aktualisiert.
+        Mittels der getter-Methoden, welche zuvor in der entsprechenden Business-Object-Klasse definierten wurden,
+        werden die Attribute der Instanz an das SQL-Statement übergeben."""
         cursor = self._cnx.cursor()
 
         template = "UPDATE anwenderverbund " + "SET name=%s WHERE id=%s"
@@ -93,14 +87,13 @@ class AnwenderverbundMapper(Mapper):
         self._cnx.commit()
         cursor.close()
 
-    """ Mapper-Methode zum löschen eines Anwenderverbunds aus der Datenbank"""
-
-    """ Beim Aufruf Methode wird eine zuvor erstellte Instanz der Klasse "Anwenderverbund()" übergeben.
-        Dann erfolgt ein SQL-Statement welches das Objekt aus der Datenbank löscht.
-        Mittels der getter-Methode, welche zuvor in der entsprechenden Business-Object-Klasse definierten wurde, 
-        wird die entsprechende ID der Instanz an das SQL-Statement übergeben.."""
-
     def delete(self, anwenderverbund):
+        """ Mapper-Methode zum löschen eines Anwenderverbunds aus der Datenbank.
+
+        Beim Aufruf der Methode wird eine zuvor erstellte Instanz der Klasse "Anwenderverbund()" übergeben.
+        Dann erfolgt ein SQL-Statement welches das Objekt aus der Datenbank löscht.
+        Mittels der getter-Methode, welche zuvor in der entsprechenden Business-Object-Klasse definierten wurde,
+        wird die entsprechende ID der Instanz an das SQL-Statement übergeben."""
         cursor = self._cnx.cursor()
 
         mitgliedschaftloeschen = "DELETE FROM mitgliedschaft WHERE anwenderverbund_id={}".format(anwenderverbund.get_id())
@@ -121,10 +114,8 @@ class AnwenderverbundMapper(Mapper):
                         eintraegeloeschen = "DELETE FROM listeneintrag WHERE id={}".format(i)
                         cursor.execute(eintraegeloeschen)
 
-
         listenloeschen = "DELETE FROM einkaufsliste WHERE anwenderverbund_id={}".format(anwenderverbund.get_id())
         cursor.execute(listenloeschen)
-
 
         anwenderverbundloeschen = "DELETE FROM anwenderverbund WHERE id={}".format(anwenderverbund.get_id())
         cursor.execute(anwenderverbundloeschen)
@@ -132,16 +123,15 @@ class AnwenderverbundMapper(Mapper):
         self._cnx.commit()
         cursor.close()
 
-    """ Mapper-Methode zum ausgeben eines Anwenderverbunds anhand dessen ID"""
+    def find_by_id(self, id):
+        """ Mapper-Methode zum ausgeben eines Anwenderverbunds anhand dessen ID.
 
-    """ Beim Aufruf Methode wird eine ID in der Variablen "id" gespeichert, welche schließlich an das SQL-Statement übergeben wird.
+        Beim Aufruf der Methode wird eine ID in der Variablen "id" gespeichert, welche schließlich an das SQL-Statement übergeben wird.
         Das entsprechende Objekt, welches aus der Datenbank ausgegeben wird, wird in einem Tupel gespeichert.
         Anschließend werden die einzelnen Attribute aus dem Tupel an der Stelle 0 genommen und an eine neue Anwenderverbund-Instanz via
         den Setter-Methoden übergeben.
         Sollte die Datenbank anhand der ID kein Objekt zurückliefern, wird ausgegeben was innerhalb des IndexErrors steht --> None
         Das Ergebnis wir schließlich von der Mehtode zurückgegeben."""
-
-    def find_by_id(self, id):
         result = None
 
         cursor = self._cnx.cursor()
@@ -166,17 +156,15 @@ class AnwenderverbundMapper(Mapper):
 
         return result
 
-    """ Mapper-Methode zum ausgeben eines Anwenderverbunds anhand dessen Name"""
+    def find_by_name(self, name):
+        """ Mapper-Methode zum ausgeben eines Anwenderverbunds anhand dessen Name.
 
-    """ Beim Aufruf Methode wird ein Name in der Variablen "name" gespeichert, welche schließlich an das SQL-Statement übergeben wird.
+        Beim Aufruf der Methode wird ein Name in der Variablen "name" gespeichert, welche schließlich an das SQL-Statement übergeben wird.
         Das entsprechende Objekt, welches aus der Datenbank ausgegeben wird, wird in einem Tupel gespeichert.
         Anschließend werden die einzelnen Attribute aus dem Tupel an der Stelle 0 genommen und an eine neue Anwenderverbund-Instanz via
         den Setter-Methoden übergeben.
         Sollte die Datenbank anhand des Namens kein Objekt zurückliefern, wird ausgegeben was innerhalb des IndexErrors steht --> None
-        Das Ergebnis wir schließlich von der Mehtode zurückgegeben.
-        """
-
-    def find_by_name(self, name):
+        Das Ergebnis wir schließlich von der Mehtode zurückgegeben."""
         result = None
 
         cursor = self._cnx.cursor()
@@ -202,8 +190,8 @@ class AnwenderverbundMapper(Mapper):
 
         return result
 
-
     def find_all_einkaufslisten(self, anwenderverbund):
+        """Mapper-Methode zum ausgeben aller Einkaufslisten zu einem Anwenderverbund."""
         id = anwenderverbund.get_id()
         #Änderung: Hier wird ganze Instanz übegeben und erst hier die ID genommen
         result = []
@@ -227,6 +215,10 @@ class AnwenderverbundMapper(Mapper):
         return result
 
     def benutzer_hinzufuegen(self, anwenderverbund, benutzer):
+        """ Mapper-Methode zum hinzufügen eines Benutzers in eine Mitgliedschaft.
+
+        Beim Aufrufen der Methode wird eine Instanz der Klasse "Anwenderverbund()" und "Benutzer()" übergeben.
+        Dann wird ein entsprechender Eintrag in der Tabelle Mitgliedschaft hinzugefügt."""
         cursor = self._cnx.cursor()
 
         template = "INSERT INTO mitgliedschaft (anwenderverbund_id, benutzer_id) VALUES (%s,%s)"
@@ -237,6 +229,10 @@ class AnwenderverbundMapper(Mapper):
         cursor.close()
 
     def benutzer_loeschen(self, anwenderverbund, benutzer):
+        """ Mapper-Methode zum löschen eines Benutzers aus einer Mitgliedschaft.
+
+        Beim Aufrufen der Methode wird eine Instanz der Klasse "Anwenderverbund()" und "Benutzer()" übergeben.
+        Dann wird der entsprechende Eintrag in der Tabelle Mitgliedschaft gelöscht."""
         cursor = self._cnx.cursor()
 
         template = "DELETE FROM mitgliedschaft " + "WHERE anwenderverbund_id=%s AND benutzer_id=%s"
@@ -247,7 +243,14 @@ class AnwenderverbundMapper(Mapper):
         cursor.close()
 
     def alle_benutzer_ausgeben(self, anwenderverbund):
+        """Mapper-Methode zum ausgeben aller Benutzer aus einem Anwenderverbund.
 
+        Hier werden via SQL-Abfrage alle Benutzer aus der Mitgliedschaft von dem bestimmten Anwenderverbund ausgegeben.
+        Anschließend werden aus den Zeilen der Datenbank (welche ein Objekt mit dessen Attributen darstellen)
+        mit der fetchall-Methode Tupel erstellt.
+
+        Mittels For-Schleife werden die einzelnen Attribute aus einem Tupel gezogen und einer neuen Instanz übergeben
+        und dann zurückgegeben."""
         result = []
         cursor = self._cnx.cursor()
         cursor.execute("SELECT benutzer_id FROM mitgliedschaft WHERE anwenderverbund_id={}".format(anwenderverbund.get_id()))
@@ -261,5 +264,3 @@ class AnwenderverbundMapper(Mapper):
         cursor.close()
 
         return result
-
-
