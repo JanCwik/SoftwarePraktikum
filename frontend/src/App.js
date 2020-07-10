@@ -15,6 +15,7 @@ import firebase from 'firebase/app';
 import 'firebase/auth';
 import LoadingProgress from './components/dialogs/LoadingProgress';
 import ContextErrorMessage from './components/dialogs/ContextErrorMessage';
+import Einkaufsliste from "./components/Einkaufsliste";
 
 class App extends React.Component {
     #firebaseConfig = {
@@ -134,7 +135,7 @@ class App extends React.Component {
                             <Redirect from='/' to='/einkaufslisten'/>
 
                             <Route path='/einkaufslisten'>
-                                <alleEinkaufslisten/>
+                                <Einkaufsliste/>
 
                             </Route>
 

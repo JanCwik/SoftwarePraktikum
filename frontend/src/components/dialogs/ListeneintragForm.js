@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withStyles, Button, IconButton, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, TextField, MenuItem, FormControl, InputLabel, Select } from '@material-ui/core';
 import CloseIcon from '@material-ui/icons/Close';
-import ListeneintragBO from "../../api/ListeneintragBO";
+import  ArtikelBO  from '../../api/ArtikelBO';
 import  API from '../../api/API';
 import ContextErrorMessage from './ContextErrorMessage';
 import LoadingProgress from './LoadingProgress';
@@ -17,24 +17,16 @@ import LoadingProgress from './LoadingProgress';
  * mit dem angelegt/upgedated ArtikelBO Objekt als Parameter aufgerufen. Wenn der Dialog beendet ist,
  * wird onClose mit null aufgerufen.
  */
-class ListeneintragForm extends Component {
+class ArtikelForm extends Component {
 
   constructor(props) {
     super(props);
 
-    let an = '', en = '', bn = '', lm = '', ae = '';
+    let an = '', sa = '', ae = '';
     if (props.artikel) {
       an = props.artikel.getName();
+      sa = props.artikel.getStandardartikel();
       ae = props.artikel.getEinheit();
-    }
-    if (props.einzelhaendler) {
-      en = props.einzelhaendler.getName();
-    }
-    if (props.benutzer) {
-      bn = props.benutzer.getName();
-    }
-    if (props.listeneintrag) {
-      lm = props.listeneintrag.getMenge();
     }
 
     // Init state
@@ -42,14 +34,10 @@ class ListeneintragForm extends Component {
       artikelName: an,
       artikelNameValidationFailed: false,
       artikelNameEdited: false,
+      artikelStandardartikel: sa,
+      artikelStandardartikelEdited: false,
       artikelEinheit: ae,
       artikelEinheitEdited: false,
-      einzelhaendlerName: en,
-      einzelhaendlerNameEdited: false,
-      benutzerName: bn,
-      benutzerNameEdited: false,
-      listeneintragMenge: lm,
-      listeneintragMengeEdited: false
       addingInProgress: false,
       updatingInProgress: false,
       addingError: null,
@@ -60,14 +48,16 @@ class ListeneintragForm extends Component {
   }
 
   /** Legt Artikel an */
-  addListeneintrag = () => {
-    let newListeneintrag = new ListeneintragBO();
-    newListeneintrag.setMenge(this.state.listeneintragMenge); //legt neues Artikelobjekt mit name aus dem state an
-    API.getAPI().addListeneintragAPI(newListeneintrag).then(listeneintrag => {
+  addArtikel = () => {
+    let newArtikel = new ArtikelBO();
+    newArtikel.setName(this.state.artikelName);
+    newArtikel.setStandardartikel(this.state.artikelStandardartikel);
+    newArtikel.setEinheit(this.state.artikelEinheit);    //legt neues Artikelobjekt mit name aus dem state an
+    API.getAPI().addArtikelAPI(newArtikel).then(artikel => {
       // Backend Aufruf erfolgreich
       // reinit den Dialog state für einen neuen leeren Artikel
       this.setState(this.baseState);
-      this.props.onClose(listeneintrag); // Aufruf mit Hilfe des Artikel Objekts aus dem Backend
+      this.props.onClose(artikel); // Aufruf mit Hilfe des Artikel Objekts aus dem Backend
     }).catch(e =>
       this.setState({
         updatingInProgress: false,    // Ladeanzeige deaktivieren
@@ -83,20 +73,23 @@ class ListeneintragForm extends Component {
   }
 
   /** Updates the customer */
-  updateListeneintrag = () => {
+  updateArtikel = () => {
     // Klont den originalen Artikel, wenn der Backend Aufruf fehlschlägt
-    let updatedListeneintrag = Object.assign(new ListeneintragBO(), this.props.listeneintrag);
+    let updatedArtikel = Object.assign(new ArtikelBO(), this.props.artikel);
     // Setzt die neuen Attribute aus dem Dialog
-    updatedListeneintrag.setMenge(this.state.listeneintragMenge);
-
-    API.getAPI().updateListeneintragAPI(updatedListeneintrag).then(listeneintrag => {
+    updatedArtikel.setName(this.state.artikelName);
+    updatedArtikel.setStandardartikel(this.state.artikelStandardartikel);
+    updatedArtikel.setEinheit(this.state.artikelEinheit);
+    API.getAPI().updateArtikelAPI(updatedArtikel).then(artikel => {
       this.setState({
         updatingInProgress: false,              // Ladeanzeige deaktivieren
         updatingError: null                     // Keine Error Nachricht
       });
       // Behalte das neue state als Base state
-      this.baseState.listeneintragMenge = this.state.listeneintragMenge;
-      this.props.onClose(updatedListeneintrag);      // Aufruf mit dem neuen Artikel
+      this.baseState.artikelName = this.state.artikelName;
+      this.baseState.artikelStandardartikel = this.state.artikelStandardartikel;
+      this.baseState.artikelEinheit = this.state.artikelEinheit;
+      this.props.onClose(updatedArtikel);      // Aufruf mit dem neuen Artikel
     }).catch(e =>
       this.setState({
         updatingInProgress: false,              // Ladeanzeige deaktivieren
@@ -135,12 +128,19 @@ nameChange = (event) => {
       artikelNameEdited: true
     });
   }
-
-  mengeChange= (event) => {
-    let menge = event.target.value;
+  standartartikelChange = (event) => {
+    let standardartikel = event.target.value;
     this.setState({
-      listeneintragMenge: menge,
-      listeneintragMengeEdited: true
+      artikelStandardartikel: standardartikel,
+      artikelStandardartikelEdited: true
+    });
+  }
+
+  einheitChange= (event) => {
+    let einheit = event.target.value;
+    this.setState({
+      artikelEinheit: einheit,
+      artikelEinheitEdited: true
     });
   }
 
@@ -154,21 +154,20 @@ nameChange = (event) => {
   /** Rendert die Komponente */
   render() {
     const { classes, artikel, show } = this.props;
-    const { artikelName, artikelNameValidationFailed, artikelNameEdited, artikelEinheit,
-            artikelEinheitEdited, einzelhaendlerName, einzelhaendlerNameEdited, benutzerName,
-            benutzerNameEdited, listeneintragMenge, addingInProgress, listeneintragMengeEdited,
-            addingError, updatingInProgress, updatingError } = this.state;
+    const { artikelName, artikelNameValidationFailed, artikelNameEdited, artikelStandardartikel,
+        artikelStandardartikelEdited, artikelEinheit, artikelEinheitEdited, addingInProgress,
+        addingError, updatingInProgress, updatingError } = this.state;
 
     let title = '';
     let header = '';
 
-    if (listeneintrag) {
+    if (artikel) {
       // Erstellt einen neuen Artikel, wenn nicht bereits einer vorhanden ist.
-      title = 'Update des Listeneintrags';
-      header = `Listeneintrag ID: ${listeneintrag.getID()}`;
+      title = 'Update des Artikels';
+      header = `Artikel ID: ${artikel.getID()}`;
     } else {
-      title = 'Erstelle einen neuen Listeneintrag';
-      header = 'Gebe Listeneintragdaten ein';
+      title = 'Erstelle einen neuen Artikel';
+      header = 'Gebe Artikeldaten ein';
     }
 
     return (
@@ -187,8 +186,6 @@ nameChange = (event) => {
               <TextField autoFocus type='text' required fullWidth margin='normal' id='artikelName' label='Artikel Name' value={artikelName}
                 onChange={this.nameChange} error={artikelNameValidationFailed}
                 helperText={artikelNameValidationFailed ? 'Der Name muss mindestens ein Zeichen enthalten' : ' '} />
-                <TextField autoFocus type='text' required fullWidth margin='normal' id='listeneintragMenge'
-                           label='Listeneintragmenge' value={listeneintragMenge} onChange={this.mengeChange}/>
           <FormControl className={classes.formControl}>
             <InputLabel id="artikelStandardartikelLabel">Standartartikel?</InputLabel>
               <Select
@@ -279,4 +276,4 @@ ArtikelForm.propTypes = {
   onClose: PropTypes.func.isRequired,
 }
 
-export default withStyles(styles)(ListeneintragForm);
+export default withStyles(styles)(ArtikelForm);
