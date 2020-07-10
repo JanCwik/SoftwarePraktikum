@@ -17,7 +17,6 @@ import LoadingProgress from './components/dialogs/LoadingProgress';
 import ContextErrorMessage from './components/dialogs/ContextErrorMessage';
 import Einkaufsliste from "./components/Einkaufsliste";
 
-
 class App extends React.Component {
     #firebaseConfig = {
     apiKey: "AIzaSyCEuXbtugiUUVRXul-bVblzeWgbwivWz50",
@@ -146,7 +145,7 @@ class App extends React.Component {
 
                             <Route path='/anwenderverbund'>
                                 <Anwenderverbund/>
-                                <Listeneintrag/>
+
                             </Route>
 
                             <Route path='/einzelhaendler'>
