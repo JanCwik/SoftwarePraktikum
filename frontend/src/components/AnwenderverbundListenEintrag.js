@@ -5,6 +5,7 @@ import { Button, ButtonGroup } from '@material-ui/core';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import AnwenderverbundForm from "./dialogs/AnwenderverbundForm";
 import AnwenderverbundLoeschen from "./dialogs/AnwenderverbundLoeschen";
+import BenutzerListe from "./BenutzerListe";
 //import Einkaufslisten from "./Einkaufslisten";
 
 
@@ -120,6 +121,9 @@ class AnwenderverbundListenEintrag extends Component {
               </Grid>
             </Grid>
           </ExpansionPanelSummary>
+          <ExpansionPanelDetails>
+            <BenutzerListe/>
+        </ExpansionPanelDetails>
 
         </ExpansionPanel>
         <AnwenderverbundForm show={showAnwenderverbundForm} anwenderverbund={anwenderverbund} onClose={this.anwenderverbundFormClosed} />

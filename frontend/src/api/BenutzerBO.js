@@ -32,7 +32,7 @@ export default class BenutzerBO extends NamedBO {
     static fromJSON(ben) {
         let result = [];
 
-        if (Array.isArray(art)) {
+        if (Array.isArray(ben)) {
             ben.forEach((c) => {
                 Object.setPrototypeOf(c, BenutzerBO.prototype)
                 result.push(c)
