@@ -153,7 +153,7 @@ class ArtikelByNameOperations(Resource):
 
 
 
-"""Artikel DONE -> keine Error. Listeneintrag NEXT"""
+"""Artikel DONE -> no error. Listeneintrag NEXT"""
 
 
 
@@ -221,7 +221,7 @@ class ListeneintragOperations(Resource):
 
 
 
-"""Listeneintrag DONE. Einzelhaendler NEXT"""
+"""Listeneintrag DONE -> no error. Einzelhaendler NEXT"""
 
 
 
@@ -310,7 +310,7 @@ class ArtikelByNameOperations(Resource):
 
 
 
-"""Einzelhändler DONE -> keine Error. Benutzer NEXT. """
+"""Einzelhändler DONE -> no error. Benutzer NEXT. """
 
 
 
@@ -427,13 +427,10 @@ class BenutzerRelatedListeneintragOperations(Resource):
 
 
 
-#get Benutzer by email fehlt
 
 
 
-
-
-"""Benutzer DONE. Einkaufsliste NEXT"""
+"""Benutzer DONE -> no error. Einkaufsliste NEXT"""
 
 
 
@@ -528,9 +525,29 @@ class EinkaufslisteByNameOperations(Resource):                                  
 
 #Suche per Name nicht sinnvoll da nicht eindeutig!
 
+@shopping.route('/einkaufsliste/<int:id>/listeneintraege')
+@shopping.response(500, 'Serverfehler')
+@shopping.param('id', 'ID der Einkaufsliste')
+class EinkaufslisteRelatedListeneintraegeOperations(Resource):
+    @shopping.marshal_with(listeneintrag)
+    #@secured
+    def get(self, id):
+        """Auslesen aller Listeneinträge in einem durch Id definierten Einkaufsliste"""
+        adm = ApplikationsAdministration()
+        liste = adm.get_einkaufsliste_by_id(id)
+
+        if liste is not None:
+            listeneintraege = adm.get_all_listeneintraege_of_einkaufslisten(liste)
+            return listeneintraege
+        else:
+            return "Einkaufsliste nicht gefunden", 500
 
 
-"""Einkaufsliste DONE. Anwenderverbund NEXT"""
+
+
+
+
+"""Einkaufsliste DONE -> no error. Anwenderverbund NEXT"""
 
 
 
@@ -629,7 +646,7 @@ class AnwenderverbundRelatedEinkaufslisteOperations(Resource):
             einkaufslisten = adm.get_all_einkaufslisten(verbund)
             return einkaufslisten
         else:
-            return "Einkaufsliste nicht gefunden", 500
+            return "Anwenderverbund nicht gefunden", 500
 
 @shopping.route('/anwenderverbund/<int:id>/mitglieder')
 @shopping.response(500, 'Serverfehler')
@@ -646,7 +663,7 @@ class AnwenderverbundRelatedBenutzerOperations(Resource):
             mitglieder = adm.mitglieder_ausgeben(verbund)
             return mitglieder
         else:
-            return "Mitglieder nicht gefunden", 500
+            return "Anwenderverbund nicht gefunden", 500
 
     @shopping.marshal_with(benutzer)
     @shopping.expect(benutzer)
@@ -678,7 +695,7 @@ class AnwenderverbundRelatedBenutzerOperations(Resource):
         else:
             return "Benutzer oder Anwenderverbund unbekannt", 500
 
-"""Anwenderverbund DONE"""
+"""Anwenderverbund DONE -> no error"""
 
 
 
