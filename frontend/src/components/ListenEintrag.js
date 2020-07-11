@@ -34,7 +34,6 @@ class ListenEintrag extends Component {
       deletingInProgress: false,
       loadingError: null,
       deletingError: null,
-      showMoneyTransferDialog: false,
       checked:false
 
     };
@@ -54,8 +53,8 @@ handleCheck =(event)=>{
 
   /** Rendert die Komponente */
   render() {
-    const { classes, customer, account } = this.props;
-    const { loadingInProgress, deletingInProgress, loadingError, deletingError, balance, showMoneyTransferDialog,checked } = this.state;
+    const { classes, listeneintrag } = this.props;
+    const { loadingInProgress, deletingInProgress, loadingError, deletingError, balance, checked } = this.state;
 
     return (
       <div >
@@ -68,19 +67,20 @@ handleCheck =(event)=>{
           />
 
           <Typography color='textPrimary' className={classes.Artikel} >
-            Artikel
+            {listeneintrag.getArtikel_name()}
 
           </Typography>
           <Typography className={classes.Menge} color='textPrimary'>
-            Menge
+            {listeneintrag.getMenge()+"  "}
+            {listeneintrag.getArtikel_einheit()}
           </Typography>
 
           <Typography className={classes.Ort} color='textPrimary'>
-            Einkaufsort
+            {listeneintrag.getEinzelhaendler_name()}
           </Typography>
 
           <Typography className={classes.Benutzer} color='textPrimary'>
-            Benutzer
+           {listeneintrag.getBenutzer_name()}
           </Typography>
 
           <ListItemSecondaryAction>

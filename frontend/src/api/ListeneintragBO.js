@@ -19,6 +19,8 @@ export default class ListeneintragBO extends BusinessObject {
         this.benutzer_name=""
     }
 
+
+
     setMenge(menge) {
         this.menge = menge
     }
@@ -63,6 +65,14 @@ export default class ListeneintragBO extends BusinessObject {
         return this.einzelhaendler_id
     }
 
+      setEinzelhaendler_name(einzelhaendler_name) {
+        this.einzelhaendler_name = einzelhaendler_name
+    }
+
+    getEinzelhaendler_name() {
+        return this.einzelhaendler_name
+    }
+
 
     setArtikel_id(artikel_id) {
         this.artikel_id = artikel_id
@@ -72,6 +82,21 @@ export default class ListeneintragBO extends BusinessObject {
         return this.artikel_id
     }
 
+    setArtikel_name(artikel_name) {
+        this.artikel_name = artikel_name
+    }
+
+    getArtikel_name() {
+        return this.artikel_name
+    }
+
+    setArtikel_einheit(artikel_einheit) {
+        this.artikel_einheit = artikel_einheit
+    }
+
+    getArtikel_einheit() {
+        return this.artikel_einheit
+    }
 
     setBenutzer_id(benutzer_id) {
         this.benutzer_id = benutzer_id
@@ -80,6 +105,15 @@ export default class ListeneintragBO extends BusinessObject {
     getBenutzer_id() {
         return this.benutzer_id
     }
+
+    setBenutzer_name(benutzer_name) {
+        this.benutzer_name = benutzer_name
+    }
+
+    getBenutzer_name() {
+        return this.benutzer_name
+    }
+
 
       // Returns an Array of CustomerBOs from a given JSON structure
     static fromJSON(lis) {
