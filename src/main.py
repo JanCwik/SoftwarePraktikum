@@ -48,7 +48,7 @@ benutzer = api.inherit('Benutzer', namedBO, {
 })
 
 einkaufsliste = api.inherit('Einkaufsliste', namedBO, {
-    'änderungs_zeitpunkt': fields.String(attribute='_änderungs_zeitpunkt', description='Änderungszeitpunkt'),
+    'aenderungs_zeitpunkt': fields.String(attribute='_änderungs_zeitpunkt', description='Änderungszeitpunkt'),
     'anwenderverbund_id': fields.Integer(attribute='_anwenderverbund_id', description='ID des Anwenderverbundes')
 })
 
@@ -172,7 +172,7 @@ class ListeneintragOperations(Resource):
     @shopping.expect(listeneintrag)
     @secured
     def post(self):
-        """Anlegen eines Listeneintrages"""
+        """Anlegen eines Listeneintrages
         adm = ApplikationsAdministration()
 
         test = Listeneintrag.from_dict(api.payload)
@@ -198,7 +198,20 @@ class ListeneintragOperations(Resource):
             return a, 200
         else:
             return '', 500
+            """
 
+        # es geht doch auch einfach so: oder? Denn das listeneintragObjkt wird doch schon durch die from_dict methode in der main angelegt und dadurch
+        # muss es nich nochmal in der Applikationsadmin gemacht werden, dh es reicht wenn das listenintrag objekt übergeben wird
+        # Also ich habs getestet es geht, und Thies is ja so au zufrieden oder?
+
+        adm = ApplikationsAdministration()
+
+        test = Listeneintrag.from_dict(api.payload)
+        if test is not None:
+            a = adm.listeneintrag_anlegen(test)
+            return a, 200
+        else:
+            return '', 500
 
 @shopping.route('/listeneintrag-by-id/<int:id>')
 @shopping.response(500, 'Serverfehler')
