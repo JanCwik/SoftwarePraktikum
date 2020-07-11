@@ -83,7 +83,7 @@ import { Link as RouterLink } from 'react-router-dom';
     // Benutz den state
     const { einkaufsliste, showEinkaufslisteForm, showEinkaufslisteDeleteDialog } = this.state;
 
-    // console.log(this.state);
+
     return (
       <div>
 
@@ -94,7 +94,6 @@ import { Link as RouterLink } from 'react-router-dom';
                     <Link component={RouterLink} to={{
                           pathname: '/einkaufsliste',
                           einkaufsliste: einkaufsliste
-
                         }} >
                           {einkaufsliste.getName()}
                      </Link>
