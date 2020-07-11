@@ -41,7 +41,7 @@ export default class EinkaufslisteBO extends NamedBO {
         } else {
             // Es handelt sich offenbar um ein singuläres Objekt
             let c = eink;
-            Object.setPrototypeOf(c, this.EinkaufslisteBO.prototype)
+            Object.setPrototypeOf(c, EinkaufslisteBO.prototype)
             result.push(c)
         }
 
