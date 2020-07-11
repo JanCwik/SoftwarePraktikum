@@ -240,8 +240,9 @@ class ApplikationsAdministration(object):
         with EinkaufslistenMapper() as mapper:
             return mapper.find_all_listeneintraege(einkaufsliste)
 
+    """ 
     def listeneintrag_anlegen(self, anzahl, einkaufsliste, einzelhaendler, artikel, benutzer, erledigt):
-        """ Methode zum Anlegen eines neuen Listeneintrags in der Datenbank"""
+        # Methode zum Anlegen eines neuen Listeneintrags in der Datenbank
         listeneintrag = Listeneintrag()
         listeneintrag.set_anzahl(anzahl)
         listeneintrag.set_einkaufslisteId(einkaufsliste.get_id())
@@ -253,6 +254,16 @@ class ApplikationsAdministration(object):
 
         with ListeneintragMapper() as mapper:
             return mapper.insert(listeneintrag)
+            """
+    #es geht doch auch einfach so: oder? Das listeneintragObjkt wird doch schon durch die from_dict methode in der main angelegt
+    #Also ich habs getestet es geht, und Thies is ja so au zufrieden oder?
+
+    def listeneintrag_anlegen(self, listeneintrag):
+         # Methode zum Anlegen eines neuen Listeneintrags in der Datenbank
+
+        with ListeneintragMapper() as mapper:
+            return mapper.insert(listeneintrag)
+
 
     def update_listeneintrag(self, listeneintrag):
         """Methode zum aktualisieren eines Listeneintrags in der Datenbank"""

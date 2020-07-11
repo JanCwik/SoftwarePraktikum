@@ -41,9 +41,14 @@ export default class API {
     #getEinkaufslistenURL = () => `${this.#ServerBaseURL}/einkaufsliste`
     #addEinkaufslisteURL = () => `${this.#ServerBaseURL}/einkaufsliste`;
     #getEinkaufslistenByAnwenderverbundURL = (id) => `${this.#ServerBaseURL}/anwenderverbund/${id}/einkauflisten`;
+    #deleteEinkaufslisteURL = (id) => `${this.#ServerBaseURL}/einkaufsliste-by-id/${id}`;
+    #updateEinkaufslisteURL = (id) => `${this.#ServerBaseURL}/einkaufsliste-by-id/${id}`;
+
     #getListeneintragByIdURL = (id) => `${this.#ServerBaseURL}/listeneintrag-by-id/${id}`;
     #getListeneintragByEinkaufslisteURL = (id) => `${this.#ServerBaseURL}/einkaufsliste/${id}/listeneintraege`;
-
+    #addListeneintragURL = () => `${this.#ServerBaseURL}/listeneintrag`;
+    #deleteListeneintragURL = (id) => `${this.#ServerBaseURL}/listeneintrag-by-id/${id}`;
+    #updateListeneintragURL = (id) => `${this.#ServerBaseURL}/listeneintrag-by-id/${id}`;
 
     //führt die fetch-Funktion aus, fängt dabei mögliche Errors ab und führt anschließend schon die json-Funktion mit der Response aus.
     #fetchAdvanced = (url, init) =>
@@ -245,6 +250,11 @@ export default class API {
     }
 
 
+
+
+
+
+    // Methode die den GET request ausführt und alle in der Datenbank gespeicherten Einkaufslisten ausgibt
     getEinkaufslistenAPI() {
         return this.#fetchAdvanced(this.#getEinkaufslistenURL()).then((responseJSON) => {
             let Einkaufslisten = EinkaufslisteBO.fromJSON(responseJSON);
@@ -255,7 +265,7 @@ export default class API {
     }
 
 
-    //führt einen POST Request aus und schreibt dabei das als Parameter übergebene Anwenderverbund-objekt in den Body des Json
+    //führt einen POST Request aus und schreibt dabei das als Parameter übergebene Einkaufslisten-objekt in den Body des Json
     addEinkaufslisteAPI(neweinkl) {
         return this.#fetchAdvanced(this.#addEinkaufslisteURL(), {
             method: 'POST',
@@ -265,7 +275,7 @@ export default class API {
             },
             body: JSON.stringify(neweinkl)
         }).then((responseJSON) => {
-            // Zugriff auf das erste Anwenderverbund Objekt des Arrays, welches .fromJSON zurückgibt
+            // Zugriff auf das erste Einkaufsliste Objekt des Arrays, welches .fromJSON zurückgibt
             let responseBO = EinkaufslisteBO.fromJSON(responseJSON)[0];
             return new Promise(function (resolve) {
                 resolve(responseBO);
@@ -273,7 +283,8 @@ export default class API {
         })
     }
 
-
+    // Methode die den GET request ausführt und alle in der Datenbank gespeicherten Einkaufslisten ausgibt, die zu einem Anwenderverbund gehören
+    // Die ID des Anwenderverbundes wird an die URL gehängt
     getEinkaufslistenByAnwenderverbundAPI(id) {
         return this.#fetchAdvanced(this.#getEinkaufslistenByAnwenderverbundURL(id)).then((responseJSON) => {
             let liste = EinkaufslisteBO.fromJSON(responseJSON);
@@ -283,7 +294,44 @@ export default class API {
         })
     }
 
+    //Fürht ein PUT Request aus. Die ID der Einkaufsliste die geupdatet werden soll wird an die URL gehängt
+    //und das aktualisierte Einkaufslisten-Objekt wird in den Body des JSON geschrieben
+    updateEinkaufslisteAPI(lis) {
+        return this.#fetchAdvanced(this.#updateEinkaufslisteURL(lis.getID()), {
+            method: 'PUT',
+            headers: {
+                'Accept': 'application/json, text/plain',
+                'Content-type': 'application/json',
+            },
+            body: JSON.stringify(lis)
+        }).then((responseJSON) => {
+            // Zugriff auf das erste Einkaufsliste Objekt des Arrays, welches .fromJSON zurückgibt
+            let response = EinkaufslisteBO.fromJSON(responseJSON)[0];
+            return new Promise(function (resolve) {
+                resolve(response);
+            })
+        })
+    }
 
+    //führt einen DELETE Request aus und gibt dabei die id der zu löschenden Einkaufsliste weiter
+    deleteEinkaufsliste(id){
+        return this.#fetchAdvanced(this.#deleteEinkaufslisteURL(id), {
+            method: 'DELETE'
+        }).then((responseJSON) => {
+            // Zugriff auf das erste Einkaufsliste Objekt des Arrays, welches .fromJSON zurückgibt
+            let response = EinkaufslisteBO.fromJSON(responseJSON)[0];
+            console.log(response)
+            return new Promise(function (resolve) {
+                resolve(response);
+            })
+        })
+    }
+
+
+
+
+
+    // Methode die den GET request ausführt und ein Listeneintrag anhand seiner ID ausgibt
     getListeneintragByIdAPI(id) {
         return this.#fetchAdvanced(this.#getListeneintragByIdURL(id)).then((responseJSON) => {
             let eintrag = ListeneintragBO.fromJSON(responseJSON);
@@ -292,6 +340,10 @@ export default class API {
             })
         })
     }
+
+    // Methode die den GET request ausführt und alle in der Datenbank gespeicherten Listeneinträge ausgibt die zu einer
+    // bestimmten Einkaufsliste gehören
+    // Die ID der Einkaufsliste wird an die URL gehängt
     getListeneintraegeByEinkaufslisteAPI(id) {
         return this.#fetchAdvanced(this.#getListeneintragByEinkaufslisteURL(id)).then((responseJSON) => {
             let eintrag = ListeneintragBO.fromJSON(responseJSON);
@@ -301,5 +353,68 @@ export default class API {
         })
     }
 
+    //führt einen POST Request aus und schreibt dabei das als Parameter übergebene Listeneintrag-objekt in den Body des Json
+    addlisteneintragAPI(neweintr) {
+        return this.#fetchAdvanced(this.#addListeneintragURL(), {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json, text/plain',
+                'Content-type': 'application/json',
+            },
+            body: JSON.stringify(neweintr)
+        }).then((responseJSON) => {
+            // Zugriff auf das erste Listeneintrag Objekt des Arrays, welches .fromJSON zurückgibt
+            let responseBO = ListeneintragBO.fromJSON(responseJSON)[0];
+            return new Promise(function (resolve) {
+                resolve(responseBO);
+            })
+        })
+    }
+
+     //Fürht ein PUT Request aus. Die ID des Listeneintrages der geupdatet werden soll wird an die URL gehängt
+    //und das aktualisierte Listeneintrag-Objekt wird in den Body des JSON geschrieben
+     updateListeneintragAPI(eintr) {
+        return this.#fetchAdvanced(this.#updateListeneintragURL(eintr.getID()), {
+            method: 'PUT',
+            headers: {
+                'Accept': 'application/json, text/plain',
+                'Content-type': 'application/json',
+            },
+            body: JSON.stringify(eintr)
+        }).then((responseJSON) => {
+            // Zugriff auf das erste Listeneintrag Objekt des Arrays, welches .fromJSON zurückgibt
+            let response = ListeneintragBO.fromJSON(responseJSON)[0];
+            return new Promise(function (resolve) {
+                resolve(response);
+            })
+        })
+    }
+
+    //führt einen DELETE Request aus und gibt dabei die id des zu löschenden Listeneintrages weiter
+    deleteListeneintrag(id){
+        return this.#fetchAdvanced(this.#deleteListeneintragURL(id), {
+            method: 'DELETE'
+        }).then((responseJSON) => {
+            // Zugriff auf das erste Listeneintrag Objekt des Arrays, welches .fromJSON zurückgibt
+            let response = ListeneintragBO.fromJSON(responseJSON)[0];
+            return new Promise(function (resolve) {
+                resolve(response);
+            })
+        })
+    }
+
+
+
 
 }
+ /*
+
+    getAnwenderverbundbyBenutzer
+
+    addMitgliedschaft
+    deleteMitgliedschaft
+    GetBneutzerbyAnwenderverbund
+
+    getallBenutzer
+
+    */

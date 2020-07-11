@@ -9,6 +9,8 @@ import ContextErrorMessage from './dialogs/ContextErrorMessage';
 import LoadingProgress from './dialogs/LoadingProgress';
 import AlleEinkaufslistenListenEintrag from "./AlleEinkaufslistenListenEintrag";
 import EinkaufslisteForm from "./dialogs/EinkaufslisteForm";
+import ListeneintragBO from "../api/ListeneintragBO";
+import EinkaufslisteBO from "../api/EinkaufslisteBO";
 
 
 /**

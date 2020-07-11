@@ -119,9 +119,9 @@ class Listeneintrag(BusinessObject):
         """Einen Python dict() in einen Listeneintrag() umwandeln."""
         obj = Listeneintrag()
         obj.set_id(dictionary["id"])
-        obj.set_anzahl(dictionary["anzahl"])
+        obj.set_anzahl(dictionary["menge"])
         obj.set_erledigt(dictionary["erledigt"])
-        obj.set_änderungs_zeitpunkt(dictionary["änderungs_zeitpunkt"])
+        obj.set_änderungs_zeitpunkt(dictionary["aenderungs_zeitpunkt"])
         obj.set_einkaufslisteId(dictionary["einkaufsliste_id"])
         obj.set_einzelhaendlerId(dictionary["einzelhaendler_id"])
         obj.set_einzelhaendler_name(dictionary["einzelhaendler_name"])
