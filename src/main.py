@@ -61,8 +61,12 @@ listeneintrag = api.inherit('Listeneintrag', bo, {
     'aenderungs_zeitpunkt': fields.String(attribute='_änderungs_zeitpunkt', description='Änderungszeitpunkt'),
     'einkaufsliste_id': fields.Integer(attribute='_einkaufsliste_id', description='ID der Einkaufsliste'),
     'einzelhaendler_id': fields.Integer(attribute='_einzelhaendler_id', description='ID des Einzehändler'),
+    'einzelhaendler_name': fields.String(attribute='_einzelhaendler_name', description='Name des Einzehändler'),
     'artikel_id': fields.Integer(attribute='_artikel_id', description='ID des Artikels'),
+    'artikel_name': fields.String(attribute='_artikel_name', description='name des Artikels'),
+    'artikel_einheit': fields.String(attribute='_artikel_einheit', description='Einheit des Artikels'),
     'benutzer_id': fields.Integer(attribute='_benutzer_id', description='ID des Benutzer'),
+    'benutzer_name': fields.String(attribute='_benutzer_name', description='Name des Benutzer'),
 
 })
 

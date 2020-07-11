@@ -10,49 +10,12 @@ class Listeneintrag(BusinessObject):
         self._änderungs_zeitpunkt = datetime.datetime.now()
         self._einkaufsliste_id = None
         self._einzelhaendler_id = None
+        self._einzelhaendler_name = ""
         self._artikel_id = None
+        self._artikel_name = ""
+        self._artikel_einheit = ""
         self._benutzer_id = None
-        self.einzelhaendler_name = ""
-        self.artikel_name = ""
-        self.artikel_einheit = ""
-        self.benutzer_name = ""
-
-    def set_einzelhaendler_name(self, name):
-        """Setzen der Anzahl"""
-        self.einzelhaendler_name = name
-
-    def get_einzelhaendler_name(self):
-        """Auslesen der Anzahl"""
-        return self.einzelhaendler_name
-
-
-    def set_artikel_name(self, name):
-        """Setzen der Anzahl"""
-        self.artikel_name = name
-
-    def get_artikel_name(self):
-        """Auslesen der Anzahl"""
-        return self.artikel_name
-
-
-    def set_artikel_einheit(self, einheit):
-        """Setzen der Anzahl"""
-        self.artikel_einheit = einheit
-
-    def get_benutzer_name(self):
-        """Auslesen der Anzahl"""
-        return self.artikel_einheit
-
-
-    def set_benutzer_name(self, name):
-        """Setzen der Anzahl"""
-        self.benutzer_name = name
-
-    def get_benutzer_name(self):
-        """Auslesen der Anzahl"""
-        return self.benutzer_name
-
-
+        self._benutzer_name = ""
 
 
 
@@ -96,6 +59,14 @@ class Listeneintrag(BusinessObject):
         """Auslesen der einzelhaendler_id"""
         return self._einzelhaendler_id
 
+    def set_einzelhaendler_name(self, name):
+        """Setzen der Anzahl"""
+        self._einzelhaendler_name = name
+
+    def get_einzelhaendler_name(self):
+        """Auslesen der Anzahl"""
+        return self._einzelhaendler_name
+
     def set_artikelId(self, artikelId):
         """Setzen der artikel_id"""
         self._artikel_id = artikelId
@@ -103,6 +74,22 @@ class Listeneintrag(BusinessObject):
     def get_artikelId(self):
         """Auslesen der artikel_id"""
         return self._artikel_id
+
+    def set_artikel_name(self, name):
+        """Setzen der Anzahl"""
+        self._artikel_name = name
+
+    def get_artikel_name(self):
+        """Auslesen der Anzahl"""
+        return self._artikel_name
+
+    def set_artikel_einheit(self, einheit):
+        """Setzen der Anzahl"""
+        self._artikel_einheit = einheit
+
+    def get_artikel_einheit(self):
+        """Auslesen der Anzahl"""
+        return self._artikel_einheit
 
     def set_benutzerId(self, benutzerId):
         """Setzen der benutzer_id"""
@@ -112,12 +99,20 @@ class Listeneintrag(BusinessObject):
         """Auslesen der benutzer_id"""
         return self._benutzer_id
 
+    def set_benutzer_name(self, name):
+        """Setzen der Anzahl"""
+        self._benutzer_name = name
+
+    def get_benutzer_name(self):
+        """Auslesen der Anzahl"""
+        return self._benutzer_name
+
 
     def __str__(self):
         """Erzeugen einer einfachen textuellen Darstellung der jeweiligen Instanz."""
         return "Listeneintrag: {}, {}, {}, {}, {}, {}, {}, {},{}, {}, {}, {}".format(self.get_id(), self._anzahl, self._erledigt,
     self._änderungs_zeitpunkt, self._einkaufsliste_id, self._einzelhaendler_id, self._artikel_id, self._benutzer_id,
-    self.artikel_name,self.einzelhaendler_name, self.artikel_einheit, self.benutzer_name )
+    self._artikel_name,self._einzelhaendler_name, self._artikel_einheit, self._benutzer_name )
 
     @staticmethod
     def from_dict(dictionary=dict()):
@@ -129,6 +124,10 @@ class Listeneintrag(BusinessObject):
         obj.set_änderungs_zeitpunkt(dictionary["änderungs_zeitpunkt"])
         obj.set_einkaufslisteId(dictionary["einkaufsliste_id"])
         obj.set_einzelhaendlerId(dictionary["einzelhaendler_id"])
+        obj.set_einzelhaendler_name(dictionary["einzelhaendler_name"])
         obj.set_artikelId(dictionary["artikel_id"])
+        obj.set_artikel_name(dictionary["artikel_name"])
+        obj.set_artikel_einheit(dictionary["artikel_einheit"])
         obj.set_benutzerId(dictionary["benutzer_id"])
+        obj.set_benutzer_name(dictionary["benutzer_name"])
         return obj
