@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { withStyles, Button, TextField, InputAdornment, IconButton, Grid, Typography } from '@material-ui/core';
+import { withStyles, Button, TextField, InputAdornment, IconButton, Grid, Typography,Link} from '@material-ui/core';
 import AddIcon from '@material-ui/icons/Add';
 import ClearIcon from '@material-ui/icons/Clear'
 import { withRouter } from 'react-router-dom';
 import  API from "../api/API";
+import { Link as RouterLink } from 'react-router-dom';
 import ContextErrorMessage from './dialogs/ContextErrorMessage';
 import LoadingProgress from './dialogs/LoadingProgress';
 import ListeneintragForm from "./dialogs/ListeneintragForm";
@@ -33,10 +34,12 @@ class Einkaufsliste extends Component {
 
   /** Fetchet alle EinzelhaendlerBOs für das Backend */
   getListeneintrege = () => {
-    API.getAPI().getListeneintraegeByEinkaufslisteAPI(this.props.location.einkaufsliste.getID())
+ const { einkaufsliste } = this.props.location
+
+    API.getAPI().getListeneintraegeByEinkaufslisteAPI(einkaufsliste.getID())
       .then(ListeneintragBOs =>
-          console.log(ListeneintragBOs)
-       /* this.setState({               // Setzt neues state wenn EinzelhaendlerBOs gefetcht wurden
+
+       this.setState({               // Setzt neues state wenn EinzelhaendlerBOs gefetcht wurden
           listeneintraege: ListeneintragBOs,
 
           loadingInProgress: false,   // Ladeanzeige deaktivieren
@@ -47,10 +50,7 @@ class Einkaufsliste extends Component {
             loadingInProgress: false, // Ladeanzeige deaktivieren
             error: e
           })
-
-        */
         );
-
     // Setzt laden auf true
     this.setState({
       loadingInProgress: true,
@@ -135,7 +135,7 @@ class Einkaufsliste extends Component {
 
           listeneintraege.map(listeneintrag =>
             <ListenEintrag key={listeneintrag.getID()} listeneintrag={listeneintrag}
-              onListeneintragDeleted={this.listeneintragDeleted()}
+              onListeneintragDeleted={this.listeneintragDeleted}
             />)
         }
         <LoadingProgress show={loadingInProgress} />

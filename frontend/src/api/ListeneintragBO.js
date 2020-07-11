@@ -11,8 +11,12 @@ export default class ListeneintragBO extends BusinessObject {
         this.aenderungs_zeitpunkt= ""
         this.einkaufsliste_id= null
         this.einzelhaendler_id= null
+        this.einzelhaendler_name= ""
         this.artikel_id= null
+        this.artikel_name= ""
+        this.artikel_einheit= ""
         this.benutzer_id= null
+        this.benutzer_name=""
     }
 
     setMenge(menge) {

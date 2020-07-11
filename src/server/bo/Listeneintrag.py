@@ -12,6 +12,49 @@ class Listeneintrag(BusinessObject):
         self._einzelhaendler_id = None
         self._artikel_id = None
         self._benutzer_id = None
+        self.einzelhaendler_name = ""
+        self.artikel_name = ""
+        self.artikel_einheit = ""
+        self.benutzer_name = ""
+
+    def set_einzelhaendler_name(self, name):
+        """Setzen der Anzahl"""
+        self.einzelhaendler_name = name
+
+    def get_einzelhaendler_name(self):
+        """Auslesen der Anzahl"""
+        return self.einzelhaendler_name
+
+
+    def set_artikel_name(self, name):
+        """Setzen der Anzahl"""
+        self.artikel_name = name
+
+    def get_artikel_name(self):
+        """Auslesen der Anzahl"""
+        return self.artikel_name
+
+
+    def set_artikel_einheit(self, einheit):
+        """Setzen der Anzahl"""
+        self.artikel_einheit = einheit
+
+    def get_benutzer_name(self):
+        """Auslesen der Anzahl"""
+        return self.artikel_einheit
+
+
+    def set_benutzer_name(self, name):
+        """Setzen der Anzahl"""
+        self.benutzer_name = name
+
+    def get_benutzer_name(self):
+        """Auslesen der Anzahl"""
+        return self.benutzer_name
+
+
+
+
 
     def set_anzahl(self, anzahl):
         """Setzen der Anzahl"""
@@ -72,7 +115,9 @@ class Listeneintrag(BusinessObject):
 
     def __str__(self):
         """Erzeugen einer einfachen textuellen Darstellung der jeweiligen Instanz."""
-        return "Listeneintrag: {}, {}, {}, {}, {}, {}, {}, {}".format(self.get_id(), self._anzahl, self._erledigt, self._änderungs_zeitpunkt, self._einkaufsliste_id, self._einzelhaendler_id, self._artikel_id, self._benutzer_id)
+        return "Listeneintrag: {}, {}, {}, {}, {}, {}, {}, {},{}, {}, {}, {}".format(self.get_id(), self._anzahl, self._erledigt,
+    self._änderungs_zeitpunkt, self._einkaufsliste_id, self._einzelhaendler_id, self._artikel_id, self._benutzer_id,
+    self.artikel_name,self.einzelhaendler_name, self.artikel_einheit, self.benutzer_name )
 
     @staticmethod
     def from_dict(dictionary=dict()):

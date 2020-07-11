@@ -268,3 +268,6 @@ class ApplikationsAdministration(object):
         """ Methode zum löschen eines Listeneintrags aus der Datenbank"""
         with ListeneintragMapper() as mapper:
             mapper.delete(listeneintrag)
+
+
+
