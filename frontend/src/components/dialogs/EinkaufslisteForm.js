@@ -10,12 +10,12 @@ import LoadingProgress from './LoadingProgress';
 
 
 /**
- * Zeigt einen modalen Formulardialog für einen EinzelhaendlerBO in prop einzelhaendler. Wenn der Einzelhaendler
+ * Zeigt einen modalen Formulardialog für ein EinkaufslisteBO in prop einkaufsliste. Wenn die Einkaufsliste
  * angelegt ist, ist der Dialog als ein Editierdialog konfiguriert. Dabei ist das Formular mit dem gegebenen
- * EinzelhaendlerBO Objekt befüllt. Wenn der Einzelhaendler null ist, wird der Dialog als ein neuer Einzelhaendler
+ * EinkaufslisteBO Objekt befüllt. Wenn die Einkaufsliste null ist, wird der Dialog als eine neuer Einkaufslisten
  * Dialog konfiguriert und die Textfelder sind leer. In Abhängigkeit des editier/neu Zustands werden die Backend
- * Aufrufe gemacht, um einen Einzelhaendler upzudaten oder anzulegen. Danach wird die Funktion des onClose prop
- * mit dem angelegt/upgedated EinzelhaendlerBO Objekt als Parameter aufgerufen. Wenn der Dialog beendet ist,
+ * Aufrufe gemacht, um eine Einkaufsliste upzudaten oder anzulegen. Danach wird die Funktion des onClose prop
+ * mit dem angelegt/upgedated EinkaufslisteBO Objekt als Parameter aufgerufen. Wenn der Dialog beendet ist,
  * wird onClose mit null aufgerufen.
  */
 class EinkaufslisteForm extends Component {
@@ -42,14 +42,14 @@ class EinkaufslisteForm extends Component {
     this.baseState = this.state;
   }
 
-  /** Legt Einzelhaendler an */
+  /** Legt Einkaufsliste an */
   addEinkaufsliste = () => {
     let newEinkaufsliste = new EinkaufslisteBO(this.state.einkaufslisteName); //legt neues Einkaufslisten-Objekt mit name aus dem state an
     API.getAPI().addEinkaufslisteAPI(newEinkaufsliste).then(einkaufsliste => {
       // Backend Aufruf erfolgreich
-      // reinit den Dialog state für einen neuen leeren Einzelhaendler
+      // reinit den Dialog state für eine neue leere Einkaufsliste
       this.setState(this.baseState);
-      this.props.onClose(einkaufsliste); // Aufruf mit Hilfe des Einzelhaendler Objekts aus dem Backend
+      this.props.onClose(einkaufsliste); // Aufruf mit Hilfe des Einkaufsliste Objekts aus dem Backend
     }).catch(e =>
       this.setState({
         updatingInProgress: false,    // Ladeanzeige deaktivieren
@@ -66,7 +66,7 @@ class EinkaufslisteForm extends Component {
 
   /** Updates the customer */
   updateEinkaufsliste = () => {
-    // Klont den originalen Einzelhaendler, wenn der Backend Aufruf fehlschlägt
+    // Klont die originalen Einkaufliste, wenn der Backend Aufruf fehlschlägt
     let updatedEinkaufsliste = Object.assign(new EinkaufslisteBO(), this.props.einkaufsliste);
     // Setzt die neuen Attribute aus dem Dialog
     updatedEinkaufsliste.setName(this.state.einkaufslisteName);
@@ -125,7 +125,7 @@ class EinkaufslisteForm extends Component {
     let header = '';
 
     if (einkaufsliste) {
-      // customer defindet, so ist an edit dialogmmmmmmmmmmmmmmmmmmmmmmmmmmmm
+      // Erstellt eine neue Einkaufsliste, wenn nicht bereits eine vorhanden ist.
       title = 'Update der Einkaufsliste';
       header = `Einkaufsliste ID: ${einkaufsliste.getID()}`;
     } else {
@@ -152,7 +152,7 @@ class EinkaufslisteForm extends Component {
             </form>
             <LoadingProgress show={addingInProgress || updatingInProgress} />
             {
-              // Zeigt Error Nachricht in Abhängigkeit des Einzelhaendler prop.
+              // Zeigt Error Nachricht in Abhängigkeit des Einkaufsliste prop.
               einkaufsliste ?
                 <ContextErrorMessage error={updatingError} contextErrorMsg={`The Einkaufliste ${einkaufsliste.getID()} konnte nicht geupdatet werden.`} onReload={this.updateEinkaufsliste} />
                 :
@@ -164,7 +164,7 @@ class EinkaufslisteForm extends Component {
               Abbrechen
             </Button>
             {
-              // Wenn Einzelhaendler vorhanden ist, zeige eine Update Taste, sonst eine Anlegen Taste.
+              // Wenn Einkaufsliste vorhanden ist, zeige eine Update Taste, sonst eine Anlegen Taste.
               einkaufsliste ?
                 <Button disabled={einkaufslisteNameValidationFailed} variant='contained' onClick={this.updateEinkaufsliste} color='primary'>
                   Update
@@ -198,13 +198,13 @@ const styles = theme => ({
 EinkaufslisteForm.propTypes = {
   /** @ignore */
   classes: PropTypes.object.isRequired,
-  /** Das EinzelhaendlerBO wird editiert. */
+  /** Das EinkaufslisteBO wird editiert. */
   einkaufsliste: PropTypes.object,
   /** Wenn true, wird das Formular gerendert. */
   show: PropTypes.bool.isRequired,
   /**
    * Handler Funktion, die aufgerufen wird wenn der Dialog geschlossen ist.
-   * Sendet das editierte oder angelegte EinzelhaendlerBO als Parameter oder null,
+   * Sendet das editierte oder angelegte EinkaufslisteBO als Parameter oder null,
    * wenn abbrechen gedrückt wurde.
    */
   onClose: PropTypes.func.isRequired,
