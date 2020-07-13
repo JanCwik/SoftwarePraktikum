@@ -693,8 +693,13 @@ class AnwenderverbundRelatedBenutzerOperations(Resource):
         verbund = adm.get_anwenderverbund_by_id(id)
 
         if verbund is not None:
-            mitglieder = adm.mitglieder_ausgeben(verbund)
-            return mitglieder
+
+            mitgliederID = adm.mitglieder_ausgeben(verbund)
+            benutzeObjekte = []
+            for i in mitgliederID:
+                benutzeObjekt= adm.get_benutzer_by_id(i)
+                benutzeObjekte.append(benutzeObjekt)
+            return benutzeObjekte
         else:
             return "Anwenderverbund nicht gefunden", 500
 
