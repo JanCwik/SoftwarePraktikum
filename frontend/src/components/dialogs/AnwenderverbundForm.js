@@ -41,7 +41,7 @@ class AnwenderverbundForm extends Component {
     this.baseState = this.state;
   }
 
-  /** Legt Einzelhaendler an */
+  /** Legt Anwenderverbund an */
   addAnwenderverbund = () => {
     let newAnwenderverbund = new AnwenderverbundBO(this.state.anwenderverbundName);
     API.getAPI().addAnwenderverbundAPI(newAnwenderverbund).then(anwenderverbund => {

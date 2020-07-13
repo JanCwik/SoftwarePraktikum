@@ -67,7 +67,7 @@ class ArtikelLoeschen extends Component {
           </DialogTitle>
           <DialogContent>
             <DialogContentText>
-              Really delete artikel '{artikel.getName()}' (ID: {artikel.getID()})?
+              Wirklich den Artikel '{artikel.getName()}' (ID: {artikel.getID()}) löschen?
             </DialogContentText>
             <LoadingProgress show={deletingInProgress} />
             <ContextErrorMessage error={deletingError} contextErrorMsg={`Der Artikel '${artikel.getName()}' (ID: ${artikel.getID()}) konnte nicht gelöscht werden.`}
