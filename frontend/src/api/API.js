@@ -37,7 +37,7 @@ export default class API {
     #addAnwenderverbundURL = () => `${this.#ServerBaseURL}/anwenderverbund`;
     #deleteAnwenderverbundURL = (id) => `${this.#ServerBaseURL}/anwenderverbund-by-id/${id}`;
     #updateAnwenderverbundURL = (id) => `${this.#ServerBaseURL}/anwenderverbund-by-id/${id}`;
-    #getAnwenderverbuendeByBenutzerURL = (userMail) => `${this.#ServerBaseURL}/anwenderverbund/${userMail}/benutzer?`; //<-falsch!!!
+    #getAnwenderverbuendeByBenutzerURL = (userMail) => `${this.#ServerBaseURL}/benutzer/${userMail}/anwenderverbuende`;
 
     #getEinkaufslistenURL = () => `${this.#ServerBaseURL}/einkaufsliste`
     #addEinkaufslisteURL = () => `${this.#ServerBaseURL}/einkaufsliste`;
@@ -367,7 +367,7 @@ export default class API {
     }
 
     //führt einen POST Request aus und schreibt dabei das als Parameter übergebene Listeneintrag-objekt in den Body des Json
-    addlisteneintragAPI(neweintr) {
+    addListeneintragAPI(neweintr) {
         return this.#fetchAdvanced(this.#addListeneintragURL(), {
             method: 'POST',
             headers: {
