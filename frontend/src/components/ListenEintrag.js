@@ -1,13 +1,15 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { withStyles, Button, ListItem, ListItemSecondaryAction, Link, Typography } from '@material-ui/core';
+import {withStyles, Button, ListItem, ListItemSecondaryAction, Link, Typography, ButtonGroup} from '@material-ui/core';
 import DeleteIcon from '@material-ui/icons/Delete';
+import EditIcon from '@material-ui/icons/Edit';
 import SwapHoriz from '@material-ui/icons/SwapHoriz';
 import { Link as RouterLink } from 'react-router-dom';
 import { API } from '../api';
 import List from '@material-ui/core/List';
 import Checkbox from '@material-ui/core/Checkbox';
 import IconButton from '@material-ui/core/IconButton';
+import ListeneintragLoeschen from "./dialogs/ListeneintragLoeschen";
 
 
 /**
@@ -44,17 +46,20 @@ handleCheck =(event)=>{
     this.setState({
       checked: event.target.checked
         }
-
     )
-
 }
 
-
+  deleteListeneintragButtonClicked = (event) => {
+    event.stopPropagation();
+    this.setState({
+      showListeneintragDeleteDialog: true
+    });
+  }
 
   /** Rendert die Komponente */
   render() {
     const { classes, listeneintrag } = this.props;
-    const { loadingInProgress, deletingInProgress, loadingError, deletingError, balance, checked } = this.state;
+    const { showListeneintragDeleteDialog, loadingInProgress, deletingInProgress, loadingError, deletingError, checked } = this.state;
 
     return (
       <div >
@@ -84,14 +89,14 @@ handleCheck =(event)=>{
           </Typography>
 
           <ListItemSecondaryAction>
-
-            <Button  color='secondary' size='small' startIcon={<DeleteIcon />} onClick={this.deleteAccount}>
-
+            <Button  color='secondary' size='small' startIcon={<EditIcon />} onClick={this.editListeneintrag}>
+            </Button>
+            <Button  color='secondary' size='small' startIcon={<DeleteIcon />} onClick={this.deleteListeneintragButtonClicked}>
             </Button>
           </ListItemSecondaryAction>
         </ListItem>
         </List>
-
+        <ListeneintragLoeschen show={showListeneintragDeleteDialog} listeneintrag={listeneintrag} artikel={listeneintrag.getArtikel_name} onClose={this.deleteListeneintragDialogClosed} />
       </div>
     );
   }
@@ -150,8 +155,7 @@ ListenEintrag.propTypes = {
   /** @ignore */
   classes: PropTypes.object.isRequired,
 
-
-
+  listeneintrag: PropTypes.object.isRequired,
 }
 
 export default withStyles(styles)(ListenEintrag);
