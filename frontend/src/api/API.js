@@ -37,6 +37,7 @@ export default class API {
     #addAnwenderverbundURL = () => `${this.#ServerBaseURL}/anwenderverbund`;
     #deleteAnwenderverbundURL = (id) => `${this.#ServerBaseURL}/anwenderverbund-by-id/${id}`;
     #updateAnwenderverbundURL = (id) => `${this.#ServerBaseURL}/anwenderverbund-by-id/${id}`;
+    #getAnwenderverbuendeByBenutzerURL = (userMail) => `${this.#ServerBaseURL}/anwenderverbund/${userMail}/benutzer?`; //<-falsch!!!
 
     #getEinkaufslistenURL = () => `${this.#ServerBaseURL}/einkaufsliste`
     #addEinkaufslisteURL = () => `${this.#ServerBaseURL}/einkaufsliste`;
@@ -197,6 +198,18 @@ export default class API {
                 resolve(Anwenderverbund);
             })
         })
+    }
+
+    // Methode die den GET request ausführt und alle in der Datenbank gespeicherten Anwenderverbünde ausgibt, zu denen der Benutzer gehört
+    // Die ID des Benutzers wird an die URL gehängt
+    getAnwenderverbuendeByBenutzerAPI(userMail) {
+        return this.#fetchAdvanced(this.#getAnwenderverbuendeByBenutzerURL(userMail)).then((responseJSON) => {
+            let verbuende = AnwenderverbundBO.fromJSON(responseJSON);
+            return new Promise(function (resolve) {
+                resolve(verbuende);
+            })
+        })
+
     }
 
     //führt einen POST Request aus und schreibt dabei das als Parameter übergebene Anwenderverbund-objekt in den Body des Json
@@ -409,7 +422,6 @@ export default class API {
 }
  /*
 
-    getAnwenderverbundbyBenutzer
 
     addMitgliedschaft (benutzer gibt email ein und dann get benutzer by email)
     deleteMitgliedschaft
