@@ -1,12 +1,28 @@
 
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { withStyles, Button, IconButton, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, TextField, MenuItem, FormControl, InputLabel, Select } from '@material-ui/core';
+import {
+  withStyles,
+  Button,
+  IconButton,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogContentText,
+  DialogActions,
+  TextField,
+  MenuItem,
+  FormControl,
+  InputLabel,
+  Select,
+  Grid, InputAdornment
+} from '@material-ui/core';
 import CloseIcon from '@material-ui/icons/Close';
 import  ListeneintragBO  from '../../api/ListeneintragBO';
 import  API from '../../api/API';
 import ContextErrorMessage from './ContextErrorMessage';
 import LoadingProgress from './LoadingProgress';
+import ClearIcon from "@material-ui/icons/Clear";
 
 
 /**
@@ -46,6 +62,7 @@ class ListeneintragForm extends Component {
       listeneintragEinzelhaendlerNameEdited: false,
       listeneintragBenutzerName: lbn,
       listeneintragBenutzerNameEdited: false,
+      filteredArtikel: [],
       addingInProgress: false,
       updatingInProgress: false,
       addingError: null,
@@ -185,6 +202,18 @@ listeneintragArtikelNameChange = (event) => {
     this.props.onClose(null);
   }
 
+  /** Behandelt das onChange Ereignis von dem Artikel filtern Textfeld */
+  filterFieldValueChange = event => {
+    const value = event.target.value.toLowerCase();
+    this.setState({
+      filteredArtikel: this.state.listeneintragArtikelName.filter(artikel => {
+        let NameContainsValue = artikel.getName().toLowerCase().includes(value);
+        return NameContainsValue;
+      }),
+      artikelFilter: value
+    });
+  }
+
   /** Rendert die Komponente */
 
   render() {
@@ -192,12 +221,12 @@ listeneintragArtikelNameChange = (event) => {
     const { listeneintragArtikelName, listeneintragArtikelNameValidationFailed, listeneintragArtikelNameEdited,
             listeneintragArtikelMenge, listeneintragArtikelMengeEdited, listeneintragArtikelEinheit,
             listeneintragArtikelEinheitEdited, listeneintragEinzelhaendlerName, listeneintragEinzelhaendlerNameEdited,
-            listeneintragBenutzerName,addingInProgress, addingError, updatingInProgress, updatingError } = this.state;
+            listeneintragBenutzerName, artikelFilter, addingInProgress, addingError, updatingInProgress, updatingError } = this.state;
 
     let title = '';
     let header = '';
 
-    if (artikel) {
+    if (listeneintrag) {
       // Erstellt einen neuen Artikel, wenn nicht bereits einer vorhanden ist.
       title = 'Update des Listeneintrags';
       header = `Listeneintrag ID: ${listeneintrag.getID()}`;
@@ -219,9 +248,22 @@ listeneintragArtikelNameChange = (event) => {
               {header}
             </DialogContentText>
             <form className={classes.root} noValidate autoComplete='off'>
-              <TextField autoFocus type='text' required fullWidth margin='normal' id='artikelName' label='Artikel Name' value={listeneintragArtikelName}
-                onChange={this.listeneintragArtikelNameChange} error={listeneintragArtikelNameValidationFailed}
-                helperText={listeneintragArtikelNameValidationFailed ? 'Der Name muss mindestens ein Zeichen enthalten' : ' '} />
+          <Grid item xs={4}>
+            <TextField autoFocus fullWidth id='artikelFilter' type='text' value={artikelFilter}
+              onChange={this.filterFieldValueChange}
+              InputProps={{
+                endAdornment: <InputAdornment position='end'>
+                  <IconButton onClick={this.clearFilterFieldButtonClicked}>
+                    <ClearIcon />
+                  </IconButton>
+                </InputAdornment>,
+              }}
+            />
+          </Grid>
+
+              <TextField autoFocus type='text' required fullWidth margin='normal' id='artikelName' label='Menge' value={listeneintragArtikelMenge}
+                onChange={this.listeneintragArtikelMengeChange} error={listeneintragArtikelNameValidationFailed}
+                helperText={listeneintragArtikelNameValidationFailed ? 'Die Menge muss mindestens ein Zeichen enthalten' : ' '} />
             </form>
             <LoadingProgress show={addingInProgress || updatingInProgress} />
             {
