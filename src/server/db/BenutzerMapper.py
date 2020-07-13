@@ -252,3 +252,27 @@ class BenutzerMapper(Mapper):
         cursor.close()
 
         return result
+
+    def alle_anwenderverbunde_ausgeben(self, benutzer):
+        """Mapper-Methode zum ausgeben aller Anwenderverbunde bei denen der Benutzer ein Mitglied ist.
+
+        Hier werden via SQL-Abfrage alle Anwenderverbunde in denen ein Benutzer ein Mitglied ist aus der Tabelle Mitgliedschaft ausgegeben.
+        Anschließend werden aus den Zeilen der Datenbank (welche ein Objekt mit dessen Attributen darstellen)
+        mit der fetchall-Methode Tupel erstellt.
+
+        Mittels For-Schleife werden die einzelnen Attribute aus einem Tupel gezogen und einer neuen Instanz übergeben
+        und dann zurückgegeben."""
+        result = []
+        cursor = self._cnx.cursor()
+        cursor.execute(
+            "SELECT anwenderverbund_id FROM mitgliedschaft WHERE benutzer_id={}".format(benutzer.get_id()))
+        res = cursor.fetchall()
+
+        for i in res:
+            for i in i:
+                result.append(i)
+
+        self._cnx.commit()
+        cursor.close()
+
+        return result
