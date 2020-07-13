@@ -8,8 +8,10 @@ import  API from "../api/API";
 import ContextErrorMessage from './dialogs/ContextErrorMessage';
 import LoadingProgress from './dialogs/LoadingProgress';
 import BenutzerBO from "../api/BenutzerBO";
+import ComboBox from "./dialogs/BenutzerListeForm";
 
-//import BenutzerListeForm from './dialogs/EinzelhaendlerForm';
+import BenutzerListeForm from "./dialogs/BenutzerListeForm";
+import AnwenderverbundForm from "./dialogs/AnwenderverbundForm";
 //import BenutzerListenEintrag from "./EinzelhaendlerListenEintrag";
 
 /**
@@ -113,7 +115,7 @@ class BenutzerListe extends Component {
   /** Rendert die Komponente */
   render() {
     const { classes } = this.props;
-    const {benutzerListe ,loadingInProgress, error, showEinzelhaendlerForm } = this.state;
+    const {benutzerListe ,loadingInProgress, error, showBenutzerForm } = this.state;
 
     return (
       <div className={classes.root}>
@@ -128,7 +130,7 @@ class BenutzerListe extends Component {
 
         <LoadingProgress show={loadingInProgress} />
         <ContextErrorMessage error={error} contextErrorMsg={`Die Liste der Einzelhändler konnte nicht geladen werden.`} onReload={this.getEinzelhaendler} />
-
+        <BenutzerListeForm show={showBenutzerForm} onClose={this.benutzerFormClosed} />
       </div>
     );
   }

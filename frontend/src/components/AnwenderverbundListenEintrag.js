@@ -117,7 +117,7 @@ class AnwenderverbundListenEintrag extends Component {
               </Grid>
               <Grid item xs />
               <Grid item >
-                <Typography variant='body2' color={'textSecondary'}>Einkaufslisten</Typography>
+                <Typography variant='body2' color={'textSecondary'}>Benutzer</Typography>
               </Grid>
             </Grid>
           </ExpansionPanelSummary>
