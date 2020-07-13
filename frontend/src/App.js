@@ -119,7 +119,7 @@ class App extends React.Component {
     render() {
 
 	    const { currentUser, appError, authError, authLoading } = this.state;
-		//console.log(this.state.currentUser)
+
         return (
             <div className="App">
 
@@ -135,7 +135,7 @@ class App extends React.Component {
                             <Redirect from='/' to='/alleEinkaufslisten'/>
 
                             <Route path='/alleEinkaufslisten'>
-                                <AlleEinkaufslisten/>
+                                <AlleEinkaufslisten userMail={this.state.currentUser?.email}/>
 
                             </Route>
 
