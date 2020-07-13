@@ -41,7 +41,7 @@ class Anwenderverbund extends Component {
 
   /** Fetchet alle AnwenderverbundBOs für das Backend */
   getAnwenderverbund = () => {
-    API.getAPI().getAnwenderverbuendeAPI()
+    API.getAPI().getAnwenderverbuendeByBenutzerAPI(this.props.userMail)
       .then(anwenderverbundBOs =>
         this.setState({               // Setzt neues state wenn EinzelhaendlerBOs gefetcht wurden
           anwenderverbund: anwenderverbundBOs,
