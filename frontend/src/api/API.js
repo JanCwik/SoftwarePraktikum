@@ -354,7 +354,7 @@ export default class API {
     }
 
     //führt einen POST Request aus und schreibt dabei das als Parameter übergebene Listeneintrag-objekt in den Body des Json
-    addlisteneintragAPI(neweintr) {
+    addListeneintragAPI(neweintr) {
         return this.#fetchAdvanced(this.#addListeneintragURL(), {
             method: 'POST',
             headers: {
