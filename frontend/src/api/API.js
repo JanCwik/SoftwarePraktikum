@@ -411,10 +411,11 @@ export default class API {
 
     getAnwenderverbundbyBenutzer
 
-    addMitgliedschaft
+    addMitgliedschaft (benutzer gibt email ein und dann get benutzer by email)
     deleteMitgliedschaft
     GetBneutzerbyAnwenderverbund
 
     getallBenutzer
+    getBenutzerByEmail
 
     */
