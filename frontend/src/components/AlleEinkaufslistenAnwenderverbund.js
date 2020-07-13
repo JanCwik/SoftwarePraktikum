@@ -26,7 +26,7 @@ class AlleEinkaufslistenAnwenderverbund extends Component{
 
 
 getEinkaufslisten = () => {
-    API.getAPI().getEinkaufslistenByAnwenderverbundAPI(this.props.anwenderverbund)
+    API.getAPI().getEinkaufslistenByAnwenderverbundAPI(this.props.anwenderverbund.getID())
       .then(EinkaufslistenBOs =>
 
         this.setState({               // Setzt neues state wenn EinkaufslistenBOs gefetcht wurden
