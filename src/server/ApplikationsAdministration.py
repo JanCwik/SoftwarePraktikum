@@ -10,6 +10,7 @@ from src.server.db.BenutzerMapper import BenutzerMapper
 from src.server.db.AnwenderverbundMapper import AnwenderverbundMapper
 from src.server.db.EinkaufslisteMapper import EinkaufslistenMapper
 from src.server.db.ListeneintragMapper import ListeneintragMapper
+from src.server.db.StatistikMapper import StatistikMapper
 
 
 class ApplikationsAdministration(object):
@@ -280,5 +281,7 @@ class ApplikationsAdministration(object):
         with ListeneintragMapper() as mapper:
             mapper.delete(listeneintrag)
 
-
+    def statistik(self):
+        with StatistikMapper() as mapper:
+            return mapper.get_top_Artikel()
 
