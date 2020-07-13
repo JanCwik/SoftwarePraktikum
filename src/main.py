@@ -224,6 +224,7 @@ class ListeneintragOperations(Resource):
         adm = ApplikationsAdministration()
         listeneintrag = adm.get_listeneintrag_by_id(id)
         return listeneintrag
+    #Zeigt namen nicht an!
 
     @secured
     def delete(self, id):
