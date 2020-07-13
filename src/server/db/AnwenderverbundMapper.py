@@ -242,15 +242,14 @@ class AnwenderverbundMapper(Mapper):
 
         Mittels For-Schleife werden die einzelnen Attribute aus einem Tupel gezogen und einer neuen Instanz übergeben
         und dann zurückgegeben."""
-        result = []
+        result=[]
         cursor = self._cnx.cursor()
         cursor.execute("SELECT benutzer_id FROM mitgliedschaft WHERE anwenderverbund_id={}".format(anwenderverbund.get_id()))
         res = cursor.fetchall()
 
         for i in res:
             for i in i:
-                print(i)
-
+                result.append(i)
         self._cnx.commit()
         cursor.close()
 
