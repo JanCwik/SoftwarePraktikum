@@ -1,6 +1,5 @@
 from src.server.db.Mapper import Mapper
 from src.server.bo.Statistik import Statistik
-from src.server.bo.Listeneintrag import Listeneintrag
 
 
 
@@ -11,45 +10,34 @@ class StatistikMapper(Mapper):
 
 
     def get_top_Artikel (self):
-        zaehler = 0
-        gesamt = 0
-        geamtalle = []
+        ArtikelIDsInt = []
+        top = []
 
         cursor = self._cnx.cursor()
-        command = "SELECT id FROM listeneintrag"
+
+        command = "SELECT artikel_id FROM listeneintrag"
         cursor.execute(command)
-        listeneintraege = cursor.fetchall()
+        ArtikelIDs = cursor.fetchall()
 
-        cursor.execute("SELECT MAX(artikel_id) FROM listeneintrag ")
-        maxID = cursor.fetchall()
-
-        for i in maxID:
+        for i in ArtikelIDs:
             for i in i:
-                maxIDINT = i
+                ArtikelIDsInt.append(i)
+
+        ArtikelIDsInt = list(set(ArtikelIDsInt))
 
 
+        for k in ArtikelIDsInt:
+            cursor.execute("SELECT SUM(anzahl) FROM listeneintrag where artikel_id={}".format(k))
+            gesamtZahl = cursor.fetchall()
 
-        for a in listeneintraege:
-            zaehler += 1
-
-            if maxIDINT >= zaehler:
-
-                command = "SELECT id, anzahl, artikel_id FROM listeneintrag WHERE artikel_id={}".format(zaehler)
-                cursor.execute(command)
-                allePostioneneinesArtikels = cursor.fetchall()
-
-
-                for i in allePostioneneinesArtikels:
-                    for (id, anzahl, artikel_id) in allePostioneneinesArtikels:
-                        listeneintrag = Listeneintrag()
-                        listeneintrag.set_id(id)
-                        listeneintrag.set_anzahl(anzahl)
-                        listeneintrag.set_artikelId(artikel_id)
-                        gesamt += listeneintrag.get_anzahl()
-                    geamtalle.append(gesamt)
-
+            for i in gesamtZahl:
+                for i in i:
+                    statistik = Statistik()
+                    statistik.set_ArtikelID(k)
+                    statistik.set_gesamtzahl(i)
+                    top.append(statistik)
 
         self._cnx.commit()
         cursor.close()
-        return geamtalle
+        return top
 
