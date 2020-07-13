@@ -59,7 +59,7 @@ handleCheck =(event)=>{
   /** Rendert die Komponente */
   render() {
     const { classes, listeneintrag } = this.props;
-    const { loadingInProgress, deletingInProgress, loadingError, deletingError, balance, checked } = this.state;
+    const { showListeneintragDeleteDialog, loadingInProgress, deletingInProgress, loadingError, deletingError, checked } = this.state;
 
     return (
       <div >
@@ -96,7 +96,7 @@ handleCheck =(event)=>{
           </ListItemSecondaryAction>
         </ListItem>
         </List>
-
+        <ListeneintragLoeschen show={showListeneintragDeleteDialog} listeneintrag={listeneintrag} artikel={listeneintrag.getArtikel_name} onClose={this.deleteListeneintragDialogClosed} />
       </div>
     );
   }
@@ -155,8 +155,7 @@ ListenEintrag.propTypes = {
   /** @ignore */
   classes: PropTypes.object.isRequired,
 
-
-
+  listeneintrag: PropTypes.object.isRequired,
 }
 
 export default withStyles(styles)(ListenEintrag);

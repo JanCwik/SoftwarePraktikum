@@ -67,10 +67,10 @@ class ListeneintragLoeschen extends Component {
           </DialogTitle>
           <DialogContent>
             <DialogContentText>
-              Wirklich den Listeneintrag '{artikel.getName()}' (ID: {listeneintrag.getID()}) löschen?
+              Wirklich den Listeneintrag '{artikel}' (ID: {listeneintrag.getID()}) löschen?
             </DialogContentText>
             <LoadingProgress show={deletingInProgress} />
-            <ContextErrorMessage error={deletingError} contextErrorMsg={`Der Listeneintrag '${artikel.getName()}' (ID: ${listeneintrag.getID()}) konnte nicht gelöscht werden.`}
+            <ContextErrorMessage error={deletingError} contextErrorMsg={`Der Listeneintrag '${artikel}' (ID: ${listeneintrag.getID()}) konnte nicht gelöscht werden.`}
               onReload={this.deleteListeneintrag} />
           </DialogContent>
           <DialogActions>
