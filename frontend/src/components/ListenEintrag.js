@@ -9,6 +9,7 @@ import { API } from '../api';
 import List from '@material-ui/core/List';
 import Checkbox from '@material-ui/core/Checkbox';
 import IconButton from '@material-ui/core/IconButton';
+import ListeneintragLoeschen from "./dialogs/ListeneintragLoeschen";
 
 
 /**
@@ -45,10 +46,15 @@ handleCheck =(event)=>{
     this.setState({
       checked: event.target.checked
         }
-
     )
-
 }
+
+  deleteListeneintragButtonClicked = (event) => {
+    event.stopPropagation();
+    this.setState({
+      showListeneintragDeleteDialog: true
+    });
+  }
 
   /** Rendert die Komponente */
   render() {
@@ -85,7 +91,7 @@ handleCheck =(event)=>{
           <ListItemSecondaryAction>
             <Button  color='secondary' size='small' startIcon={<EditIcon />} onClick={this.editListeneintrag}>
             </Button>
-            <Button  color='secondary' size='small' startIcon={<DeleteIcon />} onClick={this.deleteListeneintrag}>
+            <Button  color='secondary' size='small' startIcon={<DeleteIcon />} onClick={this.deleteListeneintragButtonClicked}>
             </Button>
           </ListItemSecondaryAction>
         </ListItem>
