@@ -1,12 +1,28 @@
-/*
+
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { withStyles, Button, IconButton, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, TextField, MenuItem, FormControl, InputLabel, Select } from '@material-ui/core';
+import {
+  withStyles,
+  Button,
+  IconButton,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogContentText,
+  DialogActions,
+  TextField,
+  MenuItem,
+  FormControl,
+  InputLabel,
+  Select,
+  Grid, InputAdornment
+} from '@material-ui/core';
 import CloseIcon from '@material-ui/icons/Close';
-import  ArtikelBO  from '../../api/ArtikelBO';
+import  ListeneintragBO  from '../../api/ListeneintragBO';
 import  API from '../../api/API';
 import ContextErrorMessage from './ContextErrorMessage';
 import LoadingProgress from './LoadingProgress';
+import ClearIcon from "@material-ui/icons/Clear";
 
 
 /**
@@ -18,30 +34,35 @@ import LoadingProgress from './LoadingProgress';
  * mit dem angelegt/upgedated ArtikelBO Objekt als Parameter aufgerufen. Wenn der Dialog beendet ist,
  * wird onClose mit null aufgerufen.
  */
-/*
+
 class ListeneintragForm extends Component {
 
   constructor(props) {
     super(props);
 
-    let an = '', lm = '', ae = '';
-    if (props.artikel) {
-      an = props.artikel.getName();
-      lm = props.artikel.getlisteneintragMenge();
-      ae = props.artikel.getEinheit();
+    let lan = '', lam = '', lae = '', len = '', lbn = '';
+    if (props.listeneintrag) {
+      lan = props.listeneintrag.getArtikel_name();
+      lam = props.listeneintrag.getMenge();
+      lae = props.listeneintrag.getArtikel_einheit();
+      len = props.listeneintrag.getEinzelhaendler_name();
+      lbn = props.listeneintrag.getBenutzer_name();
     }
 
     // Init state
     this.state = {
-      artikelName: an,
-      artikelNameValidationFailed: false,
-      artikelNameEdited: false,
-      artikelEinheit: ae,
-      artikelEinheitEdited: false,
-      listeneintragMenge: lm,
-      listeneintragMengeEdited: false,
-      benutzerName: bn,
-      benutzerNameEdited: false,
+      listeneintragArtikelName: lan,
+      listeneintragArtikelNameValidationFailed: false,
+      listeneintragArtikelNameEdited: false,
+      listeneintragArtikelMenge: lam,
+      listeneintragArtikelMengeEdited: false,
+      listeneintragArtikelEinheit: lae,
+      listeneintragArtikelEinheitEdited: false,
+      listeneintragEinzelhaendlerName: len,
+      listeneintragEinzelhaendlerNameEdited: false,
+      listeneintragBenutzerName: lbn,
+      listeneintragBenutzerNameEdited: false,
+      filteredArtikel: [],
       addingInProgress: false,
       updatingInProgress: false,
       addingError: null,
@@ -52,13 +73,14 @@ class ListeneintragForm extends Component {
   }
 
   /** Legt Artikel an */
-/*
+
   addListeneintrag = () => {
     let newListeneintrag = new ListeneintragBO();
-    newListeneintrag.setArtikel(this.state.artikelName);
-    newListeneintrag.setEinheit(this.state.artikelEinheit);
+    newListeneintrag.setArtikel_name(this.state.artikel_name);
     newListeneintrag.setMenge(this.state.listeneintragMenge);
-    newListeneintrag.setBenutzer_id(this.state.benutzerName)//legt neues Artikelobjekt mit name aus dem state an
+    newListeneintrag.setArtikel_einheit(this.state.artikel_einheit);
+    newListeneintrag.setEinzelhaendler_name(this.state.einzelhaendler_name)
+    newListeneintrag.setBenutzer_id(this.state.benutzer_name)//legt neues Artikelobjekt mit name aus dem state an
     API.getAPI().addListeneintragAPI(newListeneintrag).then(listeneintrag => {
       // Backend Aufruf erfolgreich
       // reinit den Dialog state für einen neuen leeren Artikel
@@ -79,24 +101,27 @@ class ListeneintragForm extends Component {
   }
 
   /** Updates the customer */
-/*
+
   updateListeneintrag = () => {
     // Klont den originalen Artikel, wenn der Backend Aufruf fehlschlägt
-    let updatedArtikel = Object.assign(new ArtikelBO(), this.props.artikel);
+    let updatedListeneintrag = Object.assign(new ListeneintragBO(), this.props.listeneintrag);
     // Setzt die neuen Attribute aus dem Dialog
-    updatedListeneintrag.getName(this.state.artikelName);
-    updatedListeneintrag.getEinheit(this.state.artikelEinheit);
+    updatedListeneintrag.setArtikel_name(this.state.artikel_name);
     updatedListeneintrag.setMenge(this.state.listeneintragMenge);
-    updatedListeneintrag.getGoogleID(this.state.benutzerName);
+    updatedListeneintrag.setArtikel_einheit(this.state.artikel_einheit);
+    updatedListeneintrag.setEinzelhaendler_name(this.state.einzelhaendler_name)
+    updatedListeneintrag.setBenutzer_id(this.state.benutzer_name)
     API.getAPI().updateListeneintragAPI(updatedListeneintrag).then(listeneintrag => {
       this.setState({
         updatingInProgress: false,              // Ladeanzeige deaktivieren
         updatingError: null                     // Keine Error Nachricht
       });
       // Behalte das neue state als Base state
-      this.baseState.artikelName = this.state.artikelName;
-      this.baseState.artikelEinheit = this.state.artikelEinheit;
+      this.baseState.artikel_name = this.state.artikel_name;
       this.baseState.listeneintragMenge = this.state.listeneintragMenge;
+      this.baseState.artikel_einheit = this.state.artikel_einheit;
+      this.baseState.einzelhaendler_name = this.state.einzelhaendler_name;
+      this.baseState.benutzer_name = this.state.benutzer_name;
       this.props.onClose(updatedListeneintrag);      // Aufruf mit dem neuen Artikel
     }).catch(e =>
       this.setState({
@@ -127,58 +152,87 @@ console.log([event.target.id])
       [event.target.id + 'Edited']: true
     });
   }
- */
-/*
-artikelChange = (event) => {
-    let name = event.target.value;
+**/
+
+listeneintragArtikelNameChange = (event) => {
+    let artikelName = event.target.value;
     this.setState({
-      artikelName: name,
-      artikelNameEdited: true
+      listeneintragArtikelName: artikelName,
+      listeneintragArtikelNameEdited: true
     });
   }
 
-  mengeChange = (event) => {
+  listeneintragArtikelMengeChange = (event) => {
     let menge = event.target.value;
     this.setState({
-      listeneintragMenge: menge,
-      listeneintragMengeEdited: true
+      listeneintragArtikelMenge: menge,
+      listeneintragArtikelMengeEdited: true
     });
   }
 
-  benutzerChange= (event) => {
-    let name = event.target.value;
+  listeneintragArtikelEinheitChange= (event) => {
+    let einheit = event.target.value;
     this.setState({
-      benutzerName: name,
-      benutzerNameEdited: true
+      listeneintragArtikelEinheit: einheit,
+      listeneintragArtikelEinheitEdited: true
+    });
+  }
+
+  listeneintragEinzelhaendlerNameChange = (event) => {
+    let einzelhaendlerName = event.target.value;
+    this.setState({
+      listeneintragEinzelhaendlerName: einzelhaendlerName,
+      listeneintragEinzelhaendlerNameEdited: true
+    });
+  }
+
+  listeneintragBenutzerNameChange = (event) => {
+    let benutzerName = event.target.value;
+    this.setState({
+      listeneintragBenutzerName: benutzerName,
+      listeneintragBenutzerNameEdited: true
     });
   }
 
   /** Behandelt das schließen/abbrechen Tasten klick Ereignis. */
-/*
+
   handleClose = () => {
     // Setzt state zurück
     this.setState(this.baseState);
     this.props.onClose(null);
   }
 
+  /** Behandelt das onChange Ereignis von dem Artikel filtern Textfeld */
+  filterFieldValueChange = event => {
+    const value = event.target.value.toLowerCase();
+    this.setState({
+      filteredArtikel: this.state.listeneintragArtikelName.filter(artikel => {
+        let NameContainsValue = artikel.getName().toLowerCase().includes(value);
+        return NameContainsValue;
+      }),
+      artikelFilter: value
+    });
+  }
+
   /** Rendert die Komponente */
-/*
+
   render() {
-    const { classes, artikel, show } = this.props;
-    const { artikelName, artikelNameValidationFailed, artikelNameEdited, artikelStandardartikel,
-        artikelStandardartikelEdited, artikelEinheit, artikelEinheitEdited, addingInProgress,
-        addingError, updatingInProgress, updatingError } = this.state;
+    const { classes, artikel, listeneintrag, show } = this.props;
+    const { listeneintragArtikelName, listeneintragArtikelNameValidationFailed, listeneintragArtikelNameEdited,
+            listeneintragArtikelMenge, listeneintragArtikelMengeEdited, listeneintragArtikelEinheit,
+            listeneintragArtikelEinheitEdited, listeneintragEinzelhaendlerName, listeneintragEinzelhaendlerNameEdited,
+            listeneintragBenutzerName, artikelFilter, addingInProgress, addingError, updatingInProgress, updatingError } = this.state;
 
     let title = '';
     let header = '';
 
-    if (artikel) {
+    if (listeneintrag) {
       // Erstellt einen neuen Artikel, wenn nicht bereits einer vorhanden ist.
-      title = 'Update des Artikels';
-      header = `Artikel ID: ${artikel.getID()}`;
+      title = 'Update des Listeneintrags';
+      header = `Listeneintrag ID: ${listeneintrag.getID()}`;
     } else {
-      title = 'Erstelle einen neuen Artikel';
-      header = 'Gebe Artikeldaten ein';
+      title = 'Erstelle einen neuen Listeneintrag';
+      header = 'Gebe Listeneintragsdaten ein';
     }
 
     return (
@@ -194,35 +248,22 @@ artikelChange = (event) => {
               {header}
             </DialogContentText>
             <form className={classes.root} noValidate autoComplete='off'>
-              <TextField autoFocus type='text' required fullWidth margin='normal' id='artikelName' label='Artikel Name' value={artikelName}
-                onChange={this.nameChange} error={artikelNameValidationFailed}
-                helperText={artikelNameValidationFailed ? 'Der Name muss mindestens ein Zeichen enthalten' : ' '} />
-          <FormControl className={classes.formControl}>
-            <InputLabel id="artikelStandardartikelLabel">Standartartikel?</InputLabel>
-              <Select
-                labelId="artikelStandardartikelLabel"
-                id="artikelStandardartikel"
-                value={artikelStandardartikel}
-                onChange={this.standartartikelChange}
-              >
-                <MenuItem value={true}>Ja</MenuItem>
-                <MenuItem value={false}>Nein</MenuItem>
-              </Select>
-          </FormControl>
-          <FormControl className={classes.formControl}>
-            <InputLabel id="artikelEinheitLabel">Einheit </InputLabel>
-              <Select
-                labelId="artikelEinheitLabel"
-                id="artikelEinheit"
-                value={artikelEinheit}
-                onChange={this.einheitChange}
-              >
-                <MenuItem value={"Kilogramm"}>Kilogramm</MenuItem>
-                <MenuItem value={"Liter"}>Liter</MenuItem>
-                <MenuItem value={"Packung"}>Packung</MenuItem>
-                <MenuItem value={"Stück"}>Stück</MenuItem>
-              </Select>
-          </FormControl>
+          <Grid item xs={4}>
+            <TextField autoFocus fullWidth id='artikelFilter' type='text' value={artikelFilter}
+              onChange={this.filterFieldValueChange}
+              InputProps={{
+                endAdornment: <InputAdornment position='end'>
+                  <IconButton onClick={this.clearFilterFieldButtonClicked}>
+                    <ClearIcon />
+                  </IconButton>
+                </InputAdornment>,
+              }}
+            />
+          </Grid>
+
+              <TextField autoFocus type='text' required fullWidth margin='normal' id='artikelName' label='Menge' value={listeneintragArtikelMenge}
+                onChange={this.listeneintragArtikelMengeChange} error={listeneintragArtikelNameValidationFailed}
+                helperText={listeneintragArtikelNameValidationFailed ? 'Die Menge muss mindestens ein Zeichen enthalten' : ' '} />
             </form>
             <LoadingProgress show={addingInProgress || updatingInProgress} />
             {
@@ -240,10 +281,10 @@ artikelChange = (event) => {
             {
               // Wenn Artikel vorhanden ist, zeige eine Update Taste, sonst eine Anlegen Taste.
               artikel ?
-                <Button disabled={artikelNameValidationFailed} variant='contained' onClick={this.updateArtikel} color='primary'>
+                <Button disabled={listeneintragArtikelNameValidationFailed} variant='contained' onClick={this.updateArtikel} color='primary'>
                   Update
               </Button>
-                : <Button disabled={artikelNameValidationFailed || !artikelNameEdited || !artikelEinheitEdited || !artikelStandardartikelEdited} variant='contained' onClick={this.addArtikel} color='primary'>
+                : <Button disabled={listeneintragArtikelNameValidationFailed || !listeneintragArtikelNameEdited || !listeneintragArtikelMengeEdited || !listeneintragArtikelEinheitEdited} variant='contained' onClick={this.addArtikel} color='primary'>
                   Hinzufügen
              </Button>
             }
@@ -255,7 +296,7 @@ artikelChange = (event) => {
 }
 
 /** Componentenspezifische Stile */
-/*
+
 const styles = theme => ({
   root: {
     width: '100%',
@@ -273,25 +314,20 @@ const styles = theme => ({
 });
 
 /** PropTypes */
-/*
-ArtikelForm.propTypes = {
+
+ListeneintragForm.propTypes = {
   /** @ignore */
-/*
   classes: PropTypes.object.isRequired,
   /** Das ArtikelBO wird editiert. */
-/*
-  artikel: PropTypes.object,
+  listeneintrag: PropTypes.object,
   /** Wenn true, wird das Formular gerendert. */
-/*
   show: PropTypes.bool.isRequired,
   /**
    * Handler Funktion, die aufgerufen wird wenn der Dialog geschlossen ist.
    * Sendet das editierte oder angelegte ArtikelBO als Parameter oder null,
    * wenn abbrechen gedrückt wurde.
    */
-/*
   onClose: PropTypes.func.isRequired,
 }
 
-export default withStyles(styles)(ArtikelForm);
-*/
+export default withStyles(styles)(ListeneintragForm);
