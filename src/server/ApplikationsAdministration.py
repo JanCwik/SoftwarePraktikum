@@ -142,7 +142,7 @@ class ApplikationsAdministration(object):
     #Neu!
     def get_anwenderverbuende_by_benutzer_email(self, benutzer):
         with BenutzerMapper() as mapper:
-            return mapper.find_all_anwenderverbuende(benutzer)
+            return mapper.alle_anwenderverbunde_ausgeben(benutzer)
 
     def anwenderverbund_anlegen(self, name):
         """Methode zum Anlegen eines neuen Anwenderverbunds in der Datenbank"""
@@ -289,4 +289,3 @@ class ApplikationsAdministration(object):
     def statistik(self):
         with StatistikMapper() as mapper:
             return mapper.get_top_Artikel()
-
