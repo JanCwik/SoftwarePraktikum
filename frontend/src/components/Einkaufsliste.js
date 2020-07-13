@@ -10,6 +10,7 @@ import ContextErrorMessage from './dialogs/ContextErrorMessage';
 import LoadingProgress from './dialogs/LoadingProgress';
 import ListeneintragForm from "./dialogs/ListeneintragForm";
 import ListenEintrag from "./ListenEintrag";
+import ArtikelForm from "./dialogs/ArtikelForm";
 
 /**
  * Kontrolliert eine Liste von EinzelhaendlerListenEintraegen um ein Akkordeon für jeden
@@ -139,7 +140,7 @@ class Einkaufsliste extends Component {
         }
         <LoadingProgress show={loadingInProgress} />
         <ContextErrorMessage error={error} contextErrorMsg={`Die Liste der Einzelhändler konnte nicht geladen werden.`} onReload={this.getEinzelhaendler} />
-
+        <ListeneintragForm show={showListeneintragForm} onClose={this.listeneintragFormClosed} />
       </div>
     );
   }
