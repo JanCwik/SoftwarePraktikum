@@ -138,6 +138,11 @@ class ApplikationsAdministration(object):
             return mapper.find_all_listeneintraege(benutzer)
         #Änderung: Hier wird ganze Instanz übergeben, statt nur ID
 
+    #Neu!
+    def get_anwenderverbuende_by_benutzer_email(self, benutzer):
+        with BenutzerMapper() as mapper:
+            return mapper.find_all_anwenderverbuende(benutzer)
+
     def anwenderverbund_anlegen(self, name):
         """Methode zum Anlegen eines neuen Anwenderverbunds in der Datenbank"""
         anwenderverbund = Anwenderverbund()
