@@ -391,7 +391,7 @@ export default class API {
     }
 
     //führt einen DELETE Request aus und gibt dabei die id des zu löschenden Listeneintrages weiter
-    deleteListeneintrag(id){
+    deleteListeneintragAPI(id){
         return this.#fetchAdvanced(this.#deleteListeneintragURL(id), {
             method: 'DELETE'
         }).then((responseJSON) => {

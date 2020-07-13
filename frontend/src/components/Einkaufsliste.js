@@ -33,7 +33,7 @@ class Einkaufsliste extends Component {
   }
 
   /** Fetchet alle EinzelhaendlerBOs für das Backend */
-  getListeneintrege = () => {
+  getListeneintraege = () => {
  const { einkaufsliste } = this.props.location
 
     API.getAPI().getListeneintraegeByEinkaufslisteAPI(einkaufsliste.getID())
@@ -62,7 +62,7 @@ class Einkaufsliste extends Component {
 
 
   componentDidMount() {
-    this.getListeneintrege();
+    this.getListeneintraege();
   }
 
 
