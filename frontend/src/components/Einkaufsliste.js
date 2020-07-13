@@ -77,13 +77,12 @@ class Einkaufsliste extends Component {
     const newListeneintragList = this.state.listeneintraege.filter(listeneintragFromState => listeneintragFromState.getID() !== listeneintrag.getID());
     this.setState({
       listeneintraege: newListeneintragList,
-
-      showEinzelhaendlerForm: false
+      showListeneintragForm: false
     });
   }
 
   /** Behandelt das onClick Ereignis, der Einzelhaendler anlegen Taste. */
-  /*
+
   addListeneintragButtonClicked = event => {
     // Nicht das erweiterte state umschalten
     event.stopPropagation();
@@ -92,10 +91,10 @@ class Einkaufsliste extends Component {
       showListeneintragForm: true
     });
   }
-*/
+
 
   /** Behandelt das onClose Ereignis vom EinzelhaendlerForm */
-  /*
+
   listeneintragFormClosed = listeneintrag => {
     // Einzelhaendler ist nicht null und deshalb erstellt
     if (listeneintrag) {
@@ -124,7 +123,7 @@ class Einkaufsliste extends Component {
       <div className={classes.root}>
 
           <Grid item>
-            <Button variant='contained' color='primary' startIcon={<AddIcon />}>
+            <Button variant='contained' color='primary' startIcon={<AddIcon />} onClick={this.addListeneintragButtonClicked}>
                 Listeneintrag hinzufügen
           </Button>
           </Grid>

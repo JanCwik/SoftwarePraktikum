@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { withStyles, Button, ListItem, ListItemSecondaryAction, Link, Typography } from '@material-ui/core';
+import {withStyles, Button, ListItem, ListItemSecondaryAction, Link, Typography, ButtonGroup} from '@material-ui/core';
 import DeleteIcon from '@material-ui/icons/Delete';
+import EditIcon from '@material-ui/icons/Edit';
 import SwapHoriz from '@material-ui/icons/SwapHoriz';
 import { Link as RouterLink } from 'react-router-dom';
 import { API } from '../api';
@@ -49,8 +50,6 @@ handleCheck =(event)=>{
 
 }
 
-
-
   /** Rendert die Komponente */
   render() {
     const { classes, listeneintrag } = this.props;
@@ -84,9 +83,9 @@ handleCheck =(event)=>{
           </Typography>
 
           <ListItemSecondaryAction>
-
-            <Button  color='secondary' size='small' startIcon={<DeleteIcon />} onClick={this.deleteAccount}>
-
+            <Button  color='secondary' size='small' startIcon={<EditIcon />} onClick={this.editListeneintrag}>
+            </Button>
+            <Button  color='secondary' size='small' startIcon={<DeleteIcon />} onClick={this.deleteListeneintrag}>
             </Button>
           </ListItemSecondaryAction>
         </ListItem>
