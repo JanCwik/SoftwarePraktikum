@@ -224,6 +224,7 @@ class ListeneintragOperations(Resource):
         adm = ApplikationsAdministration()
         listeneintrag = adm.get_listeneintrag_by_id(id)
         return listeneintrag
+    #Zeigt namen nicht an!
 
     @secured
     def delete(self, id):
@@ -458,11 +459,11 @@ class BenutzerRelatedListeneintragOperations(Resource):
             return "Benutzer nicht gefunden", 500
 
 
-@shopping.route('/benutzer/<int:id>/anwenderverbuende')
+@shopping.route('/benutzer/<string:email>/anwenderverbuende')
 @shopping.response(500, 'Serverfehler')
-@shopping.param('id', 'ID des Benutzer')
+@shopping.param('email', 'Email des Benutzers')
 class BenutzerRelatedAnwenderverbundOperations(Resource):
-    @shopping.marshal_with(anwenderverbund)
+    @shopping.marshal_list_with(anwenderverbund)
     @secured
     def get(self, email):
         """Auslesen aller Anwenderverbünde für einen durch Id definierten Benutzer"""
@@ -470,8 +471,12 @@ class BenutzerRelatedAnwenderverbundOperations(Resource):
         benutzer = adm.get_benutzer_by_email(email)
 
         if benutzer is not None:
-            anwenderverbund = adm.get_anwenderverbuende_by_benutzer_email(benutzer)
-            return anwenderverbund
+            anwenderverbund_IDs = adm.get_anwenderverbuende_by_benutzer_email(benutzer)
+            result=[]
+            for id in anwenderverbund_IDs:
+                Anwenderverbund_objekte=adm.get_anwenderverbund_by_id(id)
+                result.append(Anwenderverbund_objekte)
+                return result
         else:
             return "Benutzer nicht gefunden", 500
 

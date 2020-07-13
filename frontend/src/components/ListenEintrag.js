@@ -56,6 +56,18 @@ handleCheck =(event)=>{
     });
   }
 
+  deleteListeneintragDialogClosed = (listeneintrag) => {
+    // Wenn der Artikel nicht gleich null ist, lösche ihn
+    if (listeneintrag) {
+      this.props.onListeneintragDeleted(listeneintrag);
+    };
+
+    // Zeige nicht den Dialog
+    this.setState({
+      showListeneintragDeleteDialog: false
+    });
+  }
+
   /** Rendert die Komponente */
   render() {
     const { classes, listeneintrag } = this.props;
