@@ -103,19 +103,22 @@ render(){
     return(
         <div className={classes.root}>
 
-            <h2>
-                {anwenderverbund.getName()}
-            </h2>
+
 
             <Grid  container spacing={1} justify='flex-start' alignItems='center'>
+                  <Grid item>
+                      <h2>
+                          {anwenderverbund.getName()}
+                      </h2>
+                  </Grid>
 
+                <Grid item xs />
+                <Grid item>
 
-
-              <Grid item>
                 <Button variant='contained' color='primary' startIcon={<AddIcon />} onClick={this.addEinkaufslisteButtonClicked}>
-                  Einkaufsliste hinzufügen
-              </Button>
-              </Grid>
+                  Einkaufsliste zu {anwenderverbund.getName()} hinzufügen
+                </Button>
+                </Grid>
             </Grid>
 
             {

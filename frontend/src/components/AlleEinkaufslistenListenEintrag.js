@@ -100,7 +100,9 @@ import { Link as RouterLink } from 'react-router-dom';
 
                 </Typography>
               </Grid>
-              <Grid item>
+               <Grid item xs={0.7} />
+                <Grid item>
+
                 <ButtonGroup variant='text' size='small'>
                   <Button color='primary' onClick={this.editEinkaufslisteButtonClicked}>
                     bearbeiten
@@ -110,7 +112,7 @@ import { Link as RouterLink } from 'react-router-dom';
                   </Button>
                 </ButtonGroup>
               </Grid>
-              <Grid item xs />
+
             </Grid>
           <EinkaufslisteForm show={showEinkaufslisteForm} einkaufsliste={einkaufsliste} onClose={this.einkaufslisteFormClosed} />
           <EinkaufslisteLoeschen show={showEinkaufslisteDeleteDialog} einkaufsliste={einkaufsliste} onClose={this.deleteEinkaufslisteDialogClosed} />
