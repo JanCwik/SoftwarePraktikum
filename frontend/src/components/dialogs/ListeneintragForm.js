@@ -188,17 +188,16 @@ listeneintragArtikelNameChange = (event) => {
   /** Rendert die Komponente */
 
   render() {
-    const { classes, listeneintrag, show } = this.props;
+    const { classes, artikel, listeneintrag, show } = this.props;
     const { listeneintragArtikelName, listeneintragArtikelNameValidationFailed, listeneintragArtikelNameEdited,
             listeneintragArtikelMenge, listeneintragArtikelMengeEdited, listeneintragArtikelEinheit,
             listeneintragArtikelEinheitEdited, listeneintragEinzelhaendlerName, listeneintragEinzelhaendlerNameEdited,
-            listeneintragBenutzerName, listeneintragBenutzerNameEdited, addingInProgress, addingError,
-            updatingInProgress, updatingError } = this.state;
+            listeneintragBenutzerName,addingInProgress, addingError, updatingInProgress, updatingError } = this.state;
 
     let title = '';
     let header = '';
 
-    if (listeneintrag) {
+    if (artikel) {
       // Erstellt einen neuen Artikel, wenn nicht bereits einer vorhanden ist.
       title = 'Update des Listeneintrags';
       header = `Listeneintrag ID: ${listeneintrag.getID()}`;
@@ -220,17 +219,17 @@ listeneintragArtikelNameChange = (event) => {
               {header}
             </DialogContentText>
             <form className={classes.root} noValidate autoComplete='off'>
-              <TextField autoFocus type='text' required fullWidth margin='normal' id='listeneintragArtikelName' label='Artikel Name' value={listeneintragArtikelName}
+              <TextField autoFocus type='text' required fullWidth margin='normal' id='artikelName' label='Artikel Name' value={listeneintragArtikelName}
                 onChange={this.listeneintragArtikelNameChange} error={listeneintragArtikelNameValidationFailed}
                 helperText={listeneintragArtikelNameValidationFailed ? 'Der Name muss mindestens ein Zeichen enthalten' : ' '} />
             </form>
             <LoadingProgress show={addingInProgress || updatingInProgress} />
             {
               // Zeigt Error Nachricht in Abhängigkeit des Artikel prop.
-              listeneintrag ?
-                <ContextErrorMessage error={updatingError} contextErrorMsg={`Der Listeneintrag ${listeneintrag.getID()} konnte nicht geupdatet werden.`} onReload={this.updateListeneintrag} />
+              artikel ?
+                <ContextErrorMessage error={updatingError} contextErrorMsg={`Der Artikel ${artikel.getID()} konnte nicht geupdatet werden.`} onReload={this.updateArtikel} />
                 :
-                <ContextErrorMessage error={addingError} contextErrorMsg={`Der Listeneintrag konnte nicht hinzugefügt werden..`} onReload={this.addListeneintrag} />
+                <ContextErrorMessage error={addingError} contextErrorMsg={`Der Artikel konnte nicht hinzugefügt werden..`} onReload={this.addArtikel} />
             }
           </DialogContent>
           <DialogActions>
@@ -239,13 +238,11 @@ listeneintragArtikelNameChange = (event) => {
             </Button>
             {
               // Wenn Artikel vorhanden ist, zeige eine Update Taste, sonst eine Anlegen Taste.
-              listeneintrag ?
-                <Button disabled={listeneintragArtikelNameValidationFailed} variant='contained' onClick={this.updateListeneintrag} color='primary'>
+              artikel ?
+                <Button disabled={listeneintragArtikelNameValidationFailed} variant='contained' onClick={this.updateArtikel} color='primary'>
                   Update
               </Button>
-                : <Button disabled={listeneintragArtikelNameValidationFailed || !listeneintragArtikelNameEdited ||
-                  !listeneintragArtikelMengeEdited || !listeneintragArtikelEinheitEdited || !listeneintragEinzelhaendlerNameEdited ||
-                  !listeneintragBenutzerNameEdited } variant='contained' onClick={this.addListeneintrag} color='primary'>
+                : <Button disabled={listeneintragArtikelNameValidationFailed || !listeneintragArtikelNameEdited || !listeneintragArtikelMengeEdited || !listeneintragArtikelEinheitEdited} variant='contained' onClick={this.addArtikel} color='primary'>
                   Hinzufügen
              </Button>
             }
