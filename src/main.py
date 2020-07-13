@@ -458,6 +458,23 @@ class BenutzerRelatedListeneintragOperations(Resource):
             return "Benutzer nicht gefunden", 500
 
 
+@shopping.route('/benutzer/<int:id>/anwenderverbuende')
+@shopping.response(500, 'Serverfehler')
+@shopping.param('id', 'ID des Benutzer')
+class BenutzerRelatedAnwenderverbundOperations(Resource):
+    @shopping.marshal_with(anwenderverbund)
+    @secured
+    def get(self, email):
+        """Auslesen aller Anwenderverbünde für einen durch Id definierten Benutzer"""
+        adm = ApplikationsAdministration()
+        benutzer = adm.get_benutzer_by_email(email)
+
+        if benutzer is not None:
+            anwenderverbund = adm.get_anwenderverbuende_by_benutzer_email(benutzer)
+            return anwenderverbund
+        else:
+            return "Benutzer nicht gefunden", 500
+
 
 
 
@@ -693,8 +710,13 @@ class AnwenderverbundRelatedBenutzerOperations(Resource):
         verbund = adm.get_anwenderverbund_by_id(id)
 
         if verbund is not None:
-            mitglieder = adm.mitglieder_ausgeben(verbund)
-            return mitglieder
+
+            mitgliederID = adm.mitglieder_ausgeben(verbund)
+            benutzeObjekte = []
+            for i in mitgliederID:
+                benutzeObjekt= adm.get_benutzer_by_id(i)
+                benutzeObjekte.append(benutzeObjekt)
+            return benutzeObjekte
         else:
             return "Anwenderverbund nicht gefunden", 500
 
