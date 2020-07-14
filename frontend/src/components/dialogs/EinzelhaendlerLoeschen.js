@@ -62,7 +62,7 @@ class EinzelhaendlerLoeschen extends Component {
     return (
       show ?
         <Dialog open={show} onClose={this.handleClose}>
-          <DialogTitle id='delete-dialog-title'>Delete einzelhaendler
+          <DialogTitle id='delete-dialog-title'>Einzelhändler löschen
             <IconButton className={classes.closeButton} onClick={this.handleClose}>
               <CloseIcon />
             </IconButton>
@@ -72,15 +72,15 @@ class EinzelhaendlerLoeschen extends Component {
               Einzelhändler wirklich löschen? '{einzelhaendler.getName()}' (ID: {einzelhaendler.getID()})?
             </DialogContentText>
             <LoadingProgress show={deletingInProgress} />
-            <ContextErrorMessage error={deletingError} contextErrorMsg={`Der einzelhaendler '${einzelhaendler.getName()}' (ID: ${einzelhaendler.getID()}) konnte nicht gelöscht werden.`}
+            <ContextErrorMessage error={deletingError} contextErrorMsg={`Der Einzelhändler '${einzelhaendler.getName()}' (ID: ${einzelhaendler.getID()}) konnte nicht gelöscht werden.`}
               onReload={this.deleteEinzelhaendler} />
           </DialogContent>
           <DialogActions>
             <Button onClick={this.handleClose} color='secondary'>
-              Cancel
+              Abbrechen
             </Button>
             <Button variant='contained' onClick={this.deleteEinzelhaendler} color='primary'>
-              Delete
+              Löschen
             </Button>
           </DialogActions>
         </Dialog>

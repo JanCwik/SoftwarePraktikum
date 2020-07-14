@@ -72,7 +72,8 @@ class ListeneintragForm extends Component {
       updatingInProgress: false,
       addingError: null,
       updatingError: null,
-      artikelCombobox:[]
+      artikelCombobox:[],
+      addedArtikel: null
     };
     // Speichere dieses state zum abbrechen
     this.baseState = this.state;
@@ -228,6 +229,14 @@ listeneintragArtikelNameChange = (event) => {
     });
   }
 
+  addedArtikelChange= (event) => {
+    let artikel = event.target.value;
+    this.setState({
+      addedArtikel: artikel,
+    });
+    console.log(this.state.addedArtikel)
+  }
+
   /** Behandelt das schließen/abbrechen Tasten klick Ereignis. */
 
   handleClose = () => {
@@ -255,8 +264,9 @@ listeneintragArtikelNameChange = (event) => {
     const { listeneintragArtikelName, listeneintragArtikelNameValidationFailed, listeneintragArtikelNameEdited,
             listeneintragArtikelMenge, listeneintragArtikelMengeEdited, listeneintragArtikelEinheit,
             listeneintragArtikelEinheitEdited, listeneintragEinzelhaendlerName, listeneintragEinzelhaendlerNameEdited,
-            listeneintragBenutzerName, artikelFilter, addingInProgress, addingError, updatingInProgress, updatingError, artikelCombobox } = this.state;
-console.log(artikelCombobox)
+            listeneintragBenutzerName, artikelFilter, addingInProgress, addingError, updatingInProgress, updatingError,
+            addedArtikel, artikelCombobox } = this.state;
+
     let title = '';
     let header = '';
 
@@ -286,7 +296,7 @@ console.log(artikelCombobox)
                     options={artikelCombobox}
                     getOptionLabel={(option) => option.getName()}
                     style={{ width: 300 }}
-                   renderInput={(params) => <TextField {...params} label="Artikel" variant="outlined" />}/>
+                   renderInput={(params) => <TextField {...params} value={addedArtikel} onChange={this.addedArtikelChange} label="Artikel" variant="outlined" />}/>
 
 
             <LoadingProgress show={addingInProgress || updatingInProgress} />
@@ -308,7 +318,7 @@ console.log(artikelCombobox)
                 <Button disabled={listeneintragArtikelNameValidationFailed} variant='contained' onClick={this.updateArtikel} color='primary'>
                   Update
               </Button>
-                : <Button disabled={listeneintragArtikelNameValidationFailed || !listeneintragArtikelNameEdited || !listeneintragArtikelMengeEdited || !listeneintragArtikelEinheitEdited} variant='contained' onClick={this.addArtikel} color='primary'>
+                : <Button disabled={false} variant='contained' onClick={this.addListeneintrag} color='primary'>
                   Hinzufügen
              </Button>
             }
