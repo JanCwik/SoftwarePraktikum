@@ -51,7 +51,10 @@ export default class API {
     #addListeneintragURL = () => `${this.#ServerBaseURL}/listeneintrag`;
     #deleteListeneintragURL = (id) => `${this.#ServerBaseURL}/listeneintrag-by-id/${id}`;
     #updateListeneintragURL = (id) => `${this.#ServerBaseURL}/listeneintrag-by-id/${id}`;
+
     #getBenutzerByAnwenderverbundURL = (id) => `${this.#ServerBaseURL}/anwenderverbund/${id}/mitglieder`;
+    #getBenutzerByEmailURL = (mail) => `${this.#ServerBaseURL}/benutzer-by-email/${mail}`;
+    #addMitgliedschaftURL= (id) => `${this.#ServerBaseURL}/anwenderverbund/${id}/mitglieder`;
 
 
 
@@ -427,7 +430,36 @@ export default class API {
             })
         })
     }
+    addMitgliedschaftAPI(anwenderverbundID, BenutzerBO) {
+        return this.#fetchAdvanced(this.#addMitgliedschaftURL(anwenderverbundID), {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json, text/plain',
+                'Content-type': 'application/json',
+            },
+            body: JSON.stringify(BenutzerBO)
+        })
+        /*   //funktioniert iwi nicht
+            .then((responseJSON) => {
+            console.log(responseJSON)
+            // Zugriff auf das erste Listeneintrag Objekt des Arrays, welches .fromJSON zurückgibt
+            let responseBO = BenutzerBO.fromJSON(responseJSON);
+           return new Promise(function (resolve) {
+                resolve(responseBO);
+            })
+        })
+         */
+    }
 
+
+    getBenutzerByEmailAPI(email) {
+        return this.#fetchAdvanced(this.#getBenutzerByEmailURL(email)).then((responseJSON) => {
+            let benutzer = BenutzerBO.fromJSON(responseJSON);
+            return new Promise(function (resolve) {
+                resolve(benutzer);
+            })
+        })
+    }
 
 }
  /*
