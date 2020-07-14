@@ -36,43 +36,33 @@ class BenutzerListeForm extends Component {
     // Speichere dieses state zum abbrechen
     this.baseState = this.state;
   }
-/*
-  /** Legt Einzelhaendler an
+
   addMitgliedschaft = () => {
-    let newMitgliedschaft = new MitgliedschaftBO()(this.state.benutzerEmail); //legt neues Einzelhändler-objekt mit name aus dem state an
-    API.getAPI().addMitgliedschaftAPI(newMitgliedschaft).then(mitgliedschaft => {
-      // Backend Aufruf erfolgreich
-      // reinit den Dialog state für einen neuen leeren Einzelhaendler
+
+    API.getAPI().getBenutzerByEmailAPI(this.state.benutzerEmail).then( BenutzerBO =>{
+
+    API.getAPI().addMitgliedschaftAPI(this.props.anwenderverbund.getID(),BenutzerBO[0])
+
       this.setState(this.baseState);
-      this.props.onClose(mitgliedschaft); // Aufruf mit Hilfe des Einzelhaendler Objekts aus dem Backend
+      this.props.onClose(BenutzerBO[0]); // Aufruf mit Hilfe des Einzelhaendler Objekts aus dem Backend
     }).catch(e =>
         this.setState({
           updatingInProgress: false,    // Ladeanzeige deaktivieren
-          updatingError: e              // Zeige Error Nachricht
         })
-    );
-
+    )
     // Setze laden als true
     this.setState({
       updatingInProgress: true,       // Ladeanzeige anzeigen
-      updatingError: null             // Fehlermeldung deaktivieren
-    });
+    }
+    )
   }
-*/
 
   /** Behandelt Wertänderungen aus den Textfeldern vom Formular und validiert diese. */
-  textFieldValueChange = (event) => {
-    const value = event.target.value;
+   textFieldValueChange = (event) => {
 
-    let error = false;
-    if (value.trim().length === 0) {
-      error = true;
-    }
+         this.setState({
+      benutzerEmail: event.target.value,
 
-    this.setState({
-      [event.target.id]: event.target.value,
-      [event.target.id + 'ValidationFailed']: error,
-      [event.target.id + 'Edited']: true
     });
   }
 
@@ -124,8 +114,7 @@ class BenutzerListeForm extends Component {
                 <Button onClick={this.handleClose} color='secondary'>
                   Abbrechen
                 </Button>
-                <Button disabled={benutzerEmailValidationFailed} variant='contained'
-                         color='primary'>
+                <Button disabled={benutzerEmailValidationFailed} variant='contained' onClick={this.addMitgliedschaft} color='primary'>
                   Hinzufügen
                 </Button>
 
