@@ -7,6 +7,8 @@ import BenutzerListeFormForm from './dialogs/EinzelhaendlerForm';
 import EinzelhaendlerLoeschen from "./dialogs/EinzelhaendlerLoeschen";
 import BenutzerListeForm from "./dialogs/BenutzerListeForm";
 import DeleteIcon from '@material-ui/icons/Delete';
+import BenutzerListeneintragLoeschen from "./dialogs/BenutzerListeneintragLoeschen";
+import ArtikelLoeschen from "./dialogs/ArtikelLoeschen";
 
 
 /**
@@ -93,7 +95,7 @@ class BenutzerListenEintrag extends Component {
               <Grid item xs />
             </Grid>
 
-        <BenutzerListeForm show={showBenutzerForm} einzelhaendler={benutzer} onClose={this.benutzerFormClosed} />
+        <BenutzerListeneintragLoeschen show={showBenutzerDeleteDialog} benutzer={benutzer} onClose={this.deleteBenutzerDialogClosed} />
 
       </div>
     );

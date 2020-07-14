@@ -127,8 +127,8 @@ class BenutzerListe extends Component {
           // Benutze keinen strengen Vergleich, da expandedAnwenderverbundID vielleicht ein string ist,
            wenn dies von den URL Parametern gegeben ist. */
 
-          benutzerliste.map(benutzerliste =>
-            <BenutzerListenEintrag key={benutzerliste.getID()} benutzerliste={benutzerliste} expandedState={expandedBenutzerlisteID === benutzerliste.getID()}
+          benutzerliste.map(benutzer =>
+            <BenutzerListenEintrag key={benutzer.getID()} benutzer={benutzer} expandedState={expandedBenutzerlisteID === benutzer.getID()}
               onExpandedStateChange={this.onExpandedStateChange}
               onBenutzerDeleted={this.benutzerDeleted}
             />)
