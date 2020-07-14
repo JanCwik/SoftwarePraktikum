@@ -294,3 +294,12 @@ class ApplikationsAdministration(object):
         with StatistikMapper() as mapper:
             return mapper.get_top_Einzelhaendler()
 
+    def statistik_pro_monat(self):
+        with StatistikMapper() as mapper:
+            return mapper.get_top_proMonat()
+
+a = ApplikationsAdministration()
+b = []
+b = a.statistikEinzelhaendler()
+for i in b:
+    print(i)
