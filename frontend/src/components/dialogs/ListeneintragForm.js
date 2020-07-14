@@ -1,14 +1,18 @@
 
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { withStyles, Button, IconButton, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, TextField, MenuItem, FormControl, InputLabel, Select, Grid, InputAdornment} from '@material-ui/core';
+import { withStyles, Button, IconButton, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions,MenuItem, FormControl, InputLabel, Select, Grid, InputAdornment} from '@material-ui/core';
 import CloseIcon from '@material-ui/icons/Close';
 import  ListeneintragBO  from '../../api/ListeneintragBO';
 import  API from '../../api/API';
 import ContextErrorMessage from './ContextErrorMessage';
 import LoadingProgress from './LoadingProgress';
 import ClearIcon from "@material-ui/icons/Clear";
+import TextField from '@material-ui/core/TextField';
 
+
+
+import Autocomplete from '@material-ui/lab/Autocomplete';
 
 /**
  * Zeigt einen modalen Formulardialog für ein ArtikelBO in prop artikel. Wenn der Artikel
@@ -42,6 +46,7 @@ class ListeneintragForm extends Component {
 
     let lan = '', lam = '', lae = '', len = '', lbn = '';
     if (props.listeneintrag) {
+      //lan = props.listeneintrag.getArtikel_name();
       lan = props.listeneintrag.getArtikel_name();
       lam = props.listeneintrag.getMenge();
       lae = props.listeneintrag.getArtikel_einheit();
@@ -66,11 +71,40 @@ class ListeneintragForm extends Component {
       addingInProgress: false,
       updatingInProgress: false,
       addingError: null,
-      updatingError: null
+      updatingError: null,
+      artikelCombobox:[]
     };
     // Speichere dieses state zum abbrechen
     this.baseState = this.state;
   }
+
+   /** Fetchet alle ArtikelBOs für das Backend */
+  getArtikel = () => {
+    API.getAPI().getArtikelAPI()
+      .then(artikelBOs =>
+        this.setState({               // Setzt neues state wenn ArtikelBOs gefetcht wurden
+          artikelCombobox: artikelBOs,
+
+
+        })).catch(e =>
+          this.setState({             // Setzt state mit Error vom catch zurück
+            artikelCombobox: [],
+
+          })
+        );
+
+    // Setzt laden auf true
+
+  }
+
+  /** Lebenszyklus Methode, welche aufgerufen wird, wenn die Komponente in das DOM des Browsers eingefügt wird.*/
+
+
+  componentDidMount() {
+    this.getArtikel();
+  }
+
+
 
   /** Legt Artikel an */
 
@@ -217,12 +251,12 @@ listeneintragArtikelNameChange = (event) => {
   /** Rendert die Komponente */
 
   render() {
-    const { classes, artikel, listeneintrag, show } = this.props;
+    const { classes,show,listeneintrag, artikel } = this.props;
     const { listeneintragArtikelName, listeneintragArtikelNameValidationFailed, listeneintragArtikelNameEdited,
             listeneintragArtikelMenge, listeneintragArtikelMengeEdited, listeneintragArtikelEinheit,
             listeneintragArtikelEinheitEdited, listeneintragEinzelhaendlerName, listeneintragEinzelhaendlerNameEdited,
-            listeneintragBenutzerName, artikelFilter, addingInProgress, addingError, updatingInProgress, updatingError } = this.state;
-
+            listeneintragBenutzerName, artikelFilter, addingInProgress, addingError, updatingInProgress, updatingError, artikelCombobox } = this.state;
+console.log(artikelCombobox)
     let title = '';
     let header = '';
 
@@ -247,24 +281,14 @@ listeneintragArtikelNameChange = (event) => {
             <DialogContentText>
               {header}
             </DialogContentText>
-            <form className={classes.root} noValidate autoComplete='off'>
-          <Grid item xs={4}>
-            <TextField autoFocus fullWidth id='artikelFilter' type='text' value={artikelFilter}
-              onChange={this.filterFieldValueChange}
-              InputProps={{
-                endAdornment: <InputAdornment position='end'>
-                  <IconButton onClick={this.clearFilterFieldButtonClicked}>
-                    <ClearIcon />
-                  </IconButton>
-                </InputAdornment>,
-              }}
-            />
-          </Grid>
+                 <Autocomplete
+                    id="combo-box-demo"
+                    options={artikelCombobox}
+                    getOptionLabel={(option) => option.getName()}
+                    style={{ width: 300 }}
+                   renderInput={(params) => <TextField {...params} label="Artikel" variant="outlined" />}/>
 
-              <TextField autoFocus type='text' required fullWidth margin='normal' id='artikelName' label='Menge' value={listeneintragArtikelMenge}
-                onChange={this.listeneintragArtikelMengeChange} error={listeneintragArtikelNameValidationFailed}
-                helperText={listeneintragArtikelNameValidationFailed ? 'Die Menge muss mindestens ein Zeichen enthalten' : ' '} />
-            </form>
+
             <LoadingProgress show={addingInProgress || updatingInProgress} />
             {
               // Zeigt Error Nachricht in Abhängigkeit des Artikel prop.
@@ -328,6 +352,7 @@ ListeneintragForm.propTypes = {
    * wenn abbrechen gedrückt wurde.
    */
   onClose: PropTypes.func.isRequired,
+  artikel: PropTypes.func.isRequired,
 }
 
 export default withStyles(styles)(ListeneintragForm);
