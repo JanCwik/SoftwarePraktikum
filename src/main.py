@@ -474,9 +474,9 @@ class BenutzerRelatedAnwenderverbundOperations(Resource):
             anwenderverbund_IDs = adm.get_anwenderverbuende_by_benutzer_email(benutzer)
             result=[]
             for id in anwenderverbund_IDs:
-                Anwenderverbund_objekte=adm.get_anwenderverbund_by_id(id)
-                result.append(Anwenderverbund_objekte)
-                return result
+                Anwenderverbund_objekt=adm.get_anwenderverbund_by_id(id)
+                result.append(Anwenderverbund_objekt)
+            return result
         else:
             return "Benutzer nicht gefunden", 500
 

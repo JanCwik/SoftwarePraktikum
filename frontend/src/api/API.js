@@ -3,6 +3,7 @@ import EinzelhaendlerBO from "./EinzelhaendlerBO";
 import AnwenderverbundBO from "./AnwenderverbundBO";
 import EinkaufslisteBO from "./EinkaufslisteBO";
 import ListeneintragBO from "./ListeneintragBO";
+import BenutzerBO from "./BenutzerBO";
 
 export default class API {
 
@@ -50,6 +51,10 @@ export default class API {
     #addListeneintragURL = () => `${this.#ServerBaseURL}/listeneintrag`;
     #deleteListeneintragURL = (id) => `${this.#ServerBaseURL}/listeneintrag-by-id/${id}`;
     #updateListeneintragURL = (id) => `${this.#ServerBaseURL}/listeneintrag-by-id/${id}`;
+    #getBenutzerByAnwenderverbundURL = (id) => `${this.#ServerBaseURL}/anwenderverbund/${id}/mitglieder`;
+
+
+
 
     //führt die fetch-Funktion aus, fängt dabei mögliche Errors ab und führt anschließend schon die json-Funktion mit der Response aus.
     #fetchAdvanced = (url, init) =>
@@ -327,7 +332,7 @@ export default class API {
     }
 
     //führt einen DELETE Request aus und gibt dabei die id der zu löschenden Einkaufsliste weiter
-    deleteEinkaufsliste(id){
+    deleteEinkaufslisteAPI(id){
         return this.#fetchAdvanced(this.#deleteEinkaufslisteURL(id), {
             method: 'DELETE'
         }).then((responseJSON) => {
@@ -417,6 +422,14 @@ export default class API {
     }
 
 
+    GetBenutzerByAnwenderverbundAPI(id) {
+        return this.#fetchAdvanced(this.#getBenutzerByAnwenderverbundURL(id)).then((responseJSON) => {
+            let benutzer = BenutzerBO.fromJSON(responseJSON);
+            return new Promise(function (resolve) {
+                resolve(benutzer);
+            })
+        })
+    }
 
 
 }
@@ -425,9 +438,9 @@ export default class API {
 
     addMitgliedschaft (benutzer gibt email ein und dann get benutzer by email)
     deleteMitgliedschaft
-    GetBneutzerbyAnwenderverbund
 
-    getallBenutzer
-    getBenutzerByEmail
+
+    getallBenutzer ?
+
 
     */
