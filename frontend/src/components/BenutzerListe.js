@@ -7,12 +7,9 @@ import { withRouter } from 'react-router-dom';
 import  API from "../api/API";
 import ContextErrorMessage from './dialogs/ContextErrorMessage';
 import LoadingProgress from './dialogs/LoadingProgress';
-import BenutzerBO from "../api/BenutzerBO";
-import ComboBox from "./dialogs/BenutzerListeForm";
-
 import BenutzerListeForm from "./dialogs/BenutzerListeForm";
-import AnwenderverbundForm from "./dialogs/AnwenderverbundForm";
-//import BenutzerListenEintrag from "./EinzelhaendlerListenEintrag";
+import BenutzerListenEintrag from "./BenutzerListenEintrag";
+
 
 /**
  * Kontrolliert eine Liste von EinzelhaendlerListenEintraegen um ein Akkordeon für jeden
@@ -70,7 +67,7 @@ class BenutzerListe extends Component {
   /**
    * Behandelt einzelhaendlerDeleted Ereignisse von der EinzelhaendlerListenEintrag Komponente.
    *
-   * @param {Einzelhaendler} EinzelhaendlerBO von dem EinzelhaendlerListenEintrag um gelöscht zu werde
+   * @param {Benutzer} BenutzerBO von dem BenutzerListenEintrag um gelöscht zu werde
    */
   benutzerDeleted = benutzer => {
     const newBenutzerList = this.state.benutzerliste.filter(benutzerFromState => benutzerFromState.getID() !== benutzer.getID());
@@ -115,7 +112,7 @@ class BenutzerListe extends Component {
   /** Rendert die Komponente */
   render() {
     const { classes } = this.props;
-    const {benutzerListe ,loadingInProgress, error, showBenutzerForm } = this.state;
+    const {benutzerliste ,loadingInProgress, error, showBenutzerForm, expandedBenutzerlisteID } = this.state;
 
     return (
       <div className={classes.root}>
@@ -125,12 +122,22 @@ class BenutzerListe extends Component {
               Benutzer hinzufügen
           </Button>
           </Grid>
+         {
+          /** Zeigt die Liste der AnwenderverbundListenEintrag Komponenten
+          // Benutze keinen strengen Vergleich, da expandedAnwenderverbundID vielleicht ein string ist,
+           wenn dies von den URL Parametern gegeben ist. */
 
+          benutzerliste.map(benutzerliste =>
+            <BenutzerListenEintrag key={benutzerliste.getID()} benutzerliste={benutzerliste} expandedState={expandedBenutzerlisteID === benutzerliste.getID()}
+              onExpandedStateChange={this.onExpandedStateChange}
+              onBenutzerDeleted={this.benutzerDeleted}
+            />)
+        }
 
 
         <LoadingProgress show={loadingInProgress} />
         <ContextErrorMessage error={error} contextErrorMsg={`Die Liste der Einzelhändler konnte nicht geladen werden.`} onReload={this.getEinzelhaendler} />
-        <BenutzerListeForm show={showBenutzerForm} onClose={this.benutzerFormClosed} />
+        <BenutzerListeForm anwenderverbund={this.props.anwenderverbund} show={showBenutzerForm} onClose={this.benutzerFormClosed} />
       </div>
     );
   }
@@ -153,6 +160,7 @@ BenutzerListe.propTypes = {
   classes: PropTypes.object.isRequired,
   /** @ignore */
   location: PropTypes.object.isRequired,
+  anwenderverbund:PropTypes.object.isRequired,
 }
 
 export default withRouter(withStyles(styles)(BenutzerListe));
