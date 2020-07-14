@@ -29,7 +29,8 @@ class Einkaufsliste extends Component {
       listeneintraege: [],
       error: null,
       loadingInProgress: false,
-      showListeneintragForm: false
+      showListeneintragForm: false,
+      artikel: props.artikel,
     };
   }
 
@@ -117,14 +118,14 @@ class Einkaufsliste extends Component {
 
   /** Rendert die Komponente */
   render() {
-    const { classes } = this.props;
-    const { listeneintraege, ListeneintraegeFilter, loadingInProgress, error, showListeneintragForm } = this.state;
+    const { classes} = this.props;
+    const { listeneintraege, ListeneintraegeFilter, loadingInProgress, error, showListeneintragForm, artikel } = this.state;
 
     return (
       <div className={classes.root}>
 
           <Grid item>
-            <Button variant='contained' color='primary' startIcon={<AddIcon />} onClick={this.addListeneintragButtonClicked}>
+            <Button  variant='contained' color='primary' startIcon={<AddIcon />} onClick={this.addListeneintragButtonClicked}>
                 Listeneintrag hinzufügen
           </Button>
           </Grid>
@@ -140,7 +141,7 @@ class Einkaufsliste extends Component {
         }
         <LoadingProgress show={loadingInProgress} />
         <ContextErrorMessage error={error} contextErrorMsg={`Die Liste der Einzelhändler konnte nicht geladen werden.`} onReload={this.getEinzelhaendler} />
-        <ListeneintragForm show={showListeneintragForm} onClose={this.listeneintragFormClosed} />
+        <ListeneintragForm   show={showListeneintragForm} onClose={this.listeneintragFormClosed} />
       </div>
     );
   }

@@ -33,7 +33,7 @@ class EinkaufslisteLoeschen extends Component {
         deletingInProgress: false,              // Ladeanzeige deaktivieren
         deletingError: null                     // Keine Error Nachricht
       });
-      this.props.onClose(this.props.einzelhaendler);  // Aufruf des Urhebers mit dem geloeschten Einzelhaendler
+      this.props.onClose(this.props.einkaufsliste);  // Aufruf des Urhebers mit dem geloeschten Einzelhaendler
     }).catch(e =>
       this.setState({
         deletingInProgress: false,              // Ladeanzeige deaktivieren
@@ -79,7 +79,7 @@ class EinkaufslisteLoeschen extends Component {
             <Button onClick={this.handleClose} color='secondary'>
               Abbrechen
             </Button>
-            <Button variant='contained' onClick={this.deleteEinkaufsliste()} color='primary'>
+            <Button variant='contained' onClick={this.deleteEinkaufsliste} color='primary'>
               Löschen
             </Button>
           </DialogActions>
