@@ -25,7 +25,7 @@ class AlleEinkaufslistenAnwenderverbund extends Component{
      }
 
 
-getEinkaufslisten = () => {
+    getEinkaufslisten = () => {
     API.getAPI().getEinkaufslistenByAnwenderverbundAPI(this.props.anwenderverbund.getID())
       .then(EinkaufslistenBOs =>
 

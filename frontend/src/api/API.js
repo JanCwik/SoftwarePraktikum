@@ -170,7 +170,7 @@ export default class API {
         })
     }
 
-    //Fürht ein PUT Request aus. Die ID des Einzelhändlers der geupdatet werden soll wird an die URL gehängt
+    //Führt ein PUT Request aus. Die ID des Einzelhändlers der geupdatet werden soll wird an die URL gehängt
     //und das aktualisierte Einzelhändler-Objekt wird in den Body des JSON geschrieben
     updateEinzelhaendlerAPI(einz) {
         return this.#fetchAdvanced(this.#updateEinzelhaendlerURL(einz.getID()), {
@@ -332,16 +332,13 @@ export default class API {
             method: 'DELETE'
         }).then((responseJSON) => {
             // Zugriff auf das erste Einkaufsliste Objekt des Arrays, welches .fromJSON zurückgibt
-            let response = EinkaufslisteBO.fromJSON(responseJSON)[0];
-            console.log(response)
+            let responseEinkaufslisteBO = EinkaufslisteBO.fromJSON(responseJSON)[0];
+            //console.log(responseEinkaufslisteBO)
             return new Promise(function (resolve) {
-                resolve(response);
+                resolve(responseEinkaufslisteBO);
             })
         })
     }
-
-
-
 
 
     // Methode die den GET request ausführt und ein Listeneintrag anhand seiner ID ausgibt
