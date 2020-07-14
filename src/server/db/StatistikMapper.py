@@ -58,7 +58,7 @@ class StatistikMapper(Mapper):
         EinzelhaendlerIDsInt = list(set(EinzelhaendlerIDsInt))
 
         for k in EinzelhaendlerIDsInt:
-            cursor.execute("SELECT SUM(anzahl) FROM listeneintrag where einzelhaendler_id={}".format(k))
+            cursor.execute("SELECT COUNT(einkaufsliste_id) AS Anzahl FROM listeneintrag Where einzelhaendler_id={}".format(k))
             gesamtZahl = cursor.fetchall()
 
             for i in gesamtZahl:
