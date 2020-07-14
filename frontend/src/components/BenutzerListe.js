@@ -116,24 +116,28 @@ class BenutzerListe extends Component {
 
     return (
       <div className={classes.root}>
+        <Grid  container spacing={1} justify='flex-start' alignItems='center'>
 
+          <Grid item>
+             {
+              /** Zeigt die Liste der AnwenderverbundListenEintrag Komponenten
+              // Benutze keinen strengen Vergleich, da expandedAnwenderverbundID vielleicht ein string ist,
+               wenn dies von den URL Parametern gegeben ist. */
+
+              benutzerliste.map(benutzer =>
+                <BenutzerListenEintrag key={benutzer.getID()} benutzer={benutzer} expandedState={expandedBenutzerlisteID === benutzer.getID()}
+                  onExpandedStateChange={this.onExpandedStateChange}
+                  onBenutzerDeleted={this.benutzerDeleted}
+                />)
+              }
+          </Grid>
+          <Grid item xs />
           <Grid item>
             <Button variant='contained' color='primary' startIcon={<AddIcon />} onClick={this.addBenutzerButtonClicked}>
               Benutzer hinzufügen
-          </Button>
+            </Button>
           </Grid>
-         {
-          /** Zeigt die Liste der AnwenderverbundListenEintrag Komponenten
-          // Benutze keinen strengen Vergleich, da expandedAnwenderverbundID vielleicht ein string ist,
-           wenn dies von den URL Parametern gegeben ist. */
-
-          benutzerliste.map(benutzer =>
-            <BenutzerListenEintrag key={benutzer.getID()} benutzer={benutzer} expandedState={expandedBenutzerlisteID === benutzer.getID()}
-              onExpandedStateChange={this.onExpandedStateChange}
-              onBenutzerDeleted={this.benutzerDeleted}
-            />)
-        }
-
+        </Grid>
 
         <LoadingProgress show={loadingInProgress} />
         <ContextErrorMessage error={error} contextErrorMsg={`Die Liste der Einzelhändler konnte nicht geladen werden.`} onReload={this.getEinzelhaendler} />
