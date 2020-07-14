@@ -289,3 +289,12 @@ class ApplikationsAdministration(object):
     def statistik(self):
         with StatistikMapper() as mapper:
             return mapper.get_top_Artikel()
+
+    def statistikEinzelhaendler(self):
+        with StatistikMapper() as mapper:
+            return mapper.get_top_Einzelhaendler()
+
+    def statistik_pro_monat(self):
+        with StatistikMapper() as mapper:
+            return mapper.get_top_proMonat()
+
