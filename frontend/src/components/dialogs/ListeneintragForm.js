@@ -1,22 +1,7 @@
 
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import {
-  withStyles,
-  Button,
-  IconButton,
-  Dialog,
-  DialogTitle,
-  DialogContent,
-  DialogContentText,
-  DialogActions,
-  TextField,
-  MenuItem,
-  FormControl,
-  InputLabel,
-  Select,
-  Grid, InputAdornment
-} from '@material-ui/core';
+import { withStyles, Button, IconButton, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, TextField, MenuItem, FormControl, InputLabel, Select, Grid, InputAdornment} from '@material-ui/core';
 import CloseIcon from '@material-ui/icons/Close';
 import  ListeneintragBO  from '../../api/ListeneintragBO';
 import  API from '../../api/API';
@@ -28,7 +13,22 @@ import ClearIcon from "@material-ui/icons/Clear";
 /**
  * Zeigt einen modalen Formulardialog für ein ArtikelBO in prop artikel. Wenn der Artikel
  * angelegt ist, ist der Dialog als ein Editierdialog konfiguriert. Dabei ist das Formular mit dem gegebenen
- * ArtikelBO Objekt befüllt. Wenn der Artikel null ist, wird der Dialog als ein neuer Artikel
+ * ArtikelBO Objekt befüllt. Wenn der Artikel null ist, wird der Dialog als ein neuer Artikel            <form noValidate autoComplete='off'>
+              {
+                // show a search text field if there are no searchedCustomer yet
+                (targetCustomers.length === 0) ?
+                  <TextField autoFocus fullWidth margin='normal' type='text' required id='customerName' label='Customer name:'
+                    onChange={this.textFieldValueChange}
+                    onBlur={this.searchCustomer}
+                    error={customerNotFound}
+                    helperText={customerNotFound ? 'No customers with the given name have been found' : ' '}
+                    InputProps={{
+                      endAdornment: <InputAdornment position='end'>
+                        <IconButton onClick={this.searchCustomer}>
+                          <SearchIcon />
+                        </IconButton>
+                      </InputAdornment>,
+                    }} />
  * Dialog konfiguriert und die Textfelder sind leer. In Abhängigkeit des editier/neu Zustands werden die Backend
  * Aufrufe gemacht, um einen Artikel upzudaten oder anzulegen. Danach wird die Funktion des onClose prop
  * mit dem angelegt/upgedated ArtikelBO Objekt als Parameter aufgerufen. Wenn der Dialog beendet ist,
