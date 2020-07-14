@@ -9,6 +9,7 @@ from src.server.bo.Benutzer import Benutzer
 from src.server.bo.Einkaufsliste import Einkaufsliste
 from src.server.bo.Anwenderverbund import Anwenderverbund
 from src.server.bo.Listeneintrag import Listeneintrag
+from src.server.bo.Statistik import Statistik
 
 
 from src.SecurityDecorator import secured
@@ -70,8 +71,11 @@ listeneintrag = api.inherit('Listeneintrag', bo, {
 
 })
 
-
-
+#Statistik hinzugefügt, Maik
+statistik = api.inherit('Statistik', {
+    'gesamtzahl': fields.String(attribute='_gesamtzahl', description='Gesamtzahl wie oft der Artikel gekauft wurde'),
+    'ArtikelID': fields.Integer(attribute='_ArtikelID', description='ID des Anwenderverbundes')
+})
 
 
 
@@ -758,6 +762,18 @@ class AnwenderverbundRelatedBenutzerOperations(Resource):
 """Anwenderverbund DONE -> no error"""
 
 
+"""Statistik-Methoden, Maik"""
+@shopping.route('/statistik')
+@shopping.response(500, 'Serverfehler')
+class StatistikGetTopArtikelOperations(Resource):
+    @shopping.marshal_list_with(statistik)
+    @secured
+    def get(self):
+        """Auslesen der meist gekauften Artikel"""
+        adm = ApplikationsAdministration()
+        statistik = adm.statistik()
+
+        return statistik
 
 
 if __name__ == '__main__':
