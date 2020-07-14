@@ -79,7 +79,7 @@ class EinkaufslisteLoeschen extends Component {
             <Button onClick={this.handleClose} color='secondary'>
               Abbrechen
             </Button>
-            <Button variant='contained' onClick={this.deleteEinkaufsliste()} color='primary'>
+            <Button variant='contained' onClick={this.deleteEinkaufsliste} color='primary'>
               Löschen
             </Button>
           </DialogActions>
