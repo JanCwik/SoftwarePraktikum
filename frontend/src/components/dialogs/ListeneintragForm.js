@@ -229,14 +229,6 @@ listeneintragArtikelNameChange = (event) => {
     });
   }
 
-  addedArtikelChange= (event) => {
-    let artikel = event.target.value;
-    this.setState({
-      addedArtikel: artikel,
-    });
-    console.log(this.state.addedArtikel)
-  }
-
   /** Behandelt das schließen/abbrechen Tasten klick Ereignis. */
 
   handleClose = () => {
@@ -264,8 +256,8 @@ listeneintragArtikelNameChange = (event) => {
     const { listeneintragArtikelName, listeneintragArtikelNameValidationFailed, listeneintragArtikelNameEdited,
             listeneintragArtikelMenge, listeneintragArtikelMengeEdited, listeneintragArtikelEinheit,
             listeneintragArtikelEinheitEdited, listeneintragEinzelhaendlerName, listeneintragEinzelhaendlerNameEdited,
-            listeneintragBenutzerName, artikelFilter, addingInProgress, addingError, updatingInProgress, updatingError,
-            addedArtikel, artikelCombobox } = this.state;
+            listeneintragBenutzerName, addingInProgress, addingError, updatingInProgress, updatingError,
+            artikelCombobox, einheitCombobox, einzelhaendlerCombobox, benutzerCombobox } = this.state;
 
     let title = '';
     let header = '';
@@ -291,12 +283,46 @@ listeneintragArtikelNameChange = (event) => {
             <DialogContentText>
               {header}
             </DialogContentText>
+            <form className={classes.root}>
                  <Autocomplete
                     id="combo-box-demo"
                     options={artikelCombobox}
                     getOptionLabel={(option) => option.getName()}
-                    style={{ width: 300 }}
-                   renderInput={(params) => <TextField {...params} value={addedArtikel} onChange={this.addedArtikelChange} label="Artikel" variant="outlined" />}/>
+                    style={{ width: 400 }}
+                   renderInput={(params) =>
+                       <TextField {...params} value={listeneintragArtikelName} onChange={this.listeneintragArtikelNameChange}
+                                  label="Artikel" variant="outlined" />}/>
+
+                  <TextField autoFocus type='text' required fullWidth margin='normal' id='listeneintragArtikelMenge' label='Menge' value={listeneintragArtikelMenge}
+                    variant="outlined" onChange={this.listeneintragArtikelMengeChange}/>
+
+                <Autocomplete
+                    id="combo-box-demo"
+                    options={einheitCombobox}
+                    getOptionLabel={(option) => option.getEinheit()}
+                    style={{ width: 400 }}
+                   renderInput={(params) =>
+                       <TextField {...params} value={listeneintragArtikelEinheit} onChange={this.listeneintragArtikelEinheitChange}
+                                  label="Einheit" variant="outlined" />}/>
+
+                <Autocomplete
+                    id="combo-box-demo"
+                    options={einzelhaendlerCombobox}
+                    getOptionLabel={(option) => option.getEinzelhaendler()}
+                    style={{ width: 400 }}
+                   renderInput={(params) =>
+                       <TextField {...params} value={listeneintragEinzelhaendlerName} onChange={this.listeneintragEinzelhaendlerNameChange}
+                                  label="Einzelhändler" variant="outlined" />}/>
+
+                <Autocomplete
+                    id="combo-box-demo"
+                    options={benutzerCombobox}
+                    getOptionLabel={(option) => option.getBenutzer_name()}
+                    style={{ width: 400 }}
+                   renderInput={(params) =>
+                       <TextField {...params} value={listeneintragBenutzerName} onChange={this.listeneintragBenutzerNameChange}
+                                  label="Benutzer" variant="outlined" />}/>
+            </form>
 
 
             <LoadingProgress show={addingInProgress || updatingInProgress} />
