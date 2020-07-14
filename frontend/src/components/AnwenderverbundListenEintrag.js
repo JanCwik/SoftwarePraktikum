@@ -122,7 +122,7 @@ class AnwenderverbundListenEintrag extends Component {
             </Grid>
           </ExpansionPanelSummary>
           <ExpansionPanelDetails>
-            <BenutzerListe/>
+            <BenutzerListe anwenderverbund={anwenderverbund}/>
         </ExpansionPanelDetails>
 
         </ExpansionPanel>
