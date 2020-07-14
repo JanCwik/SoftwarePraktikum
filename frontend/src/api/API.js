@@ -327,7 +327,7 @@ export default class API {
     }
 
     //führt einen DELETE Request aus und gibt dabei die id der zu löschenden Einkaufsliste weiter
-    deleteEinkaufsliste(id){
+    deleteEinkaufslisteAPI(id){
         return this.#fetchAdvanced(this.#deleteEinkaufslisteURL(id), {
             method: 'DELETE'
         }).then((responseJSON) => {
