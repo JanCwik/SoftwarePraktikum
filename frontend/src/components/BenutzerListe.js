@@ -34,7 +34,7 @@ class BenutzerListe extends Component {
 
   /** Fetchet alle EinzelhaendlerBOs für das Backend */
   getMitgliederliste = () => {
-    API.getAPI().getBenutzerListeAPI()
+    API.getAPI().GetBenutzerByAnwenderverbundAPI(this.props.anwenderverbund.getID())
       .then(BenutzerBOs =>
         this.setState({               // Setzt neues state wenn EinzelhaendlerBOs gefetcht wurden
           benutzerliste: BenutzerBOs,
@@ -58,11 +58,11 @@ class BenutzerListe extends Component {
 
   /** Lebenszyklus Methode, welche aufgerufen wird, wenn die Komponente in das DOM des Browsers eingefügt wird.*/
 
-/*
+
   componentDidMount() {
-    this.getEinzelhaendler();
+    this.getMitgliederliste();
   }
-*/
+
 
   /**
    * Behandelt einzelhaendlerDeleted Ereignisse von der EinzelhaendlerListenEintrag Komponente.
