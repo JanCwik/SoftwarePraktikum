@@ -6,13 +6,10 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import AnwenderverbundForm from "./dialogs/AnwenderverbundForm";
 import AnwenderverbundLoeschen from "./dialogs/AnwenderverbundLoeschen";
 import BenutzerListe from "./BenutzerListe";
-//import Einkaufslisten from "./Einkaufslisten";
-
-
 
 /**
- * Rendert ein EinzelhaendlerBO innerhalb eines erweiterbaren/zusammenklappbaren EinzelhaendlerListenEintrags
- * mit den Einzelhandler manipulations Funktionen. Wenn erweitert, wird eine EinzelhaendlerListe gerendert.
+ * Rendert ein AnwenderverbundBO innerhalb eines erweiterbaren/zusammenklappbaren AnwenderverbundListenEintrags
+ * mit den Anwenderverbund manipulations Funktionen. Wenn erweitert, werden zugehörige Benutzer angezeigt.
  */
 
 class AnwenderverbundListenEintrag extends Component {
@@ -33,16 +30,7 @@ class AnwenderverbundListenEintrag extends Component {
     this.props.onExpandedStateChange(this.props.anwenderverbund);
   }
 
-    /** Handles onAccountDelete events from an AccountListEntry  */
-  deleteEinkaufslisteHandler = (deletedEinkaufsliste) => {
-    // console.log(deletedAccount.getID());
-    this.setState({
-      einkaufslisten: this.state.einkaufslisten.filter(einkaufslisten => einkaufslisten.getID() !== deletedEinkaufsliste.getID())
-    })
-  }
-
-
-  /** Behandlet das onClick Ereignis von der Einzelhaendler bearbeiten Taste. */
+  /** Behandlet das onClick Ereignis von der Anwenderverbund bearbeiten Taste. */
   editAnwenderverbundButtonClicked = (event) => {
     event.stopPropagation();
     this.setState({
@@ -50,7 +38,7 @@ class AnwenderverbundListenEintrag extends Component {
     });
   }
 
-  /** Behandelt das onClose Ereignis vom EinzelhaendlerForm */
+  /** Behandelt das onClose Ereignis vom AnwenderverbundForm */
   anwenderverbundFormClosed = (anwenderverbund) => {
     // Anwenderverbund ist nicht null und deshalb geändert.
     if (anwenderverbund) {
@@ -65,7 +53,7 @@ class AnwenderverbundListenEintrag extends Component {
     }
   }
 
-  /** Behandelt das onClick Ereignis von der Einzelhaendler löschen Taste. */
+  /** Behandelt das onClick Ereignis von der Anwenderverbund löschen Taste. */
   deleteAnwenderverbundButtonClicked = (event) => {
     event.stopPropagation();
     this.setState({
@@ -73,7 +61,7 @@ class AnwenderverbundListenEintrag extends Component {
     });
   }
 
-  /** Behandelt das onClose Ereignis vom AnwenderverbundLoeschenDialog */
+  /** Behandelt das onClose Ereignis vom AnwenderverbundLoeschen Dialog */
   deleteAnwenderverbundDialogClosed = (anwenderverbund) => {
     // Wenn der Anwenderverbund nicht gleich null ist, lösche ihn
     if (anwenderverbund) {
@@ -89,10 +77,8 @@ class AnwenderverbundListenEintrag extends Component {
   /** Rendert den Komponent */
   render() {
     const { classes, expandedState } = this.props;
-    // Benutz den states Einzelhaendler
     const { anwenderverbund, showAnwenderverbundForm, showAnwenderverbundDeleteDialog } = this.state;
 
-    // console.log(this.state);
     return (
       <div>
         <ExpansionPanel defaultExpanded={false} expanded={expandedState} onChange={this.expansionPanelStateChanged}>
@@ -124,7 +110,6 @@ class AnwenderverbundListenEintrag extends Component {
           <ExpansionPanelDetails>
             <BenutzerListe anwenderverbund={anwenderverbund}/>
         </ExpansionPanelDetails>
-
         </ExpansionPanel>
         <AnwenderverbundForm show={showAnwenderverbundForm} anwenderverbund={anwenderverbund} onClose={this.anwenderverbundFormClosed} />
         <AnwenderverbundLoeschen show={showAnwenderverbundDeleteDialog} anwenderverbund={anwenderverbund} onClose={this.deleteAnwenderverbundDialogClosed} />
@@ -144,16 +129,16 @@ const styles = theme => ({
 AnwenderverbundListenEintrag.propTypes = {
   /** @ignore */
   classes: PropTypes.object.isRequired,
-  /** Das EinzelhaendlerBO gerendert */
+  /** Das AnwenderverbundBO gerendert */
   anwenderverbund: PropTypes.object.isRequired,
-  /** Das state von diesem AnwenderverbundListenEintrag. Wenn true wird der Einzelhaendler mit seiner Adresse gezeigt */
+  /** Das state von diesem AnwenderverbundListenEintrag. Wenn true wird der Anwenderverbund mit seinen Benutzern gezeigt */
   expandedState: PropTypes.bool.isRequired,
   /** Der verantwortliche Handler zum behandeln der erweiterten state Änderungen (erweiterbar/zusammenklappbar)
    * von diesem AnwenderverbundListenEintrag.
    */
   onExpandedStateChange: PropTypes.func.isRequired,
   /**
-   *  Ereignis Handler Funktion, welche aufgerufen wird, wenn ein Einzelhaendler erfolgreich gelöscht wurde.
+   *  Ereignis Handler Funktion, welche aufgerufen wird, wenn ein Anwenderverbund erfolgreich gelöscht wurde.
    */
   onAnwenderverbundDeleted: PropTypes.func.isRequired
 }

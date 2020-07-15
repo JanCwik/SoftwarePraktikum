@@ -7,16 +7,16 @@ import AnwenderverbundBO from "../../api/AnwenderverbundBO";
 import ContextErrorMessage from './ContextErrorMessage';
 import LoadingProgress from './LoadingProgress';
 
-
 /**
- * Zeigt einen modalen Formulardialog für einen EinzelhaendlerBO in prop einzelhaendler. Wenn der Einzelhaendler
+ * Zeigt einen modalen Formulardialog für ein AnwenderverbundBO in prop anwenderverbund. Wenn der Anwenderverbund
  * angelegt ist, ist der Dialog als ein Editierdialog konfiguriert. Dabei ist das Formular mit dem gegebenen
- * EinzelhaendlerBO Objekt befüllt. Wenn der Einzelhaendler null ist, wird der Dialog als ein neuer Einzelhaendler
+ * AnwenderrverbundBO Objekt befüllt. Wenn der Anwenderverbund null ist, wird der Dialog als ein neuer Anwenderverbund
  * Dialog konfiguriert und die Textfelder sind leer. In Abhängigkeit des editier/neu Zustands werden die Backend
- * Aufrufe gemacht, um einen Einzelhaendler upzudaten oder anzulegen. Danach wird die Funktion des onClose prop
- * mit dem angelegt/upgedated EinzelhaendlerBO Objekt als Parameter aufgerufen. Wenn der Dialog beendet ist,
+ * Aufrufe gemacht, um einen Anwenderverbund upzudaten oder anzulegen. Danach wird die Funktion des onClose prop
+ * mit dem angelegt/upgedated AnwenderverbundBO Objekt als Parameter aufgerufen. Wenn der Dialog beendet ist,
  * wird onClose mit null aufgerufen.
  */
+
 class AnwenderverbundForm extends Component {
 
   constructor(props) {
@@ -63,9 +63,9 @@ class AnwenderverbundForm extends Component {
     });
   }
 
-  /** Updates the customer */
+  /** Updated den Anwenderverbund */
   updateAnwenderverbund = () => {
-    // Klont den originalen Einzelhaendler, wenn der Backend Aufruf fehlschlägt
+    // Klont den originalen Anwenderverbund, wenn der Backend Aufruf fehlschlägt
     let updatedAnwenderverbund = Object.assign(new AnwenderverbundBO(), this.props.anwenderverbund);
     // Setzt die neuen Attribute aus dem Dialog
     updatedAnwenderverbund.setName(this.state.anwenderverbundName);
@@ -124,12 +124,12 @@ class AnwenderverbundForm extends Component {
     let header = '';
 
     if (anwenderverbund) {
-      // customer defindet, so ist an edit dialogmmmmmmmmmmmmmmmmmmmmmmmmmmmm
+      // Erstellt einen neuen Anwenderverbund, wenn nicht bereits einer vorhanden ist.
       title = 'Update des Anwenderverbund';
       header = `Anwenderverbund ID: ${anwenderverbund.getID()}`;
     } else {
       title = 'Erstelle einen neuen Anwenderverbund';
-      header = 'Suche einen Namen für den Anwenderverbund aus';
+      header = 'Gebe Anwenderverbunddaten ein';
     }
 
     return (
@@ -151,7 +151,7 @@ class AnwenderverbundForm extends Component {
             </form>
             <LoadingProgress show={addingInProgress || updatingInProgress} />
             {
-              // Zeigt Error Nachricht in Abhängigkeit des Anwenderverbund prop.
+              // Zeigt Error Nachricht in Abhängigkeit des anwenderverbund prop.
               anwenderverbund ?
                 <ContextErrorMessage error={updatingError} contextErrorMsg={`Der Anwenderverbund ${anwenderverbund.getID()} konnte nicht geupdatet werden.`} onReload={this.updateAnwenderverbund} />
                 :
@@ -163,7 +163,7 @@ class AnwenderverbundForm extends Component {
               Abbrechen
             </Button>
             {
-              // Wenn Einzelhaendler vorhanden ist, zeige eine Update Taste, sonst eine Anlegen Taste.
+              // Wenn Anwenderverbund vorhanden ist, zeige eine Update Taste, sonst eine Anlegen Taste.
               anwenderverbund ?
                 <Button disabled={anwenderverbundNameValidationFailed} variant='contained' onClick={this.updateAnwenderverbund} color='primary'>
                   Update
@@ -179,14 +179,14 @@ class AnwenderverbundForm extends Component {
   }
 }
 
-/** Componentenspezifische Stile */
+/** Komponentenspezifisches Styling */
 const styles = theme => ({
   root: {
     width: '100%',
   },
   closeButton: {
     position: 'absolute',
-    right: theme.spacing(1),
+    right: theme.spacing(-1),
     top: theme.spacing(1),
     color: theme.palette.grey[500],
   },
@@ -202,7 +202,7 @@ AnwenderverbundForm.propTypes = {
   show: PropTypes.bool.isRequired,
   /**
    * Handler Funktion, die aufgerufen wird wenn der Dialog geschlossen ist.
-   * Sendet das editierte oder angelegte EinzelhaendlerBO als Parameter oder null,
+   * Sendet das editierte oder angelegte AnwenderverbundBO als Parameter oder null,
    * wenn abbrechen gedrückt wurde.
    */
   onClose: PropTypes.func.isRequired,
