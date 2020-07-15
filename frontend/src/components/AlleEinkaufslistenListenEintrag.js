@@ -6,16 +6,12 @@ import EinkaufslisteForm from "./dialogs/EinkaufslisteForm";
 import EinkaufslisteLoeschen from "./dialogs/EinkaufslisteLoeschen";
 import { Link as RouterLink } from 'react-router-dom';
 
-/**
- * Rendert ein EinkaufslisteBO innerhalb eines Einkaufsliste-ListenEintrags
- * mit den Einkaufsliste manipulations Funktionen.
- */
+/** Rendert die einzelnen EinkaufslistenListenEinträge, die in den einzelnen Anwenderverbünden enthalten sind. */
 
  class AlleEinkaufslistenListenEintrag extends Component {
 
     constructor(props) {
         super(props);
-
         // Init state
         this.state = {
             einkaufsliste: props.einkaufsliste,
@@ -70,7 +66,6 @@ import { Link as RouterLink } from 'react-router-dom';
   /** Rendert den Komponent */
   render() {
     const { classes } = this.props;
-    // Benutz den state
     const { einkaufsliste, showEinkaufslisteForm, showEinkaufslisteDeleteDialog } = this.state;
 
     return (
@@ -118,9 +113,7 @@ AlleEinkaufslistenListenEintrag.propTypes = {
   classes: PropTypes.object.isRequired,
   /** Das EinkaufslisteBO gerendert */
   einkaufsliste: PropTypes.object.isRequired,
-   /**
-   *  Ereignis Handler Funktion, welche aufgerufen wird, wenn ein EinkaufslisteBO erfolgreich gelöscht wurde.
-   */
+   /** Ereignis Handler Funktion, welche aufgerufen wird, wenn ein EinkaufslisteBO erfolgreich gelöscht wurde. */
   onEinkaufslisteDeleted: PropTypes.func.isRequired
 }
 
