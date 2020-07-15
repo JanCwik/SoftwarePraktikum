@@ -1,17 +1,11 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { withStyles, Button, TextField, InputAdornment, IconButton, Grid, Typography } from '@material-ui/core';
-import AddIcon from '@material-ui/icons/Add';
-import ClearIcon from '@material-ui/icons/Clear'
+import { withStyles } from '@material-ui/core';
 import {withRouter}  from 'react-router-dom';
 import  API  from '../api/API';
 import ContextErrorMessage from './dialogs/ContextErrorMessage';
 import LoadingProgress from './dialogs/LoadingProgress';
 import AlleEinkaufslistenAnwenderverbund from "./AlleEinkaufslistenAnwenderverbund";
-import EinkaufslisteForm from "./dialogs/EinkaufslisteForm";
-import ListeneintragBO from "../api/ListeneintragBO";
-import EinkaufslisteBO from "../api/EinkaufslisteBO";
-
 
 /**
  * Kontrolliert eine Liste von Einkaufslisten-ListenEintraegen um ein Akkordeon für jede
@@ -23,18 +17,13 @@ class AlleEinkaufslisten extends Component{
     constructor(props) {
     super(props);
 
-     // console.log(props);
-
-
     // Init ein leeres state
     this.state = {
       Anwenderverbuende: [],
       error: null,
       loadingInProgress: false
-
     };
   }
-
 
   /** Fetchet alle AnwenderverbundBOs für das Backend */
   getAnwenderverbuende = () => {
@@ -66,12 +55,6 @@ class AlleEinkaufslisten extends Component{
     this.getAnwenderverbuende();
   }
 
-
-
-
-
-
-
   /** Rendert die Komponente */
   render() {
     const { classes } = this.props;
@@ -79,11 +62,8 @@ class AlleEinkaufslisten extends Component{
 
     return (
       <div className={classes.root}>
-
         {
           // Zeigt die Liste der Einkaufslisten-ListenEintrag Komponenten
-
-
           Anwenderverbuende.map(anwenderverbund =>
             <AlleEinkaufslistenAnwenderverbund key={anwenderverbund.getID()} anwenderverbund={anwenderverbund}
               onEinkaufslisteDeleted={this.EinkaufslisteDeleted}
@@ -91,20 +71,16 @@ class AlleEinkaufslisten extends Component{
         }
         <LoadingProgress show={loadingInProgress} />
         <ContextErrorMessage error={error} contextErrorMsg={`Anwenderverbünde konnten nicht geladen werden.`} onReload={this.getAnwenderverbund} />
-
       </div>
-
     );
   }
 }
-
 
 /** Komponentenspezifisches Styling */
 const styles = theme => ({
   root: {
     width: '100%',
   },
-
 });
 
 /** PropTypes */
