@@ -3,17 +3,15 @@ import PropTypes from 'prop-types';
 import { withStyles, Button, IconButton, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions } from '@material-ui/core';
 import CloseIcon from '@material-ui/icons/Close';
 import  API from '../../api/API';
-import BenutzerBO from "../../api/BenutzerBO";
 import ContextErrorMessage from './ContextErrorMessage';
 import LoadingProgress from './LoadingProgress';
 
 /**
- * Zeigt einen modalen loeschen/abbrechen Dialog, der nach dem löschen eines Benutzers fragt. Um den BenutzerBO
- * zu loeschen muss er in prop Benutzer gegeben sein. In Abhängigkeit der Benutzerinteraktion (loeschen/abbrechen)
- * wird jeweils der Backendaufruf gemacht. Danch wird die Funktion onClose prop mit dem BenutzerBO loeschen
- * Objekt als Parameter aufgerufen. Wenn der Dialog abgebrochen wird, wird onClose mit null aufgerufen.
- *  When the dialog is canceled, onClose is called with null.
+ * Zeigt einen modalen löschen/abbrechen Dialog, der nach dem entfernen eines Benutzers
+ * aus dem Anwenderverbund fragt. In Abhängigkeit der Benutzerinteraktion (loeschen/abbrechen)
+ * wird jeweils der Backendaufruf gemacht. Wenn der Dialog abgebrochen wird, wird onClose mit null aufgerufen.
  */
+
 class BenutzerListeneintragLoeschen extends Component {
 
   constructor(props) {
@@ -26,14 +24,14 @@ class BenutzerListeneintragLoeschen extends Component {
     };
   }
 
-  /** Löschen des Benutzers */
+  /** Entfernen des Benutzers aus dem Anwenderverbund */
   deleteBenutzer = () => {
     API.getAPI().deleteBenutzerListeneintragAPI(this.props.benutzerlisteneintrag.getID()).then(benutzerlisteneintrag => {
       this.setState({
         deletingInProgress: false,              // Ladeanzeige deaktivieren
         deletingError: null                     // Keine Error Nachricht
       });
-      this.props.onClose(this.props.benutzerlisteneintrag);  // Aufruf des Urhebers mit dem geloeschten Einzelhaendler
+      this.props.onClose(this.props.benutzerlisteneintrag);  // Aufruf des Urhebers mit dem gelöschten Benutzer
     }).catch(e =>
       this.setState({
         deletingInProgress: false,              // Ladeanzeige deaktivieren
@@ -50,7 +48,6 @@ class BenutzerListeneintragLoeschen extends Component {
 
   /** Behandelt das schließen/abbrechen Tasten Klickereignis */
   handleClose = () => {
-    // console.log(event);
     this.props.onClose(null);
   }
 
@@ -77,10 +74,10 @@ class BenutzerListeneintragLoeschen extends Component {
           </DialogContent>
           <DialogActions>
             <Button onClick={this.handleClose} color='secondary'>
-              Cancel
+              Abbrechen
             </Button>
             <Button variant='contained' onClick={this.deleteBenutzer} color='primary'>
-              Delete
+              Löschen
             </Button>
           </DialogActions>
         </Dialog>
@@ -103,13 +100,13 @@ const styles = theme => ({
 BenutzerListeneintragLoeschen.propTypes = {
   /** @ignore */
   classes: PropTypes.object.isRequired,
-  /** Um das EinzelhaendlerBO zu loeschen */
+  /** Um das BenutzerBO zu loeschen */
   benutzerlisteneintrag: PropTypes.object.isRequired,
   /** Wenn true, wird der Dialog gerendert */
   show: PropTypes.bool.isRequired,
   /**
    * Handler Funktion, die aufgerufen wird, wenn der Dialog geschlossen wurde.
-   * Sendet das geloeschte BenutzerBO als Parameter oder null, wenn abbrechen gedrückt wurde.
+   * Sendet das gelöschte BenutzerBO als Parameter oder null, wenn abbrechen gedrückt wurde.
    */
   onClose: PropTypes.func.isRequired,
 }

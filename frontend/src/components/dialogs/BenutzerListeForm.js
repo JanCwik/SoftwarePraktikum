@@ -3,18 +3,15 @@ import PropTypes from 'prop-types';
 import { withStyles, Button, IconButton, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, TextField } from '@material-ui/core';
 import CloseIcon from '@material-ui/icons/Close';
 import  API from "../../api/API";
-import  MitgliedschaftBO  from '../../api/EinzelhaendlerBO';
 import ContextErrorMessage from './ContextErrorMessage';
 import LoadingProgress from './LoadingProgress';
 
 
 /**
- * Zeigt einen modalen Formulardialog für einen EinzelhaendlerBO in prop einzelhaendler. Wenn der Einzelhaendler
- * angelegt ist, ist der Dialog als ein Editierdialog konfiguriert. Dabei ist das Formular mit dem gegebenen
- * EinzelhaendlerBO Objekt befüllt. Wenn der Einzelhaendler null ist, wird der Dialog als ein neuer Einzelhaendler
- * Dialog konfiguriert und die Textfelder sind leer. In Abhängigkeit des editier/neu Zustands werden die Backend
- * Aufrufe gemacht, um einen Einzelhaendler upzudaten oder anzulegen. Danach wird die Funktion des onClose prop
- * mit dem angelegt/upgedated EinzelhaendlerBO Objekt als Parameter aufgerufen. Wenn der Dialog beendet ist,
+ * Zeigt einen modalen Formulardialog für ein BenutzerBO in prop benutzer. Wenn der Einzelhaendler null ist,
+ * wird der Dialog als ein neuer Einzelhaendler Dialog konfiguriert und die Textfelder sind leer.
+ * Die Backend Aufrufe werden gemacht, um einen Benutzer hinzuzufügen. Danach wird die Funktion des onClose prop
+ * mit dem hinzugefügten BenutzerBO Objekt als Parameter aufgerufen. Wenn der Dialog beendet ist,
  * wird onClose mit null aufgerufen.
  */
 class BenutzerListeForm extends Component {
@@ -22,47 +19,42 @@ class BenutzerListeForm extends Component {
   constructor(props) {
     super(props);
 
-
     // Init state
     this.state = {
       benutzerEmail: '',
       benutzerEmailValidationFailed: false,
-
       addingInProgress: false,
       updatingInProgress: false,
       addingError: null,
-
+      updatingError: null
     };
     // Speichere dieses state zum abbrechen
     this.baseState = this.state;
   }
-
+  /** Legt die Mitgliedschaft zwischen Anwenderverbund und Benutzer fest. */
   addMitgliedschaft = () => {
-
     API.getAPI().getBenutzerByEmailAPI(this.state.benutzerEmail).then( BenutzerBO =>{
-
     API.getAPI().addMitgliedschaftAPI(this.props.anwenderverbund.getID(),BenutzerBO[0])
-
       this.setState(this.baseState);
-      this.props.onClose(BenutzerBO[0]); // Aufruf mit Hilfe des Einzelhaendler Objekts aus dem Backend
+      this.props.onClose(BenutzerBO[0]); // Aufruf mit Hilfe des Benutzer Objekts aus dem Backend
     }).catch(e =>
         this.setState({
           updatingInProgress: false,    // Ladeanzeige deaktivieren
+          updatingError: e              // Zeige Error Nachricht
         })
     )
     // Setze laden als true
     this.setState({
       updatingInProgress: true,       // Ladeanzeige anzeigen
+      updatingError: null             // Fehlermeldung deaktivieren
     }
     )
   }
 
   /** Behandelt Wertänderungen aus den Textfeldern vom Formular und validiert diese. */
    textFieldValueChange = (event) => {
-
-         this.setState({
-      benutzerEmail: event.target.value,
-
+     this.setState({
+       benutzerEmail: event.target.value,
     });
   }
 
@@ -77,17 +69,13 @@ class BenutzerListeForm extends Component {
   render() {
     const {classes, show} = this.props;
     const {
-      benutzerEmail, benutzerEmailValidationFailed, addingInProgress,
-      addingError
-    } = this.state;
+      benutzerEmail, benutzerEmailValidationFailed, addingInProgress, addingError} = this.state;
 
     let title = '';
     let header = '';
 
-
     title = 'Füge einen neunen Benutzer hinzu';
     header = 'Gebe Benutzerdaten ein';
-
 
     return (
         show ?
@@ -103,12 +91,12 @@ class BenutzerListeForm extends Component {
                 </DialogContentText>
                 <form className={classes.root} noValidate autoComplete='off'>
                   <TextField autoFocus type='text' required fullWidth margin='normal' id='benutzerEmail'
-                             label='Benutzer Email' value={benutzerEmail}
+                             label='Benutzer E-mail' value={benutzerEmail}
                              onChange={this.textFieldValueChange} error={benutzerEmailValidationFailed}
-                             helperText={benutzerEmailValidationFailed ? 'Die EMail muss mindestens ein Zeichen enthalten' : ' '}/>
+                             helperText={benutzerEmailValidationFailed ? 'Die E-Mail muss mindestens ein Zeichen enthalten' : ' '}/>
                 </form>
                 <LoadingProgress show={addingInProgress}/>
-
+                <ContextErrorMessage error={addingError} contextErrorMsg={`Der Benutzer konnte nicht hinzugefügt werden..`} onReload={this.addMitgliedschaft} />
               </DialogContent>
               <DialogActions>
                 <Button onClick={this.handleClose} color='secondary'>
@@ -121,12 +109,11 @@ class BenutzerListeForm extends Component {
               </DialogActions>
             </Dialog> :
             null
-
     );
   }
 }
 
-/** Componentenspezifische Stile */
+/** Komponentenspezifisches Styling */
 const styles = theme => ({
   root: {
     width: '100%',
@@ -143,13 +130,13 @@ const styles = theme => ({
 BenutzerListeForm.propTypes = {
   /** @ignore */
   classes: PropTypes.object.isRequired,
-  /** Das EinzelhaendlerBO wird editiert. */
+  /** Das BenutzerBO wird editiert. */
   benutzer: PropTypes.object,
   /** Wenn true, wird das Formular gerendert. */
   show: PropTypes.bool.isRequired,
   /**
    * Handler Funktion, die aufgerufen wird wenn der Dialog geschlossen ist.
-   * Sendet das editierte oder angelegte EinzelhaendlerBO als Parameter oder null,
+   * Sendet das angelegte BenutzerBO als Parameter oder null,
    * wenn abbrechen gedrückt wurde.
    */
   onClose: PropTypes.func.isRequired,
