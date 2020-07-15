@@ -11,16 +11,13 @@ import EinzelhaendlerForm from './dialogs/EinzelhaendlerForm';
 import EinzelhaendlerListenEintrag from "./EinzelhaendlerListenEintrag";
 
 /**
- * Kontrolliert eine Liste von EinzelhaendlerListenEintraegen um ein Akkordeon für jeden
+ * Kontrolliert eine Liste von EinzelhaendlerListenEintraegen um ein ExpansionPanel für jeden
  * Einzelhaendler zu erstellen.
  */
 class Einzelhaendler extends Component {
 
   constructor(props) {
     super(props);
-
-    // console.log(props);
-
 
     // Init ein leeres state
     this.state = {
@@ -43,7 +40,7 @@ class Einzelhaendler extends Component {
           loadingInProgress: false,   // Ladeanzeige deaktivieren
           error: null
         })).catch(e =>
-          this.setState({             // Setzt state mit Error vom catch zurück
+          this.setState({       // Setzt state mit Error vom catch zurück
             einzelhaendler: [],
             loadingInProgress: false, // Ladeanzeige deaktivieren
             error: e
@@ -59,16 +56,13 @@ class Einzelhaendler extends Component {
 
   /** Lebenszyklus Methode, welche aufgerufen wird, wenn die Komponente in das DOM des Browsers eingefügt wird.*/
 
-
   componentDidMount() {
     this.getEinzelhaendler();
   }
 
-
   /**
    * Behandelt einzelhaendlerDeleted Ereignisse von der EinzelhaendlerListenEintrag Komponente.
-   *
-   * @param {Einzelhaendler} EinzelhaendlerBO von dem EinzelhaendlerListenEintrag um gelöscht zu werde
+   * @param {Einzelhaendler} EinzelhaendlerBO von dem EinzelhaendlerListenEintrag um gelöscht zu werden.
    */
   einzelhaendlerDeleted = einzelhaendler => {
     const newEinzelhaendlerList = this.state.einzelhaendler.filter(einzelhaendlerFromState => einzelhaendlerFromState.getID() !== einzelhaendler.getID());
@@ -91,7 +85,7 @@ class Einzelhaendler extends Component {
 
   /** Behandelt das onClose Ereignis vom EinzelhaendlerForm */
   einzelhaendlerFormClosed = einzelhaendler => {
-    // Einzelhaendler ist nicht null und deshalb erstellt
+    // Einzelhaendler ist nicht null und deshalb bereits erstellt
     if (einzelhaendler) {
       const newEinzelhaendlerList = [...this.state.einzelhaendler, einzelhaendler];
       this.setState({
@@ -137,7 +131,7 @@ class Einzelhaendler extends Component {
         <Grid className={classes.einzelhaendlerFilter} container spacing={1} justify='flex-start' alignItems='center'>
           <Grid item>
             <Typography>
-              Filter Einzelhändlerliste nach Name:
+              Filter Einzelhändler nach Name:
               </Typography>
           </Grid>
           <Grid item xs={4}>
@@ -165,9 +159,7 @@ class Einzelhaendler extends Component {
           </Grid>
         </Grid>
         {
-          /** Zeigt die Liste der EinzelhaendlerListenEintrag Komponenten
-         */
-
+          /** Zeigt die Liste der EinzelhaendlerListenEintrag Komponenten*/
           filteredEinzelhaendler.map(einzelhaendler =>
             <EinzelhaendlerListenEintrag key={einzelhaendler.getID()} einzelhaendler={einzelhaendler}
               onEinzelhaendlerDeleted={this.einzelhaendlerDeleted}

@@ -207,6 +207,7 @@ nameChange = (event) => {
                 onChange={this.einheitChange}
               >
                 <MenuItem value={"Kilogramm"}>Kilogramm</MenuItem>
+                <MenuItem value={"Gramm"}>Gramm</MenuItem>
                 <MenuItem value={"Liter"}>Liter</MenuItem>
                 <MenuItem value={"Packung"}>Packung</MenuItem>
                 <MenuItem value={"Stück"}>Stück</MenuItem>
