@@ -71,7 +71,7 @@ class BenutzerListenEintrag extends Component {
 
   /** Rendert den Komponent */
   render() {
-    const { classes } = this.props;
+    const { classes, anwenderverbund } = this.props;
     // Benutz den states Einzelhaendler
     const { benutzer, showBenutzerForm, showBenutzerDeleteDialog } = this.state;
 
@@ -95,7 +95,7 @@ class BenutzerListenEintrag extends Component {
               <Grid item xs />
             </Grid>
 
-        <BenutzerListeneintragLoeschen show={showBenutzerDeleteDialog} benutzer={benutzer} onClose={this.deleteBenutzerDialogClosed} />
+        <BenutzerListeneintragLoeschen anwenderverbund={anwenderverbund} show={showBenutzerDeleteDialog} benutzer={benutzer} onClose={this.deleteBenutzerDialogClosed} />
 
       </div>
     );
