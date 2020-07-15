@@ -55,6 +55,7 @@ export default class API {
     #getBenutzerByAnwenderverbundURL = (id) => `${this.#ServerBaseURL}/anwenderverbund/${id}/mitglieder`;
     #getBenutzerByEmailURL = (mail) => `${this.#ServerBaseURL}/benutzer-by-email/${mail}`;
     #addMitgliedschaftURL= (id) => `${this.#ServerBaseURL}/anwenderverbund/${id}/mitglieder`;
+    #deleteMitgliedschaftURL= (id) => `${this.#ServerBaseURL}/anwenderverbund/${id}/mitglieder`;
 
 
 
@@ -451,6 +452,29 @@ export default class API {
          */
     }
 
+    //führt einen DELETE Request aus und gibt dabei die id des zu löschenden Listeneintrages weiter
+    deleteMitgliedschaftAPI(anwenderverbundID,BenutzerBO){
+
+        return this.#fetchAdvanced(this.#deleteMitgliedschaftURL(anwenderverbundID), {
+            method: 'DELETE',
+            headers: {
+                'Accept': 'application/json, text/plain',
+                'Content-type': 'application/json',
+            },
+            body: JSON.stringify(BenutzerBO)
+        })
+            /*
+            .then((responseJSON) => {
+            console.log(responseJSON)
+            // Zugriff auf das erste Listeneintrag Objekt des Arrays, welches .fromJSON zurückgibt
+            let response = BenutzerBO.fromJSON(responseJSON)[0];
+            return new Promise(function (resolve) {
+                resolve(response);
+            })
+        })
+
+             */
+    }
 
     getBenutzerByEmailAPI(email) {
         return this.#fetchAdvanced(this.#getBenutzerByEmailURL(email)).then((responseJSON) => {
