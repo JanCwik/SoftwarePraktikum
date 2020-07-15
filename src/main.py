@@ -754,8 +754,8 @@ class AnwenderverbundRelatedBenutzerOperations(Resource):
         verbund = adm.get_anwenderverbund_by_id(id)
         mitglied = Benutzer.from_dict(api.payload)
         if verbund is not None:
-            result = adm.mitglieder_entfernen(verbund, mitglied)#Name der Methode geändert,Maik
-            return result
+            adm.mitglieder_entfernen(verbund, mitglied)#Name der Methode geändert,Maik
+            return mitglied
         else:
             return "Benutzer oder Anwenderverbund unbekannt", 500
 
