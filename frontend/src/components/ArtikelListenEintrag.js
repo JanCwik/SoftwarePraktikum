@@ -6,8 +6,6 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import ArtikelForm from './dialogs/ArtikelForm';
 import ArtikelLoeschen from "./dialogs/ArtikelLoeschen";
 
-
-
 /**
  * Rendert ein ArtikelBO innerhalb eines erweiterbaren/zusammenklappbaren ArtikelListenEintrags
  * mit den Artikel manipulations Funktionen. Wenn erweitert, wird eine ArtikelListe gerendert.
@@ -30,7 +28,6 @@ class ArtikelListenEintrag extends Component {
   expansionPanelStateChanged = () => {
     this.props.onExpandedStateChange(this.props.artikel);
   }
-
 
   /** Behandlet das onClick Ereignis von der Artikel bearbeiten Taste. */
   editArtikelButtonClicked = (event) => {
@@ -65,12 +62,12 @@ class ArtikelListenEintrag extends Component {
 
   /** Behandelt das onClose Ereignis vom ArtikelLoeschenDialog */
   deleteArtikelDialogClosed = (artikel) => {
-    // Wenn der Artikel nicht gleich null ist, lösche ihn
+    // Wenn der Artikel nicht gleich null ist, lösche ihn.
     if (artikel) {
       this.props.onArtikelDeleted(artikel);
     };
 
-    // Zeige nicht den Dialog
+    // Zeige den Dialog nicht
     this.setState({
       showArtikelDeleteDialog: false
     });
@@ -89,7 +86,6 @@ class ArtikelListenEintrag extends Component {
   /** Rendert den Komponent */
   render() {
     const { classes, expandedState } = this.props;
-    // Benutz den state Artikel
     const { artikel, showArtikelForm, showArtikelDeleteDialog } = this.state;
 
     return (

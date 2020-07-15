@@ -7,7 +7,6 @@ import  API from '../../api/API';
 import ContextErrorMessage from './ContextErrorMessage';
 import LoadingProgress from './LoadingProgress';
 
-
 /**
  * Zeigt einen modalen Formulardialog für ein ArtikelBO in prop artikel. Wenn der Artikel
  * angelegt ist, ist der Dialog als ein Editierdialog konfiguriert. Dabei ist das Formular mit dem gegebenen
@@ -72,7 +71,7 @@ class ArtikelForm extends Component {
     });
   }
 
-  /** Updates the customer */
+  /** Updated den Artikel */
   updateArtikel = () => {
     // Klont den originalen Artikel, wenn der Backend Aufruf fehlschlägt
     let updatedArtikel = Object.assign(new ArtikelBO(), this.props.artikel);
@@ -85,7 +84,7 @@ class ArtikelForm extends Component {
         updatingInProgress: false,              // Ladeanzeige deaktivieren
         updatingError: null                     // Keine Error Nachricht
       });
-      // Behalte das neue state als Base state
+      // Behalte das neue state als base state
       this.baseState.artikelName = this.state.artikelName;
       this.baseState.artikelStandardartikel = this.state.artikelStandardartikel;
       this.baseState.artikelEinheit = this.state.artikelEinheit;
@@ -103,24 +102,7 @@ class ArtikelForm extends Component {
       updatingError: null                       // Fehlermeldung deaktivieren
     });
   }
-/*
-  // Behandelt Wertänderungen aus den Textfeldern vom Formular und validiert diese.
-  valueChange = (event) => {
-    const value = event.target.value;
-
-    let error = false;
-    if (value === null) {
-      error = true;
-    }
-console.log([event.target.id])
-    this.setState({
-      [event.target.id]: event.target.value,
-      [event.target.id + 'ValidationFailed']: error,
-      [event.target.id + 'Edited']: true
-    });
-  }
- */
-
+/** Behandelt Wertänderungen aus dem Artikel Name Textfeld */
 nameChange = (event) => {
     let name = event.target.value;
     this.setState({
@@ -128,6 +110,8 @@ nameChange = (event) => {
       artikelNameEdited: true
     });
   }
+
+/** Behandelt Wertänderungen aus dem Standardartikel Auswahlfeld */
   standartartikelChange = (event) => {
     let standardartikel = event.target.value;
     this.setState({
@@ -136,6 +120,7 @@ nameChange = (event) => {
     });
   }
 
+/** Behandelt Wertänderungen aus dem Einheit Auswahlfeld */
   einheitChange= (event) => {
     let einheit = event.target.value;
     this.setState({
@@ -207,6 +192,7 @@ nameChange = (event) => {
                 onChange={this.einheitChange}
               >
                 <MenuItem value={"Kilogramm"}>Kilogramm</MenuItem>
+                <MenuItem value={"Gramm"}>Gramm</MenuItem>
                 <MenuItem value={"Liter"}>Liter</MenuItem>
                 <MenuItem value={"Packung"}>Packung</MenuItem>
                 <MenuItem value={"Stück"}>Stück</MenuItem>
