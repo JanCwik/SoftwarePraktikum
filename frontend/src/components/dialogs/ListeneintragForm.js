@@ -7,6 +7,7 @@ import  ListeneintragBO  from '../../api/ListeneintragBO';
 import  API from '../../api/API';
 import ContextErrorMessage from './ContextErrorMessage';
 import LoadingProgress from './LoadingProgress';
+import SearchIcon from '@material-ui/icons/Search';
 import ClearIcon from "@material-ui/icons/Clear";
 import TextField from '@material-ui/core/TextField';
 
@@ -56,6 +57,9 @@ class ListeneintragForm extends Component {
 
     // Init state
     this.state = {
+      artikelObjekt: null,
+      artikelSearchError: null,
+      artikelNotFound: false,
       listeneintragArtikelName: lan,
       listeneintragArtikelNameValidationFailed: false,
       listeneintragArtikelNameEdited: false,
@@ -72,38 +76,21 @@ class ListeneintragForm extends Component {
       updatingInProgress: false,
       addingError: null,
       updatingError: null,
-      artikelCombobox:[],
-      addedArtikel: null
+
     };
     // Speichere dieses state zum abbrechen
     this.baseState = this.state;
-  }
-
-   /** Fetchet alle ArtikelBOs für das Backend */
-  getArtikel = () => {
-    API.getAPI().getArtikelAPI()
-      .then(artikelBOs =>
-        this.setState({               // Setzt neues state wenn ArtikelBOs gefetcht wurden
-          artikelCombobox: artikelBOs,
 
 
-        })).catch(e =>
-          this.setState({             // Setzt state mit Error vom catch zurück
-            artikelCombobox: [],
-
-          })
-        );
-
-    // Setzt laden auf true
 
   }
 
-  /** Lebenszyklus Methode, welche aufgerufen wird, wenn die Komponente in das DOM des Browsers eingefügt wird.*/
 
 
-  componentDidMount() {
-    this.getArtikel();
-  }
+
+
+
+
 
 
 
@@ -111,9 +98,10 @@ class ListeneintragForm extends Component {
 
   addListeneintrag = () => {
     let newListeneintrag = new ListeneintragBO();
-    newListeneintrag.setArtikel_name(this.state.artikel_name);
+    newListeneintrag.setArtikel_name(this.state.ausgewaehlterArtikelBO.getName());
+    newListeneintrag.setArtikel_id(this.state.ausgewaehlterArtikelBO.getID())
     newListeneintrag.setMenge(this.state.listeneintragMenge);
-    newListeneintrag.setArtikel_einheit(this.state.artikel_einheit);
+    newListeneintrag.setArtikel_einheit(this.state.ausgewaehlterArtikelBO.getEinheit());
     newListeneintrag.setEinzelhaendler_name(this.state.einzelhaendler_name)
     newListeneintrag.setBenutzer_id(this.state.benutzer_name)//legt neues Artikelobjekt mit name aus dem state an
     API.getAPI().addListeneintragAPI(newListeneintrag).then(listeneintrag => {
@@ -229,6 +217,8 @@ listeneintragArtikelNameChange = (event) => {
     });
   }
 
+
+
   /** Behandelt das schließen/abbrechen Tasten klick Ereignis. */
 
   handleClose = () => {
@@ -249,6 +239,46 @@ listeneintragArtikelNameChange = (event) => {
     });
   }
 
+
+/** Searches for customers with a customerName and loads the corresponding accounts */
+  artikelByName = async () => {
+    const { listeneintragArtikelName } = this.state;
+    if (listeneintragArtikelName.length > 0) {
+      try {
+        // set loading to true
+        this.setState({
+          artikelObjekt: null,            // the initial customer
+          loadingInProgress: true,              // show loading indicator
+          artikelSearchError: null             // disable error message
+        });
+
+        // Load customers first
+        const artikel = await API.getAPI().getArtikelByNameAPI(listeneintragArtikelName);
+
+        // Set the final state
+        this.setState({
+          artikelObjekt: artikel,
+          loadingInProgress: false,           // disable loading indicator
+          artikelSearchError: null           // no error message
+        });
+      } catch (e) {
+        this.setState({
+          artikelObjekt: null,
+          loadingInProgress: false,           // disable loading indicator
+          artikelSearchError: e              // show error message
+        });
+      }
+    } else {
+      this.setState({
+        artikelNotFound: true
+      });
+    }
+  }
+
+
+
+
+
   /** Rendert die Komponente */
 
   render() {
@@ -257,8 +287,8 @@ listeneintragArtikelNameChange = (event) => {
             listeneintragArtikelMenge, listeneintragArtikelMengeEdited, listeneintragArtikelEinheit,
             listeneintragArtikelEinheitEdited, listeneintragEinzelhaendlerName, listeneintragEinzelhaendlerNameEdited,
             listeneintragBenutzerName, addingInProgress, addingError, updatingInProgress, updatingError,
-            artikelCombobox, einheitCombobox, einzelhaendlerCombobox, benutzerCombobox } = this.state;
-
+            artikelCombobox, einheitCombobox, einzelhaendlerCombobox, benutzerCombobox, ausgewaehlterArtikelBO, alleArtikel , artikelNotFound } = this.state;
+console.log(listeneintragArtikelName)
     let title = '';
     let header = '';
 
@@ -283,46 +313,36 @@ listeneintragArtikelNameChange = (event) => {
             <DialogContentText>
               {header}
             </DialogContentText>
-            <form className={classes.root}>
-                 <Autocomplete
-                    id="combo-box-demo"
-                    options={artikelCombobox}
-                    getOptionLabel={(option) => option.getName()}
-                    style={{ width: 400 }}
-                   renderInput={(params) =>
-                       <TextField {...params} value={listeneintragArtikelName} onChange={this.listeneintragArtikelNameChange}
-                                  label="Artikel" variant="outlined" />}/>
 
-                  <TextField autoFocus type='text' required fullWidth margin='normal' id='listeneintragArtikelMenge' label='Menge' value={listeneintragArtikelMenge}
-                    variant="outlined" onChange={this.listeneintragArtikelMengeChange}/>
 
-                <Autocomplete
-                    id="combo-box-demo"
-                    options={einheitCombobox}
-                    getOptionLabel={(option) => option.getEinheit()}
-                    style={{ width: 400 }}
-                   renderInput={(params) =>
-                       <TextField {...params} value={listeneintragArtikelEinheit} onChange={this.listeneintragArtikelEinheitChange}
-                                  label="Einheit" variant="outlined" />}/>
 
-                <Autocomplete
-                    id="combo-box-demo"
-                    options={einzelhaendlerCombobox}
-                    getOptionLabel={(option) => option.getEinzelhaendler()}
-                    style={{ width: 400 }}
-                   renderInput={(params) =>
-                       <TextField {...params} value={listeneintragEinzelhaendlerName} onChange={this.listeneintragEinzelhaendlerNameChange}
-                                  label="Einzelhändler" variant="outlined" />}/>
+            <form className={classes.root} noValidate autoComplete='off'>
 
-                <Autocomplete
-                    id="combo-box-demo"
-                    options={benutzerCombobox}
-                    getOptionLabel={(option) => option.getBenutzer_name()}
-                    style={{ width: 400 }}
-                   renderInput={(params) =>
-                       <TextField {...params} value={listeneintragBenutzerName} onChange={this.listeneintragBenutzerNameChange}
-                                  label="Benutzer" variant="outlined" />}/>
+          <FormControl className={classes.formControl}>
+
+            <TextField autoFocus fullWidth margin='normal' type='text' required id='customerName' label='Customer name:'
+                    onChange={this.listeneintragArtikelNameChange}
+                    onBlur={this.artikelByName}
+                    error={artikelNotFound}
+                    helperText={artikelNotFound ? 'No customers with the given name have been found' : ' '}
+                    InputProps={{
+                      endAdornment: <InputAdornment position='end'>
+                        <IconButton onClick={this.artikelByName}>
+                          <SearchIcon />
+                        </IconButton>
+                      </InputAdornment>,
+                    }} />
+
+
+          </FormControl>
+          <FormControl className={classes.formControl}>
+
+
+
+          </FormControl>
             </form>
+
+
 
 
             <LoadingProgress show={addingInProgress || updatingInProgress} />
@@ -354,6 +374,40 @@ listeneintragArtikelNameChange = (event) => {
     );
   }
 }
+
+/*
+Alte lösungen
+
+<TextField autoFocus type='text' required fullWidth margin='normal' id='artikelName' label='Artikel Name' value={listeneintragArtikelName}
+                onChange={this.listeneintragArtikelNameChange} error={listeneintragArtikelNameValidationFailed}
+                helperText={artikelNameValidationFailed ? 'Der Name muss mindestens ein Zeichen enthalten' : ' '} />
+
+ <TextField select autoFocus fullWidth type='text'
+                    value={ausgewaehlterArtikelBO}
+                    onChange={this.ausgewaehlterArtikelBOChange}>
+                    {
+                      alleArtikel.map((artikel) => (
+                        <MenuItem key={artikel.getID()} value={artikel}>
+                          {artikel.getName()}
+
+                        </MenuItem>
+                      ))
+                    }
+              </TextField>
+
+
+              <Autocomplete
+                    id="combo-box-demo"
+                    options={artikelCombobox}
+                    getOptionLabel={(option) => option.getName()}
+                    style={{ width: 400 }}
+                   renderInput={(params) =>
+                       <TextField {...params} value={listeneintragArtikelName} onChange={this.listeneintragArtikelNameChange}
+                                  label="Artikel" variant="outlined" />} />
+ */
+
+
+
 
 /** Componentenspezifische Stile */
 
