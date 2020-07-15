@@ -202,7 +202,7 @@ class EinkaufslistenMapper(Mapper):
 
     def find_all_listeneintraege(self, einkaufsliste):
         """Mapper-Methode zum ausgeben aller Listeneinträge zu einer EInkaufsliste.
-        Designed by Timm Mötz
+        Verantwortlicher: Timm Mötz
 
         Hier werden via SQL-Abfrage alle Listeneinträge aus der Datenbank ausgegeben.
         Anschließend werden aus den Zeilen der Datenbank (welche ein Objekt mit dessen Attributen darstellen)
@@ -264,3 +264,39 @@ class EinkaufslistenMapper(Mapper):
         cursor.close()
 
         return result
+
+
+    def GetEinkaufslistenByAnwendeverbund(self, anwenderverbund):
+            """ Mapper-Methode zum löschen eines Anwenderverbunds aus der Datenbank.
+
+            Beim Aufruf der Methode wird eine zuvor erstellte Instanz der Klasse "Anwenderverbund()" übergeben.
+            Dann erfolgt ein SQL-Statement welches das Objekt aus der Datenbank löscht.
+            Mittels der getter-Methode, welche zuvor in der entsprechenden Business-Object-Klasse definierten wurde,
+            wird die entsprechende ID der Instanz an das SQL-Statement übergeben."""
+            cursor = self._cnx.cursor()
+
+
+            listenauslesen = "SELECT id FROM einkaufsliste WHERE anwenderverbund_id={}".format(anwenderverbund.get_id())
+            cursor.execute(listenauslesen)
+            listen = cursor.fetchall()
+
+            self._cnx.commit()
+            cursor.close()
+
+            return listen
+
+    def DeleteEinkaufslistenByAnwendeverbund(self, anwenderverbund):
+        """ Mapper-Methode zum löschen eines Anwenderverbunds aus der Datenbank.
+
+        Beim Aufruf der Methode wird eine zuvor erstellte Instanz der Klasse "Anwenderverbund()" übergeben.
+        Dann erfolgt ein SQL-Statement welches das Objekt aus der Datenbank löscht.
+        Mittels der getter-Methode, welche zuvor in der entsprechenden Business-Object-Klasse definierten wurde,
+        wird die entsprechende ID der Instanz an das SQL-Statement übergeben."""
+        cursor = self._cnx.cursor()
+
+        listenloeschen = "DELETE FROM einkaufsliste WHERE anwenderverbund_id={}".format(anwenderverbund.get_id())
+        cursor.execute(listenloeschen)
+
+        self._cnx.commit()
+        cursor.close()
+

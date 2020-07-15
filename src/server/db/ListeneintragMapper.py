@@ -8,6 +8,18 @@ class ListeneintragMapper(Mapper):
     def __init__(self):
         super().__init__()
 
+    def GetListeneintraegeByEinkaufsliste(self, id):
+        cursor = self._cnx.cursor()
+
+        eintraegeauslesen = "SELECT id FROM listeneintrag WHERE einkaufsliste_id={}".format(id)
+        cursor.execute(eintraegeauslesen)
+        eintraege = cursor.fetchall()
+
+        self._cnx.commit()
+        cursor.close()
+
+        return eintraege
+
     def insert(self, listeneintrag):
         """Mapper-Methode zum speichern eines neuen Listeneintrags in der Datenbank
 
@@ -103,7 +115,7 @@ class ListeneintragMapper(Mapper):
 
         return result
 
-    def delete(self, listeneintrag):
+    def delete(self, id):
         """Mapper-Methode zum löschen eines Listeneintrags aus der Datenbank
 
         Beim Aufruf der Methode wird eine zuvor erstellte Instanz der Klasse "Listeneintrag()" übergeben.
@@ -113,7 +125,7 @@ class ListeneintragMapper(Mapper):
 
         cursor = self._cnx.cursor()
 
-        template = "DELETE FROM listeneintrag WHERE id={}".format(listeneintrag.get_id())
+        template = "DELETE FROM listeneintrag WHERE id={}".format(id)
         cursor.execute(template)
 
         self._cnx.commit()

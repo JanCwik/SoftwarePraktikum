@@ -11,6 +11,7 @@ from src.server.db.AnwenderverbundMapper import AnwenderverbundMapper
 from src.server.db.EinkaufslisteMapper import EinkaufslistenMapper
 from src.server.db.ListeneintragMapper import ListeneintragMapper
 from src.server.db.StatistikMapper import StatistikMapper
+from src.server.db.MitgliedschaftMapper import MitgliedschaftMapper
 
 
 class ApplikationsAdministration(object):
@@ -159,6 +160,28 @@ class ApplikationsAdministration(object):
 
     def delete_anwenderverbund(self, anwenderverbund):
         """Methode zum löschen eines Anwenderverbunds aus der Datenbank"""
+
+        with MitgliedschaftMapper() as mapper:
+            mapper.deleteByAnwenderverbund(anwenderverbund)
+
+        with EinkaufslistenMapper() as mapper:
+            listen=  mapper.GetEinkaufslistenByAnwendeverbund(anwenderverbund)
+
+        for i in listen:
+            for i in i:
+
+                with ListeneintragMapper() as mapper:
+                    eintraege= mapper.GetListeneintraegeByEinkaufsliste(i)
+
+                for i in eintraege:
+                    for i in i:
+
+                        with ListeneintragMapper() as mapper:
+                            mapper.delete(i)
+
+        with EinkaufslistenMapper() as mapper:
+            mapper.DeleteEinkaufslistenByAnwendeverbund(anwenderverbund)
+
         with AnwenderverbundMapper() as mapper:
             mapper.delete(anwenderverbund)
 

@@ -14,7 +14,7 @@ class NamedBO(BusinessObject, ABC):
 
     def set_erstellungs_zeitpunkt(self, erstellungs_zeitpunkt):
         """Setzen des Erstellungszeitpunkt"""
-        self._erstellungs_zeitpunkt = erstellungs_zeitpunkt
+        self._erstellungs_zeitpunkt = datetime.datetime.now()
 
     def get_erstellungs_zeitpunkt(self):
         """Auslesen des Erstellungszeitpunkt"""

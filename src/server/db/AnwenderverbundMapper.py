@@ -71,6 +71,7 @@ class AnwenderverbundMapper(Mapper):
 
         return anwenderverbund
 
+
     def update(self, anwenderverbund):
         """ Mapper-Methode zum aktualisieren (der Attribute) eines Anwenderverbunds in der Datenbank.
 
@@ -87,6 +88,8 @@ class AnwenderverbundMapper(Mapper):
         self._cnx.commit()
         cursor.close()
 
+
+
     def delete(self, anwenderverbund):
         """ Mapper-Methode zum löschen eines Anwenderverbunds aus der Datenbank.
 
@@ -96,26 +99,7 @@ class AnwenderverbundMapper(Mapper):
         wird die entsprechende ID der Instanz an das SQL-Statement übergeben."""
         cursor = self._cnx.cursor()
 
-        mitgliedschaftloeschen = "DELETE FROM mitgliedschaft WHERE anwenderverbund_id={}".format(anwenderverbund.get_id())
-        cursor.execute(mitgliedschaftloeschen)
 
-        listenauslesen = "SELECT id FROM einkaufsliste WHERE anwenderverbund_id={}".format(anwenderverbund.get_id())
-        cursor.execute(listenauslesen)
-        listen = cursor.fetchall()
-
-        for i in listen:
-            for i in i:
-                eintraegeauslesen = "SELECT id FROM listeneintrag WHERE einkaufsliste_id={}".format(i)
-                cursor.execute(eintraegeauslesen)
-                eintraege = cursor.fetchall()
-
-                for i in eintraege:
-                    for i in i:
-                        eintraegeloeschen = "DELETE FROM listeneintrag WHERE id={}".format(i)
-                        cursor.execute(eintraegeloeschen)
-
-        listenloeschen = "DELETE FROM einkaufsliste WHERE anwenderverbund_id={}".format(anwenderverbund.get_id())
-        cursor.execute(listenloeschen)
 
         anwenderverbundloeschen = "DELETE FROM anwenderverbund WHERE id={}".format(anwenderverbund.get_id())
         cursor.execute(anwenderverbundloeschen)
