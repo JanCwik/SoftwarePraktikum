@@ -14,6 +14,7 @@ import ArtikelListenEintrag from "./ArtikelListenEintrag";
  * Kontrolliert eine Liste von ArtikelListenEintraegen um ein ExpansionPanel für jeden
  * Artikel zu erstellen.
  */
+
 class Artikel extends Component {
 
   constructor(props) {
@@ -63,7 +64,6 @@ class Artikel extends Component {
 
   /** Lebenszyklus Methode, welche aufgerufen wird, wenn die Komponente in das DOM des Browsers eingefügt wird.*/
 
-
   componentDidMount() {
     this.getArtikel();
   }
@@ -73,6 +73,7 @@ class Artikel extends Component {
    * Schaltet das erweiterte state vom ArtikelListenEintrag vom gegebenen ArtikelBO um.
    * @param {Artikel} ArtikelBO von dem ArtikelListenEintrag umgeschaltet werden.
    */
+
   onExpandedStateChange = artikel => {
     // Setzt erweiterten Artikeleintrag standardmäßig auf null
     let newID = null;
@@ -88,10 +89,10 @@ class Artikel extends Component {
   }
 
   /**
-   * Behandelt artikelDeleted Ereignisse von der  ArtikelListenEintrag Komponente.
-   *
-   * @param {Artikel} ArtikelBO von dem ArtikelListenEintrag um gelöscht zu werde
+   * Behandelt artikelDeleted Ereignisse von der ArtikelListenEintrag Komponente.
+   * @param {Artikel} ArtikelBO von dem ArtikelListenEintrag um gelöscht zu werden.
    */
+
   artikelDeleted = artikel => {
     const newArtikelList = this.state.artikel.filter(artikelFromState => artikelFromState.getID() !== artikel.getID());
     this.setState({
@@ -159,7 +160,7 @@ class Artikel extends Component {
         <Grid className={classes.artikelFilter} container spacing={1} justify='flex-start' alignItems='center'>
           <Grid item>
             <Typography>
-              Filter Artikelliste nach Name:
+              Filter Artikel nach Name:
               </Typography>
           </Grid>
           <Grid item xs={4}>
@@ -187,18 +188,17 @@ class Artikel extends Component {
           </Grid>
         </Grid>
         {
+
           /** Zeigt die Liste der ArtikelListenEintrag Komponenten
-          // Benutze keinen strengen Vergleich, da expandedArtikelID vielleicht ein string ist,
-           wenn dies von den URL Parametern gegeben ist. */
+              Benutze keinen strengen Vergleich, da expandedArtikelID vielleicht ein string ist,
+              wenn dies von den URL Parametern gegeben ist. */
 
           filteredArtikel.map(artikel =>
             <ArtikelListenEintrag key={artikel.getID()} artikel={artikel} expandedState={expandedArtikelID === artikel.getID()}
               onExpandedStateChange={this.onExpandedStateChange}
               onArtikelDeleted={this.artikelDeleted}
             />)
-
         }
-
         <LoadingProgress show={loadingInProgress} />
         <ContextErrorMessage error={error} contextErrorMsg={`Die Liste der Artikel konnte nicht geladen werden.`} onReload={this.getArtikel} />
         <ArtikelForm show={showArtikelForm} onClose={this.artikelFormClosed} />

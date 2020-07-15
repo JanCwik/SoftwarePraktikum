@@ -10,17 +10,16 @@ import LoadingProgress from './dialogs/LoadingProgress';
 import AnwenderverbundForm from "./dialogs/AnwenderverbundForm";
 import AnwenderverbundListenEintrag from "./AnwenderverbundListenEintrag";
 
-
 /**
- * Kontrolliert eine Liste von EinzelhaendlerListenEintraegen um ein Akkordeon für jeden
- * Einzelhaendler zu erstellen.
+ * Kontrolliert eine Liste von AnwenderverbundListenEintraegen um ein ExpansionPanel für jeden
+ * Anwenderverbund zu erstellen.
  */
+
 class Anwenderverbund extends Component {
 
   constructor(props) {
     super(props);
 
-    // console.log(props);
     let expandedID = null;
 
     if (this.props.location.expandAnwenderverbund) {
@@ -43,7 +42,7 @@ class Anwenderverbund extends Component {
   getAnwenderverbund = () => {
     API.getAPI().getAnwenderverbuendeByBenutzerAPI(this.props.userMail)
       .then(anwenderverbundBOs =>
-        this.setState({               // Setzt neues state wenn EinzelhaendlerBOs gefetcht wurden
+        this.setState({               // Setzt neues state wenn AnwenderverbundBOs gefetcht wurden
           anwenderverbund: anwenderverbundBOs,
           filteredAnwenderverbund: [...anwenderverbundBOs], // Speichert eine Kopie
           loadingInProgress: false,   // Ladeanzeige deaktivieren
@@ -65,27 +64,26 @@ class Anwenderverbund extends Component {
 
   /** Lebenszyklus Methode, welche aufgerufen wird, wenn die Komponente in das DOM des Browsers eingefügt wird.*/
 
-
   componentDidMount() {
     this.getAnwenderverbund();
   }
 
   /**
-   * Behandelt onExpandedStateChange Ereignisse von der EinzelhaendlerListenEintrag Komponente.
-   * Schaltet das erweiterte state vom EinzelhaendlerListenEintrag vom gegebenen EinzelhaendlerBO um.
-   * @param {Einzelhaendler} EinzelhaendlerBO von dem EinzelhaendlerListenEintrag umgeschaltet werden.
+   * Behandelt onExpandedStateChange Ereignisse von der AnwenderverbundListenEintrag Komponente.
+   * Schaltet das erweiterte state vom AnwenderverbundListenEintrag vom gegebenen AnwenderverbundBO um.
+   * @param {Anwenderverbund} AnwenderverbundBO von dem AnwenderverbundListenEintrag umgeschaltet werden.
    */
+
   onExpandedStateChange = anwenderverbund => {
-    // console.log(einzelhaendlerID);
-    // Setzt erweiterten Einzelhaendler Eintrag standardmäßig auf null
+    // Setzt erweiterten Anwenderverbund Eintrag standardmäßig auf null
     let newID = null;
 
-    // Wenn der selbe Einzelhaendler Eintrag geklickt wird, klappe ihn zusammen oder erweitere einen Neuen
+    // Wenn der selbe Anwenderverbund Eintrag geklickt wird, klappe ihn zusammen oder erweitere einen Neuen
     if (anwenderverbund.getID() !== this.state.expandedAnwenderverbundID) {
       // Erweitere den Anwenderverbund Eintrag mit anwenderverbundID
       newID = anwenderverbund.getID();
     }
-    // console.log(newID);
+
     this.setState({
       expandedAnwenderverbundID: newID,
     });
@@ -93,8 +91,7 @@ class Anwenderverbund extends Component {
 
   /**
    * Behandelt onAnwenderverbundLoeschen Ereignisse von der AnwenderverbundListenEintrag Komponente.
-   *
-   * @param {Einzelhaendler} AnwenderverbundBO von dem AnwenderverbundListenEintrag um gelöscht zu werden.
+   * @param {Anwenderverbund} AnwenderverbundBO von dem AnwenderverbundListenEintrag um gelöscht zu werden.
    */
   anwenderverbundDeleted = anwenderverbund => {
     const newAnwenderverbundList = this.state.anwenderverbund.filter(anwenderverbundFromState => anwenderverbundFromState.getID() !== anwenderverbund.getID());
@@ -105,11 +102,11 @@ class Anwenderverbund extends Component {
     });
   }
 
-  /** Behandelt das onClick Ereignis, der Einzelhaendler anlegen Taste. */
+  /** Behandelt das onClick Ereignis, der Anwenderverbund anlegen Taste. */
   addAnwenderverbundButtonClicked = event => {
     // Nicht das erweiterte state umschalten
     event.stopPropagation();
-    //Zeige den EinzelhaendlerForm
+    //Zeige den AnwenderverbundForm
     this.setState({
       showAnwenderverbundForm: true
     });
@@ -132,7 +129,7 @@ class Anwenderverbund extends Component {
     }
   }
 
-  /** Behandelt das onChange Ereignis von dem Einzelhaendler filtern Textfeld */
+  /** Behandelt das onChange Ereignis von dem Anwenderverbund filtern Textfeld */
   filterFieldValueChange = event => {
     const value = event.target.value.toLowerCase();
     this.setState({
@@ -192,8 +189,8 @@ class Anwenderverbund extends Component {
         </Grid>
         {
           /** Zeigt die Liste der AnwenderverbundListenEintrag Komponenten
-          // Benutze keinen strengen Vergleich, da expandedAnwenderverbundID vielleicht ein string ist,
-           wenn dies von den URL Parametern gegeben ist. */
+              Benutze keinen strengen Vergleich, da expandedAnwenderverbundID vielleicht ein string ist,
+              wenn dies von den URL Parametern gegeben ist. */
 
           filteredAnwenderverbund.map(anwenderverbund =>
             <AnwenderverbundListenEintrag key={anwenderverbund.getID()} anwenderverbund={anwenderverbund} expandedState={expandedAnwenderverbundID === anwenderverbund.getID()}

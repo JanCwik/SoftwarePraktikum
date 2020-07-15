@@ -1,16 +1,13 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { withStyles, Typography, ExpansionPanel, ExpansionPanelSummary, ExpansionPanelDetails, Grid } from '@material-ui/core';
+import { withStyles, Typography, Grid } from '@material-ui/core';
 import { Button, ButtonGroup } from '@material-ui/core';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import EinzelhaendlerForm from './dialogs/EinzelhaendlerForm';
 import EinzelhaendlerLoeschen from "./dialogs/EinzelhaendlerLoeschen";
 
-
-
 /**
- * Rendert ein EinzelhaendlerBO innerhalb eines  EinzelhaendlerListenEintrags
- * mit den Einzelhandler manipulations Funktionen.
+ * Rendert ein EinzelhaendlerBO innerhalb eines EinzelhaendlerListenEintrags
+ * mit den Einzelhändler manipulations Funktionen.
  */
 
 class EinzelhaendlerListenEintrag extends Component {
@@ -26,9 +23,7 @@ class EinzelhaendlerListenEintrag extends Component {
     };
   }
 
-
-
-  /** Behandlet das onClick Ereignis von der Einzelhaendler bearbeiten Taste. */
+  /** Behandlet das onClick Ereignis von der Einzelhändler bearbeiten Taste. */
   editEinzelhaendlerButtonClicked = (event) => {
     event.stopPropagation();
     this.setState({
@@ -38,7 +33,7 @@ class EinzelhaendlerListenEintrag extends Component {
 
   /** Behandelt das onClose Ereignis vom EinzelhaendlerForm */
   einzelhaendlerFormClosed = (einzelhaendler) => {
-    // Einzelhaendler ist nicht null und deshalb geändert.
+    // Einzelhaendler ist nicht null und deshalb bereits geändert.
     if (einzelhaendler) {
       this.setState({
         einzelhaendler: einzelhaendler,
@@ -51,7 +46,7 @@ class EinzelhaendlerListenEintrag extends Component {
     }
   }
 
-  /** Behandelt das onClick Ereignis von der Einzelhaendler löschen Taste. */
+  /** Behandelt das onClick Ereignis von der Einzelhändler löschen Taste. */
   deleteEinzelhaendlerButtonClicked = (event) => {
     event.stopPropagation();
     this.setState({
@@ -75,13 +70,10 @@ class EinzelhaendlerListenEintrag extends Component {
   /** Rendert den Komponent */
   render() {
     const { classes } = this.props;
-    // Benutz den states Einzelhaendler
     const { einzelhaendler, showEinzelhaendlerForm, showEinzelhaendlerDeleteDialog } = this.state;
 
-    // console.log(this.state);
     return (
       <div>
-
             <Grid container spacing={3} justify='flex-start' alignItems='center'>
               <Grid item>
                 <Typography variant='body1' className={classes.heading}>{einzelhaendler.getName()}
@@ -99,7 +91,6 @@ class EinzelhaendlerListenEintrag extends Component {
               </Grid>
               <Grid item xs />
             </Grid>
-
         <EinzelhaendlerForm show={showEinzelhaendlerForm} einzelhaendler={einzelhaendler} onClose={this.einzelhaendlerFormClosed} />
         <EinzelhaendlerLoeschen show={showEinzelhaendlerDeleteDialog} einzelhaendler={einzelhaendler} onClose={this.deleteEinzelhaendlerDialogClosed} />
       </div>

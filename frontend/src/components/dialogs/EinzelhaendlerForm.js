@@ -7,16 +7,16 @@ import  EinzelhaendlerBO  from '../../api/EinzelhaendlerBO';
 import ContextErrorMessage from './ContextErrorMessage';
 import LoadingProgress from './LoadingProgress';
 
-
 /**
- * Zeigt einen modalen Formulardialog für einen EinzelhaendlerBO in prop einzelhaendler. Wenn der Einzelhaendler
+ * Zeigt einen modalen Formulardialog für einen EinzelhaendlerBO in prop einzelhaendler. Wenn der Einzelhändler
  * angelegt ist, ist der Dialog als ein Editierdialog konfiguriert. Dabei ist das Formular mit dem gegebenen
- * EinzelhaendlerBO Objekt befüllt. Wenn der Einzelhaendler null ist, wird der Dialog als ein neuer Einzelhaendler
+ * EinzelhaendlerBO Objekt befüllt. Wenn der Einzelhändler null ist, wird der Dialog als ein neuer Einzelhändler
  * Dialog konfiguriert und die Textfelder sind leer. In Abhängigkeit des editier/neu Zustands werden die Backend
  * Aufrufe gemacht, um einen Einzelhaendler upzudaten oder anzulegen. Danach wird die Funktion des onClose prop
  * mit dem angelegt/upgedated EinzelhaendlerBO Objekt als Parameter aufgerufen. Wenn der Dialog beendet ist,
  * wird onClose mit null aufgerufen.
  */
+
 class EinzelhaendlerForm extends Component {
 
   constructor(props) {
@@ -43,12 +43,12 @@ class EinzelhaendlerForm extends Component {
 
   /** Legt Einzelhaendler an */
   addEinzelhaendler = () => {
-    let newEinzelhaendler = new EinzelhaendlerBO(this.state.einzelhaendlerName); //legt neues Einzelhändler-objekt mit name aus dem state an
+    let newEinzelhaendler = new EinzelhaendlerBO(this.state.einzelhaendlerName); //legt neues Einzelhändlerobjekt mit name aus dem state an
     API.getAPI().addEinzelhaendlerAPI(newEinzelhaendler).then(einzelhaendler => {
       // Backend Aufruf erfolgreich
-      // reinit den Dialog state für einen neuen leeren Einzelhaendler
+      // reinit den Dialog state für einen neuen leeren Einzelhändler
       this.setState(this.baseState);
-      this.props.onClose(einzelhaendler); // Aufruf mit Hilfe des Einzelhaendler Objekts aus dem Backend
+      this.props.onClose(einzelhaendler); // Aufruf mit Hilfe des Einzelhändler Objekts aus dem Backend
     }).catch(e =>
       this.setState({
         updatingInProgress: false,    // Ladeanzeige deaktivieren
@@ -63,9 +63,9 @@ class EinzelhaendlerForm extends Component {
     });
   }
 
-  /** Updates the customer */
+  /** Updated den Einzelhändler */
   updateEinzelhaendler = () => {
-    // Klont den originalen Einzelhaendler, wenn der Backend Aufruf fehlschlägt
+    // Klont den originalen Einzelhändler, wenn der Backend Aufruf fehlschlägt
     let updatedEinzelhaendler = Object.assign(new EinzelhaendlerBO(), this.props.einzelhaendler);
     // Setzt die neuen Attribute aus dem Dialog
     updatedEinzelhaendler.setName(this.state.einzelhaendlerName);
@@ -74,9 +74,9 @@ class EinzelhaendlerForm extends Component {
         updatingInProgress: false,              // Ladeanzeige deaktivieren
         updatingError: null                     // Keine Error Nachricht
       });
-      // Behalte das neue state als Grund state
+      // Behalte das neue state als base state
       this.baseState.einzelhaendlerName = this.state.einzelhaendlerName;
-      this.props.onClose(updatedEinzelhaendler);      // Aufruf mit dem neuen Einzelhaendler
+      this.props.onClose(updatedEinzelhaendler);      // Aufruf mit dem neuen Einzelhändler
     }).catch(e =>
       this.setState({
         updatingInProgress: false,              // Ladeanzeige deaktivieren
@@ -124,7 +124,7 @@ class EinzelhaendlerForm extends Component {
     let header = '';
 
     if (einzelhaendler) {
-      // customer defindet, so ist an edit dialogmmmmmmmmmmmmmmmmmmmmmmmmmmmm
+      // Erstellt einen neuen Einzelhändler, wenn nicht bereits einer vorhanden ist.
       title = 'Update des Einzelhändlers';
       header = `Einzelhändler ID: ${einzelhaendler.getID()}`;
     } else {
@@ -163,7 +163,7 @@ class EinzelhaendlerForm extends Component {
               Abbrechen
             </Button>
             {
-              // Wenn Einzelhaendler vorhanden ist, zeige eine Update Taste, sonst eine Anlegen Taste.
+              // Wenn ein Einzelhändler vorhanden ist, zeige eine Update Taste, sonst eine Anlegen Taste.
               einzelhaendler ?
                 <Button disabled={einzelhaendlerNameValidationFailed} variant='contained' onClick={this.updateEinzelhaendler} color='primary'>
                   Update
@@ -203,7 +203,7 @@ EinzelhaendlerForm.propTypes = {
   show: PropTypes.bool.isRequired,
   /**
    * Handler Funktion, die aufgerufen wird wenn der Dialog geschlossen ist.
-   * Sendet das editierte oder angelegte EinzelhaendlerBO als Parameter oder null,
+   * Sendet das bearbeitete oder angelegte EinzelhaendlerBO als Parameter, oder null,
    * wenn abbrechen gedrückt wurde.
    */
   onClose: PropTypes.func.isRequired,
