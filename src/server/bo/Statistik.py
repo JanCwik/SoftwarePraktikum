@@ -5,7 +5,6 @@ class Statistik():
         self._ArtikelID = 0
         self._EinzelhaendlerID = 0
 
-
     def set_gesamtzahl(self, gesamtzahl):
         """Setzen der Anzahl"""
         self._gesamtzahl = gesamtzahl
