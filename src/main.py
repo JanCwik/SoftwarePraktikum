@@ -11,19 +11,17 @@ from src.server.bo.Anwenderverbund import Anwenderverbund
 from src.server.bo.Listeneintrag import Listeneintrag
 from src.server.bo.Statistik import Statistik
 
-
 from src.SecurityDecorator import secured
 
 """requirements: Flask, Flask-Cors, flask-restx, mysql-connector-python"""
 
 app = Flask(__name__)
 
-
-CORS(app)                  # als zweiter parameter könnte man auch noch folgendes hinzufügen:
-                           # , resources=r'/shopping/*'      oder    , resources={r"/shopping/*": {"origins": "*"}}
+CORS(app)  # als zweiter parameter könnte man auch noch folgendes hinzufügen:
+# , resources=r'/shopping/*'      oder    , resources={r"/shopping/*": {"origins": "*"}}
 
 api = Api(app, version='1.0', title='ShoppingList API',
-    description='Das ist unserer API für die Shoppinglist.')
+          description='Das ist unserer API für die Shoppinglist.')
 
 shopping = api.namespace('shopping', description='Funktionen der Shoppinglist')
 
@@ -36,7 +34,7 @@ namedBO = api.inherit('namedBO', bo, {
     'erstellungs_zeitpunkt': fields.String(attribute='_erstellungs_zeitpunkt', description='Erstellungszeitpunkt'),
 })
 
-artikel = api.inherit('Artikel',namedBO, {
+artikel = api.inherit('Artikel', namedBO, {
     'einheit': fields.String(attribute='_einheit', description='Name eines Artikels'),
     'standardartikel': fields.Boolean(attribute='_standardartikel', description='Standardartikel'),
 })
@@ -53,8 +51,7 @@ einkaufsliste = api.inherit('Einkaufsliste', namedBO, {
     'anwenderverbund_id': fields.Integer(attribute='_anwenderverbund_id', description='ID des Anwenderverbundes')
 })
 
-anwenderverbund = api.inherit('Anwenderverbund', namedBO,bo )
-
+anwenderverbund = api.inherit('Anwenderverbund', namedBO, bo)
 
 listeneintrag = api.inherit('Listeneintrag', bo, {
     'menge': fields.Integer(attribute='_anzahl', description='Anzahl'),
@@ -71,12 +68,11 @@ listeneintrag = api.inherit('Listeneintrag', bo, {
 
 })
 
-#Statistik hinzugefügt, Maik
+# Statistik hinzugefügt, Maik
 statistik = api.inherit('Statistik', {
     'gesamtzahl': fields.String(attribute='_gesamtzahl', description='Gesamtzahl wie oft der Artikel gekauft wurde'),
     'ArtikelID': fields.Integer(attribute='_ArtikelID', description='ID des Anwenderverbundes')
 })
-
 
 
 @shopping.route('/artikel')
@@ -130,7 +126,7 @@ class ArtikelOperations(Resource):
     @secured
     def put(self, id):
         """Update eines durch eine id bestimmten Artikel"""
-     
+
         adm = ApplikationsAdministration()
         a = Artikel.from_dict(api.payload)
 
@@ -155,18 +151,7 @@ class ArtikelByNameOperations(Resource):
         return artikel
 
 
-
-
-
-
-
 """Artikel DONE -> no error. Listeneintrag NEXT"""
-
-
-
-
-
-
 
 
 @shopping.route('/listeneintrag')
@@ -217,6 +202,7 @@ class ListeneintragOperations(Resource):
         else:
             return '', 500
 
+
 @shopping.route('/listeneintrag-by-id/<int:id>')
 @shopping.response(500, 'Serverfehler')
 @shopping.param('id', 'ID des Listeneintrages')
@@ -228,7 +214,8 @@ class ListeneintragOperations(Resource):
         adm = ApplikationsAdministration()
         listeneintrag = adm.get_listeneintrag_by_id(id)
         return listeneintrag
-    #Zeigt namen nicht an!
+
+    # Zeigt namen nicht an!
 
     @secured
     def delete(self, id):
@@ -255,16 +242,7 @@ class ListeneintragOperations(Resource):
             return '', 500
 
 
-
-
-
-
 """Listeneintrag DONE -> no error. Einzelhaendler NEXT"""
-
-
-
-
-
 
 
 @shopping.route('/einzelhaendler')
@@ -343,17 +321,7 @@ class ArtikelByNameOperations(Resource):
         return einzelhaendler
 
 
-
-
-
-
-
 """Einzelhändler DONE -> no error. Benutzer NEXT. """
-
-
-
-
-
 
 
 @shopping.route('/benutzer')
@@ -476,28 +444,16 @@ class BenutzerRelatedAnwenderverbundOperations(Resource):
 
         if benutzer is not None:
             anwenderverbund_IDs = adm.get_anwenderverbuende_by_benutzer_email(benutzer)
-            result=[]
+            result = []
             for id in anwenderverbund_IDs:
-                Anwenderverbund_objekt=adm.get_anwenderverbund_by_id(id)
+                Anwenderverbund_objekt = adm.get_anwenderverbund_by_id(id)
                 result.append(Anwenderverbund_objekt)
             return result
         else:
             return "Benutzer nicht gefunden", 500
 
 
-
-
-
-
 """Benutzer DONE -> no error. Einkaufsliste NEXT"""
-
-
-
-
-
-
-
-
 
 
 @shopping.route('/einkaufsliste')
@@ -505,13 +461,13 @@ class BenutzerRelatedAnwenderverbundOperations(Resource):
 class EinkaufslisteListOperations(Resource):
     @shopping.marshal_list_with(einkaufsliste)
     @secured
-    def get(self):                                          
+    def get(self):
         adm = ApplikationsAdministration()
         einkaufsliste = adm.get_all_all_einkaufslisten()
         return einkaufsliste
 
 
-#ja diese Methode ist unnöti aber sie wird zurzeit vom frontend benutzt bis wir es richtig hinkriegen
+# ja diese Methode ist unnöti aber sie wird zurzeit vom frontend benutzt bis wir es richtig hinkriegen
 
 @shopping.route('/einkaufsliste')
 @shopping.response(500, 'Serverfehler')
@@ -519,7 +475,7 @@ class EinkaufslisteListOperations(Resource):
     @shopping.marshal_with(einkaufsliste)
     @shopping.expect(einkaufsliste)
     @secured
-    def post(self):                                         #id von Einkaufsliste muss mit id von Anwenderverbund angegeben werden, sonst Server-Error!
+    def post(self):  # id von Einkaufsliste muss mit id von Anwenderverbund angegeben werden, sonst Server-Error!
         """Anlegen einer Einkaufsliste"""
         adm = ApplikationsAdministration()
 
@@ -582,7 +538,8 @@ class EinkaufslisteByNameOperations(Resource):                                  
         return einkaufsliste
 """
 
-#Suche per Name nicht sinnvoll da nicht eindeutig!
+
+# Suche per Name nicht sinnvoll da nicht eindeutig!
 
 @shopping.route('/einkaufsliste/<int:id>/listeneintraege')
 @shopping.response(500, 'Serverfehler')
@@ -602,16 +559,7 @@ class EinkaufslisteRelatedListeneintraegeOperations(Resource):
             return "Einkaufsliste nicht gefunden", 500
 
 
-
-
-
-
 """Einkaufsliste DONE -> no error. Anwenderverbund NEXT"""
-
-
-
-
-
 
 
 @shopping.route('/anwenderverbund')
@@ -702,10 +650,11 @@ class AnwenderverbundRelatedEinkaufslisteOperations(Resource):
         verbund = adm.get_anwenderverbund_by_id(id)
 
         if verbund is not None:
-            einkaufslisten = adm.get_all_einkaufslisten(verbund)
+            einkaufslisten = adm.get_all_einkaufslisten_of_anwenderverbund(verbund)
             return einkaufslisten
         else:
             return "Anwenderverbund nicht gefunden", 500
+
 
 @shopping.route('/anwenderverbund/<int:id>/mitglieder')
 @shopping.response(500, 'Serverfehler')
@@ -720,10 +669,10 @@ class AnwenderverbundRelatedBenutzerOperations(Resource):
 
         if verbund is not None:
 
-            mitgliederID = adm.mitglieder_ausgeben(verbund)
+            mitgliederID = adm.mitglieder_zum_anwenderverbund_ausgeben(verbund)
             benutzeObjekte = []
             for i in mitgliederID:
-                benutzeObjekt= adm.get_benutzer_by_id(i)
+                benutzeObjekt = adm.get_benutzer_by_id(i)
                 benutzeObjekte.append(benutzeObjekt)
             return benutzeObjekte
         else:
@@ -739,7 +688,7 @@ class AnwenderverbundRelatedBenutzerOperations(Resource):
         verbund = adm.get_anwenderverbund_by_id(id)
         mitglied = Benutzer.from_dict(api.payload)
         if verbund is not None:
-            adm.mitglieder_hinzufuegen(verbund, mitglied)
+            adm.mitglieder_zum_anwenderverbund_hinzufügen(verbund, mitglied)
             return mitglied
         else:
             return "Benutzer oder Anwenderverbund unbekannt", 500
@@ -754,15 +703,17 @@ class AnwenderverbundRelatedBenutzerOperations(Resource):
         verbund = adm.get_anwenderverbund_by_id(id)
         mitglied = Benutzer.from_dict(api.payload)
         if verbund is not None:
-            adm.mitglieder_entfernen(verbund, mitglied)#Name der Methode geändert,Maik
+            adm.mitglieder_vom_anwenderverbund_entfernen(verbund, mitglied)  # Name der Methode geändert,Maik
             return mitglied
         else:
             return "Benutzer oder Anwenderverbund unbekannt", 500
 
+
 """Anwenderverbund DONE -> no error"""
 
-
 """Statistik-Methoden, Maik"""
+
+
 @shopping.route('/statistik')
 @shopping.response(500, 'Serverfehler')
 class StatistikGetTopArtikelOperations(Resource):
@@ -778,6 +729,3 @@ class StatistikGetTopArtikelOperations(Resource):
 
 if __name__ == '__main__':
     app.run(debug=True)
-
-
-
