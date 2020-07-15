@@ -13,13 +13,11 @@ class MitgliedschaftMapper(Mapper):
         """ Mapper-Methode zum löschen eines Anwenderverbunds aus der Datenbank.
 
         Beim Aufruf der Methode wird eine zuvor erstellte Instanz der Klasse "Anwenderverbund()" übergeben.
-        Dann erfolgt ein SQL-Statement welches das Objekt aus der Datenbank löscht.
-        Mittels der getter-Methode, welche zuvor in der entsprechenden Business-Object-Klasse definierten wurde,
-        wird die entsprechende ID der Instanz an das SQL-Statement übergeben."""
+        Dann erfolgt ein SQL-Statement welches die Tabelle mitgliedschaft bereinigt, indem alle Einträge gelöscht werden,
+        in den der Anwenderverbund vorhanden ist."""
         cursor = self._cnx.cursor()
 
-        mitgliedschaftloeschen = "DELETE FROM mitgliedschaft WHERE anwenderverbund_id={}".format(
-            anwenderverbund.get_id())
+        mitgliedschaftloeschen = "DELETE FROM mitgliedschaft WHERE anwenderverbund_id={}".format(anwenderverbund.get_id())
         cursor.execute(mitgliedschaftloeschen)
 
         self._cnx.commit()
@@ -32,9 +30,9 @@ class MitgliedschaftMapper(Mapper):
         Dann wird ein entsprechender Eintrag in der Tabelle Mitgliedschaft hinzugefügt."""
         cursor = self._cnx.cursor()
 
-        template = "INSERT INTO mitgliedschaft (anwenderverbund_id, benutzer_id) VALUES (%s,%s)"
-        vals = (anwenderverbund.get_id(), benutzer.get_id())
-        cursor.execute(template, vals)
+        statement = "INSERT INTO mitgliedschaft (anwenderverbund_id, benutzer_id) VALUES (%s,%s)"
+        werte = (anwenderverbund.get_id(), benutzer.get_id())
+        cursor.execute(statement, werte)
 
         self._cnx.commit()
         cursor.close()
@@ -54,14 +52,7 @@ class MitgliedschaftMapper(Mapper):
         cursor.close()
 
     def alle_benutzer_ausgeben(self, anwenderverbund):
-        """Mapper-Methode zum ausgeben aller Benutzer aus einem Anwenderverbund.
-
-        Hier werden via SQL-Abfrage alle Benutzer aus der Mitgliedschaft von dem bestimmten Anwenderverbund ausgegeben.
-        Anschließend werden aus den Zeilen der Datenbank (welche ein Objekt mit dessen Attributen darstellen)
-        mit der fetchall-Methode Tupel erstellt.
-
-        Mittels For-Schleife werden die einzelnen Attribute aus einem Tupel gezogen und einer neuen Instanz übergeben
-        und dann zurückgegeben."""
+        """Mapper-Methode zum ausgeben aller Benutzer aus einem Anwenderverbund."""
         result = []
         cursor = self._cnx.cursor()
         cursor.execute(
@@ -69,8 +60,8 @@ class MitgliedschaftMapper(Mapper):
         res = cursor.fetchall()
 
         for i in res:
-            for i in i:
-                result.append(i)
+            for k in i:
+                result.append(k)
         self._cnx.commit()
         cursor.close()
 

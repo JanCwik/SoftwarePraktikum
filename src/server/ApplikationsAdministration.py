@@ -19,6 +19,7 @@ class ApplikationsAdministration(object):
     def __init__(self):
         pass
 
+    """ Methoden bezüglich Artikel - Kommi zur Übersicht kann nacher gelöscht werden -"""
     def artikel_anlegen(self, name, einheit, standardartikel):
         """Methode zum Anlegen eines neuen Artikels in der Datenbank"""
         artikel = Artikel()
@@ -54,6 +55,15 @@ class ApplikationsAdministration(object):
         with ArtikelMapper() as mapper:
             mapper.update(artikel)
 
+
+
+
+
+
+
+
+    """Methoden bezüglich einzelhändler - Kommi zur Übersicht kann nacher gelöscht werden -"""
+
     def einzelhaendler_anlegen(self, name, id):
         """Methode zum Anlegen eines neuen Einzelhändlers in der Datenbank"""
         einzelhaendler = Einzelhaendler()
@@ -88,6 +98,17 @@ class ApplikationsAdministration(object):
         """Methode zum aktualisieren eines Einzelhändlers in der Datenbank"""
         with EinzelhaendlerMapper() as mapper:
             mapper.update(einzelhaendler)
+
+
+
+
+
+
+
+
+
+
+    """Methoden bezüglich benutzer - Kommi zur Übersicht kann nacher gelöscht werden -"""
 
     def benutzer_anlegen(self, name, email, google_id):
         """Methode zum Anlegen eines neuen Benutzers in der Datenbank"""
@@ -145,6 +166,19 @@ class ApplikationsAdministration(object):
         with BenutzerMapper() as mapper:
             return mapper.alle_anwenderverbunde_ausgeben(benutzer)
 
+
+
+
+
+
+
+
+
+
+
+
+    """Methoden bezüglich Anwenderverbund - Kommi zur Übersicht kann nacher gelöscht werden -"""
+
     def anwenderverbund_anlegen(self, name):
         """Methode zum Anlegen eines neuen Anwenderverbunds in der Datenbank"""
         anwenderverbund = Anwenderverbund()
@@ -165,19 +199,19 @@ class ApplikationsAdministration(object):
             mapper.deleteByAnwenderverbund(anwenderverbund)
 
         with EinkaufslistenMapper() as mapper:
-            listen=  mapper.GetEinkaufslistenByAnwendeverbund(anwenderverbund)
+            listen = mapper.GetEinkaufslistenByAnwendeverbund(anwenderverbund)
 
         for i in listen:
-            for i in i:
+            for k in i:
 
                 with ListeneintragMapper() as mapper:
-                    eintraege= mapper.GetListeneintraegeByEinkaufsliste(i)
+                    eintraege = mapper.GetListeneintraegeByEinkaufsliste(k)
 
                 for i in eintraege:
-                    for i in i:
+                    for k in i:
 
                         with ListeneintragMapper() as mapper:
-                            mapper.delete(i)
+                            mapper.delete(k)
 
         with EinkaufslistenMapper() as mapper:
             mapper.DeleteEinkaufslistenByAnwendeverbund(anwenderverbund)
@@ -200,39 +234,53 @@ class ApplikationsAdministration(object):
         with AnwenderverbundMapper() as mapper:
             mapper.update(anwenderverbund)
 
-    def get_all_einkaufslisten(self, anwenderverbund):
+    def get_all_einkaufslisten_of_anwenderverbund(self, anwenderverbund):
         """Methode zum ausgeben aller Einkaufslisten die zum jeweiligen Anwenderverbund gehören"""
-        with AnwenderverbundMapper() as mapper:
-            return mapper.find_all_einkaufslisten(anwenderverbund)
+        with EinkaufslistenMapper() as mapper:
+            return mapper.GetEinkaufslistenByAnwendeverbund(anwenderverbund)
         #Änderung: Hier wird ganze Instanz übergeben statt nur id
 
-    def mitglieder_hinzufuegen(self, anwenderverbund, benutzer):
+    def mitglieder_zum_anwenderverbund_hinzufügen(self, anwenderverbund, benutzer):
         """Methode um Mitglieder einem Anwenderverbund hinzuzufügen"""
-        with AnwenderverbundMapper() as mapper:
+        with MitgliedschaftMapper() as mapper:
             return mapper.benutzer_hinzufuegen(anwenderverbund, benutzer)
 
-    def mitglieder_ausgeben(self, anwenderverbund):
+    def mitglieder_zum_anwenderverbund_ausgeben(self, anwenderverbund):
         """Methode zum ausgeben aller Mitglieder eines Anwenderverbunds"""
-        with AnwenderverbundMapper() as mapper:
+        with MitgliedschaftMapper() as mapper:
             return mapper.alle_benutzer_ausgeben(anwenderverbund)
 
-    def mitglieder_entfernen(self, anwenderverbund, benutzer):#Name der Methode geändert, Maik
+    def mitglieder_vom_anwenderverbund_entfernen(self, anwenderverbund, benutzer):#Name der Methode geändert, Maik
         """Methode zum entfernen einzelner Mitglieder aus einem Anwenderverbund"""
-        with AnwenderverbundMapper() as mapper:
+        with MitgliedschaftMapper as mapper:
             return mapper.benutzer_loeschen(anwenderverbund, benutzer)
 
 
-    """ METHODEN ZUR VERWALTUNG VON EINKAUFSLISTEN IN DER DATENBANK"""
 
-    """______________________________________________________"""
 
-    """ Methode zum ausgeben aller Einkaufslisten aus der Datenbank"""
+
+
+
+
+
+
+
+
+
+
+
+
+
+    """ METHODEN ZUR VERWALTUNG VON EINKAUFSLISTEN IN DER DATENBANK- Kommi zur Übersicht kann nacher gelöscht werden -"""
+
+
 
     def get_all_all_einkaufslisten(self):
+        """ Methode zum ausgeben aller Einkaufslisten aus der Datenbank"""
         with EinkaufslistenMapper() as mapper:
             return mapper.find_all_all_einkaufslisten()
 
-    """ Methode zum Anlegen einer neuen Einkaufsliste in der Datenbank"""
+
 
     def einkaufsliste_anlegen(self, name, anwenderverbund):
         """Methode zum Anlegen einer neuen Einkaufsliste in der Datenbank"""
@@ -268,6 +316,19 @@ class ApplikationsAdministration(object):
         """ Methode zum ausgeben aller Listeneinträge die zur jeweiligen Einkaufsliste gehören"""
         with EinkaufslistenMapper() as mapper:
             return mapper.find_all_listeneintraege(einkaufsliste)
+
+
+
+
+
+
+
+
+
+
+
+
+    """Methoden bezüglich einkaufslisten - Kommi zur Übersicht kann nacher gelöscht werden - """
 
     """ 
     def listeneintrag_anlegen(self, anzahl, einkaufsliste, einzelhaendler, artikel, benutzer, erledigt):
@@ -309,6 +370,18 @@ class ApplikationsAdministration(object):
         with ListeneintragMapper() as mapper:
             mapper.delete(listeneintrag)
 
+
+
+
+
+
+
+
+
+
+
+
+    """Methoden bezüglich der Statistik - Kommi zur Übersicht kann nacher gelöscht werden -"""
     def statistik(self):
         with StatistikMapper() as mapper:
             return mapper.get_top_Artikel()
@@ -320,4 +393,3 @@ class ApplikationsAdministration(object):
     def statistik_pro_monat(self):
         with StatistikMapper() as mapper:
             return mapper.get_top_proMonat()
-
