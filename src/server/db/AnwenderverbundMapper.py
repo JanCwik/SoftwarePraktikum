@@ -1,7 +1,5 @@
 from src.server.db.Mapper import Mapper
 from src.server.bo.Anwenderverbund import Anwenderverbund
-from src.server.bo.Einkaufsliste import Einkaufsliste
-from src.server.bo.Benutzer import Benutzer
 
 
 class AnwenderverbundMapper(Mapper):
@@ -10,22 +8,19 @@ class AnwenderverbundMapper(Mapper):
         super().__init__()
 
     def find_all(self):
-        """ Mapper-Methode zum ausgeben aller Anwenderverbunde aus der Datenbank.
+        """Mapper-Methode zum ausgeben aller Anwenderverbunde aus der Datenbank
 
         Hier werden via SQL-Abfrage alle Anwenderverbunde aus der Datenbank ausgegeben.
-        Anschließend werden aus den Zeilen der Datenbank (welche ein Objekt mit dessen Attributen darstellen)
-        mit der fetchall-Methode Tupel erstellt.
-
-        Mittels For-Schleife werden die einzelnen Attribute aus einem Tupel gezogen und einer neuen Instanz der
+        Die Anwenderverbund-Objekte werden anschließend von der fetchall()-Methode als Tupel zurückgegeben.
+        Mittels einer For-Schleife werden die einzelnen Attribute aus einem Tupel gezogen und einer neuen Instanz der
         Klasse "Anwenderverbund()" übergeben. Die einzelnen Instanzen werden in einem Array gespeichert.
         Das Array mit allen Instanzen wird schließlich zurückgegeben."""
         result = []
         cursor = self._cnx.cursor()
-        cursor.execute("SELECT * FROM anwenderverbund")
-        res = cursor.fetchall()
+        cursor.execute("SELECT id, name, erstellungs_zeitpunkt FROM anwenderverbund")
+        verbunde = cursor.fetchall()
 
-        for(id, name, erstellungs_zeitpunkt) in res:
-
+        for (id, name, erstellungs_zeitpunkt) in verbunde:
             anwenderverbund = Anwenderverbund()
             anwenderverbund.set_id(id)
             anwenderverbund.set_name(name)
@@ -53,27 +48,26 @@ class AnwenderverbundMapper(Mapper):
         Mittels der getter-Methoden, welche zuvor in der entsprechenden Business-Object-Klasse definierten wurden,
         werden die Attribute der Instanz an das SQL-Statement übergeben."""
         cursor = self._cnx.cursor()
-        cursor.execute("SELECT MAX(id) AS maxid FROM anwenderverbund ")
-        ins = cursor.fetchall()
+        cursor.execute("SELECT MAX(id) FROM anwenderverbund ")
+        maxid = cursor.fetchall()
 
-        for (maxid) in ins:
-            if maxid[0] is not None:
-                anwenderverbund.set_id(maxid[0] + 1)
+        for i in maxid:
+            if i[0] is not None:
+                anwenderverbund.set_id(i[0] + 1)
             else:
                 anwenderverbund.set_id(1)
 
-        template = "INSERT INTO anwenderverbund (id, name, erstellungs_zeitpunkt) VALUES (%s,%s,%s)"
-        vals = (anwenderverbund.get_id(), anwenderverbund.get_name(), anwenderverbund.get_erstellungs_zeitpunkt())
-        cursor.execute(template, vals)
+        statement = "INSERT INTO anwenderverbund (id, name, erstellungs_zeitpunkt) VALUES (%s,%s,%s)"
+        werte = (anwenderverbund.get_id(), anwenderverbund.get_name(), anwenderverbund.get_erstellungs_zeitpunkt())
+        cursor.execute(statement, werte)
 
         self._cnx.commit()
         cursor.close()
 
         return anwenderverbund
 
-
     def update(self, anwenderverbund):
-        """ Mapper-Methode zum aktualisieren (der Attribute) eines Anwenderverbunds in der Datenbank.
+        """ Mapper-Methode zum aktualisieren eines Anwenderverbunds in der Datenbank.
 
         Beim Aufruf der Methode wird eine zuvor erstellte Instanz der Klasse "Anwenderverbund()" übergeben.
         Dann erfolgt ein SQL-Statement welches das Objekt in der Datenbank aktualisiert.
@@ -81,14 +75,12 @@ class AnwenderverbundMapper(Mapper):
         werden die Attribute der Instanz an das SQL-Statement übergeben."""
         cursor = self._cnx.cursor()
 
-        template = "UPDATE anwenderverbund " + "SET name=%s WHERE id=%s"
-        vals = (anwenderverbund.get_name(), anwenderverbund.get_id())
-        cursor.execute(template, vals)
+        statement = "UPDATE anwenderverbund " + "SET name=%s WHERE id=%s"
+        werte = (anwenderverbund.get_name(), anwenderverbund.get_id())
+        cursor.execute(statement, werte)
 
         self._cnx.commit()
         cursor.close()
-
-
 
     def delete(self, anwenderverbund):
         """ Mapper-Methode zum löschen eines Anwenderverbunds aus der Datenbank.
@@ -99,10 +91,8 @@ class AnwenderverbundMapper(Mapper):
         wird die entsprechende ID der Instanz an das SQL-Statement übergeben."""
         cursor = self._cnx.cursor()
 
-
-
-        anwenderverbundloeschen = "DELETE FROM anwenderverbund WHERE id={}".format(anwenderverbund.get_id())
-        cursor.execute(anwenderverbundloeschen)
+        statement = "DELETE FROM anwenderverbund WHERE id={}".format(anwenderverbund.get_id())
+        cursor.execute(statement)
 
         self._cnx.commit()
         cursor.close()
@@ -117,19 +107,19 @@ class AnwenderverbundMapper(Mapper):
         Sollte die Datenbank anhand der ID kein Objekt zurückliefern, wird ausgegeben was innerhalb des IndexErrors steht --> None
         Das Ergebnis wir schließlich von der Mehtode zurückgegeben."""
         cursor = self._cnx.cursor()
-        command = "SELECT id, name, erstellungs_zeitpunkt FROM anwenderverbund WHERE id={}".format(id)
-        cursor.execute(command)
-        tuples = cursor.fetchall()
+        statement = "SELECT id, name, erstellungs_zeitpunkt FROM anwenderverbund WHERE id={}".format(id)
+        cursor.execute(statement)
+        verbund = cursor.fetchall()
 
         try:
-            (id, name, erstellungs_zeitpunkt) = tuples[0]
+            (id, name, erstellungs_zeitpunkt) = verbund[0]
             anwenderverbund = Anwenderverbund()
             anwenderverbund.set_id(id)
             anwenderverbund.set_name(name)
             anwenderverbund.set_erstellungs_zeitpunkt(erstellungs_zeitpunkt)
             result = anwenderverbund
         except IndexError:
-           result = None
+            result = None
 
         self._cnx.commit()
         cursor.close()
@@ -146,94 +136,21 @@ class AnwenderverbundMapper(Mapper):
         Sollte die Datenbank anhand des Namens kein Objekt zurückliefern, wird ausgegeben was innerhalb des IndexErrors steht --> None
         Das Ergebnis wir schließlich von der Mehtode zurückgegeben."""
         cursor = self._cnx.cursor()
-        command = "SELECT id, name, erstellungs_zeitpunkt FROM anwenderverbund WHERE name LIKE '{}' ORDER BY name".format(
+        statement = "SELECT id, name, erstellungs_zeitpunkt FROM anwenderverbund WHERE name LIKE '{}' ORDER BY name".format(
             name)
-        cursor.execute(command)
-        tuples = cursor.fetchall()
+        cursor.execute(statement)
+        verbund = cursor.fetchall()
 
         try:
-            (id, name, erstellungs_zeitpunkt) = tuples[0]
+            (id, name, erstellungs_zeitpunkt) = verbund[0]
             anwenderverbund = Anwenderverbund()
             anwenderverbund.set_id(id)
             anwenderverbund.set_name(name)
             anwenderverbund.set_erstellungs_zeitpunkt(erstellungs_zeitpunkt)
             result = anwenderverbund
         except IndexError:
-             result = None
+            result = None
 
-        self._cnx.commit()
-        cursor.close()
-
-        return result
-
-    def find_all_einkaufslisten(self, anwenderverbund):
-        """Mapper-Methode zum ausgeben aller Einkaufslisten zu einem Anwenderverbund."""
-        id = anwenderverbund.get_id()
-        #Änderung: Hier wird ganze Instanz übegeben und erst hier die ID genommen
-        result = []
-        cursor = self._cnx.cursor()
-        cursor.execute("SELECT * FROM einkaufsliste WHERE anwenderverbund_id={}".format(id))
-        res = cursor.fetchall()
-
-        for(id, name, erstellungs_zeitpunkt, aenderungs_zeitpunkt, anwenderverbund_id) in res:
-            einkaufsliste = Einkaufsliste()
-            einkaufsliste.set_id(id)
-            einkaufsliste.set_name(name)
-            einkaufsliste.set_erstellungs_zeitpunkt(erstellungs_zeitpunkt)
-            einkaufsliste.set_änderungs_zeitpunkt(aenderungs_zeitpunkt)
-            einkaufsliste.set_anwenderId(anwenderverbund_id)
-            result.append(einkaufsliste)
-
-        self._cnx.commit()
-        cursor.close()
-
-        return result
-
-    def benutzer_hinzufuegen(self, anwenderverbund, benutzer):
-        """ Mapper-Methode zum hinzufügen eines Benutzers in eine Mitgliedschaft.
-
-        Beim Aufrufen der Methode wird eine Instanz der Klasse "Anwenderverbund()" und "Benutzer()" übergeben.
-        Dann wird ein entsprechender Eintrag in der Tabelle Mitgliedschaft hinzugefügt."""
-        cursor = self._cnx.cursor()
-
-        template = "INSERT INTO mitgliedschaft (anwenderverbund_id, benutzer_id) VALUES (%s,%s)"
-        vals = (anwenderverbund.get_id(), benutzer.get_id())
-        cursor.execute(template, vals)
-
-        self._cnx.commit()
-        cursor.close()
-
-    def benutzer_loeschen(self, anwenderverbund, benutzer):
-        """ Mapper-Methode zum löschen eines Benutzers aus einer Mitgliedschaft.
-
-        Beim Aufrufen der Methode wird eine Instanz der Klasse "Anwenderverbund()" und "Benutzer()" übergeben.
-        Dann wird der entsprechende Eintrag in der Tabelle Mitgliedschaft gelöscht."""
-        cursor = self._cnx.cursor()
-
-        template = "DELETE FROM mitgliedschaft " + "WHERE anwenderverbund_id=%s AND benutzer_id=%s"
-        vals = (anwenderverbund.get_id(), benutzer.get_id())
-        cursor.execute(template, vals)
-
-        self._cnx.commit()
-        cursor.close()
-
-    def alle_benutzer_ausgeben(self, anwenderverbund):
-        """Mapper-Methode zum ausgeben aller Benutzer aus einem Anwenderverbund.
-
-        Hier werden via SQL-Abfrage alle Benutzer aus der Mitgliedschaft von dem bestimmten Anwenderverbund ausgegeben.
-        Anschließend werden aus den Zeilen der Datenbank (welche ein Objekt mit dessen Attributen darstellen)
-        mit der fetchall-Methode Tupel erstellt.
-
-        Mittels For-Schleife werden die einzelnen Attribute aus einem Tupel gezogen und einer neuen Instanz übergeben
-        und dann zurückgegeben."""
-        result=[]
-        cursor = self._cnx.cursor()
-        cursor.execute("SELECT benutzer_id FROM mitgliedschaft WHERE anwenderverbund_id={}".format(anwenderverbund.get_id()))
-        res = cursor.fetchall()
-
-        for i in res:
-            for i in i:
-                result.append(i)
         self._cnx.commit()
         cursor.close()
 
