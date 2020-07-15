@@ -12,7 +12,7 @@ class EinzelhaendlerMapper(Mapper):
 
         Hier werden via SQL-Abfrage alle Einzelhändler aus der Datenbank ausgegeben.
         Die Einzelhändler-Objekte werden anschließend von der fetchall()-Methode als Tupel zurückgegeben.
-        Mittels For-Schleife werden die einzelnen Attribute aus einem Tupel gezogen und einer neuen Instanz der
+        Mittels einer For-Schleife werden die einzelnen Attribute aus einem Tupel gezogen und einer neuen Instanz der
         Klasse "Einzelhaendler()" übergeben. Die einzelnen Instanzen werden in einem Array gespeichert.
         Das Array mit allen Instanzen wird schließlich zurückgegeben."""
         result = []
