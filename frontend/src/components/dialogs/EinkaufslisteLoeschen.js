@@ -3,17 +3,16 @@ import PropTypes from 'prop-types';
 import { withStyles, Button, IconButton, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions } from '@material-ui/core';
 import CloseIcon from '@material-ui/icons/Close';
 import  API from '../../api/API';
-import EinkaufslisteBO from "../../api/EinkaufslisteBO";
 import ContextErrorMessage from './ContextErrorMessage';
 import LoadingProgress from './LoadingProgress';
 
 /**
- * Zeigt einen modalen loeschen/abbrechen Dialog, der nach dem löschen eines Einzelhaendlers fragt. Um den EinzelhaendlerBO
- * zu loeschen muss er in prop Einzelhaendler gegeben sein. In Abhängigkeit der Benutzerinteraktion (loeschen/abbrechen)
- * wird jeweils der Backendaufruf gemacht. Danch wird die Funktion onClose prop mit dem EinzelhaendlerBO loeschen
+ * Zeigt einen modalen löschen/abbrechen Dialog, der nach dem löschen eines Einzelhändlers fragt. Um den EinzelhaendlerBO
+ * zu löschen muss er in prop Einzelhaendler gegeben sein. In Abhängigkeit der Benutzerinteraktion (löschen/abbrechen)
+ * wird jeweils der Backendaufruf gemacht. Danch wird die Funktion onClose prop mit dem EinzelhaendlerBO löschen
  * Objekt als Parameter aufgerufen. Wenn der Dialog abgebrochen wird, wird onClose mit null aufgerufen.
- *  When the dialog is canceled, onClose is called with null.
  */
+
 class EinkaufslisteLoeschen extends Component {
 
   constructor(props) {
@@ -26,14 +25,14 @@ class EinkaufslisteLoeschen extends Component {
     };
   }
 
-  /** Löschen des Einzelhaendlers */
+  /** Löschen des Einzelhändlers */
   deleteEinkaufsliste = () => {
     API.getAPI().deleteEinkaufslisteAPI(this.props.einkaufsliste.getID()).then(einkaufsliste => {
       this.setState({
         deletingInProgress: false,              // Ladeanzeige deaktivieren
         deletingError: null                     // Keine Error Nachricht
       });
-      this.props.onClose(this.props.einkaufsliste);  // Aufruf des Urhebers mit dem geloeschten Einzelhaendler
+      this.props.onClose(this.props.einkaufsliste);  // Aufruf des Urhebers mit dem gelöschten Einzelhändler
     }).catch(e =>
       this.setState({
         deletingInProgress: false,              // Ladeanzeige deaktivieren
@@ -50,7 +49,6 @@ class EinkaufslisteLoeschen extends Component {
 
   /** Behandelt das schließen/abbrechen Tasten Klickereignis */
   handleClose = () => {
-    // console.log(event);
     this.props.onClose(null);
   }
 

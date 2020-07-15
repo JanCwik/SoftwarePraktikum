@@ -7,11 +7,12 @@ import ContextErrorMessage from './ContextErrorMessage';
 import LoadingProgress from './LoadingProgress';
 
 /**
- * Zeigt einen modalen loeschen/abbrechen Dialog, der nach dem löschen eines Artikels fragt. Um den ArtikelBO
- * zu loeschen muss er in prop Artikel gegeben sein. In Abhängigkeit der Benutzerinteraktion (loeschen/abbrechen)
- * wird jeweils der Backendaufruf gemacht. Danch wird die Funktion onClose prop mit dem ArtikelBO loeschen
+ * Zeigt einen modalen löschen/abbrechen Dialog, der nach dem löschen eines Artikels fragt. Um das ArtikelBO
+ * zu löschen muss er in prop artikel gegeben sein. In Abhängigkeit der Benutzerinteraktion (löschen/abbrechen)
+ * wird jeweils der Backendaufruf gemacht. Danch wird die Funktion onClose prop mit dem ArtikelBO löschen
  * Objekt als Parameter aufgerufen. Wenn der Dialog abgebrochen wird, wird onClose mit null aufgerufen.
  */
+
 class ArtikelLoeschen extends Component {
 
   constructor(props) {
@@ -31,7 +32,7 @@ class ArtikelLoeschen extends Component {
         deletingInProgress: false,              // Ladeanzeige deaktivieren
         deletingError: null                     // Keine Error Nachricht
       });
-      this.props.onClose(this.props.artikel);  // Aufruf des Urhebers mit dem geloeschten Artikel
+      this.props.onClose(this.props.artikel);  // Aufruf des Urhebers mit dem gelöschten Artikel
     }).catch(e =>
       this.setState({
         deletingInProgress: false,              // Ladeanzeige deaktivieren
@@ -48,7 +49,6 @@ class ArtikelLoeschen extends Component {
 
   /** Behandelt das schließen/abbrechen Tasten Klickereignis */
   handleClose = () => {
-    // console.log(event);
     this.props.onClose(null);
   }
 
@@ -107,7 +107,7 @@ ArtikelLoeschen.propTypes = {
   show: PropTypes.bool.isRequired,
   /**
    * Handler Funktion, die aufgerufen wird, wenn der Dialog geschlossen wurde.
-   * Sendet das geloeschte ArtikelBO als Parameter oder null, wenn abbrechen gedrückt wurde.
+   * Sendet das gelöschte ArtikelBO als Parameter oder null, wenn abbrechen gedrückt wurde.
    */
   onClose: PropTypes.func.isRequired,
 }
