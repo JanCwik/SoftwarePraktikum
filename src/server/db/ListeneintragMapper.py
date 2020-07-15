@@ -9,6 +9,7 @@ class ListeneintragMapper(Mapper):
         super().__init__()
 
     def GetListeneintraegeByEinkaufsliste(self, id):
+        """ Mapper-Methode zum ausgeben aller Listeneinträge, die zu einer Einkaufsliste gehören"""
         cursor = self._cnx.cursor()
 
         eintraegeauslesen = "SELECT id FROM listeneintrag WHERE einkaufsliste_id={}".format(id)
@@ -116,17 +117,12 @@ class ListeneintragMapper(Mapper):
         return result
 
     def delete(self, id):
-        """Mapper-Methode zum löschen eines Listeneintrags aus der Datenbank
-
-        Beim Aufruf der Methode wird eine zuvor erstellte Instanz der Klasse "Listeneintrag()" übergeben.
-        Dann erfolgt ein SQL-Statement welches das Objekt aus der Datenbank löscht.
-        Mittels der getter-Methode, welche zuvor in der entsprechenden Business-Object-Klasse definierten wurde,
-        wird die entsprechende ID der Instanz an das SQL-Statement übergeben.."""
+        """Mapper-Methode zum löschen eines Listeneintrags aus der Datenbank anhand dessen ID"""
 
         cursor = self._cnx.cursor()
 
-        template = "DELETE FROM listeneintrag WHERE id={}".format(id)
-        cursor.execute(template)
+        statement = "DELETE FROM listeneintrag WHERE id={}".format(id)
+        cursor.execute(statement)
 
         self._cnx.commit()
         cursor.close()

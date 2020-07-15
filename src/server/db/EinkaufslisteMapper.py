@@ -267,12 +267,7 @@ class EinkaufslistenMapper(Mapper):
 
 
     def GetEinkaufslistenByAnwendeverbund(self, anwenderverbund):
-            """ Mapper-Methode zum löschen eines Anwenderverbunds aus der Datenbank.
-
-            Beim Aufruf der Methode wird eine zuvor erstellte Instanz der Klasse "Anwenderverbund()" übergeben.
-            Dann erfolgt ein SQL-Statement welches das Objekt aus der Datenbank löscht.
-            Mittels der getter-Methode, welche zuvor in der entsprechenden Business-Object-Klasse definierten wurde,
-            wird die entsprechende ID der Instanz an das SQL-Statement übergeben."""
+            """ Mapper-Methode zum ausgeben aller Einkaufslisten, die zu einem Anwenderverbund gehören"""
             cursor = self._cnx.cursor()
 
 
@@ -286,12 +281,7 @@ class EinkaufslistenMapper(Mapper):
             return listen
 
     def DeleteEinkaufslistenByAnwendeverbund(self, anwenderverbund):
-        """ Mapper-Methode zum löschen eines Anwenderverbunds aus der Datenbank.
-
-        Beim Aufruf der Methode wird eine zuvor erstellte Instanz der Klasse "Anwenderverbund()" übergeben.
-        Dann erfolgt ein SQL-Statement welches das Objekt aus der Datenbank löscht.
-        Mittels der getter-Methode, welche zuvor in der entsprechenden Business-Object-Klasse definierten wurde,
-        wird die entsprechende ID der Instanz an das SQL-Statement übergeben."""
+        """ Mapper-Methode zum löschen von Einkaufslisten anhand des Anwenderverbundes"""
         cursor = self._cnx.cursor()
 
         listenloeschen = "DELETE FROM einkaufsliste WHERE anwenderverbund_id={}".format(anwenderverbund.get_id())
