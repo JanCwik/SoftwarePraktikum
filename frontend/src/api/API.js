@@ -28,6 +28,7 @@ export default class API {
     #addArtikelURL = () => `${this.#ServerBaseURL}/artikel`;
     #deleteArtikelURL = (id) => `${this.#ServerBaseURL}/artikel-by-id/${id}`;
     #updateArtikelURL = (id) => `${this.#ServerBaseURL}/artikel-by-id/${id}`;
+    #getArtikelByNamelURL= (name) => `${this.#ServerBaseURL}/artikel-by-name/${name}`;
 
     #getEinzelhaendlerURL = () => `${this.#ServerBaseURL}/einzelhaendler`;
     #addEinzelhaendlerURL = () => `${this.#ServerBaseURL}/einzelhaendler`;
@@ -422,7 +423,9 @@ export default class API {
         })
     }
 
-
+    // Methode die den GET request ausführt und alle in der Datenbank gespeicherten benutzer ausgibt die zu einem
+    // bestimmten Anwenderverbund gehören
+    // Die ID der Anwenderverbund wird an die URL gehängt
     GetBenutzerByAnwenderverbundAPI(id) {
         return this.#fetchAdvanced(this.#getBenutzerByAnwenderverbundURL(id)).then((responseJSON) => {
             let benutzer = BenutzerBO.fromJSON(responseJSON);
@@ -431,6 +434,9 @@ export default class API {
             })
         })
     }
+
+     //führt einen POST Request aus und schreibt dabei das als Parameter übergebene Benutzer-objekt in den Body des Json
+    // und die id des Anwenderverbundes in die URL
     addMitgliedschaftAPI(anwenderverbundID, BenutzerBO) {
         return this.#fetchAdvanced(this.#addMitgliedschaftURL(anwenderverbundID), {
             method: 'POST',
@@ -452,7 +458,7 @@ export default class API {
          */
     }
 
-    //führt einen DELETE Request aus und gibt dabei die id des zu löschenden Listeneintrages weiter
+    //führt einen DELETE Request aus und schreibt dabei die id des Anwenderverbundes in die URL und das BenutzerBO in den Body der Json
     deleteMitgliedschaftAPI(anwenderverbundID,BenutzerBO){
 
         return this.#fetchAdvanced(this.#deleteMitgliedschaftURL(anwenderverbundID), {
@@ -476,6 +482,8 @@ export default class API {
              */
     }
 
+    // Methode die den GET request ausführt und einen benutzer anhand seiner email ausgibt
+    // Die email des Benutzers wird an die URL gehängt
     getBenutzerByEmailAPI(email) {
         return this.#fetchAdvanced(this.#getBenutzerByEmailURL(email)).then((responseJSON) => {
             let benutzer = BenutzerBO.fromJSON(responseJSON);
@@ -485,15 +493,16 @@ export default class API {
         })
     }
 
+    // Methode die den GET request ausführt und einen Artikel anhand seines namen ausgibt
+    // Der name des Artikels wird an die URL gehängt
+    getArtikelByNameAPI(name) {
+        return this.#fetchAdvanced(this.#getArtikelByNamelURL(name)).then((responseJSON) => {
+            let response = ArtikelBO.fromJSON(responseJSON);
+            return new Promise(function (resolve) {
+                resolve(response);
+            })
+        })
+    }
+
+
 }
- /*
-
-
-
-    deleteMitgliedschaft
-
-
-    getallBenutzer ?
-
-
-    */
