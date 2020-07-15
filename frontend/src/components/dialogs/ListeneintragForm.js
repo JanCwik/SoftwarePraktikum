@@ -241,7 +241,7 @@ listeneintragArtikelNameChange = (event) => {
 
 
 /** Searches for customers with a customerName and loads the corresponding accounts */
-  artikelByName = async () => {
+  sucheArtikel = async () => {
     const { listeneintragArtikelName } = this.state;
     if (listeneintragArtikelName.length > 0) {
       try {
@@ -287,8 +287,8 @@ listeneintragArtikelNameChange = (event) => {
             listeneintragArtikelMenge, listeneintragArtikelMengeEdited, listeneintragArtikelEinheit,
             listeneintragArtikelEinheitEdited, listeneintragEinzelhaendlerName, listeneintragEinzelhaendlerNameEdited,
             listeneintragBenutzerName, addingInProgress, addingError, updatingInProgress, updatingError,
-            artikelCombobox, einheitCombobox, einzelhaendlerCombobox, benutzerCombobox, ausgewaehlterArtikelBO, alleArtikel , artikelNotFound } = this.state;
-console.log(listeneintragArtikelName)
+            artikelCombobox, einheitCombobox, einzelhaendlerCombobox, benutzerCombobox, ausgewaehlterArtikelBO, alleArtikel , artikelNotFound, artikelObjekt } = this.state;
+console.log(artikelObjekt)
     let title = '';
     let header = '';
 
@@ -322,12 +322,12 @@ console.log(listeneintragArtikelName)
 
             <TextField autoFocus fullWidth margin='normal' type='text' required id='customerName' label='Customer name:'
                     onChange={this.listeneintragArtikelNameChange}
-                    onBlur={this.artikelByName}
+                    onBlur={this.sucheArtikel}
                     error={artikelNotFound}
                     helperText={artikelNotFound ? 'No customers with the given name have been found' : ' '}
                     InputProps={{
                       endAdornment: <InputAdornment position='end'>
-                        <IconButton onClick={this.artikelByName}>
+                        <IconButton onClick={this.sucheArtikel}>
                           <SearchIcon />
                         </IconButton>
                       </InputAdornment>,
