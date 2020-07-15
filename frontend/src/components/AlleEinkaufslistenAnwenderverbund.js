@@ -8,6 +8,8 @@ import ContextErrorMessage from "./dialogs/ContextErrorMessage";
 import EinkaufslisteForm from "./dialogs/EinkaufslisteForm";
 import PropTypes from "prop-types";
 
+/** Rendert eine Liste von Einkaufslisten, die in den einzelnen Anwenderverbünden enthalten sind. */
+
 class AlleEinkaufslistenAnwenderverbund extends Component{
 
      constructor(props) {
@@ -19,7 +21,7 @@ class AlleEinkaufslistenAnwenderverbund extends Component{
              loadingInProgress: false
          }
      }
-
+  /** Fetchet alle EinkaufslisteBOs für das Backend */
     getEinkaufslisten = () => {
     API.getAPI().getEinkaufslistenByAnwenderverbundAPI(this.props.anwenderverbund.getID())
       .then(EinkaufslistenBOs =>
@@ -43,14 +45,18 @@ class AlleEinkaufslistenAnwenderverbund extends Component{
     );
   }
 
+  /** Lebenszyklus Methode, welche aufgerufen wird, wenn die Komponente in das DOM des Browsers eingefügt wird.*/
+
   componentDidMount() {
     this.getEinkaufslisten();
   }
+
    /**
-   * Behandelt EinkaufslisteDeleted Ereignisse von der Einkaufsliste-ListenEintrag Komponente.
-   * @param einkaufsliste
-   * EinkaufslisteBO von dem Einkaufsliste-ListenEintrag um gelöscht zu werde
+   * Behandelt EinkaufslisteDeleted Ereignisse von der AlleEinkaufslistenListenEintrag Komponente.
+   * @param einkaufsliste EinkaufslisteBO von dem AlleEinkaufslistenListenEintrag um gelöscht zu werden.
    */
+
+  /** Löschen des Artikels */
   einkaufslisteDeleted = einkaufsliste => {
     const newEinkaufslisteList = this.state.einkaufslisten.filter(EinkaufslisteFromState => EinkaufslisteFromState.getID() !== einkaufsliste.getID());
     this.setState({
@@ -59,7 +65,7 @@ class AlleEinkaufslistenAnwenderverbund extends Component{
     });
   }
 
-  //Behandelt das onClick Ereignis, der Einkaufsliste anlegen Taste.
+  /** Behandelt das onClick Ereignis, der Einkaufsliste anlegen Taste. */
   addEinkaufslisteButtonClicked = event => {
     // Nicht das erweiterte state umschalten
     event.stopPropagation();
@@ -69,7 +75,7 @@ class AlleEinkaufslistenAnwenderverbund extends Component{
     });
   }
 
-  // Behandelt das onClose Ereignis vom EinkaufslisteForm
+  /** Behandelt das onClose Ereignis vom EinkaufslisteForm */
   einkaufslisteFormClosed = Einkaufsliste => {
     // Einkaufsliste ist nicht null und deshalb erstellt
     if (Einkaufsliste) {
@@ -104,7 +110,7 @@ render(){
                 </Grid>
             </Grid>
             {
-              // Zeigt die Liste der Einkaufslisten-ListenEintrag Komponenten
+              // Zeigt die Liste der AlleEinkaufslistenListenEintrag Komponenten
               einkaufslisten.map(einkaufsliste =>
                 <AlleEinkaufslistenListenEintrag key={einkaufsliste.getID()} einkaufsliste={einkaufsliste}
                   onEinkaufslisteDeleted={this.einkaufslisteDeleted}
@@ -130,7 +136,7 @@ AlleEinkaufslistenAnwenderverbund.propTypes = {
   classes: PropTypes.object.isRequired,
   /** @ignore */
   location: PropTypes.object.isRequired,
-
+  /** Das AnwenderverbundBO gerendert */
   anwenderverbund: PropTypes.object.isRequired,
 }
 

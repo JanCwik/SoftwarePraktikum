@@ -7,10 +7,7 @@ import ContextErrorMessage from './dialogs/ContextErrorMessage';
 import LoadingProgress from './dialogs/LoadingProgress';
 import AlleEinkaufslistenAnwenderverbund from "./AlleEinkaufslistenAnwenderverbund";
 
-/**
- * Kontrolliert eine Liste von Einkaufslisten-ListenEintraegen um ein Akkordeon für jede
- * Einkaufsliste zu erstellen.
- */
+/** Kontrolliert eine Liste von Anwenderverbünden und den darin enthaltenen Einkaufslisten */
 
 class AlleEinkaufslisten extends Component{
 
@@ -29,7 +26,7 @@ class AlleEinkaufslisten extends Component{
   getAnwenderverbuende = () => {
     API.getAPI().getAnwenderverbuendeByBenutzerAPI(this.props.userMail)
       .then(anwenderverbundBOs =>
-        this.setState({               // Setzt neues state wenn EinzelhaendlerBOs gefetcht wurden
+        this.setState({               // Setzt neues state wenn AnwendervebundBOs gefetcht wurden
           Anwenderverbuende: anwenderverbundBOs,
           loadingInProgress: false,   // Ladeanzeige deaktivieren
           error: null
@@ -51,7 +48,6 @@ class AlleEinkaufslisten extends Component{
  /** Lebenszyklus Methode, welche aufgerufen wird, wenn die Komponente in das DOM des Browsers eingefügt wird.*/
 
   componentDidMount() {
-
     this.getAnwenderverbuende();
   }
 
@@ -63,7 +59,7 @@ class AlleEinkaufslisten extends Component{
     return (
       <div className={classes.root}>
         {
-          // Zeigt die Liste der Einkaufslisten-ListenEintrag Komponenten
+          // Zeigt die Liste der Anwenderverrbunds Komponenten
           Anwenderverbuende.map(anwenderverbund =>
             <AlleEinkaufslistenAnwenderverbund key={anwenderverbund.getID()} anwenderverbund={anwenderverbund}
               onEinkaufslisteDeleted={this.EinkaufslisteDeleted}
