@@ -465,7 +465,7 @@ export default class API {
  /*
 
 
-    addMitgliedschaft (benutzer gibt email ein und dann get benutzer by email)
+
     deleteMitgliedschaft
 
 
