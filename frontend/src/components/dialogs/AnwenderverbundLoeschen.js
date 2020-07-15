@@ -7,12 +7,12 @@ import ContextErrorMessage from './ContextErrorMessage';
 import LoadingProgress from './LoadingProgress';
 
 /**
- * Zeigt einen modalen loeschen/abbrechen Dialog, der nach dem löschen eines Anwenderverbunds fragt. Um den AnwenderverbundBO
- * zu loeschen muss er in prop Anwenderverbund gegeben sein. In Abhängigkeit der Benutzerinteraktion (loeschen/abbrechen)
- * wird jeweils der Backendaufruf gemacht. Danch wird die Funktion onClose prop mit dem AnwenderverbundBO loeschen
+ * Zeigt einen modalen löschen/abbrechen Dialog, der nach dem löschen eines Anwenderverbunds fragt. Um das AnwenderverbundBO
+ * zu löschen muss er in prop anwenderverbund gegeben sein. In Abhängigkeit der Benutzerinteraktion (löschen/abbrechen)
+ * wird jeweils der Backendaufruf gemacht. Danch wird die Funktion onClose prop mit dem AnwenderverbundBO löschen
  * Objekt als Parameter aufgerufen. Wenn der Dialog abgebrochen wird, wird onClose mit null aufgerufen.
- *  When the dialog is canceled, onClose is called with null.
  */
+
 class AnwenderverbundLoeschen extends Component {
 
   constructor(props) {
@@ -25,14 +25,14 @@ class AnwenderverbundLoeschen extends Component {
     };
   }
 
-  /** Löschen des Einzelhaendlers */
+  /** Löschen des Anwenderverbundes */
   deleteAnwenderverbund = () => {
     API.getAPI().deleteAnwenderverbundAPI(this.props.anwenderverbund.getID()).then(anwenderverbund => {
       this.setState({
         deletingInProgress: false,              // Ladeanzeige deaktivieren
         deletingError: null                     // Keine Error Nachricht
       });
-      this.props.onClose(this.props.anwenderverbund);  // Aufruf des Urhebers mit dem geloeschten Einzelhaendler
+      this.props.onClose(this.props.anwenderverbund);  // Aufruf des Urhebers mit dem gelöschten Anwenderverbund
     }).catch(e =>
       this.setState({
         deletingInProgress: false,              // Ladeanzeige deaktivieren
@@ -49,7 +49,6 @@ class AnwenderverbundLoeschen extends Component {
 
   /** Behandelt das schließen/abbrechen Tasten Klickereignis */
   handleClose = () => {
-    // console.log(event);
     this.props.onClose(null);
   }
 
@@ -68,7 +67,7 @@ class AnwenderverbundLoeschen extends Component {
           </DialogTitle>
           <DialogContent>
             <DialogContentText>
-              Really delete anwenderverbund '{anwenderverbund.getName()}' (ID: {anwenderverbund.getID()})?
+              Wirklich den Anwenderverbund '{anwenderverbund.getName()}' (ID: {anwenderverbund.getID()}) löschen?
             </DialogContentText>
             <LoadingProgress show={deletingInProgress} />
             <ContextErrorMessage error={deletingError} contextErrorMsg={`Der Anwenderverbund '${anwenderverbund.getName()}' (ID: ${anwenderverbund.getID()}) konnte nicht gelöscht werden.`}
@@ -76,10 +75,10 @@ class AnwenderverbundLoeschen extends Component {
           </DialogContent>
           <DialogActions>
             <Button onClick={this.handleClose} color='secondary'>
-              Cancel
+              Abbrechen
             </Button>
             <Button variant='contained' onClick={this.deleteAnwenderverbund} color='primary'>
-              Delete
+              Löschen
             </Button>
           </DialogActions>
         </Dialog>
@@ -88,7 +87,7 @@ class AnwenderverbundLoeschen extends Component {
   }
 }
 
-/** Komponentenspezifische Stile */
+/** Komponentenspezifisches Styling */
 const styles = theme => ({
   closeButton: {
     position: 'absolute',
@@ -102,13 +101,13 @@ const styles = theme => ({
 AnwenderverbundLoeschen.propTypes = {
   /** @ignore */
   classes: PropTypes.object.isRequired,
-  /** Um das EinzelhaendlerBO zu loeschen */
+  /** Um das AnwenderverbundBO zu löschen */
   anwenderverbund: PropTypes.object.isRequired,
   /** Wenn true, wird der Dialog gerendert */
   show: PropTypes.bool.isRequired,
   /**
    * Handler Funktion, die aufgerufen wird, wenn der Dialog geschlossen wurde.
-   * Sendet das geloeschte EinzelhaendlerBO als Parameter oder null, wenn abbrechen gedrückt wurde.
+   * Sendet das gelöschte AnwenderverbundBO als Parameter oder null, wenn abbrechen gedrückt wurde.
    */
   onClose: PropTypes.func.isRequired,
 }
