@@ -160,7 +160,7 @@ class Artikel extends Component {
         <Grid className={classes.artikelFilter} container spacing={1} justify='flex-start' alignItems='center'>
           <Grid item>
             <Typography>
-              Filter Artikelliste nach Name:
+              Filter Artikel nach Name:
               </Typography>
           </Grid>
           <Grid item xs={4}>
