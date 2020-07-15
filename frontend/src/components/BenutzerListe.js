@@ -111,7 +111,7 @@ class BenutzerListe extends Component {
 
   /** Rendert die Komponente */
   render() {
-    const { classes } = this.props;
+    const { classes, anwenderverbund } = this.props;
     const {benutzerliste ,loadingInProgress, error, showBenutzerForm, expandedBenutzerlisteID } = this.state;
 
     return (
@@ -125,7 +125,7 @@ class BenutzerListe extends Component {
                wenn dies von den URL Parametern gegeben ist. */
 
               benutzerliste.map(benutzer =>
-                <BenutzerListenEintrag key={benutzer.getID()} benutzer={benutzer} expandedState={expandedBenutzerlisteID === benutzer.getID()}
+                <BenutzerListenEintrag key={benutzer.getID()} benutzer={benutzer} anwenderverbund={anwenderverbund} expandedState={expandedBenutzerlisteID === benutzer.getID()}
                   onExpandedStateChange={this.onExpandedStateChange}
                   onBenutzerDeleted={this.benutzerDeleted}
                 />)

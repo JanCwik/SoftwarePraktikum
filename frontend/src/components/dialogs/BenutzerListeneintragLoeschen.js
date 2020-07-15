@@ -28,18 +28,15 @@ class BenutzerListeneintragLoeschen extends Component {
 
   /** Löschen des Benutzers */
   deleteBenutzer = () => {
-    API.getAPI().deleteBenutzerListeneintragAPI(this.props.benutzerlisteneintrag.getID()).then(benutzerlisteneintrag => {
+    API.getAPI().deleteMitgliedschaftAPI(this.props.anwenderverbund.getID(), this.props.benutzer)
+
       this.setState({
         deletingInProgress: false,              // Ladeanzeige deaktivieren
         deletingError: null                     // Keine Error Nachricht
       });
-      this.props.onClose(this.props.benutzerlisteneintrag);  // Aufruf des Urhebers mit dem geloeschten Einzelhaendler
-    }).catch(e =>
-      this.setState({
-        deletingInProgress: false,              // Ladeanzeige deaktivieren
-        deletingError: e                        // Zeigt Error Nachricht
-      })
-    );
+
+      this.props.onClose(this.props.benutzer);  // Aufruf des Urhebers mit dem geloeschten Einzelhaendler
+
 
     // Setzt laden auf true
     this.setState({
@@ -56,7 +53,7 @@ class BenutzerListeneintragLoeschen extends Component {
 
   /** Rendert die Komponente */
   render() {
-    const { classes, benutzerlisteneintrag, show } = this.props;
+    const { classes, benutzer, show } = this.props;
     const { deletingInProgress, deletingError } = this.state;
 
     return (
@@ -69,10 +66,10 @@ class BenutzerListeneintragLoeschen extends Component {
           </DialogTitle>
           <DialogContent>
             <DialogContentText>
-              Benutzer wirklich löschen? '{benutzerlisteneintrag.getName()}' (ID: {benutzerlisteneintrag.getID()})?
+              Benutzer wirklich löschen? '{benutzer.getName()}' (ID: {benutzer.getID()})?
             </DialogContentText>
             <LoadingProgress show={deletingInProgress} />
-            <ContextErrorMessage error={deletingError} contextErrorMsg={`Der Benutzer '${benutzerlisteneintrag.getName()}' (ID: ${benutzerlisteneintrag.getID()}) konnte nicht gelöscht werden.`}
+            <ContextErrorMessage error={deletingError} contextErrorMsg={`Der Benutzer '${benutzer.getName()}' (ID: ${benutzer.getID()}) konnte nicht gelöscht werden.`}
               onReload={this.deleteBenutzer} />
           </DialogContent>
           <DialogActions>
