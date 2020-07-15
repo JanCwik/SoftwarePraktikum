@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import AlleEinkaufslistenListenEintrag from "./AlleEinkaufslistenListenEintrag";
 import API from "../api/API";
-import {Button, Grid, IconButton, InputAdornment, TextField, Typography, withStyles} from "@material-ui/core";
-import ClearIcon from "@material-ui/icons/Clear";
+import {Button, Grid, withStyles} from "@material-ui/core";
 import AddIcon from "@material-ui/icons/Add";
 import LoadingProgress from "./dialogs/LoadingProgress";
 import ContextErrorMessage from "./dialogs/ContextErrorMessage";
@@ -13,9 +12,6 @@ class AlleEinkaufslistenAnwenderverbund extends Component{
 
      constructor(props) {
          super(props);
-
-
-
          this.state={
              showEinkaufslistenForm: false,
              einkaufslisten:[],
@@ -24,11 +20,9 @@ class AlleEinkaufslistenAnwenderverbund extends Component{
          }
      }
 
-
     getEinkaufslisten = () => {
     API.getAPI().getEinkaufslistenByAnwenderverbundAPI(this.props.anwenderverbund.getID())
       .then(EinkaufslistenBOs =>
-
         this.setState({               // Setzt neues state wenn EinkaufslistenBOs gefetcht wurden
           einkaufslisten: EinkaufslistenBOs,
           loadingInProgress: false,   // Ladeanzeige deaktivieren
@@ -47,7 +41,6 @@ class AlleEinkaufslistenAnwenderverbund extends Component{
       error: null
     }
     );
-
   }
 
   componentDidMount() {
@@ -55,7 +48,6 @@ class AlleEinkaufslistenAnwenderverbund extends Component{
   }
    /**
    * Behandelt EinkaufslisteDeleted Ereignisse von der Einkaufsliste-ListenEintrag Komponente.
-   *
    * @param einkaufsliste
    * EinkaufslisteBO von dem Einkaufsliste-ListenEintrag um gelöscht zu werde
    */
@@ -68,7 +60,6 @@ class AlleEinkaufslistenAnwenderverbund extends Component{
   }
 
   //Behandelt das onClick Ereignis, der Einkaufsliste anlegen Taste.
-
   addEinkaufslisteButtonClicked = event => {
     // Nicht das erweiterte state umschalten
     event.stopPropagation();
@@ -79,7 +70,6 @@ class AlleEinkaufslistenAnwenderverbund extends Component{
   }
 
   // Behandelt das onClose Ereignis vom EinkaufslisteForm
-
   einkaufslisteFormClosed = Einkaufsliste => {
     // Einkaufsliste ist nicht null und deshalb erstellt
     if (Einkaufsliste) {
@@ -95,32 +85,24 @@ class AlleEinkaufslistenAnwenderverbund extends Component{
     }
   }
 
-
 render(){
     const { classes,anwenderverbund } = this.props;
       const{showEinkaufslisteForm ,einkaufslisten, error, loadingInProgress} = this.state;
-
     return(
         <div className={classes.root}>
-
-
-
             <Grid  container spacing={1} justify='flex-start' alignItems='center'>
                   <Grid item>
                       <h2>
                           {anwenderverbund.getName()}
                       </h2>
                   </Grid>
-
                 <Grid item xs />
                 <Grid item>
-
                 <Button variant='contained' color='primary' startIcon={<AddIcon />} onClick={this.addEinkaufslisteButtonClicked}>
                   Einkaufsliste zu {anwenderverbund.getName()} hinzufügen
                 </Button>
                 </Grid>
             </Grid>
-
             {
               // Zeigt die Liste der Einkaufslisten-ListenEintrag Komponenten
               einkaufslisten.map(einkaufsliste =>
@@ -132,17 +114,14 @@ render(){
             <ContextErrorMessage error={error} contextErrorMsg={`Einkaufslisten konnten nicht geladen werden.`} onReload={this.getEinkaufslisten} />
             <EinkaufslisteForm show={showEinkaufslisteForm} anwenderverbund={anwenderverbund} onClose={this.einkaufslisteFormClosed} />
         </div>
-
     )
   }
-
 }
 /** Komponentenspezifisches Styling */
 const styles = theme => ({
   root: {
     width: '100%',
   },
-
 });
 
 /** PropTypes */
@@ -154,4 +133,5 @@ AlleEinkaufslistenAnwenderverbund.propTypes = {
 
   anwenderverbund: PropTypes.object.isRequired,
 }
+
 export default withStyles(styles)(AlleEinkaufslistenAnwenderverbund)
