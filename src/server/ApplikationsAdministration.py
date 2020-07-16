@@ -20,12 +20,9 @@ class ApplikationsAdministration(object):
         pass
 
     """ Methoden bezüglich Artikel - Kommi zur Übersicht kann nacher gelöscht werden -"""
-    def artikel_anlegen(self, name, einheit, standardartikel):
+    def artikel_anlegen(self, artikel):
         """Methode zum Anlegen eines neuen Artikels in der Datenbank"""
-        artikel = Artikel()
-        artikel.set_name(name)
-        artikel.set_einheit(einheit)
-        artikel.set_standardartikel(standardartikel)
+
 
         with ArtikelMapper() as mapper:
             return mapper.insert(artikel)
@@ -165,6 +162,11 @@ class ApplikationsAdministration(object):
     def get_anwenderverbuende_by_benutzer_email(self, benutzer):
         with BenutzerMapper() as mapper:
             return mapper.alle_anwenderverbunde_ausgeben(benutzer)
+
+    def get_all_artikel_of_benutzer(self, benutzer):
+        """Methode zum ausgeben aller Artikel für die der Benutzer verantwortlich ist"""
+        with ArtikelMapper() as mapper:
+            return mapper.find_all_artikel_of_benutzer(benutzer)
 
 
 
