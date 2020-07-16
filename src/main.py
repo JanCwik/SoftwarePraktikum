@@ -37,6 +37,7 @@ namedBO = api.inherit('namedBO', bo, {
 artikel = api.inherit('Artikel', namedBO, {
     'einheit': fields.String(attribute='_einheit', description='Name eines Artikels'),
     'standardartikel': fields.Boolean(attribute='_standardartikel', description='Standardartikel'),
+    'benutzer_id': fields.Integer(attribute='_benutzer_id', description='BenutzerID'),
 })
 
 einzelhaendler = api.inherit('Einzelhandler', namedBO, bo)
@@ -88,14 +89,14 @@ class ArtikelListOperations(Resource):
 
     @shopping.marshal_with(artikel)
     @shopping.expect(artikel)
-    @secured
+    #@secured
     def post(self):
         """Anlegen eines Artikels"""
         adm = ApplikationsAdministration()
 
-        test = Artikel.from_dict(api.payload)
-        if test is not None:
-            a = adm.artikel_anlegen(test.get_name(), test.get_einheit(), test.get_standardartikel())
+        artikel = Artikel.from_dict(api.payload)
+        if artikel is not None:
+            a = adm.artikel_anlegen(artikel)
             return a, 200
         else:
             return '', 500
@@ -427,6 +428,23 @@ class BenutzerRelatedListeneintragOperations(Resource):
         if benutzer is not None:
             listeneintraege = adm.get_all_listeneintraege_of_benutzer(benutzer)
             return listeneintraege
+        else:
+            return "Benutzer nicht gefunden", 500
+
+@shopping.route('/benutzer/<int:id>/artikel')
+@shopping.response(500, 'Serverfehler')
+@shopping.param('id', 'ID des Benutzer')
+class BenutzerRelatedArtikelOperations(Resource):
+    @shopping.marshal_with(artikel)
+    #@secured
+    def get(self, id):
+        """Auslesen aller Artikel die zu einem Benutzer gehören"""
+        adm = ApplikationsAdministration()
+        benutzer = adm.get_benutzer_by_id(id)
+
+        if benutzer is not None:
+            artikel = adm.get_all_artikel_of_benutzer(benutzer)
+            return artikel
         else:
             return "Benutzer nicht gefunden", 500
 
