@@ -5,11 +5,13 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
 import SwapHoriz from '@material-ui/icons/SwapHoriz';
 import { Link as RouterLink } from 'react-router-dom';
-import { API } from '../api';
+import  API  from '../api/API';
 import List from '@material-ui/core/List';
 import Checkbox from '@material-ui/core/Checkbox';
 import IconButton from '@material-ui/core/IconButton';
 import ListeneintragLoeschen from "./dialogs/ListeneintragLoeschen";
+import ListeneintragForm from "./dialogs/ListeneintragForm";
+import ListeneintragBO from "../api/ListeneintragBO";
 
 
 /**
@@ -36,18 +38,20 @@ class ListenEintrag extends Component {
       deletingInProgress: false,
       loadingError: null,
       deletingError: null,
-      checked:false
 
     };
   }
 
+  updateListeneintrag = () => {
+    // Klont den originalen Artikel, wenn der Backend Aufruf fehlschlägt
+    let updatedListeneintrag = Object.assign(new ListeneintragBO(), this.props.listeneintrag);
+    // Setzt die neuen Attribute aus dem Dialog
+    updatedListeneintrag.setErledigt(true)
+    API.getAPI().updateListeneintragAPI(updatedListeneintrag)
+      this.deleteListeneintragDialogClosed(updatedListeneintrag);      // Aufruf mit dem neuen Artikel
+    };
 
-handleCheck =(event)=>{
-    this.setState({
-      checked: event.target.checked
-        }
-    )
-}
+
 
   deleteListeneintragButtonClicked = (event) => {
     event.stopPropagation();
@@ -71,15 +75,14 @@ handleCheck =(event)=>{
   /** Rendert die Komponente */
   render() {
     const { classes, listeneintrag } = this.props;
-    const { showListeneintragDeleteDialog, loadingInProgress, deletingInProgress, loadingError, deletingError, checked } = this.state;
+    const { showListeneintragDeleteDialog, loadingInProgress, deletingInProgress, loadingError, deletingError, listeneintragErledigt } = this.state;
 
     return (
       <div >
         <List  className={classes.Liste} >
-        <ListItem >
+        <ListItem>
           <Checkbox
-              checked={checked}
-              onChange={this.handleCheck}
+              onChange={this.updateListeneintrag}
               inputProps={{ 'aria-label': 'primary checkbox' }}
           />
 

@@ -45,7 +45,7 @@ class ListeneintragForm extends Component {
   constructor(props) {
     super(props);
 
-    let lan = '', lam = '', lae = '', len = '', lbn = '';
+    let lan = '', lam = '', lae = '', len = '', lbn = '', le = '';
     if (props.listeneintrag) {
       //lan = props.listeneintrag.getArtikel_name();
       lan = props.listeneintrag.getArtikel_name();
@@ -53,6 +53,7 @@ class ListeneintragForm extends Component {
       lae = props.listeneintrag.getArtikel_einheit();
       len = props.listeneintrag.getEinzelhaendler_name();
       lbn = props.listeneintrag.getBenutzer_name();
+      le  = props.listeneintrag.getErledigt();
     }
 
     // Init state
@@ -71,6 +72,8 @@ class ListeneintragForm extends Component {
       listeneintragEinzelhaendlerNameEdited: false,
       listeneintragBenutzerName: lbn,
       listeneintragBenutzerNameEdited: false,
+      listeneintragErledigt: le,
+      listeneintragErledigtEdited: false,
       filteredArtikel: [],
       addingInProgress: false,
       updatingInProgress: false,
@@ -134,6 +137,7 @@ class ListeneintragForm extends Component {
     updatedListeneintrag.setArtikel_einheit(this.state.artikel_einheit);
     updatedListeneintrag.setEinzelhaendler_name(this.state.einzelhaendler_name)
     updatedListeneintrag.setBenutzer_id(this.state.benutzer_name)
+    updatedListeneintrag.setErledigt(this.state.erledigt)
     API.getAPI().updateListeneintragAPI(updatedListeneintrag).then(listeneintrag => {
       this.setState({
         updatingInProgress: false,              // Ladeanzeige deaktivieren
@@ -145,6 +149,7 @@ class ListeneintragForm extends Component {
       this.baseState.artikel_einheit = this.state.artikel_einheit;
       this.baseState.einzelhaendler_name = this.state.einzelhaendler_name;
       this.baseState.benutzer_name = this.state.benutzer_name;
+      this.baseState.erledigt = this.state.erledigt;
       this.props.onClose(updatedListeneintrag);      // Aufruf mit dem neuen Artikel
     }).catch(e =>
       this.setState({
@@ -216,6 +221,8 @@ listeneintragArtikelNameChange = (event) => {
       listeneintragBenutzerNameEdited: true
     });
   }
+
+
 
 
 
