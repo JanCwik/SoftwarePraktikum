@@ -96,6 +96,11 @@ handleCheck =(event)=>{
             {listeneintrag.getEinzelhaendler_name()}
           </Typography>
 
+          {listeneintrag.getAenderungs_zeitpunkt() ==="latest"?
+            <div>latest</div>
+           : null
+          }
+
           <Typography className={classes.Benutzer} color='textPrimary'>
            {listeneintrag.getBenutzer_name()}
           </Typography>

@@ -497,10 +497,14 @@ export default class API {
     // Der name des Artikels wird an die URL gehängt
     getArtikelByNameAPI(name) {
         return this.#fetchAdvanced(this.#getArtikelByNamelURL(name)).then((responseJSON) => {
-            let response = ArtikelBO.fromJSON(responseJSON);
-            return new Promise(function (resolve) {
-                resolve(response);
-            })
+            console.log(responseJSON)
+            if (responseJSON !== null)
+            {
+                let response = ArtikelBO.fromJSON(responseJSON);
+                return new Promise(function (resolve) {
+                    resolve(response);
+                })
+            }
         })
     }
 

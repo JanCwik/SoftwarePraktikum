@@ -51,6 +51,8 @@ class MitgliedschaftMapper(Mapper):
         self._cnx.commit()
         cursor.close()
 
+        return benutzer
+
     def alle_benutzer_ausgeben(self, anwenderverbund):
         """Mapper-Methode zum ausgeben aller Benutzer aus einem Anwenderverbund."""
         result = []
