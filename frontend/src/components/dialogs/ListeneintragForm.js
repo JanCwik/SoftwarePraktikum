@@ -1,7 +1,7 @@
 
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { withStyles, Button, IconButton, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions,MenuItem, FormControl, InputLabel, Select, Grid, InputAdornment} from '@material-ui/core';
+import { withStyles, Button, IconButton, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions,MenuItem, FormControl,Typography, InputLabel, Select, Grid, InputAdornment} from '@material-ui/core';
 import CloseIcon from '@material-ui/icons/Close';
 import  ListeneintragBO  from '../../api/ListeneintragBO';
 import  API from '../../api/API';
@@ -264,7 +264,7 @@ listeneintragArtikelNameChange = (event) => {
 
         // Set the final state
         this.setState({
-          artikelObjekt: artikel,
+          artikelObjekt: artikel[0],
           loadingInProgress: false,           // disable loading indicator
           artikelSearchError: null           // no error message
         });
@@ -325,13 +325,12 @@ console.log(artikelObjekt)
 
             <form className={classes.root} noValidate autoComplete='off'>
 
-          <FormControl className={classes.formControl}>
 
-            <TextField autoFocus fullWidth margin='normal' type='text' required id='customerName' label='Customer name:'
+              <TextField autoFocus fullWidth margin='normal' type='text' required id='ArtikelName' label='Artikel Name:'
                     onChange={this.listeneintragArtikelNameChange}
                     onBlur={this.sucheArtikel}
                     error={artikelNotFound}
-                    helperText={artikelNotFound ? 'No customers with the given name have been found' : ' '}
+                    helperText={artikelNotFound ? 'Es wurden keine Artikel mit dem folgenden Namen gefunden' : ' '}
                     InputProps={{
                       endAdornment: <InputAdornment position='end'>
                         <IconButton onClick={this.sucheArtikel}>
@@ -339,6 +338,23 @@ console.log(artikelObjekt)
                         </IconButton>
                       </InputAdornment>,
                     }} />
+
+
+                    <div>
+                      {artikelObjekt ?
+                          <Typography>Einheit: {artikelObjekt.getEinheit()}</Typography>
+                          : null
+
+                      }
+                    </div>
+
+
+
+
+
+
+          <FormControl className={classes.formControl}>
+
 
 
           </FormControl>
