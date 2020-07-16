@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core';
-import {withRouter}  from 'react-router-dom';
+import { withRouter }  from 'react-router-dom';
 import  API  from '../api/API';
 import ContextErrorMessage from './dialogs/ContextErrorMessage';
 import LoadingProgress from './dialogs/LoadingProgress';
@@ -66,7 +66,7 @@ class AlleEinkaufslisten extends Component{
             />)
         }
         <LoadingProgress show={loadingInProgress} />
-        <ContextErrorMessage error={error} contextErrorMsg={`Anwenderverbünde konnten nicht geladen werden.`} onReload={this.getAnwenderverbund} />
+        <ContextErrorMessage error={error} contextErrorMsg={`Einkaufslisten konnten nicht geladen werden.`} onReload={this.getAnwenderverbund} />
       </div>
     );
   }
