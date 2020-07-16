@@ -8,27 +8,26 @@ class ArtikelMapper(Mapper):
         super().__init__()
 
     def find_all(self):
-        """Mapper-Methode zum ausgeben aller Artikel aus der Datenbank.
+        """Mapper-Methode zum ausgeben aller Artikel aus der Datenbank
 
-        Hier werden via SQL-Abfrage alle Artikel aus der Datenbank ausgegeben.
-        Anschließend werden aus den Zeilen der Datenbank (welche ein Objekt mit dessen Attributen darstellen)
-        mit der fetchall-Methode Tupel erstellt.
-
-        Mittels For-Schleife werden die einzelnen Attribute aus einem Tupel gezogen und einer neuen Instanz der
-        Klasse "Artikel()" übergeben. Die einzelnen Instanzen werden in einem Array gespeichert.
+        Hier werden via SQL-Abfrage alle Anwenderverbunde aus der Datenbank ausgegeben.
+        Die Anwenderverbund-Objekte werden anschließend von der fetchall()-Methode als Tupel zurückgegeben.
+        Mittels einer For-Schleife werden die einzelnen Attribute aus einem Tupel gezogen und einer neuen Instanz der
+        Klasse "Anwenderverbund()" übergeben. Die einzelnen Instanzen werden in einem Array gespeichert.
         Das Array mit allen Instanzen wird schließlich zurückgegeben."""
         result = []
         cursor = self._cnx.cursor()
-        cursor.execute("SELECT * FROM artikel")
+        cursor.execute("SELECT id, name, erstellungs_zeitpunkt, einheit, standardartikel, benutzer_id FROM artikel")
         res = cursor.fetchall()
 
-        for (id, name, erstellungs_zeitpunkt, einheit, standardartikel) in res:
+        for (id, name, erstellungs_zeitpunkt, einheit, standardartikel, benutzer_id) in res:
             artikel = Artikel()
             artikel.set_id(id)
             artikel.set_name(name)
             artikel.set_standardartikel(standardartikel)
             artikel.set_einheit(einheit)
             artikel.set_erstellungs_zeitpunkt(erstellungs_zeitpunkt)
+            artikel.set_benutzer_id(benutzer_id)
             result.append(artikel)
 
         self._cnx.commit()
@@ -61,8 +60,8 @@ class ArtikelMapper(Mapper):
             else:
                 artikel.set_id(1)
 
-        template = "INSERT INTO artikel (id, name, erstellungs_zeitpunkt, einheit, standardartikel) VALUES (%s,%s,%s,%s,%s)"
-        vals = (artikel.get_id(), artikel.get_name(), artikel.get_erstellungs_zeitpunkt(), artikel.get_einheit(), artikel.get_standardartikel())
+        template = "INSERT INTO artikel (id, name, erstellungs_zeitpunkt, einheit, standardartikel, benutzer_id) VALUES (%s,%s,%s,%s,%s,%s)"
+        vals = (artikel.get_id(), artikel.get_name(), artikel.get_erstellungs_zeitpunkt(), artikel.get_einheit(), artikel.get_standardartikel(), artikel.get_benutzer_id())
         cursor.execute(template, vals)
 
         self._cnx.commit()
@@ -111,18 +110,19 @@ class ArtikelMapper(Mapper):
         Sollte die Datenbank anhand der ID kein Objekt zurückliefern, wird ausgegeben was innerhalb des IndexErrors steht --> None
         Das Ergebnis wir schließlich von der Mehtode zurückgegeben."""
         cursor = self._cnx.cursor()
-        command = "SELECT id, name, erstellungs_zeitpunkt, einheit, standardartikel FROM artikel WHERE id={}".format(id)
+        command = "SELECT id, name, erstellungs_zeitpunkt, einheit, standardartikel, benutzer_id FROM artikel WHERE id={}".format(id)
         cursor.execute(command)
         tuples = cursor.fetchall()
 
         try:
-            (id, name, erstellungs_zeitpunkt, einheit, standardartikel) = tuples[0]
+            (id, name, erstellungs_zeitpunkt, einheit, standardartikel, benutzer_id) = tuples[0]
             artikel = Artikel()
             artikel.set_id(id)
             artikel.set_name(name)
             artikel.set_erstellungs_zeitpunkt(erstellungs_zeitpunkt)
             artikel.set_einheit(einheit)
             artikel.set_standardartikel(standardartikel)
+            artikel.set_benutzer_id(benutzer_id)
             result = artikel
         except IndexError:
             result = None
@@ -142,21 +142,45 @@ class ArtikelMapper(Mapper):
         Sollte die Datenbank anhand des Namens kein Objekt zurückliefern, wird ausgegeben was innerhalb des IndexErrors steht --> None
         Das Ergebnis wir schließlich von der Mehtode zurückgegeben."""
         cursor = self._cnx.cursor()
-        command = "SELECT id, name, erstellungs_zeitpunkt, einheit, standardartikel FROM artikel WHERE name LIKE '{}' ORDER BY name".format(name)
+        command = "SELECT id, name, erstellungs_zeitpunkt, einheit, standardartikel, benutzer_id FROM artikel WHERE name LIKE '{}' ORDER BY name".format(name)
         cursor.execute(command)
         tuples = cursor.fetchall()
 
         try:
-            (id, name, erstellungs_zeitpunkt, einheit, standardartikel) = tuples[0]
+            (id, name, erstellungs_zeitpunkt, einheit, standardartikel, benutzer_id) = tuples[0]
             artikel = Artikel()
             artikel.set_id(id)
             artikel.set_name(name)
             artikel.set_erstellungs_zeitpunkt(erstellungs_zeitpunkt)
             artikel.set_einheit(einheit)
             artikel.set_standardartikel(standardartikel)
+            artikel.set_benutzer_id(benutzer_id)
             result = artikel
         except IndexError:
             result = None
+
+        self._cnx.commit()
+        cursor.close()
+
+        return result
+
+    def find_all_artikel_of_benutzer(self, benutzer):
+        """Mapper-Methode zum ausgeben aller Artikel aus der Datenbank welche zu einem bestimmten Benutzer gehören"""
+        result = []
+        cursor = self._cnx.cursor()
+        command = "SELECT id, name, erstellungs_zeitpunkt, einheit, standardartikel, benutzer_id FROM artikel WHERE benutzer_id={}".format(benutzer.get_id())
+        cursor.execute(command)
+        res = cursor.fetchall()
+
+        for (id, name, erstellungs_zeitpunkt, einheit, standardartikel, benutzer_id) in res:
+            artikel = Artikel()
+            artikel.set_id(id)
+            artikel.set_name(name)
+            artikel.set_standardartikel(standardartikel)
+            artikel.set_einheit(einheit)
+            artikel.set_erstellungs_zeitpunkt(erstellungs_zeitpunkt)
+            artikel.set_benutzer_id(benutzer_id)
+            result.append(artikel)
 
         self._cnx.commit()
         cursor.close()
