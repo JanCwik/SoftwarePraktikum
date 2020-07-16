@@ -15,12 +15,14 @@ CREATE TABLE artikel(
     id INT NOT NULL,
     name VARCHAR(30) NOT NULL,
     erstellungs_zeitpunkt datetime NOT NULL,
-    einheit varchar(30) ,                           /*bei Einheit uns standartartikel muss eig noch NOT NULL hin
+    einheit varchar(30) ,
+    benutzer_id INT NOT Null,                           /*bei Einheit uns standartartikel muss eig noch NOT NULL hin
                                                       aber wenn da NOT NULL steht funktioniert die updateArtikel funktion
                                                       wegen irgendeinem fehler im frontend nicht (irgendwo im frontend wird bei
                                                       updateArtikel (vill auch bei addArtikel) erstellungszeitpunkt und einmheit auf null gesetzt) */
     standardartikel bool ,
     PRIMARY KEY (id)
+    FOREIGN KEY (benutzer_id) REFERENCES benutzer(id)
 );
 
 /*Legt einen Testdatensatz in der Tabelle "artikel" an*/
