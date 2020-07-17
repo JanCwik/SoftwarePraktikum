@@ -95,8 +95,8 @@ class MitgliedschaftMapper(Mapper):
         res = cursor.fetchall()
 
         for i in res:
-            for i in i:
-                result.append(i)
+            for x in i:
+                result.append(x)
 
         self._cnx.commit()
         cursor.close()

@@ -127,7 +127,7 @@ class ApplikationsAdministration(object):
         """Methode zum löschen eines Benutzers aus der Datenbank"""
 
         with MitgliedschaftMapper() as mapper:
-            mapper.deleteByAnwenderverbund(benutzer)
+            mapper.deleteByBenutzer(benutzer)
 
         with BenutzerMapper() as mapper:
             mapper.delete(benutzer)
@@ -157,14 +157,13 @@ class ApplikationsAdministration(object):
         with BenutzerMapper() as mapper:
             return mapper.find_by_google_user_id(id)
 
-    def get_all_listeneintraege_of_benutzer(self, benutzer): #Name geändert!
+    def get_all_listeneintraege_of_benutzer(self, benutzer):
         """Methode zum ausgeben aller Listeneinträge für die der Benutzer verantwortlich ist"""
-        with BenutzerMapper() as mapper:
-            return mapper.find_all_listeneintraege(benutzer)
+        with ListeneintragMapper() as mapper:
+            return mapper.find_all_listeneintraege_by_benutzer(benutzer)
 
-    #Neu!
     def get_anwenderverbuende_by_benutzer_email(self, benutzer):
-        with BenutzerMapper() as mapper:
+        with MitgliedschaftMapper() as mapper:
             return mapper.alle_anwenderverbunde_ausgeben(benutzer)
 
     def get_all_artikel_of_benutzer(self, benutzer):
@@ -316,10 +315,10 @@ class ApplikationsAdministration(object):
         with EinkaufslistenMapper() as mapper:
             mapper.delete(einkaufsliste)
 
-    def get_all_listeneintraege_of_einkaufslisten(self, einkaufsliste):  #Änderung: statt id wird nun ganzes Objekt übergeben
+    def get_all_listeneintraege_of_einkaufslisten(self, einkaufsliste):
         """ Methode zum ausgeben aller Listeneinträge die zur jeweiligen Einkaufsliste gehören"""
         with EinkaufslistenMapper() as mapper:
-            eintraege= mapper.find_all_listeneintraege(einkaufsliste)
+            eintraege= mapper.find_all_listeneintraege_by_einkaufsliste(einkaufsliste)
 
             latest = eintraege[0]
             for eintrag in eintraege:
