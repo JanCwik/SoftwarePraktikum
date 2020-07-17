@@ -157,7 +157,7 @@ class ArtikelMapper(Mapper):
             artikel.set_benutzer_id(benutzer_id)
             result = artikel
         except IndexError:
-            result = None
+            result = []
 
         self._cnx.commit()
         cursor.close()
