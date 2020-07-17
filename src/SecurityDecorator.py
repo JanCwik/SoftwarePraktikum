@@ -2,7 +2,7 @@ from flask import request
 from google.auth.transport import requests
 import google.oauth2.id_token
 
-from src.server.ApplikationsAdministration import ApplikationsAdministration
+from server.ApplikationsAdministration import ApplikationsAdministration
 
 #Benutzer.py, BenutzerMapper + BenutzerMethoden in ApplikationsAdministration
 

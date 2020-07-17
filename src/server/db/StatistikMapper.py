@@ -1,5 +1,5 @@
-from src.server.db.Mapper import Mapper
-from src.server.bo.Statistik import Statistik
+from server.db.Mapper import Mapper
+from server.bo.Statistik import Statistik
 
 
 class StatistikMapper(Mapper):

@@ -1,17 +1,17 @@
-from src.server.bo.Artikel import Artikel
-from src.server.bo.Einzelhaendler import Einzelhaendler
-from src.server.bo.Benutzer import Benutzer
-from src.server.bo.Anwenderverbund import Anwenderverbund
-from src.server.bo.Einkaufsliste import Einkaufsliste
-from src.server.bo.Listeneintrag import Listeneintrag
-from src.server.db.ArtikelMapper import ArtikelMapper
-from src.server.db.EinzelhaendlerMapper import EinzelhaendlerMapper
-from src.server.db.BenutzerMapper import BenutzerMapper
-from src.server.db.AnwenderverbundMapper import AnwenderverbundMapper
-from src.server.db.EinkaufslisteMapper import EinkaufslistenMapper
-from src.server.db.ListeneintragMapper import ListeneintragMapper
-from src.server.db.StatistikMapper import StatistikMapper
-from src.server.db.MitgliedschaftMapper import MitgliedschaftMapper
+from .bo.Artikel import Artikel
+from .bo.Einzelhaendler import Einzelhaendler
+from .bo.Benutzer import Benutzer
+from .bo.Anwenderverbund import Anwenderverbund
+from .bo.Einkaufsliste import Einkaufsliste
+from .bo.Listeneintrag import Listeneintrag
+from .db.ArtikelMapper import ArtikelMapper
+from .db.EinzelhaendlerMapper import EinzelhaendlerMapper
+from .db.BenutzerMapper import BenutzerMapper
+from .db.AnwenderverbundMapper import AnwenderverbundMapper
+from .db.EinkaufslisteMapper import EinkaufslistenMapper
+from .db.ListeneintragMapper import ListeneintragMapper
+from .db.StatistikMapper import StatistikMapper
+from .db.MitgliedschaftMapper import MitgliedschaftMapper
 
 
 class ApplikationsAdministration(object):
