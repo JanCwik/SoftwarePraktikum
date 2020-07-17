@@ -129,7 +129,7 @@ class ListeneintragMapper(Mapper):
 
         return listeneintrag
 
-    def find_all_listeneintraege(self, benutzer):
+    def find_all_listeneintraege_by_benutzer(self, benutzer):
         """Mapper-Methode zum ausgeben aller Listeneinträge zu einem Benutzer."""
         id = benutzer.get_id()
         result = []

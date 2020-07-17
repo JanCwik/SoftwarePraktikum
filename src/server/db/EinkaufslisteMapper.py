@@ -200,7 +200,7 @@ class EinkaufslistenMapper(Mapper):
         self._cnx.commit()
         cursor.close()
 
-    def find_all_listeneintraege(self, einkaufsliste):
+    def find_all_listeneintraege_by_einkaufsliste(self, einkaufsliste):
         """Mapper-Methode zum ausgeben aller Listeneinträge zu einer EInkaufsliste.
         Verantwortlicher: Timm Mötz
 
