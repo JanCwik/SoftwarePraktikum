@@ -1,4 +1,3 @@
-
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withStyles, Button, IconButton, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions,MenuItem, FormControl,Typography, InputLabel, Select, Grid, InputAdornment} from '@material-ui/core';
@@ -8,32 +7,12 @@ import  API from '../../api/API';
 import ContextErrorMessage from './ContextErrorMessage';
 import LoadingProgress from './LoadingProgress';
 import SearchIcon from '@material-ui/icons/Search';
-import ClearIcon from "@material-ui/icons/Clear";
 import TextField from '@material-ui/core/TextField';
-
-
-
-import Autocomplete from '@material-ui/lab/Autocomplete';
 
 /**
  * Zeigt einen modalen Formulardialog für ein ArtikelBO in prop artikel. Wenn der Artikel
  * angelegt ist, ist der Dialog als ein Editierdialog konfiguriert. Dabei ist das Formular mit dem gegebenen
- * ArtikelBO Objekt befüllt. Wenn der Artikel null ist, wird der Dialog als ein neuer Artikel            <form noValidate autoComplete='off'>
-              {
-                // show a search text field if there are no searchedCustomer yet
-                (targetCustomers.length === 0) ?
-                  <TextField autoFocus fullWidth margin='normal' type='text' required id='customerName' label='Customer name:'
-                    onChange={this.textFieldValueChange}
-                    onBlur={this.searchCustomer}
-                    error={customerNotFound}
-                    helperText={customerNotFound ? 'No customers with the given name have been found' : ' '}
-                    InputProps={{
-                      endAdornment: <InputAdornment position='end'>
-                        <IconButton onClick={this.searchCustomer}>
-                          <SearchIcon />
-                        </IconButton>
-                      </InputAdornment>,
-                    }} />
+ * ArtikelBO Objekt befüllt. Wenn der Artikel null ist, wird der Dialog als ein neuer Artikel
  * Dialog konfiguriert und die Textfelder sind leer. In Abhängigkeit des editier/neu Zustands werden die Backend
  * Aufrufe gemacht, um einen Artikel upzudaten oder anzulegen. Danach wird die Funktion des onClose prop
  * mit dem angelegt/upgedated ArtikelBO Objekt als Parameter aufgerufen. Wenn der Dialog beendet ist,
@@ -86,26 +65,13 @@ class ListeneintragForm extends Component {
       updatingInProgress: false,
       addingError: null,
       updatingError: null,
-
     };
+
     // Speichere dieses state zum abbrechen
     this.baseState = this.state;
-
-
-
   }
 
-
-
-
-
-
-
-
-
-
-  /** Legt Artikel an */
-
+  /** Legt Listeneintrag an */
   addListeneintrag = () => {
     let newListeneintrag = new ListeneintragBO();
     console.log(this.state.listeneintragArtikelMenge)
@@ -139,8 +105,7 @@ class ListeneintragForm extends Component {
     this.props.reload() // Seite wird neugeladen damit die neue letzte Änderung kenntlich gemacht werden kann
   }
 
-  /** Updates the customer */
-
+  /** Updated den Listeneintrag */
   updateListeneintrag = () => {
     // Klont den originalen Artikel, wenn der Backend Aufruf fehlschlägt
     let updatedListeneintrag = Object.assign(new ListeneintragBO(), this.props.listeneintrag);
@@ -179,23 +144,6 @@ class ListeneintragForm extends Component {
     });
     this.props.reload()  // Seite wird neugeladen damit die neue letzte Änderung kenntlich gemacht werden kann
   }
-/*
-  // Behandelt Wertänderungen aus den Textfeldern vom Formular und validiert diese.
-  valueChange = (event) => {
-    const value = event.target.value;
-
-    let error = false;
-    if (value === null) {
-      error = true;
-    }
-console.log([event.target.id])
-    this.setState({
-      [event.target.id]: event.target.value,
-      [event.target.id + 'ValidationFailed']: error,
-      [event.target.id + 'Edited']: true
-    });
-  }
-**/
 
 listeneintragArtikelNameChange = (event) => {
     let artikelName = event.target.value;
@@ -222,8 +170,6 @@ listeneintragArtikelNameChange = (event) => {
         listeneintragArtikelMengeError: false
       })
     }
-
-
   }
 
   listeneintragArtikelEinheitChange= (event) => {
@@ -250,12 +196,7 @@ listeneintragArtikelNameChange = (event) => {
     });
   }
 
-
-
-
-
   /** Behandelt das schließen/abbrechen Tasten klick Ereignis. */
-
   handleClose = () => {
     // Setzt state zurück
     this.setState(this.baseState);
@@ -273,7 +214,6 @@ listeneintragArtikelNameChange = (event) => {
       artikelFilter: value
     });
   }
-
 
 /** Searches for customers with a customerName and loads the corresponding accounts */
   sucheArtikel = async () => {
@@ -358,7 +298,6 @@ listeneintragArtikelNameChange = (event) => {
     }
   }
 
-
 /** Searches for customers with a customerName and loads the corresponding accounts */
   sucheBenutzer = async () => {
     const { listeneintragBenutzerName } = this.state;
@@ -401,14 +340,7 @@ listeneintragArtikelNameChange = (event) => {
     }
   }
 
-
-
-
-
-
-
   /** Rendert die Komponente */
-
   render() {
     const { classes,show,listeneintrag, artikel } = this.props;
     const { listeneintragArtikelName, listeneintragArtikelNameValidationFailed, listeneintragArtikelNameEdited,
@@ -442,11 +374,7 @@ listeneintragArtikelNameChange = (event) => {
             <DialogContentText>
               {header}
             </DialogContentText>
-
-
-
             <form className={classes.root} noValidate autoComplete='off'>
-
 
               <TextField autoFocus fullWidth margin='normal' type='text' required id='ArtikelName' label='Artikel Name:'
                     onChange={this.listeneintragArtikelNameChange}
@@ -460,7 +388,6 @@ listeneintragArtikelNameChange = (event) => {
                       </InputAdornment>,
                     }} />
 
-
                     <div>
                       {artikelObjekt ?
                           <Typography>Einheit: {artikelObjekt.getEinheit()}</Typography>
@@ -471,7 +398,6 @@ listeneintragArtikelNameChange = (event) => {
               <TextField autoFocus type='text' required fullWidth margin='normal' id='menge' label='Menge' value={listeneintragArtikelMenge}
                 onChange={this.listeneintragArtikelMengeChange}
                 helperText={listeneintragArtikelMengeError ? 'ACHTUNG: Geben Sie eine Zahl ein' : ' '} />
-
 
                 <TextField autoFocus fullWidth margin='normal' type='text' required id='EinzelhaendlerName' label='Einzelhändler Name:'
                     onChange={this.listeneintragEinzelhaendlerNameChange}
@@ -485,7 +411,6 @@ listeneintragArtikelNameChange = (event) => {
                       </InputAdornment>,
                     }} />
 
-
                 <TextField autoFocus fullWidth margin='normal' type='text' required id='BenutzerName' label='Benutzer Name:'
                     onChange={this.listeneintragBenutzerNameChange}
                     error={benutzerNotFound}
@@ -497,29 +422,15 @@ listeneintragArtikelNameChange = (event) => {
                         </IconButton>
                       </InputAdornment>,
                     }} />
-
-
-
-
           <FormControl className={classes.formControl}>
-
-
-
           </FormControl>
           <FormControl className={classes.formControl}>
-
-
-
           </FormControl>
             </form>
-
-
-
-
             <LoadingProgress show={addingInProgress || updatingInProgress} />
             {
               // Zeigt Error Nachricht in Abhängigkeit des Artikel prop.
-              artikel ?
+              listeneintrag ?
                 <ContextErrorMessage error={artikelSearchError} contextErrorMsg={`Der Artikel ${artikel.getID()} konnte nicht geupdatet werden.`} onReload={this.sucheArtikel} />
                 :
                 <ContextErrorMessage error={addingError} contextErrorMsg={`Der Artikel konnte nicht hinzugefügt werden..`} onReload={this.addArtikel} />
@@ -531,8 +442,8 @@ listeneintragArtikelNameChange = (event) => {
             </Button>
             {
               // Wenn Artikel vorhanden ist, zeige eine Update Taste, sonst eine Anlegen Taste.
-              artikel ?
-                <Button disabled={listeneintragArtikelNameValidationFailed} variant='contained' onClick={this.updateArtikel} color='primary'>
+              listeneintrag ?
+                <Button disabled={listeneintragArtikelNameValidationFailed} variant='contained' onClick={this.updateListeneintrag} color='primary'>
                   Update
               </Button>
                 : <Button disabled={false} variant='contained' onClick={this.addListeneintrag} color='primary'>

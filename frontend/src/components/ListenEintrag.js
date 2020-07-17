@@ -114,7 +114,7 @@ class ListenEintrag extends Component {
           </Typography>
 
           <ListItemSecondaryAction>
-            <Button  color='secondary' size='small' startIcon={<EditIcon />} onClick={this.editListeneintrag}>
+            <Button  color='secondary' size='small' startIcon={<EditIcon />} onClick={this.updateListeneintrag}>
             </Button>
             <Button  color='secondary' size='small' startIcon={<DeleteIcon />} onClick={this.deleteListeneintragButtonClicked}>
             </Button>
