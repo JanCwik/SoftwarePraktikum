@@ -145,7 +145,7 @@ class App extends React.Component {
                             </Route>
 
                             <Route exact path='/artikel'>
-                                <Artikel/>
+                                <Artikel userMail={this.state.currentUser?.email} />
                             </Route>
 
                             <Route path='/anwenderverbund'>
