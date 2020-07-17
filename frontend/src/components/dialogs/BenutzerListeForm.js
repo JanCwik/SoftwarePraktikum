@@ -1,10 +1,22 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { withStyles, Button, IconButton, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, TextField } from '@material-ui/core';
+import {
+  withStyles,
+  Button,
+  IconButton,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogContentText,
+  DialogActions,
+  TextField,
+  InputAdornment
+} from '@material-ui/core';
 import CloseIcon from '@material-ui/icons/Close';
 import  API from "../../api/API";
 import ContextErrorMessage from './ContextErrorMessage';
 import LoadingProgress from './LoadingProgress';
+import SearchIcon from "@material-ui/icons/Search";
 
 
 /**
@@ -23,6 +35,9 @@ class BenutzerListeForm extends Component {
     this.state = {
       benutzerEmail: '',
       benutzerEmailValidationFailed: false,
+      benutzerObjekt: null,
+      benutzerSearchError: null,
+      benutzerNotFound: false,
       addingInProgress: false,
       updatingInProgress: false,
       addingError: null,
@@ -51,6 +66,41 @@ class BenutzerListeForm extends Component {
     )
   }
 
+  /** Searches for customers with a customerName and loads the corresponding accounts */
+  sucheBenutzer = async () => {
+    const { benutzerEmail } = this.state;
+    if (benutzerEmail.length > 0) {
+      try {
+        // set loading to true
+        this.setState({
+          benutzerObjekt: null,            // the initial customer
+          loadingInProgress: true,              // show loading indicator
+          benutzerSearchError: null             // disable error message
+        });
+
+        // Load customers first
+        const benutzer = await API.getAPI().getBenutzerByEmailAPI(benutzerEmail);
+
+        // Set the final state
+        this.setState({
+          benutzerObjekt: benutzer[0],
+          loadingInProgress: false,           // disable loading indicator
+          benutzerSearchError: null           // no error message
+        });
+      } catch (e) {
+        this.setState({
+          benutzerObjekt: null,
+          loadingInProgress: false,           // disable loading indicator
+          benutzerSearchError: e              // show error message
+        });
+      }
+    } else {
+      this.setState({
+        benutzerNotFound: true
+      });
+    }
+  }
+
   /** Behandelt Wertänderungen aus den Textfeldern vom Formular und validiert diese. */
    textFieldValueChange = (event) => {
      this.setState({
@@ -69,7 +119,7 @@ class BenutzerListeForm extends Component {
   render() {
     const {classes, show} = this.props;
     const {
-      benutzerEmail, benutzerEmailValidationFailed, addingInProgress, addingError} = this.state;
+      benutzerEmail, benutzerEmailValidationFailed, addingInProgress, addingError, benutzerNotFound, benutzerObjekt} = this.state;
 
     let title = '';
     let header = '';
@@ -92,8 +142,16 @@ class BenutzerListeForm extends Component {
                 <form className={classes.root} noValidate autoComplete='off'>
                   <TextField autoFocus type='text' required fullWidth margin='normal' id='benutzerEmail'
                              label='Benutzer E-mail' value={benutzerEmail}
-                             onChange={this.textFieldValueChange} error={benutzerEmailValidationFailed}
-                             helperText={benutzerEmailValidationFailed ? 'Die E-Mail muss mindestens ein Zeichen enthalten' : ' '}/>
+                             onChange={this.textFieldValueChange}
+                             onBlur={this.sucheBenutzer} error={benutzerNotFound}
+                             helperText={benutzerNotFound ? 'Der Benutzer konnte nicht gefunden werden' : ' '}
+                             InputProps={{
+                      endAdornment: <InputAdornment position='end'>
+                        <IconButton onClick={this.sucheBenutzer}>
+                          <SearchIcon />
+                        </IconButton>
+                      </InputAdornment>,
+                    }} />
                 </form>
                 <LoadingProgress show={addingInProgress}/>
                 <ContextErrorMessage error={addingError} contextErrorMsg={`Der Benutzer konnte nicht hinzugefügt werden..`} onReload={this.addMitgliedschaft} />

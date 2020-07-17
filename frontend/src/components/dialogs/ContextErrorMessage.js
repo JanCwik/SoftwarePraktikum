@@ -27,7 +27,7 @@ class ContextErrorMessage extends Component {
             {contextErrorMsg}
           </AlertTitle>
           <div className={classes.margins}>
-            Error message (for debugging only) is:
+            Error Nachricht (nur für debugging) ist:
         </div>
           <div>
             {error.message}

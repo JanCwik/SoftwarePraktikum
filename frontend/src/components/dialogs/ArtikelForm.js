@@ -109,7 +109,7 @@ class ArtikelForm extends Component {
     });
   }
 /** Behandelt Wertänderungen aus dem Artikel Name Textfeld */
-nameChange = (event) => {
+  nameChange = (event) => {
     let name = event.target.value;
     this.setState({
       artikelName: name,
