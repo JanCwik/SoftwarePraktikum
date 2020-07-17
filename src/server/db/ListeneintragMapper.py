@@ -116,12 +116,12 @@ class ListeneintragMapper(Mapper):
 
         return result
 
-    def delete(self, listeneintrag):
+    def delete(self, id):
         """Mapper-Methode zum löschen eines Listeneintrags aus der Datenbank anhand dessen ID"""
 
         cursor = self._cnx.cursor()
 
-        statement = "DELETE FROM listeneintrag WHERE id={}".format(listeneintrag.get_id())
+        statement = "DELETE FROM listeneintrag WHERE id={}".format(id)
         cursor.execute(statement)
 
         self._cnx.commit()
