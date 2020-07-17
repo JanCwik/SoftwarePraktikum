@@ -29,6 +29,7 @@ export default class API {
     #deleteArtikelURL = (id) => `${this.#ServerBaseURL}/artikel-by-id/${id}`;
     #updateArtikelURL = (id) => `${this.#ServerBaseURL}/artikel-by-id/${id}`;
     #getArtikelByNamelURL= (name) => `${this.#ServerBaseURL}/artikel-by-name/${name}`;
+    #getArtikelByBenutzerURL = (userMail) => `${this.#ServerBaseURL}/benutzer/${userMail}/artikel`;
 
     #getEinzelhaendlerURL = () => `${this.#ServerBaseURL}/einzelhaendler`;
     #addEinzelhaendlerURL = () => `${this.#ServerBaseURL}/einzelhaendler`;
@@ -64,17 +65,30 @@ export default class API {
     //führt die fetch-Funktion aus, fängt dabei mögliche Errors ab und führt anschließend schon die json-Funktion mit der Response aus.
     #fetchAdvanced = (url, init) =>
         fetch(url, init)
-            .then(res =>
+            .then(res =>{
                 //console.log(res)
-{
                     if (!res.ok) {
                         throw Error(`${res.status} ${res.statusText}`);
                     }
                     return res.json();
                 }
 
-
             )
+
+
+
+    // Methode die den GET request ausführt und alle in der Datenbank gespeicherten Artikel ausgibt, zu denen der Benutzer gehört
+    // Die ID des Benutzers wird an die URL gehängt
+    getArtikelByBenutzerAPI(userMail) {
+        return this.#fetchAdvanced(this.#getArtikelByBenutzerURL(userMail)).then((responseJSON) => {
+            let Artikel = ArtikelBO.fromJSON(responseJSON);
+            return new Promise(function (resolve) {
+                resolve(Artikel);
+            })
+        })
+
+    }
+
 
 
     // Methode die den GET request ausführt und alle in der Datenbank gespeicherten Artikel ausgibt
@@ -224,6 +238,8 @@ export default class API {
 
     //führt einen POST Request aus und schreibt dabei das als Parameter übergebene Anwenderverbund-objekt in den Body des Json
     addAnwenderverbundAPI(newanw) {
+        console.log(newanw)
+         console.log(JSON.stringify(newanw))
         return this.#fetchAdvanced(this.#addAnwenderverbundURL(), {
             method: 'POST',
             headers: {
