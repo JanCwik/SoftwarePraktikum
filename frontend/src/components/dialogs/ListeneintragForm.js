@@ -58,6 +58,12 @@ class ListeneintragForm extends Component {
 
     // Init state
     this.state = {
+      benutzerObjekt: null,
+      benutzerSearchError: null,
+      benutzerNotFound: false,
+      einzelhaendlerObjekt: null,
+      einzelhaendlerSearchError: null,
+      einzelhaendlerNotFound: false,
       artikelObjekt: null,
       artikelSearchError: null,
       artikelNotFound: false,
@@ -66,6 +72,7 @@ class ListeneintragForm extends Component {
       listeneintragArtikelNameEdited: false,
       listeneintragArtikelMenge: lam,
       listeneintragArtikelMengeEdited: false,
+      listeneintragArtikelMengeError: false,
       listeneintragArtikelEinheit: lae,
       listeneintragArtikelEinheitEdited: false,
       listeneintragEinzelhaendlerName: len,
@@ -101,12 +108,16 @@ class ListeneintragForm extends Component {
 
   addListeneintrag = () => {
     let newListeneintrag = new ListeneintragBO();
-    newListeneintrag.setArtikel_name(this.state.ausgewaehlterArtikelBO.getName());
-    newListeneintrag.setArtikel_id(this.state.ausgewaehlterArtikelBO.getID())
-    newListeneintrag.setMenge(this.state.listeneintragMenge);
-    newListeneintrag.setArtikel_einheit(this.state.ausgewaehlterArtikelBO.getEinheit());
-    newListeneintrag.setEinzelhaendler_name(this.state.einzelhaendler_name)
-    newListeneintrag.setBenutzer_id(this.state.benutzer_name)//legt neues Artikelobjekt mit name aus dem state an
+    console.log(this.state.listeneintragArtikelMenge)
+    newListeneintrag.setMenge(this.state.listeneintragArtikelMenge);
+    newListeneintrag.setEinkaufsliste_id(this.props.einkaufsliste.getID());
+    newListeneintrag.setEinzelhaendler_id(this.state.einzelhaendlerObjekt.getID())
+    newListeneintrag.setEinzelhaendler_name(this.state.einzelhaendlerObjekt.getName())
+    newListeneintrag.setArtikel_name(this.state.artikelObjekt.getName());
+    newListeneintrag.setArtikel_id(this.state.artikelObjekt.getID())
+    newListeneintrag.setArtikel_einheit(this.state.artikelObjekt.getEinheit());
+    newListeneintrag.setBenutzer_id(this.state.benutzerObjekt.getID())               //legt neues Artikelobjekt mit name aus dem state an
+    newListeneintrag.setBenutzer_name(this.state.benutzerObjekt.getName())
     API.getAPI().addListeneintragAPI(newListeneintrag).then(listeneintrag => {
       // Backend Aufruf erfolgreich
       // reinit den Dialog state für einen neuen leeren Artikel
@@ -124,6 +135,7 @@ class ListeneintragForm extends Component {
       updatingInProgress: true,       // Ladeanzeige anzeigen
       updatingError: null             // Fehlermeldung deaktivieren
     });
+
     this.props.reload() // Seite wird neugeladen damit die neue letzte Änderung kenntlich gemacht werden kann
   }
 
@@ -133,9 +145,10 @@ class ListeneintragForm extends Component {
     // Klont den originalen Artikel, wenn der Backend Aufruf fehlschlägt
     let updatedListeneintrag = Object.assign(new ListeneintragBO(), this.props.listeneintrag);
     // Setzt die neuen Attribute aus dem Dialog
-    updatedListeneintrag.setArtikel_name(this.state.artikel_name);
+    updatedListeneintrag.setArtikel_name(this.state.artikelObjekt.getName());
+    updatedListeneintrag.setArtikel_id(this.state.artikelObjekt.getID());
     updatedListeneintrag.setMenge(this.state.listeneintragMenge);
-    updatedListeneintrag.setArtikel_einheit(this.state.artikel_einheit);
+    updatedListeneintrag.setArtikel_einheit(this.state.artikelObjekt.getEinheit());
     updatedListeneintrag.setEinzelhaendler_name(this.state.einzelhaendler_name)
     updatedListeneintrag.setBenutzer_id(this.state.benutzer_name)
     updatedListeneintrag.setErledigt(this.state.erledigt)
@@ -198,6 +211,19 @@ listeneintragArtikelNameChange = (event) => {
       listeneintragArtikelMenge: menge,
       listeneintragArtikelMengeEdited: true
     });
+
+    if(isNaN(menge)){
+      this.setState({
+        listeneintragArtikelMengeError: true
+      })
+    }
+    else{
+      this.setState({
+        listeneintragArtikelMengeError: false
+      })
+    }
+
+
   }
 
   listeneintragArtikelEinheitChange= (event) => {
@@ -268,8 +294,14 @@ listeneintragArtikelNameChange = (event) => {
         this.setState({
           artikelObjekt: artikel[0],
           loadingInProgress: false,           // disable loading indicator
-          artikelSearchError: null           // no error message
+          artikelSearchError: null,
+          artikelNotFound: false,
         });
+          if(!artikel[0]){
+          this.setState({
+          artikelNotFound: true           // no error message
+        });
+        }
       } catch (e) {
         this.setState({
           artikelObjekt: null,
@@ -284,6 +316,93 @@ listeneintragArtikelNameChange = (event) => {
     }
   }
 
+/** Searches for customers with a customerName and loads the corresponding accounts */
+  sucheEinzelhaendler = async () => {
+    const { listeneintragEinzelhaendlerName } = this.state;
+    if (listeneintragEinzelhaendlerName.length > 0) {
+      try {
+        // set loading to true
+        this.setState({
+          einzelhaendlerObjekt: null,            // the initial customer
+          loadingInProgress: true,              // show loading indicator
+          einzelhaendlerSearchError: null             // disable error message
+        });
+
+        // Load customers first
+        const einzelhaendler = await API.getAPI().getEinzelhaendlerByNameAPI(listeneintragEinzelhaendlerName);
+
+        // Set the final state
+        this.setState({
+          einzelhaendlerObjekt: einzelhaendler[0],
+          loadingInProgress: false,           // disable loading indicator
+          einzelhaendlerSearchError: null,
+          einzelhaendlerNotFound: false           // no error message
+        });
+        if(!einzelhaendler[0]){
+          this.setState({
+          einzelhaendlerNotFound: true           // no error message
+        });
+        }
+
+      } catch (e) {
+        this.setState({
+          einzelhaendlerObjekt: null,
+          loadingInProgress: false,           // disable loading indicator
+          einzelhaendlerSearchError: e              // show error message
+        });
+      }
+    } else {
+      this.setState({
+        einzelhaendlerNotFound: true
+      });
+    }
+  }
+
+
+/** Searches for customers with a customerName and loads the corresponding accounts */
+  sucheBenutzer = async () => {
+    const { listeneintragBenutzerName } = this.state;
+    if (listeneintragBenutzerName.length > 0) {
+      try {
+        // set loading to true
+        this.setState({
+          benutzerObjekt: null,            // the initial customer
+          loadingInProgress: true,              // show loading indicator
+          benutzerSearchError: null             // disable error message
+        });
+
+        // Load customers first
+        const benutzer = await API.getAPI().getBenutzerByNameAPI(listeneintragBenutzerName);
+
+        // Set the final state
+        this.setState({
+          benutzerObjekt: benutzer[0],
+          loadingInProgress: false,           // disable loading indicator
+          benutzerSearchError: null,
+          benutzerNotFound: false           // no error message
+        });
+        if(!benutzer[0]){
+          this.setState({
+          benutzerNotFound: true           // no error message
+        });
+        }
+
+      } catch (e) {
+        this.setState({
+          benutzerObjekt: null,
+          loadingInProgress: false,           // disable loading indicator
+          benutzerSearchError: e              // show error message
+        });
+      }
+    } else {
+      this.setState({
+        benutzerNotFound: true
+      });
+    }
+  }
+
+
+
 
 
 
@@ -296,8 +415,9 @@ listeneintragArtikelNameChange = (event) => {
             listeneintragArtikelMenge, listeneintragArtikelMengeEdited, listeneintragArtikelEinheit,
             listeneintragArtikelEinheitEdited, listeneintragEinzelhaendlerName, listeneintragEinzelhaendlerNameEdited,
             listeneintragBenutzerName, addingInProgress, addingError, updatingInProgress, updatingError,
-            artikelCombobox, einheitCombobox, einzelhaendlerCombobox, benutzerCombobox, ausgewaehlterArtikelBO, alleArtikel , artikelNotFound, artikelObjekt } = this.state;
-console.log(artikelObjekt)
+            artikelCombobox, einheitCombobox, einzelhaendlerCombobox, benutzerCombobox, ausgewaehlterArtikelBO,
+      artikelSearchError, alleArtikel , artikelNotFound, artikelObjekt, einzelhaendlerNotFound, einzelhaendlerObjekt, benutzerObjekt, benutzerNotFound ,listeneintragArtikelMengeError} = this.state;
+
     let title = '';
     let header = '';
 
@@ -330,9 +450,8 @@ console.log(artikelObjekt)
 
               <TextField autoFocus fullWidth margin='normal' type='text' required id='ArtikelName' label='Artikel Name:'
                     onChange={this.listeneintragArtikelNameChange}
-                    onBlur={this.sucheArtikel}
                     error={artikelNotFound}
-                    helperText={artikelNotFound ? 'Es wurden keine Artikel mit dem folgenden Namen gefunden' : ' '}
+                    helperText={artikelNotFound ? 'Es wurden keine Artikel mit diesem Namen gefunden' : ' '}
                     InputProps={{
                       endAdornment: <InputAdornment position='end'>
                         <IconButton onClick={this.sucheArtikel}>
@@ -345,12 +464,39 @@ console.log(artikelObjekt)
                     <div>
                       {artikelObjekt ?
                           <Typography>Einheit: {artikelObjekt.getEinheit()}</Typography>
-                          : null
-
+                              :null
                       }
                     </div>
 
+              <TextField autoFocus type='text' required fullWidth margin='normal' id='menge' label='Menge' value={listeneintragArtikelMenge}
+                onChange={this.listeneintragArtikelMengeChange}
+                helperText={listeneintragArtikelMengeError ? 'ACHTUNG: Geben Sie eine Zahl ein' : ' '} />
 
+
+                <TextField autoFocus fullWidth margin='normal' type='text' required id='EinzelhaendlerName' label='Einzelhändler Name:'
+                    onChange={this.listeneintragEinzelhaendlerNameChange}
+                    error={einzelhaendlerNotFound}
+                    helperText={einzelhaendlerNotFound ? 'Es wurden keine Einzelhändler mit diesem Namen gefunden' : ' '}
+                    InputProps={{
+                      endAdornment: <InputAdornment position='end'>
+                        <IconButton onClick={this.sucheEinzelhaendler}>
+                          <SearchIcon />
+                        </IconButton>
+                      </InputAdornment>,
+                    }} />
+
+
+                <TextField autoFocus fullWidth margin='normal' type='text' required id='BenutzerName' label='Benutzer Name:'
+                    onChange={this.listeneintragBenutzerNameChange}
+                    error={benutzerNotFound}
+                    helperText={benutzerNotFound ? 'Es wurden keine Benutzer mit diesem Namen gefunden' : ' '}
+                    InputProps={{
+                      endAdornment: <InputAdornment position='end'>
+                        <IconButton onClick={this.sucheBenutzer}>
+                          <SearchIcon />
+                        </IconButton>
+                      </InputAdornment>,
+                    }} />
 
 
 
@@ -374,7 +520,7 @@ console.log(artikelObjekt)
             {
               // Zeigt Error Nachricht in Abhängigkeit des Artikel prop.
               artikel ?
-                <ContextErrorMessage error={updatingError} contextErrorMsg={`Der Artikel ${artikel.getID()} konnte nicht geupdatet werden.`} onReload={this.updateArtikel} />
+                <ContextErrorMessage error={artikelSearchError} contextErrorMsg={`Der Artikel ${artikel.getID()} konnte nicht geupdatet werden.`} onReload={this.sucheArtikel} />
                 :
                 <ContextErrorMessage error={addingError} contextErrorMsg={`Der Artikel konnte nicht hinzugefügt werden..`} onReload={this.addArtikel} />
             }
@@ -399,37 +545,6 @@ console.log(artikelObjekt)
     );
   }
 }
-
-/*
-Alte lösungen
-
-<TextField autoFocus type='text' required fullWidth margin='normal' id='artikelName' label='Artikel Name' value={listeneintragArtikelName}
-                onChange={this.listeneintragArtikelNameChange} error={listeneintragArtikelNameValidationFailed}
-                helperText={artikelNameValidationFailed ? 'Der Name muss mindestens ein Zeichen enthalten' : ' '} />
-
- <TextField select autoFocus fullWidth type='text'
-                    value={ausgewaehlterArtikelBO}
-                    onChange={this.ausgewaehlterArtikelBOChange}>
-                    {
-                      alleArtikel.map((artikel) => (
-                        <MenuItem key={artikel.getID()} value={artikel}>
-                          {artikel.getName()}
-
-                        </MenuItem>
-                      ))
-                    }
-              </TextField>
-
-
-              <Autocomplete
-                    id="combo-box-demo"
-                    options={artikelCombobox}
-                    getOptionLabel={(option) => option.getName()}
-                    style={{ width: 400 }}
-                   renderInput={(params) =>
-                       <TextField {...params} value={listeneintragArtikelName} onChange={this.listeneintragArtikelNameChange}
-                                  label="Artikel" variant="outlined" />} />
- */
 
 
 
