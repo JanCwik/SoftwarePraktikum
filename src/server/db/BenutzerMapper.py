@@ -20,7 +20,7 @@ class BenutzerMapper(Mapper):
         Das Array mit allen Instanzen wird schließlich zurückgegeben."""
         result = []
         cursor = self._cnx.cursor()
-        cursor.execute("SELECT * FROM benutzer")
+        cursor.execute("SELECT id, name, erstellungs_zeitpunkt, email, google_id FROM benutzer")
         res = cursor.fetchall()
 
         for (id, name, erstellungs_zeitpunkt, email, google_id) in res:
@@ -95,9 +95,6 @@ class BenutzerMapper(Mapper):
         Mittels der getter-Methode, welche zuvor in der entsprechenden Business-Object-Klasse definierten wurde,
         wird die entsprechende ID der Instanz an das SQL-Statement übergeben."""
         cursor = self._cnx.cursor()
-
-        mitgliedschaftloeschen = "DELETE FROM mitgliedschaft WHERE benutzer_id={}".format(benutzer.get_id())
-        cursor.execute(mitgliedschaftloeschen)
 
         template = "DELETE FROM benutzer WHERE id={}".format(benutzer.get_id())
         cursor.execute(template)
@@ -220,57 +217,6 @@ class BenutzerMapper(Mapper):
             result = b
         except IndexError:
            result = None
-
-        self._cnx.commit()
-        cursor.close()
-
-        return result
-
-    def find_all_listeneintraege(self, benutzer):
-        """Mapper-Methode zum ausgeben aller Listeneinträge zu einem Benutzer."""
-        id = benutzer.get_id()
-        #Änderung: Hier wird erst get_id() verwenden
-        result = []
-        cursor = self._cnx.cursor()
-        cursor.execute("SELECT * FROM listeneintrag WHERE benutzer_id={}".format(id))
-        res = cursor.fetchall()
-
-        for(id, anzahl, aenderungs_zeitpunkt, einkaufsliste_id, einzelhaendler_id, artikel_id, benutzer_id, erledigt) in res:
-
-            listeneintrag = Listeneintrag()
-            listeneintrag.set_id(id)
-            listeneintrag.set_anzahl(anzahl)
-            listeneintrag.set_änderungs_zeitpunkt(aenderungs_zeitpunkt)
-            listeneintrag.set_einkaufslisteId(einkaufsliste_id)
-            listeneintrag.set_einzelhaendlerId(einzelhaendler_id)
-            listeneintrag.set_artikelId(artikel_id)
-            listeneintrag.set_benutzerId(benutzer_id)
-            listeneintrag.set_erledigt(erledigt)
-            result.append(listeneintrag)
-
-        self._cnx.commit()
-        cursor.close()
-
-        return result
-
-    def alle_anwenderverbunde_ausgeben(self, benutzer):
-        """Mapper-Methode zum ausgeben aller Anwenderverbunde bei denen der Benutzer ein Mitglied ist.
-
-        Hier werden via SQL-Abfrage alle Anwenderverbunde in denen ein Benutzer ein Mitglied ist aus der Tabelle Mitgliedschaft ausgegeben.
-        Anschließend werden aus den Zeilen der Datenbank (welche ein Objekt mit dessen Attributen darstellen)
-        mit der fetchall-Methode Tupel erstellt.
-
-        Mittels For-Schleife werden die einzelnen Attribute aus einem Tupel gezogen und einer neuen Instanz übergeben
-        und dann zurückgegeben."""
-        result = []
-        cursor = self._cnx.cursor()
-        cursor.execute(
-            "SELECT anwenderverbund_id FROM mitgliedschaft WHERE benutzer_id={}".format(benutzer.get_id()))
-        res = cursor.fetchall()
-
-        for i in res:
-            for i in i:
-                result.append(i)
 
         self._cnx.commit()
         cursor.close()

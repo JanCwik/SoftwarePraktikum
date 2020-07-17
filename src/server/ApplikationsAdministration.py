@@ -8,7 +8,7 @@ from .db.ArtikelMapper import ArtikelMapper
 from .db.EinzelhaendlerMapper import EinzelhaendlerMapper
 from .db.BenutzerMapper import BenutzerMapper
 from .db.AnwenderverbundMapper import AnwenderverbundMapper
-from src.server.db.EinkaufslisteMapper import EinkaufslistenMapper
+from .db.EinkaufslisteMapper import EinkaufslistenMapper
 from .db.ListeneintragMapper import ListeneintragMapper
 from .db.StatistikMapper import StatistikMapper
 from .db.MitgliedschaftMapper import MitgliedschaftMapper
@@ -125,6 +125,10 @@ class ApplikationsAdministration(object):
 
     def delete_benutzer(self, benutzer):
         """Methode zum löschen eines Benutzers aus der Datenbank"""
+
+        with MitgliedschaftMapper() as mapper:
+            mapper.deleteByBenutzer(benutzer)
+
         with BenutzerMapper() as mapper:
             mapper.delete(benutzer)
 
@@ -153,15 +157,13 @@ class ApplikationsAdministration(object):
         with BenutzerMapper() as mapper:
             return mapper.find_by_google_user_id(id)
 
-    def get_all_listeneintraege_of_benutzer(self, benutzer): #Name geändert!
+    def get_all_listeneintraege_of_benutzer(self, benutzer):
         """Methode zum ausgeben aller Listeneinträge für die der Benutzer verantwortlich ist"""
-        with BenutzerMapper() as mapper:
-            return mapper.find_all_listeneintraege(benutzer)
-        #Änderung: Hier wird ganze Instanz übergeben, statt nur ID
+        with ListeneintragMapper() as mapper:
+            return mapper.find_all_listeneintraege_by_benutzer(benutzer)
 
-    #Neu!
     def get_anwenderverbuende_by_benutzer_email(self, benutzer):
-        with BenutzerMapper() as mapper:
+        with MitgliedschaftMapper() as mapper:
             return mapper.alle_anwenderverbunde_ausgeben(benutzer)
 
     def get_all_artikel_of_benutzer(self, benutzer):
@@ -204,18 +206,17 @@ class ApplikationsAdministration(object):
         with EinkaufslistenMapper() as mapper:
             listen = mapper.GetEinkaufslistenByAnwendeverbund(anwenderverbund)
 
-        if listen is not None:
-            for i in listen:
-                p = i.get_id()
+        for i in listen:
+            for k in i:
 
                 with ListeneintragMapper() as mapper:
-                    eintraege = mapper.GetListeneintraegeByEinkaufsliste(p)
+                    eintraege = mapper.GetListeneintraegeByEinkaufsliste(k)
 
-                    for i in eintraege:
-                        for k in i:
+                for i in eintraege:
+                    for k in i:
 
-                            with ListeneintragMapper() as mapper:
-                                mapper.delete(k)
+                        with ListeneintragMapper() as mapper:
+                            mapper.delete(k)
 
         with EinkaufslistenMapper() as mapper:
             mapper.DeleteEinkaufslistenByAnwendeverbund(anwenderverbund)
@@ -242,9 +243,8 @@ class ApplikationsAdministration(object):
         """Methode zum ausgeben aller Einkaufslisten die zum jeweiligen Anwenderverbund gehören"""
         with EinkaufslistenMapper() as mapper:
             return mapper.GetEinkaufslistenByAnwendeverbund(anwenderverbund)
-        #Änderung: Hier wird ganze Instanz übergeben statt nur id
 
-    def mitglieder_zum_anwenderverbund_hinzufügen(self, anwenderverbund, benutzer):
+    def mitglieder_zum_anwenderverbund_hinzufuegen(self, anwenderverbund, benutzer):
         """Methode um Mitglieder einem Anwenderverbund hinzuzufügen"""
         with MitgliedschaftMapper() as mapper:
             return mapper.benutzer_hinzufuegen(anwenderverbund, benutzer)
@@ -279,10 +279,10 @@ class ApplikationsAdministration(object):
 
 
 
-    def get_all_all_einkaufslisten(self):
+    def get_all_einkaufslisten(self):
         """ Methode zum ausgeben aller Einkaufslisten aus der Datenbank"""
         with EinkaufslistenMapper() as mapper:
-            return mapper.find_all_all_einkaufslisten()
+            return mapper.find_all_einkaufslisten()
 
 
 
@@ -291,10 +291,19 @@ class ApplikationsAdministration(object):
         einkaufsliste = Einkaufsliste()
         einkaufsliste.set_name(name)
         einkaufsliste.set_anwenderId(anwenderverbund)
-        #Änderung: hier wird ganze Instanz übergeben statt nur id
+
 
         with EinkaufslistenMapper() as mapper:
             return mapper.insert(einkaufsliste)
+
+#Business Logik get_ID_from_standardartikel funktioniert wegen return nich (return stopt Funktion)
+    # mögliche Problemlösung (nicht vollständig)
+#        with ArtikelMapper() as mapper:
+#            standardartikel = mapper.get_id_from_standardartikel
+
+#        with ListeneintragMapper() as mapper:
+#            x = mapper.insert_standardartikel_in_Einkaufsliste(einkaufsliste, standardartikel)
+
 
     def get_einkaufsliste_by_id(self, id):
         """Methode zum ausgeben einer Einkaufsliste aus der Datenbank anhand deren ID"""
@@ -313,13 +322,18 @@ class ApplikationsAdministration(object):
 
     def delete_einkaufsliste(self, einkaufsliste):
         """ Methode zum löschen einer Einkaufsliste aus der Datenbank"""
+        with ListeneintragMapper() as mapper:
+            mapper.delete_by_einkaufsliste(einkaufsliste)
+
         with EinkaufslistenMapper() as mapper:
             mapper.delete(einkaufsliste)
 
-    def get_all_listeneintraege_of_einkaufslisten(self, einkaufsliste):  #Änderung: statt id wird nun ganzes Objekt übergeben
+
+# muss bezüglicher der Business Logik noch angepasst werden!
+    def get_all_listeneintraege_of_einkaufslisten(self, einkaufsliste):
         """ Methode zum ausgeben aller Listeneinträge die zur jeweiligen Einkaufsliste gehören"""
-        with EinkaufslistenMapper() as mapper:
-            eintraege= mapper.find_all_listeneintraege(einkaufsliste)
+        with ListeneintragMapper() as mapper:
+            eintraege = mapper.find_all_listeneintraege_by_einkaufsliste(einkaufsliste)
 
             latest = eintraege[0]
             for eintrag in eintraege:
