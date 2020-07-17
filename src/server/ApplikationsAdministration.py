@@ -8,7 +8,7 @@ from .db.ArtikelMapper import ArtikelMapper
 from .db.EinzelhaendlerMapper import EinzelhaendlerMapper
 from .db.BenutzerMapper import BenutzerMapper
 from .db.AnwenderverbundMapper import AnwenderverbundMapper
-from .db.EinkaufslisteMapper import EinkaufslistenMapper
+from src.server.db.EinkaufslisteMapper import EinkaufslistenMapper
 from .db.ListeneintragMapper import ListeneintragMapper
 from .db.StatistikMapper import StatistikMapper
 from .db.MitgliedschaftMapper import MitgliedschaftMapper
@@ -204,17 +204,18 @@ class ApplikationsAdministration(object):
         with EinkaufslistenMapper() as mapper:
             listen = mapper.GetEinkaufslistenByAnwendeverbund(anwenderverbund)
 
-        for i in listen:
-            for k in i:
+        if listen is not None:
+            for i in listen:
+                p = i.get_id()
 
                 with ListeneintragMapper() as mapper:
-                    eintraege = mapper.GetListeneintraegeByEinkaufsliste(k)
+                    eintraege = mapper.GetListeneintraegeByEinkaufsliste(p)
 
-                for i in eintraege:
-                    for k in i:
+                    for i in eintraege:
+                        for k in i:
 
-                        with ListeneintragMapper() as mapper:
-                            mapper.delete(k)
+                            with ListeneintragMapper() as mapper:
+                                mapper.delete(k)
 
         with EinkaufslistenMapper() as mapper:
             mapper.DeleteEinkaufslistenByAnwendeverbund(anwenderverbund)

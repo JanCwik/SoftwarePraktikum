@@ -274,6 +274,7 @@ class EinkaufslistenMapper(Mapper):
 
     def GetEinkaufslistenByAnwendeverbund(self, anwenderverbund):
             """ Mapper-Methode zum ausgeben aller Einkaufslisten, die zu einem Anwenderverbund gehören"""
+            result = []
             cursor = self._cnx.cursor()
 
 
@@ -281,17 +282,14 @@ class EinkaufslistenMapper(Mapper):
             cursor.execute(listenauslesen)
             listen = cursor.fetchall()
 
-            try:
-                (id, name, erstellungs_zeitpunkt, aenderungs_zeitpunkt, anwenderverbund_id) = listen[0]
+            for (id, name, erstellungs_zeitpunkt, aenderungs_zeitpunkt, anwenderverbund_id) in listen:
                 einkaufsliste = Einkaufsliste()
                 einkaufsliste.set_id(id)
                 einkaufsliste.set_name(name)
                 einkaufsliste.set_erstellungs_zeitpunkt(erstellungs_zeitpunkt)
                 einkaufsliste.set_änderungs_zeitpunkt(aenderungs_zeitpunkt)
                 einkaufsliste.set_anwenderId(anwenderverbund_id)
-                result = einkaufsliste
-            except IndexError:
-                result = None
+                result.append(einkaufsliste)
 
             self._cnx.commit()
             cursor.close()
