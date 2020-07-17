@@ -43,12 +43,12 @@ class ListenEintrag extends Component {
   }
 
   updateListeneintrag = () => {
-    // Klont den originalen Artikel, wenn der Backend Aufruf fehlschlägt
+
     let updatedListeneintrag = Object.assign(new ListeneintragBO(), this.props.listeneintrag);
     // Setzt die neuen Attribute aus dem Dialog
     updatedListeneintrag.setErledigt(true)
     API.getAPI().updateListeneintragAPI(updatedListeneintrag)
-      this.deleteListeneintragDialogClosed(updatedListeneintrag);      // Aufruf mit dem neuen Artikel
+      this.deleteListeneintragDialogClosed(updatedListeneintrag);
     };
 
 
@@ -64,10 +64,15 @@ class ListenEintrag extends Component {
     // Wenn der Artikel nicht gleich null ist, lösche ihn
     if (listeneintrag) {
       this.props.onListeneintragDeleted(listeneintrag);
-    };
+    }
+    if (listeneintrag) {
+      if (listeneintrag.getAenderungs_zeitpunkt() === "latest") {
+        this.props.reload()
+      }
+    }
 
-    // Zeige nicht den Dialog
-    this.setState({
+
+      this.setState({
       showListeneintragDeleteDialog: false
     });
   }

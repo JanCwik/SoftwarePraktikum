@@ -67,7 +67,10 @@ class Einkaufsliste extends Component {
     this.getListeneintraege();
   }
 
+  reload=()=>{
+      this.getListeneintraege();
 
+  }
 
 
   /**
@@ -81,6 +84,7 @@ class Einkaufsliste extends Component {
       listeneintraege: newListeneintragList,
       showListeneintragForm: false
     });
+
   }
 
   /** Behandelt das onClick Ereignis, der Einzelhaendler anlegen Taste. */
@@ -136,12 +140,12 @@ class Einkaufsliste extends Component {
 
           listeneintraege.map(listeneintrag =>
             <ListenEintrag key={listeneintrag.getID()} listeneintrag={listeneintrag}
-              onListeneintragDeleted={this.listeneintragDeleted}
+              onListeneintragDeleted={this.listeneintragDeleted} reload={this.reload}
             />)
         }
         <LoadingProgress show={loadingInProgress} />
         <ContextErrorMessage error={error} contextErrorMsg={`Die Liste der Einzelhändler konnte nicht geladen werden.`} onReload={this.getEinzelhaendler} />
-        <ListeneintragForm   show={showListeneintragForm} onClose={this.listeneintragFormClosed} />
+        <ListeneintragForm reload={this.reload}  show={showListeneintragForm} onClose={this.listeneintragFormClosed} />
       </div>
     );
   }

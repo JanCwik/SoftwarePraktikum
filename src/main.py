@@ -218,13 +218,14 @@ class ListeneintragOperations(Resource):
 
     # Zeigt namen nicht an!
 
+    @shopping.marshal_with(listeneintrag)
     @secured
     def delete(self, id):
         """Löschen eines Listeneintrages anhand einer id"""
         adm = ApplikationsAdministration()
         listeneintrag = adm.get_listeneintrag_by_id(id)
         adm.delete_listeneintrag(listeneintrag)
-        return ''
+        return listeneintrag
 
     @shopping.marshal_with(listeneintrag)
     @shopping.expect(listeneintrag)
