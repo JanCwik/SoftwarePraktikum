@@ -5,11 +5,13 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
 import SwapHoriz from '@material-ui/icons/SwapHoriz';
 import { Link as RouterLink } from 'react-router-dom';
-import { API } from '../api';
+import  API  from '../api/API';
 import List from '@material-ui/core/List';
 import Checkbox from '@material-ui/core/Checkbox';
 import IconButton from '@material-ui/core/IconButton';
 import ListeneintragLoeschen from "./dialogs/ListeneintragLoeschen";
+import ListeneintragForm from "./dialogs/ListeneintragForm";
+import ListeneintragBO from "../api/ListeneintragBO";
 
 
 /**
@@ -36,18 +38,20 @@ class ListenEintrag extends Component {
       deletingInProgress: false,
       loadingError: null,
       deletingError: null,
-      checked:false
 
     };
   }
 
+  updateListeneintrag = () => {
 
-handleCheck =(event)=>{
-    this.setState({
-      checked: event.target.checked
-        }
-    )
-}
+    let updatedListeneintrag = Object.assign(new ListeneintragBO(), this.props.listeneintrag);
+    // Setzt die neuen Attribute aus dem Dialog
+    updatedListeneintrag.setErledigt(true)
+    API.getAPI().updateListeneintragAPI(updatedListeneintrag)
+      this.deleteListeneintragDialogClosed(updatedListeneintrag);
+    };
+
+
 
   deleteListeneintragButtonClicked = (event) => {
     event.stopPropagation();
@@ -60,10 +64,15 @@ handleCheck =(event)=>{
     // Wenn der Artikel nicht gleich null ist, lösche ihn
     if (listeneintrag) {
       this.props.onListeneintragDeleted(listeneintrag);
-    };
+    }
+    if (listeneintrag) {
+      if (listeneintrag.getAenderungs_zeitpunkt() === "latest") {
+        this.props.reload()
+      }
+    }
 
-    // Zeige nicht den Dialog
-    this.setState({
+
+      this.setState({
       showListeneintragDeleteDialog: false
     });
   }
@@ -71,15 +80,14 @@ handleCheck =(event)=>{
   /** Rendert die Komponente */
   render() {
     const { classes, listeneintrag } = this.props;
-    const { showListeneintragDeleteDialog, loadingInProgress, deletingInProgress, loadingError, deletingError, checked } = this.state;
+    const { showListeneintragDeleteDialog, loadingInProgress, deletingInProgress, loadingError, deletingError, listeneintragErledigt } = this.state;
 
     return (
       <div >
         <List  className={classes.Liste} >
-        <ListItem >
+        <ListItem>
           <Checkbox
-              checked={checked}
-              onChange={this.handleCheck}
+              onChange={this.updateListeneintrag}
               inputProps={{ 'aria-label': 'primary checkbox' }}
           />
 
@@ -95,6 +103,11 @@ handleCheck =(event)=>{
           <Typography className={classes.Ort} color='textPrimary'>
             {listeneintrag.getEinzelhaendler_name()}
           </Typography>
+
+          {listeneintrag.getAenderungs_zeitpunkt() ==="latest"?
+            <div>latest</div>
+           : null
+          }
 
           <Typography className={classes.Benutzer} color='textPrimary'>
            {listeneintrag.getBenutzer_name()}

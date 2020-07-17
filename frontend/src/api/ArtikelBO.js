@@ -8,6 +8,7 @@ export default class ArtikelBO extends NamedBO {
         super(name);
         this.einheit=""
         this.standardartikel= false
+        this.benutzer_id= 0
 
     }
 
@@ -25,6 +26,15 @@ export default class ArtikelBO extends NamedBO {
 
     getStandardartikel() {
         return this.standardartikel
+    }
+
+
+    setBenutzerID(benutzer_id) {
+        this.benutzer_id = benutzer_id
+    }
+
+    getBenutzerID() {
+        return this.benutzer_id
     }
 
 

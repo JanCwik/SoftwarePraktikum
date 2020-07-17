@@ -40,7 +40,7 @@ class Artikel extends Component {
 
   /** Fetchet alle ArtikelBOs für das Backend */
   getArtikel = () => {
-    API.getAPI().getArtikelAPI()
+    API.getAPI().getArtikelByBenutzerAPI(this.props.userMail)
       .then(artikelBOs =>
         this.setState({               // Setzt neues state wenn ArtikelBOs gefetcht wurden
           artikel: artikelBOs,
@@ -201,7 +201,7 @@ class Artikel extends Component {
         }
         <LoadingProgress show={loadingInProgress} />
         <ContextErrorMessage error={error} contextErrorMsg={`Die Liste der Artikel konnte nicht geladen werden.`} onReload={this.getArtikel} />
-        <ArtikelForm show={showArtikelForm} onClose={this.artikelFormClosed} />
+        <ArtikelForm show={showArtikelForm} onClose={this.artikelFormClosed} userMail={this.props.userMail} />
       </div>
     );
   }
