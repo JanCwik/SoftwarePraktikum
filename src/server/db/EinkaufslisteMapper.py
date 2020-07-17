@@ -82,7 +82,7 @@ class EinkaufslistenMapper(Mapper):
 
         result = []
         cursor = self._cnx.cursor()
-        cursor.execute("SELECT * FROM einkaufsliste ")
+        cursor.execute("SELECT id, name, erstellungs_zeitpunkt, aenderungs_zeitpunkt, anwenderverbund_id FROM einkaufsliste ")
         res = cursor.fetchall()
 
         for (id, name, erstellungs_zeitpunkt, aenderungs_zeitpunkt, anwenderverbund_id) in res:
