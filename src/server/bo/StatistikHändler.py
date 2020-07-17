@@ -1,4 +1,4 @@
-from src.server.bo.Statistik import Statistik
+from server.bo.Statistik import Statistik
 
 
 class StatistikHaendler(Statistik):

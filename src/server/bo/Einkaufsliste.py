@@ -1,4 +1,4 @@
-from src.server.bo.NamedBO import NamedBO
+from server.bo.NamedBO import NamedBO
 import datetime
 
 

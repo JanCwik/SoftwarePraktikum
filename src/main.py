@@ -2,16 +2,16 @@ from flask import Flask
 from flask_cors import CORS
 from flask_restx import Resource, Api, fields
 
-from src.server.ApplikationsAdministration import ApplikationsAdministration
-from src.server.bo.Artikel import Artikel
-from src.server.bo.Einzelhaendler import Einzelhaendler
-from src.server.bo.Benutzer import Benutzer
-from src.server.bo.Einkaufsliste import Einkaufsliste
-from src.server.bo.Anwenderverbund import Anwenderverbund
-from src.server.bo.Listeneintrag import Listeneintrag
-from src.server.bo.Statistik import Statistik
+from server.ApplikationsAdministration import ApplikationsAdministration
+from server.bo.Artikel import Artikel
+from server.bo.Einzelhaendler import Einzelhaendler
+from server.bo.Benutzer import Benutzer
+from server.bo.Einkaufsliste import Einkaufsliste
+from server.bo.Anwenderverbund import Anwenderverbund
+from server.bo.Listeneintrag import Listeneintrag
+from server.bo.Statistik import Statistik
 
-from src.SecurityDecorator import secured
+from SecurityDecorator import secured
 
 """requirements: Flask, Flask-Cors, flask-restx, mysql-connector-python"""
 
