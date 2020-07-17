@@ -124,6 +124,7 @@ class ListeneintragForm extends Component {
       updatingInProgress: true,       // Ladeanzeige anzeigen
       updatingError: null             // Fehlermeldung deaktivieren
     });
+    this.props.reload() // Seite wird neugeladen damit die neue letzte Änderung kenntlich gemacht werden kann
   }
 
   /** Updates the customer */
@@ -163,6 +164,7 @@ class ListeneintragForm extends Component {
       updatingInProgress: true,                 // Ladeanzeige anzeigen
       updatingError: null                       // Fehlermeldung deaktivieren
     });
+    this.props.reload()  // Seite wird neugeladen damit die neue letzte Änderung kenntlich gemacht werden kann
   }
 /*
   // Behandelt Wertänderungen aus den Textfeldern vom Formular und validiert diese.
