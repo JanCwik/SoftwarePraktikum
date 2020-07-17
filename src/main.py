@@ -482,7 +482,7 @@ class EinkaufslisteListOperations(Resource):
     @secured
     def get(self):
         adm = ApplikationsAdministration()
-        einkaufsliste = adm.get_all_all_einkaufslisten()
+        einkaufsliste = adm.get_all_einkaufslisten()
         return einkaufsliste
 
 
@@ -707,7 +707,7 @@ class AnwenderverbundRelatedBenutzerOperations(Resource):
         verbund = adm.get_anwenderverbund_by_id(id)
         mitglied = Benutzer.from_dict(api.payload)
         if verbund is not None:
-            adm.mitglieder_zum_anwenderverbund_hinzufügen(verbund, mitglied)
+            adm.mitglieder_zum_anwenderverbund_hinzufuegen(verbund, mitglied)
             return mitglied
         else:
             return "Benutzer oder Anwenderverbund unbekannt", 500
