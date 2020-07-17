@@ -35,6 +35,7 @@ export default class API {
     #addEinzelhaendlerURL = () => `${this.#ServerBaseURL}/einzelhaendler`;
     #deleteEinzelhaendlerURL = (id) => `${this.#ServerBaseURL}/einzelhaendler-by-id/${id}`;
     #updateEinzelhaendlerURL = (id) => `${this.#ServerBaseURL}/einzelhaendler-by-id/${id}`;
+    #getEinzelhaendlerByNameURL= (name) => `${this.#ServerBaseURL}/einzelhaendler-by-name/${name}`;
 
     #getAnwenderverbuendeURL = () => `${this.#ServerBaseURL}/anwenderverbund`;
     #addAnwenderverbundURL = () => `${this.#ServerBaseURL}/anwenderverbund`;
@@ -58,6 +59,7 @@ export default class API {
     #getBenutzerByEmailURL = (mail) => `${this.#ServerBaseURL}/benutzer-by-email/${mail}`;
     #addMitgliedschaftURL= (id) => `${this.#ServerBaseURL}/anwenderverbund/${id}/mitglieder`;
     #deleteMitgliedschaftURL= (id) => `${this.#ServerBaseURL}/anwenderverbund/${id}/mitglieder`;
+    #getBenutzerByNameURL= (name) => `${this.#ServerBaseURL}/benutzer-by-name/${name}`;
 
 
 
@@ -89,7 +91,16 @@ export default class API {
 
     }
 
-
+    // Methode die den GET request ausführt und einen Artikel anhand seines namen ausgibt
+    // Der name des Artikels wird an die URL gehängt
+    getArtikelByNameAPI(name) {
+        return this.#fetchAdvanced(this.#getArtikelByNamelURL(name)).then((responseJSON) => {
+                let response = ArtikelBO.fromJSON(responseJSON);
+                return new Promise(function (resolve) {
+                    resolve(response);
+                })
+            })
+    }
 
     // Methode die den GET request ausführt und alle in der Datenbank gespeicherten Artikel ausgibt
     getArtikelAPI() {
@@ -162,6 +173,20 @@ export default class API {
             })
         })
     }
+
+
+    // Methode die den GET request ausführt und einen Einzelhaendler anhand seines namen ausgibt
+    // Der name des Einzelhaendlers wird an die URL gehängt
+    getEinzelhaendlerByNameAPI(name) {
+        return this.#fetchAdvanced(this.#getEinzelhaendlerByNameURL(name)).then((responseJSON) => {
+                let response = EinzelhaendlerBO.fromJSON(responseJSON);
+                return new Promise(function (resolve) {
+                    resolve(response);
+                })
+
+        })
+    }
+
 
     //führt einen POST Request aus und schreibt dabei das als Parameter übergebene Einzelhändler-objekt in den Body des Json
     addEinzelhaendlerAPI(neweinz) {
@@ -509,20 +534,19 @@ export default class API {
         })
     }
 
-    // Methode die den GET request ausführt und einen Artikel anhand seines namen ausgibt
-    // Der name des Artikels wird an die URL gehängt
-    getArtikelByNameAPI(name) {
-        return this.#fetchAdvanced(this.#getArtikelByNamelURL(name)).then((responseJSON) => {
-            console.log(responseJSON)
-            if (responseJSON !== null)
-            {
-                let response = ArtikelBO.fromJSON(responseJSON);
+
+    // Methode die den GET request ausführt und einen Benutzer anhand seines namen ausgibt
+    // Der name des Benutzers wird an die URL gehängt
+    getBenutzerByNameAPI(name) {
+        return this.#fetchAdvanced(this.#getBenutzerByNameURL(name)).then((responseJSON) => {
+                let response = BenutzerBO.fromJSON(responseJSON);
                 return new Promise(function (resolve) {
                     resolve(response);
                 })
-            }
+
         })
     }
+
 
 
 }

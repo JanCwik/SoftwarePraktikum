@@ -155,7 +155,7 @@ class EinzelhaendlerMapper(Mapper):
             einzelhaendler.set_erstellungs_zeitpunkt(erstellungs_zeitpunkt)
             result = einzelhaendler
         except IndexError:
-            result = None
+            result = []
 
         self._cnx.commit()
         cursor.close()
