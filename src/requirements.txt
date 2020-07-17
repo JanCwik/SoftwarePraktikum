@@ -28,7 +28,7 @@ urllib3==1.25.9
 Werkzeug==1.0.1
 zipp==1.2.0
 
-firebase==3.0.1
+firebase==3.0.0
 gcloud==0.18.3
 googleapis-common-protos==1.51.0
 httplib2==0.18.1
