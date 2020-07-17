@@ -42,6 +42,8 @@ class EinkaufslistenMapper(Mapper):
         vals = (einkaufsliste.get_id(), einkaufsliste.get_name(), einkaufsliste.get_erstellungs_zeitpunkt(), einkaufsliste.get_änderungs_zeitpunkt(), einkaufsliste.get_anwenderId())
         cursor.execute(template, vals)
 
+# muss in andere Mapper! --> Siehe def einkaufsliste_anlegen in ApplikationsAdministration
+
         command = "SELECT id FROM artikel WHERE standardartikel={}".format(id_standard)
         cursor.execute(command)
         tuples = cursor.fetchall()
@@ -69,7 +71,7 @@ class EinkaufslistenMapper(Mapper):
 
 
 
-    def find_all_all_einkaufslisten(self):
+    def find_all_einkaufslisten(self):
         """ Mapper-Methode zum ausgeben aller Einkaufslisten aus der Datenbank"""
 
         """Hier werden via SQL-Abfrage alle Einkaufslisten aus der Datenbank ausgegeben.
@@ -191,85 +193,13 @@ class EinkaufslistenMapper(Mapper):
         wird die entsprechende ID der Instanz an das SQL-Statement übergeben."""
         cursor = self._cnx.cursor()
 
-        eintraege = "DELETE FROM listeneintrag WHERE einkaufsliste_id={}".format(einkaufsliste.get_id())
-        cursor.execute(eintraege)
-
         template = "DELETE FROM einkaufsliste WHERE id={}".format(einkaufsliste.get_id())
         cursor.execute(template)
 
         self._cnx.commit()
         cursor.close()
 
-    def find_all_listeneintraege_by_einkaufsliste(self, einkaufsliste):
-        """Mapper-Methode zum ausgeben aller Listeneinträge zu einer EInkaufsliste.
-        Verantwortlicher: Timm Mötz
 
-        Hier werden via SQL-Abfrage alle Listeneinträge aus der Datenbank ausgegeben.
-        Anschließend werden aus den Zeilen der Datenbank (welche ein Objekt mit dessen Attributen darstellen)
-        mit der fetchall-Methode Tupel erstellt.
-
-        Mittels For-Schleife werden die einzelnen Attribute aus einem Tupel gezogen und einer neuen Instanz der
-        Klasse "Listeneintrag()" übergeben. Die einzelnen Instanzen werden in einem Array gespeichert.
-        Das Array mit allen Instanzen wird schließlich zurückgegeben.
-        In der besagten For-Schleife werden ausßerdem für jeden Listeneintrag 4 zusätzliche Select Statements ausgeführt.
-            Select Statement 1: holt den einzelhändlername aus der Einzelhändler tabelle, dann wird der name in das Listeneintrag Objekt als Attribut einzelhaendler_name gespeichert
-            Select Statement 2: holt den benutzername aus der Benutzer tabelle, dann wird der name in das Listeneintrag Objekt als Attribut benutzer_name gespeichert
-            Select Statement 3: holt den artikelname aus der Artikel tabelle, dann wird der name in das Listeneintrag Objekt als Attribut artikel_name gespeichert
-            Select Statement 4: holt den artikeleinheit aus der Artikel tabelle, dann wird der name in das Listeneintrag Objekt als Attribut artikel_einheit gespeichert
-
-       """
-
-
-        result = []
-        cursor = self._cnx.cursor()
-        template= "SELECT id, anzahl, aenderungs_zeitpunkt, einkaufsliste_id, einzelhaendler_id, artikel_id, benutzer_id, erledigt FROM listeneintrag" + " WHERE einkaufsliste_id =%s AND erledigt =%s"
-        vals = (einkaufsliste.get_id(),0)
-        cursor.execute(template, vals)
-
-
-
-
-        res = cursor.fetchall()
-
-        for(id, anzahl, aenderungs_zeitpunkt, einkaufsliste_id, einzelhaendler_id, artikel_id, benutzer_id, erledigt) in res:
-            listeneintrag = Listeneintrag()
-            listeneintrag.set_id(id)
-            listeneintrag.set_anzahl(anzahl)
-            listeneintrag.set_änderungs_zeitpunkt(aenderungs_zeitpunkt)
-            listeneintrag.set_einkaufslisteId(einkaufsliste_id)
-            listeneintrag.set_einzelhaendlerId(einzelhaendler_id)
-            listeneintrag.set_artikelId(artikel_id)
-            listeneintrag.set_benutzerId(benutzer_id)
-            listeneintrag.set_erledigt(erledigt)
-
-
-            cursor.execute("SELECT name FROM einzelhaendler WHERE id={}".format(einzelhaendler_id))
-            einzelhaendlername_tuple = cursor.fetchall()[0]                                # fetchall() gibt das Ergebnis in einem Tuple in einer Liste zurück z.B.
-            name_string = einzelhaendlername_tuple[0]                                      # deshalb wird zwei mal der Wert an der ersten Stelle der Liste bzw.  des tubles...
-            listeneintrag.set_einzelhaendler_name(name_string)                             # ...in einer neuen variable gespeichert und weitergegeben, bis schließlich nur noch der gesuchte Wert übergeben werden kann
-
-            cursor.execute("SELECT name FROM benutzer WHERE id={}".format(benutzer_id))
-            benutzername_tuple = cursor.fetchall()[0]
-            name_string = benutzername_tuple[0]
-            listeneintrag.set_benutzer_name(name_string)
-
-            cursor.execute("SELECT name FROM artikel WHERE id={}".format(artikel_id))
-            artikelname_tuple = cursor.fetchall()[0]
-            name_string = artikelname_tuple[0]
-            listeneintrag.set_artikel_name(name_string)
-
-            cursor.execute("SELECT einheit FROM artikel WHERE id={}".format(artikel_id))
-            einheitname_tuple = cursor.fetchall()[0]
-            name_string = einheitname_tuple[0]
-            listeneintrag.set_artikel_einheit(name_string)
-
-
-            result.append(listeneintrag)
-
-        self._cnx.commit()
-        cursor.close()
-
-        return result
 
 
     def GetEinkaufslistenByAnwendeverbund(self, anwenderverbund):

@@ -186,3 +186,16 @@ class ArtikelMapper(Mapper):
         cursor.close()
 
         return result
+
+# funktioniert bisher nicht --> Siehe def einkaufsliste_anlegen in ApplikationsAdministration
+"""
+    def get_id_from_standardartikel(self):
+        id_standard = True
+
+        cursor = self._cnx.cursor()
+        command = "SELECT id FROM artikel WHERE standardartikel={}".format(id_standard)
+        cursor.execute(command)
+        tuples = cursor.fetchall()
+
+        return tuples
+"""
