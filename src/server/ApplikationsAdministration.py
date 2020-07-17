@@ -1,17 +1,18 @@
-from .bo.Artikel import Artikel
-from .bo.Einzelhaendler import Einzelhaendler
-from .bo.Benutzer import Benutzer
-from .bo.Anwenderverbund import Anwenderverbund
-from .bo.Einkaufsliste import Einkaufsliste
-from .bo.Listeneintrag import Listeneintrag
-from .db.ArtikelMapper import ArtikelMapper
-from .db.EinzelhaendlerMapper import EinzelhaendlerMapper
-from .db.BenutzerMapper import BenutzerMapper
-from .db.AnwenderverbundMapper import AnwenderverbundMapper
-from .db.EinkaufslisteMapper import EinkaufslistenMapper
-from .db.ListeneintragMapper import ListeneintragMapper
-from .db.StatistikMapper import StatistikMapper
-from .db.MitgliedschaftMapper import MitgliedschaftMapper
+from src.server.bo.Artikel import Artikel
+from src.server.bo.Einzelhaendler import Einzelhaendler
+from src.server.bo.Benutzer import Benutzer
+from src.server.bo.Anwenderverbund import Anwenderverbund
+from src.server.bo.Einkaufsliste import Einkaufsliste
+from src.server.bo.Listeneintrag import Listeneintrag
+from src.server.db.ArtikelMapper import ArtikelMapper
+from src.server.db.EinzelhaendlerMapper import EinzelhaendlerMapper
+from src.server.db.BenutzerMapper import BenutzerMapper
+from src.server.db.AnwenderverbundMapper import AnwenderverbundMapper
+from src.server.db.EinkaufslisteMapper import EinkaufslistenMapper
+from src.server.db.ListeneintragMapper import ListeneintragMapper
+from src.server.db.StatistikMapper import StatistikMapper
+from src.server.db.MitgliedschaftMapper import MitgliedschaftMapper
+from datetime import datetime
 
 
 class ApplikationsAdministration(object):
@@ -254,7 +255,7 @@ class ApplikationsAdministration(object):
 
     def mitglieder_vom_anwenderverbund_entfernen(self, anwenderverbund, benutzer):#Name der Methode geändert, Maik
         """Methode zum entfernen einzelner Mitglieder aus einem Anwenderverbund"""
-        with MitgliedschaftMapper as mapper:
+        with MitgliedschaftMapper() as mapper:
             return mapper.benutzer_loeschen(anwenderverbund, benutzer)
 
 
@@ -317,16 +318,15 @@ class ApplikationsAdministration(object):
     def get_all_listeneintraege_of_einkaufslisten(self, einkaufsliste):  #Änderung: statt id wird nun ganzes Objekt übergeben
         """ Methode zum ausgeben aller Listeneinträge die zur jeweiligen Einkaufsliste gehören"""
         with EinkaufslistenMapper() as mapper:
-            return mapper.find_all_listeneintraege(einkaufsliste)
+            eintraege= mapper.find_all_listeneintraege(einkaufsliste)
 
+            latest = eintraege[0]
+            for eintrag in eintraege:
+                 if eintrag.get_änderungs_zeitpunkt() > latest.get_änderungs_zeitpunkt():
+                     latest = eintrag
 
-
-
-
-
-
-
-
+            latest.set_änderungs_zeitpunkt("latest")
+            return eintraege
 
 
 

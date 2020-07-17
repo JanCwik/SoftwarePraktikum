@@ -1,7 +1,7 @@
 
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { withStyles, Button, IconButton, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions,MenuItem, FormControl, InputLabel, Select, Grid, InputAdornment} from '@material-ui/core';
+import { withStyles, Button, IconButton, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions,MenuItem, FormControl,Typography, InputLabel, Select, Grid, InputAdornment} from '@material-ui/core';
 import CloseIcon from '@material-ui/icons/Close';
 import  ListeneintragBO  from '../../api/ListeneintragBO';
 import  API from '../../api/API';
@@ -45,7 +45,7 @@ class ListeneintragForm extends Component {
   constructor(props) {
     super(props);
 
-    let lan = '', lam = '', lae = '', len = '', lbn = '';
+    let lan = '', lam = '', lae = '', len = '', lbn = '', le = '';
     if (props.listeneintrag) {
       //lan = props.listeneintrag.getArtikel_name();
       lan = props.listeneintrag.getArtikel_name();
@@ -53,6 +53,7 @@ class ListeneintragForm extends Component {
       lae = props.listeneintrag.getArtikel_einheit();
       len = props.listeneintrag.getEinzelhaendler_name();
       lbn = props.listeneintrag.getBenutzer_name();
+      le  = props.listeneintrag.getErledigt();
     }
 
     // Init state
@@ -71,6 +72,8 @@ class ListeneintragForm extends Component {
       listeneintragEinzelhaendlerNameEdited: false,
       listeneintragBenutzerName: lbn,
       listeneintragBenutzerNameEdited: false,
+      listeneintragErledigt: le,
+      listeneintragErledigtEdited: false,
       filteredArtikel: [],
       addingInProgress: false,
       updatingInProgress: false,
@@ -121,6 +124,7 @@ class ListeneintragForm extends Component {
       updatingInProgress: true,       // Ladeanzeige anzeigen
       updatingError: null             // Fehlermeldung deaktivieren
     });
+    this.props.reload() // Seite wird neugeladen damit die neue letzte Änderung kenntlich gemacht werden kann
   }
 
   /** Updates the customer */
@@ -134,6 +138,7 @@ class ListeneintragForm extends Component {
     updatedListeneintrag.setArtikel_einheit(this.state.artikel_einheit);
     updatedListeneintrag.setEinzelhaendler_name(this.state.einzelhaendler_name)
     updatedListeneintrag.setBenutzer_id(this.state.benutzer_name)
+    updatedListeneintrag.setErledigt(this.state.erledigt)
     API.getAPI().updateListeneintragAPI(updatedListeneintrag).then(listeneintrag => {
       this.setState({
         updatingInProgress: false,              // Ladeanzeige deaktivieren
@@ -145,6 +150,7 @@ class ListeneintragForm extends Component {
       this.baseState.artikel_einheit = this.state.artikel_einheit;
       this.baseState.einzelhaendler_name = this.state.einzelhaendler_name;
       this.baseState.benutzer_name = this.state.benutzer_name;
+      this.baseState.erledigt = this.state.erledigt;
       this.props.onClose(updatedListeneintrag);      // Aufruf mit dem neuen Artikel
     }).catch(e =>
       this.setState({
@@ -158,6 +164,7 @@ class ListeneintragForm extends Component {
       updatingInProgress: true,                 // Ladeanzeige anzeigen
       updatingError: null                       // Fehlermeldung deaktivieren
     });
+    this.props.reload()  // Seite wird neugeladen damit die neue letzte Änderung kenntlich gemacht werden kann
   }
 /*
   // Behandelt Wertänderungen aus den Textfeldern vom Formular und validiert diese.
@@ -219,6 +226,8 @@ listeneintragArtikelNameChange = (event) => {
 
 
 
+
+
   /** Behandelt das schließen/abbrechen Tasten klick Ereignis. */
 
   handleClose = () => {
@@ -257,7 +266,7 @@ listeneintragArtikelNameChange = (event) => {
 
         // Set the final state
         this.setState({
-          artikelObjekt: artikel,
+          artikelObjekt: artikel[0],
           loadingInProgress: false,           // disable loading indicator
           artikelSearchError: null           // no error message
         });
@@ -318,13 +327,12 @@ console.log(artikelObjekt)
 
             <form className={classes.root} noValidate autoComplete='off'>
 
-          <FormControl className={classes.formControl}>
 
-            <TextField autoFocus fullWidth margin='normal' type='text' required id='customerName' label='Customer name:'
+              <TextField autoFocus fullWidth margin='normal' type='text' required id='ArtikelName' label='Artikel Name:'
                     onChange={this.listeneintragArtikelNameChange}
                     onBlur={this.sucheArtikel}
                     error={artikelNotFound}
-                    helperText={artikelNotFound ? 'No customers with the given name have been found' : ' '}
+                    helperText={artikelNotFound ? 'Es wurden keine Artikel mit dem folgenden Namen gefunden' : ' '}
                     InputProps={{
                       endAdornment: <InputAdornment position='end'>
                         <IconButton onClick={this.sucheArtikel}>
@@ -332,6 +340,23 @@ console.log(artikelObjekt)
                         </IconButton>
                       </InputAdornment>,
                     }} />
+
+
+                    <div>
+                      {artikelObjekt ?
+                          <Typography>Einheit: {artikelObjekt.getEinheit()}</Typography>
+                          : null
+
+                      }
+                    </div>
+
+
+
+
+
+
+          <FormControl className={classes.formControl}>
+
 
 
           </FormControl>

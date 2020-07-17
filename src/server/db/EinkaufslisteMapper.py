@@ -222,7 +222,13 @@ class EinkaufslistenMapper(Mapper):
 
         result = []
         cursor = self._cnx.cursor()
-        cursor.execute("SELECT * FROM listeneintrag WHERE einkaufsliste_id={}".format(einkaufsliste.get_id()))
+        template= "SELECT id, anzahl, aenderungs_zeitpunkt, einkaufsliste_id, einzelhaendler_id, artikel_id, benutzer_id, erledigt FROM listeneintrag" + " WHERE einkaufsliste_id =%s AND erledigt =%s"
+        vals = (einkaufsliste.get_id(),0)
+        cursor.execute(template, vals)
+
+
+
+
         res = cursor.fetchall()
 
         for(id, anzahl, aenderungs_zeitpunkt, einkaufsliste_id, einzelhaendler_id, artikel_id, benutzer_id, erledigt) in res:

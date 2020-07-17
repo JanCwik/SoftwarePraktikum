@@ -218,13 +218,14 @@ class ListeneintragOperations(Resource):
 
     # Zeigt namen nicht an!
 
+    @shopping.marshal_with(listeneintrag)
     @secured
     def delete(self, id):
         """Löschen eines Listeneintrages anhand einer id"""
         adm = ApplikationsAdministration()
         listeneintrag = adm.get_listeneintrag_by_id(id)
         adm.delete_listeneintrag(listeneintrag)
-        return ''
+        return listeneintrag
 
     @shopping.marshal_with(listeneintrag)
     @shopping.expect(listeneintrag)
@@ -431,16 +432,16 @@ class BenutzerRelatedListeneintragOperations(Resource):
         else:
             return "Benutzer nicht gefunden", 500
 
-@shopping.route('/benutzer/<int:id>/artikel')
+@shopping.route('/benutzer/<string:email>/artikel')
 @shopping.response(500, 'Serverfehler')
-@shopping.param('id', 'ID des Benutzer')
+@shopping.param('email', 'Email des Benutzers')
 class BenutzerRelatedArtikelOperations(Resource):
     @shopping.marshal_with(artikel)
-    #@secured
-    def get(self, id):
+    @secured
+    def get(self, email):
         """Auslesen aller Artikel die zu einem Benutzer gehören"""
         adm = ApplikationsAdministration()
-        benutzer = adm.get_benutzer_by_id(id)
+        benutzer = adm.get_benutzer_by_email(email)
 
         if benutzer is not None:
             artikel = adm.get_all_artikel_of_benutzer(benutzer)
