@@ -128,3 +128,29 @@ class ListeneintragMapper(Mapper):
         cursor.close()
 
         return listeneintrag
+
+    def find_all_listeneintraege(self, benutzer):
+        """Mapper-Methode zum ausgeben aller Listeneinträge zu einem Benutzer."""
+        id = benutzer.get_id()
+        result = []
+        cursor = self._cnx.cursor()
+        cursor.execute("SELECT id, anzahl, aenderungs_zeitpunkt, einkaufsliste_id, einzelhaendler_id, artikel_id, benutzer_id, erledigt FROM listeneintrag WHERE benutzer_id={}".format(id))
+        res = cursor.fetchall()
+
+        for(id, anzahl, aenderungs_zeitpunkt, einkaufsliste_id, einzelhaendler_id, artikel_id, benutzer_id, erledigt) in res:
+
+            listeneintrag = Listeneintrag()
+            listeneintrag.set_id(id)
+            listeneintrag.set_anzahl(anzahl)
+            listeneintrag.set_änderungs_zeitpunkt(aenderungs_zeitpunkt)
+            listeneintrag.set_einkaufslisteId(einkaufsliste_id)
+            listeneintrag.set_einzelhaendlerId(einzelhaendler_id)
+            listeneintrag.set_artikelId(artikel_id)
+            listeneintrag.set_benutzerId(benutzer_id)
+            listeneintrag.set_erledigt(erledigt)
+            result.append(listeneintrag)
+
+        self._cnx.commit()
+        cursor.close()
+
+        return result

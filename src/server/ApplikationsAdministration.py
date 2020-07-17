@@ -125,6 +125,10 @@ class ApplikationsAdministration(object):
 
     def delete_benutzer(self, benutzer):
         """Methode zum löschen eines Benutzers aus der Datenbank"""
+
+        with MitgliedschaftMapper() as mapper:
+            mapper.deleteByAnwenderverbund(benutzer)
+
         with BenutzerMapper() as mapper:
             mapper.delete(benutzer)
 
@@ -157,7 +161,6 @@ class ApplikationsAdministration(object):
         """Methode zum ausgeben aller Listeneinträge für die der Benutzer verantwortlich ist"""
         with BenutzerMapper() as mapper:
             return mapper.find_all_listeneintraege(benutzer)
-        #Änderung: Hier wird ganze Instanz übergeben, statt nur ID
 
     #Neu!
     def get_anwenderverbuende_by_benutzer_email(self, benutzer):
@@ -241,7 +244,6 @@ class ApplikationsAdministration(object):
         """Methode zum ausgeben aller Einkaufslisten die zum jeweiligen Anwenderverbund gehören"""
         with EinkaufslistenMapper() as mapper:
             return mapper.GetEinkaufslistenByAnwendeverbund(anwenderverbund)
-        #Änderung: Hier wird ganze Instanz übergeben statt nur id
 
     def mitglieder_zum_anwenderverbund_hinzufügen(self, anwenderverbund, benutzer):
         """Methode um Mitglieder einem Anwenderverbund hinzuzufügen"""
@@ -290,7 +292,6 @@ class ApplikationsAdministration(object):
         einkaufsliste = Einkaufsliste()
         einkaufsliste.set_name(name)
         einkaufsliste.set_anwenderId(anwenderverbund)
-        #Änderung: hier wird ganze Instanz übergeben statt nur id
 
         with EinkaufslistenMapper() as mapper:
             return mapper.insert(einkaufsliste)
