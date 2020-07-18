@@ -109,13 +109,16 @@ class ListeneintragForm extends Component {
     // Klont den originalen Artikel, wenn der Backend Aufruf fehlschlägt
     let updatedListeneintrag = Object.assign(new ListeneintragBO(), this.props.listeneintrag);
     // Setzt die neuen Attribute aus dem Dialog
+    updatedListeneintrag.setMenge(this.state.listeneintragArtikelMenge);
+    updatedListeneintrag.setEinkaufsliste_id(this.props.einkaufsliste.getID());
     updatedListeneintrag.setArtikel_name(this.state.artikelObjekt.getName());
-    updatedListeneintrag.setArtikel_id(this.state.artikelObjekt.getID());
-    updatedListeneintrag.setMenge(this.state.listeneintragMenge);
+    updatedListeneintrag.setArtikel_id(this.state.artikelObjekt.getID())
     updatedListeneintrag.setArtikel_einheit(this.state.artikelObjekt.getEinheit());
-    updatedListeneintrag.setEinzelhaendler_name(this.state.einzelhaendler_name)
-    updatedListeneintrag.setBenutzer_id(this.state.benutzer_name)
-    updatedListeneintrag.setErledigt(this.state.erledigt)
+    updatedListeneintrag.setEinzelhaendler_id(this.state.einzelhaendlerObjekt.getID())
+    updatedListeneintrag.setEinzelhaendler_name(this.state.einzelhaendlerObjekt.getName())
+    updatedListeneintrag.setBenutzer_id(this.state.benutzerObjekt.getID())               //legt neues Artikelobjekt mit name aus dem state an
+    updatedListeneintrag.setBenutzer_name(this.state.benutzerObjekt.getName())
+
     API.getAPI().updateListeneintragAPI(updatedListeneintrag).then(listeneintrag => {
       this.setState({
         updatingInProgress: false,              // Ladeanzeige deaktivieren
@@ -215,8 +218,10 @@ listeneintragArtikelNameChange = (event) => {
   }
 
 /** Searches for customers with a customerName and loads the corresponding accounts */
-  sucheArtikel = async () => {
-    const { listeneintragArtikelName } = this.state;
+sucheArtikel = async () => {
+
+
+    const {listeneintragArtikelName} = this.state;
     if (listeneintragArtikelName.length > 0) {
       try {
         // set loading to true
@@ -236,10 +241,10 @@ listeneintragArtikelNameChange = (event) => {
           artikelSearchError: null,
           artikelNotFound: false,
         });
-          if(!artikel[0]){
+        if (!artikel[0]) {
           this.setState({
-          artikelNotFound: true           // no error message
-        });
+            artikelNotFound: true           // no error message
+          });
         }
       } catch (e) {
         this.setState({
@@ -255,8 +260,10 @@ listeneintragArtikelNameChange = (event) => {
     }
   }
 
+
 /** Searches for customers with a customerName and loads the corresponding accounts */
   sucheEinzelhaendler = async () => {
+
     const { listeneintragEinzelhaendlerName } = this.state;
     if (listeneintragEinzelhaendlerName.length > 0) {
       try {
@@ -299,6 +306,7 @@ listeneintragArtikelNameChange = (event) => {
 
 /** Searches for customers with a customerName and loads the corresponding accounts */
   sucheBenutzer = async () => {
+
     const { listeneintragBenutzerName } = this.state;
     if (listeneintragBenutzerName.length > 0) {
       try {
@@ -341,7 +349,7 @@ listeneintragArtikelNameChange = (event) => {
 
   /** Rendert die Komponente */
   render() {
-    const { classes,show,listeneintrag, artikel } = this.props;
+    const { classes,show,listeneintrag } = this.props;
     const { listeneintragArtikelName, listeneintragArtikelNameValidationFailed, listeneintragArtikelNameEdited,
             listeneintragArtikelMenge, listeneintragArtikelMengeEdited, listeneintragArtikelEinheit,
             listeneintragArtikelEinheitEdited, listeneintragEinzelhaendlerName, listeneintragEinzelhaendlerNameEdited,
@@ -377,6 +385,7 @@ listeneintragArtikelNameChange = (event) => {
 
               <TextField autoFocus fullWidth margin='normal' type='text' required id='ArtikelName' label='Artikel Name:'
                     onChange={this.listeneintragArtikelNameChange}
+                         value={listeneintragArtikelName}
                     error={artikelNotFound}
                          onBlur={listeneintragArtikelName? this.sucheArtikel:""}
                     helperText={artikelNotFound ? 'Es wurden keine Artikel mit diesem Namen gefunden' : ' '}
@@ -401,6 +410,7 @@ listeneintragArtikelNameChange = (event) => {
 
                 <TextField autoFocus fullWidth margin='normal' type='text' required id='EinzelhaendlerName' label='Einzelhändler Name:'
                     onChange={this.listeneintragEinzelhaendlerNameChange}
+                           value={listeneintragEinzelhaendlerName}
                     error={einzelhaendlerNotFound}
                             onBlur={listeneintragEinzelhaendlerName? this.sucheEinzelhaendler:""}
                     helperText={einzelhaendlerNotFound ? 'Es wurden keine Einzelhändler mit diesem Namen gefunden' : ' '}
@@ -414,7 +424,8 @@ listeneintragArtikelNameChange = (event) => {
 
                 <TextField autoFocus fullWidth margin='normal' type='text' required id='BenutzerName' label='Benutzer Name:'
                     onChange={this.listeneintragBenutzerNameChange}
-                    error={benutzerNotFound}
+                    value={listeneintragBenutzerName}
+                           error={benutzerNotFound}
                            onBlur={listeneintragBenutzerName? this.sucheBenutzer:""}
                     helperText={benutzerNotFound ? 'Es wurden keine Benutzer mit diesem Namen gefunden' : ' '}
                     InputProps={{
@@ -433,9 +444,9 @@ listeneintragArtikelNameChange = (event) => {
             {
               // Zeigt Error Nachricht in Abhängigkeit des Artikel prop.
               listeneintrag ?
-                <ContextErrorMessage error={artikelSearchError} contextErrorMsg={`Der Artikel ${artikel.getID()} konnte nicht geupdatet werden.`} onReload={this.sucheArtikel} />
+                <ContextErrorMessage error={updatingError} contextErrorMsg={`Der Artikel ${listeneintrag.getID()} konnte nicht geupdatet werden.`} onReload={this.sucheArtikel} />
                 :
-                <ContextErrorMessage error={addingError} contextErrorMsg={`Der Artikel konnte nicht hinzugefügt werden..`} onReload={this.addArtikel} />
+                <ContextErrorMessage error={addingError} contextErrorMsg={`Der Artikel konnte nicht hinzugefügt werden..`} onReload={this.sucheArtikel} />
             }
           </DialogContent>
           <DialogActions>

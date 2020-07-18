@@ -139,7 +139,7 @@ class Einkaufsliste extends Component {
          */
 
           listeneintraege.map(listeneintrag =>
-            <ListenEintrag key={listeneintrag.getID()} listeneintrag={listeneintrag}
+            <ListenEintrag key={listeneintrag.getID()} listeneintrag={listeneintrag} einkaufsliste={this.props.location.einkaufsliste} reload={this.reload}
               onListeneintragDeleted={this.listeneintragDeleted} reload={this.reload}
             />)
         }
