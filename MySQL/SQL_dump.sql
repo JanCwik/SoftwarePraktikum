@@ -36,7 +36,8 @@ CREATE TABLE einzelhaendler(
     id INT NOT NULL,
     name VARCHAR(30) NOT NULL,
     erstellungs_zeitpunkt datetime NOT NULL,
-    PRIMARY KEY (id)
+    PRIMARY KEY (id),
+    einzelhaendler_id INT NOT NULL
 );
 
 /*Legt einen Testdatensatz in der Tabelle "einzelhaendler" an*/
