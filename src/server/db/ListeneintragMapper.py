@@ -155,7 +155,6 @@ class ListeneintragMapper(Mapper):
 
     def find_all_listeneintraege_by_einkaufsliste(self, einkaufsliste):
         """Mapper-Methode zum ausgeben aller Listeneinträge zu einer Einkaufsliste.
-        Verantwortlicher: Timm Mötz
 
         Hier werden via SQL-Abfrage alle Listeneinträge aus der Datenbank ausgegeben.
         Anschließend werden aus den Zeilen der Datenbank (welche ein Objekt mit dessen Attributen darstellen)
@@ -176,7 +175,7 @@ class ListeneintragMapper(Mapper):
         result = []
         cursor = self._cnx.cursor()
         template= "SELECT id, anzahl, aenderungs_zeitpunkt, einkaufsliste_id, einzelhaendler_id, artikel_id, benutzer_id, erledigt FROM listeneintrag" + " WHERE einkaufsliste_id =%s AND erledigt =%s"
-        vals = (einkaufsliste.get_id(),0)
+        vals = (einkaufsliste.get_id(), 0)
         cursor.execute(template, vals)
 
 
@@ -194,27 +193,6 @@ class ListeneintragMapper(Mapper):
             listeneintrag.set_artikelId(artikel_id)
             listeneintrag.set_benutzerId(benutzer_id)
             listeneintrag.set_erledigt(erledigt)
-
-
-            cursor.execute("SELECT name FROM einzelhaendler WHERE id={}".format(einzelhaendler_id))
-            einzelhaendlername_tuple = cursor.fetchall()[0]                                # fetchall() gibt das Ergebnis in einem Tuple in einer Liste zurück z.B.
-            name_string = einzelhaendlername_tuple[0]                                      # deshalb wird zwei mal der Wert an der ersten Stelle der Liste bzw.  des tubles...
-            listeneintrag.set_einzelhaendler_name(name_string)                             # ...in einer neuen variable gespeichert und weitergegeben, bis schließlich nur noch der gesuchte Wert übergeben werden kann
-
-            cursor.execute("SELECT name FROM benutzer WHERE id={}".format(benutzer_id))
-            benutzername_tuple = cursor.fetchall()[0]
-            name_string = benutzername_tuple[0]
-            listeneintrag.set_benutzer_name(name_string)
-
-            cursor.execute("SELECT name FROM artikel WHERE id={}".format(artikel_id))
-            artikelname_tuple = cursor.fetchall()[0]
-            name_string = artikelname_tuple[0]
-            listeneintrag.set_artikel_name(name_string)
-
-            cursor.execute("SELECT einheit FROM artikel WHERE id={}".format(artikel_id))
-            einheitname_tuple = cursor.fetchall()[0]
-            name_string = einheitname_tuple[0]
-            listeneintrag.set_artikel_einheit(name_string)
 
 
             result.append(listeneintrag)
