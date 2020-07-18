@@ -74,7 +74,6 @@ class ListeneintragForm extends Component {
   /** Legt Listeneintrag an */
   addListeneintrag = () => {
     let newListeneintrag = new ListeneintragBO();
-    console.log(this.state.listeneintragArtikelMenge)
     newListeneintrag.setMenge(this.state.listeneintragArtikelMenge);
     newListeneintrag.setEinkaufsliste_id(this.props.einkaufsliste.getID());
     newListeneintrag.setEinzelhaendler_id(this.state.einzelhaendlerObjekt.getID())
@@ -379,6 +378,7 @@ listeneintragArtikelNameChange = (event) => {
               <TextField autoFocus fullWidth margin='normal' type='text' required id='ArtikelName' label='Artikel Name:'
                     onChange={this.listeneintragArtikelNameChange}
                     error={artikelNotFound}
+                         onBlur={listeneintragArtikelName? this.sucheArtikel:""}
                     helperText={artikelNotFound ? 'Es wurden keine Artikel mit diesem Namen gefunden' : ' '}
                     InputProps={{
                       endAdornment: <InputAdornment position='end'>
@@ -402,6 +402,7 @@ listeneintragArtikelNameChange = (event) => {
                 <TextField autoFocus fullWidth margin='normal' type='text' required id='EinzelhaendlerName' label='Einzelhändler Name:'
                     onChange={this.listeneintragEinzelhaendlerNameChange}
                     error={einzelhaendlerNotFound}
+                            onBlur={listeneintragEinzelhaendlerName? this.sucheEinzelhaendler:""}
                     helperText={einzelhaendlerNotFound ? 'Es wurden keine Einzelhändler mit diesem Namen gefunden' : ' '}
                     InputProps={{
                       endAdornment: <InputAdornment position='end'>
@@ -414,6 +415,7 @@ listeneintragArtikelNameChange = (event) => {
                 <TextField autoFocus fullWidth margin='normal' type='text' required id='BenutzerName' label='Benutzer Name:'
                     onChange={this.listeneintragBenutzerNameChange}
                     error={benutzerNotFound}
+                           onBlur={listeneintragBenutzerName? this.sucheBenutzer:""}
                     helperText={benutzerNotFound ? 'Es wurden keine Benutzer mit diesem Namen gefunden' : ' '}
                     InputProps={{
                       endAdornment: <InputAdornment position='end'>
