@@ -1,4 +1,5 @@
-from server.bo.Statistik import Statistik
+from src.server.bo.Statistik import Statistik
+
 
 class StatistikZeitraum(Statistik):
 
