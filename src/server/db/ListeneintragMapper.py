@@ -127,8 +127,6 @@ class ListeneintragMapper(Mapper):
         self._cnx.commit()
         cursor.close()
 
-        return listeneintrag
-
     def find_all_listeneintraege_by_benutzer(self, benutzer):
         """Mapper-Methode zum ausgeben aller Listeneinträge zu einem Benutzer."""
         id = benutzer.get_id()
@@ -237,27 +235,29 @@ class ListeneintragMapper(Mapper):
 
         return einkaufsliste
 
-# Siehe def einkaufsliste_anlegen in ApplikationsAdministration
-"""
-    def insert_standardartikel_in_Einkaufsliste(self, einkaufsliste, standardartikel):
+
+
+    def insert_standardartikel_in_Einkaufsliste(self, einkaufsliste, standardartikelID):
         neueID = None
         cursor = self._cnx.cursor()
 
-        for i in standardartikel:
-            for i in i:
-                cursor.execute("SELECT MAX(id) AS maxid_listeneintrag FROM listeneintrag ")
-                ins = cursor.fetchall()
+        cursor.execute("SELECT MAX(id) AS maxid_listeneintrag FROM listeneintrag ")
+        ins = cursor.fetchall()
 
-                for (maxid_listeneintrag) in ins:
-                    if maxid_listeneintrag[0] is not None:
-                        neueID = (maxid_listeneintrag[0] + 1)
-                    else:
-                        neueID = 1
+        for (maxid_listeneintrag) in ins:
+            if maxid_listeneintrag[0] is not None:
+                neueID = (maxid_listeneintrag[0] + 1)
+            else:
+                neueID = 1
 
-                template2 = "INSERT INTO listeneintrag (id, einkaufsliste_id, artikel_id, erledigt) VALUES (%s,%s,%s,%s)"
-                vals2 = (neueID, einkaufsliste.get_id(), i, False)
-                cursor.execute(template2, vals2)
+        neuer_eintrag = Listeneintrag()
+        neuer_eintrag.set_id(neueID)
+        neuer_eintrag.set_einkaufslisteId(einkaufsliste.get_id())
+        neuer_eintrag.set_artikelId(standardartikelID)
+        neuer_eintrag.set_erledigt(False)
+        template2 = "INSERT INTO listeneintrag (id, aenderungs_zeitpunkt, einkaufsliste_id, artikel_id, erledigt) VALUES (%s,%s,%s,%s,%s)"
+        vals2 = (neuer_eintrag.get_id(), neuer_eintrag.get_änderungs_zeitpunkt(), neuer_eintrag.get_einkaufslisteId(), neuer_eintrag.get_artikelId(), neuer_eintrag.get_erledigt())
+        cursor.execute(template2, vals2)
 
-    self._cnx.commit()
-    cursor.close()
-"""
+        self._cnx.commit()
+        cursor.close()

@@ -187,8 +187,7 @@ class ArtikelMapper(Mapper):
 
         return result
 
-# funktioniert bisher nicht --> Siehe def einkaufsliste_anlegen in ApplikationsAdministration
-"""
+
     def get_id_from_standardartikel(self):
         id_standard = True
 
@@ -198,4 +197,3 @@ class ArtikelMapper(Mapper):
         tuples = cursor.fetchall()
 
         return tuples
-"""
