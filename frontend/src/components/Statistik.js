@@ -140,7 +140,7 @@ class Statistik extends Component {
         {
           /** Zeigt die Liste der EinzelhaendlerListenEintrag Komponenten*/
           listeneintraege.map(listeneintrag =>
-            <StatistikListenEintrag key={listeneintrag.getID()}
+            <StatistikListenEintrag listeneintrag = {listeneintrag} key={listeneintrag.getID()}
 
            />)
         }
