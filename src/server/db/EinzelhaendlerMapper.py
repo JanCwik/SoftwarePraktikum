@@ -172,3 +172,6 @@ class EinzelhaendlerMapper(Mapper):
         einzelhaendlername_tuple = cursor.fetchall()[0]                                # fetchall() gibt das Ergebnis in einem Tuple in einer Liste zurück z.B.
         name_string = einzelhaendlername_tuple[0]                                      # deshalb wird zwei mal der Wert an der ersten Stelle der Liste bzw.  des tubles...
         eintraege.set_einzelhaendler_name(name_string)                                 # ...in einer neuen variable gespeichert und weitergegeben, bis schließlich nur noch der gesuchte Wert übergeben werden kann
+
+        self._cnx.commit()
+        cursor.close()
