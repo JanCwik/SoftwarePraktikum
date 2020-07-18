@@ -294,15 +294,18 @@ class ApplikationsAdministration(object):
 
 
         with EinkaufslistenMapper() as mapper:
-            return mapper.insert(einkaufsliste)
+            einkaufsliste = mapper.insert(einkaufsliste)
 
-#Business Logik get_ID_from_standardartikel funktioniert wegen return nich (return stopt Funktion)
-    # mögliche Problemlösung (nicht vollständig)
-#        with ArtikelMapper() as mapper:
-#            standardartikel = mapper.get_id_from_standardartikel
 
-#        with ListeneintragMapper() as mapper:
-#            x = mapper.insert_standardartikel_in_Einkaufsliste(einkaufsliste, standardartikel)
+        with ArtikelMapper() as mapper:
+                standardartikel = mapper.get_id_from_standardartikel()
+
+        for i in standardartikel:
+            for x in i:
+                with ListeneintragMapper() as mapper:
+                    mapper.insert_standardartikel_in_Einkaufsliste(einkaufsliste, x)
+
+        return einkaufsliste
 
 
     def get_einkaufsliste_by_id(self, id):
@@ -334,6 +337,13 @@ class ApplikationsAdministration(object):
         """ Methode zum ausgeben aller Listeneinträge die zur jeweiligen Einkaufsliste gehören"""
         with ListeneintragMapper() as mapper:
             eintraege = mapper.find_all_listeneintraege_by_einkaufsliste(einkaufsliste)
+
+        for i in eintraege:
+
+            with EinzelhaendlerMapper() as mapper:
+                einzelhaendler_namen = mapper.get_einzelhaendlername_for_listeneintrag(eintraege)
+
+
 
             latest = eintraege[0]
             for eintrag in eintraege:
