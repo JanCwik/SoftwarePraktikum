@@ -26,41 +26,42 @@ class Statistik extends Component {
 
     };
   }
-/*
-  /** Fetchet alle EinzelhaendlerBOs für das Backend
-  getEinzelhaendler = () => {
-    API.getAPI().getEinzelhaendlerAPI()
-      .then(einzelhaendlerBOs =>
-        this.setState({               // Setzt neues state wenn EinzelhaendlerBOs gefetcht wurden
-          einzelhaendler: einzelhaendlerBOs,
-          filteredEinzelhaendler: [...einzelhaendlerBOs], // Speichert eine Kopie
-          loadingInProgress: false,   // Ladeanzeige deaktivieren
-          error: null
-        })).catch(e =>
-          this.setState({       // Setzt state mit Error vom catch zurück
-            einzelhaendler: [],
-            loadingInProgress: false, // Ladeanzeige deaktivieren
-            error: e
-          })
-        );
 
-    // Setzt laden auf true
+    /** Behandelt das onChange Ereignis von dem Einzelhaendler filtern Textfeld */
+  einzelhaendlerFieldChange = event => {
+    const value = event.target.value.toLowerCase();
     this.setState({
-      loadingInProgress: true,
-      error: null
+      filteredEinzelhaendler: this.state.einzelhaendler.filter(einzelhaendler => {
+        let NameContainsValue = einzelhaendler.getName().toLowerCase().includes(value);
+        return NameContainsValue;
+      }),
+      einzelhaendlerFilter: value
     });
   }
-*/
-  /** Lebenszyklus Methode, welche aufgerufen wird, wenn die Komponente in das DOM des Browsers eingefügt wird.*/
-/*
-  componentDidMount() {
-    this.getEinzelhaendler();
+
+    /** Behandelt das onChange Ereignis von dem Einzelhaendler filtern Textfeld */
+  vonFieldChange = event => {
+    const value = event.target.value.toLowerCase();
+    this.setState({
+      filteredEinzelhaendler: this.state.einzelhaendler.filter(einzelhaendler => {
+        let NameContainsValue = einzelhaendler.getName().toLowerCase().includes(value);
+        return NameContainsValue;
+      }),
+      zeitraumVonFilter: value
+    });
   }
 
-  /**
-   * Behandelt einzelhaendlerDeleted Ereignisse von der EinzelhaendlerListenEintrag Komponente.
-   * @param {Einzelhaendler} EinzelhaendlerBO von dem EinzelhaendlerListenEintrag um gelöscht zu werden.
-   */
+    /** Behandelt das onChange Ereignis von dem Einzelhaendler filtern Textfeld */
+  bisFieldChange = event => {
+    const value = event.target.value.toLowerCase();
+    this.setState({
+      zeitraumBisFilter: this.state.einzelhaendler.filter(einzelhaendler => {
+        let NameContainsValue = einzelhaendler.getName().toLowerCase().includes(value);
+        return NameContainsValue;
+      }),
+      zeitraumBisFilter: value
+    });
+  }
 
 
   /** Rendert die Komponente */
@@ -83,7 +84,7 @@ class Statistik extends Component {
               id='einzelhaendlerFilter'
               type='text'
               value={einzelhaendlerFilter}
-              onChange={this.filterFieldValueChange}
+              onChange={this.einzelhaendlerFieldChange}
               InputProps={{
                 endAdornment: <InputAdornment position='end'>
                   <IconButton onClick={this.clearFilterFieldButtonClicked}>
@@ -93,14 +94,7 @@ class Statistik extends Component {
               }}
             />
           </Grid>
-          <Grid item xs />
-          <Grid item xs />
-          <Grid item xs />
-          <Grid item xs />
-          <Grid item xs />
-          <Grid item xs />
-          <Grid item xs />
-          <Grid item xs />
+          <Grid item xs={4} />
           <Grid item>
             <Typography>
               Von:
@@ -110,8 +104,8 @@ class Statistik extends Component {
               fullWidth
               id='zeitraumBis'
               type='text'
-              value={zeitraumBisFilter}
-              onChange={this.filterFieldValueChange}
+              value={zeitraumVonFilter}
+              onChange={this.vonFieldChange}
               InputProps={{
                 endAdornment: <InputAdornment position='end'>
                   <IconButton onClick={this.clearFilterFieldButtonClicked}>
@@ -132,7 +126,7 @@ class Statistik extends Component {
               id='zeitraumBis'
               type='text'
               value={zeitraumBisFilter}
-              onChange={this.filterFieldValueChange}
+              onChange={this.bisFieldChange}
               InputProps={{
                 endAdornment: <InputAdornment position='end'>
                   <IconButton onClick={this.clearFilterFieldButtonClicked}>
