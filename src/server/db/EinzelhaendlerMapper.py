@@ -17,16 +17,16 @@ class EinzelhaendlerMapper(Mapper):
         Das Array mit allen Instanzen wird schließlich zurückgegeben."""
         result = []
         cursor = self._cnx.cursor()
-        cursor.execute("SELECT id, name, erstellungs_zeitpunkt,einzelhaendler_id FROM einzelhaendler")
+        cursor.execute("SELECT id, name, erstellungs_zeitpunkt, benutzer_id FROM einzelhaendler")
         res = cursor.fetchall()
 
-        for (id, name, erstellungs_zeitpunkt, einzelhaendler_id) in res:
+        for (id, name, erstellungs_zeitpunkt, benutzer_id) in res:
 
             einzelhaendler = Einzelhaendler()
             einzelhaendler.set_id(id)
             einzelhaendler.set_name(name)
             einzelhaendler.set_erstellungs_zeitpunkt(erstellungs_zeitpunkt)
-            einzelhaendler.set_einzelhaendlerId(einzelhaendler_id)
+            einzelhaendler.set_benutzer_id(benutzer_id)
             result.append(einzelhaendler)
 
 
@@ -62,8 +62,8 @@ class EinzelhaendlerMapper(Mapper):
 
                 einzelhaendler.set_id(1)
 
-        template = "INSERT INTO einzelhaendler (id, name, erstellungs_zeitpunkt, einzelhaendler_id) VALUES (%s,%s,%s,%s)"
-        vals = (einzelhaendler.get_id(), einzelhaendler.get_name(), einzelhaendler.get_erstellungs_zeitpunkt(), einzelhaendler.get_einzelhaendlerId())
+        template = "INSERT INTO einzelhaendler (id, name, erstellungs_zeitpunkt, benutzer_id) VALUES (%s,%s,%s,%s)"
+        vals = (einzelhaendler.get_id(), einzelhaendler.get_name(), einzelhaendler.get_erstellungs_zeitpunkt(), einzelhaendler.get_benutzer_id())
         cursor.execute(template, vals)
 
         self._cnx.commit()
@@ -114,17 +114,17 @@ class EinzelhaendlerMapper(Mapper):
         Sollte die Datenbank anhand der ID kein Objekt zurückliefern, wird ausgegeben was innerhalb des IndexErrors steht --> None
         Die Variable "result" wird schließlich von der Mehtode zurückgegeben."""
         cursor = self._cnx.cursor()
-        command = "SELECT id, name, erstellungs_zeitpunkt, einzelhaendler_id FROM einzelhaendler WHERE id={}".format(id)
+        command = "SELECT id, name, erstellungs_zeitpunkt, benutzer_id FROM einzelhaendler WHERE id={}".format(id)
         cursor.execute(command)
         tuples = cursor.fetchall()
 
         try:
-            (id, name, erstellungs_zeitpunkt, einzelhaendler_id) = tuples[0]
+            (id, name, erstellungs_zeitpunkt, benutzer_id) = tuples[0]
             einzelhaendler = Einzelhaendler()
             einzelhaendler.set_id(id)
             einzelhaendler.set_name(name)
             einzelhaendler.set_erstellungs_zeitpunkt(erstellungs_zeitpunkt)
-            einzelhaendler.set_einzelhaendlerId(einzelhaendler_id)
+            einzelhaendler.set_benutzer_id(benutzer_id)
             result = einzelhaendler
         except IndexError:
             result = None
@@ -145,17 +145,17 @@ class EinzelhaendlerMapper(Mapper):
         Sollte die Datenbank anhand des Namens kein Objekt zurückliefern, wird ausgegeben was innerhalb des IndexErrors steht --> None
         Die Variable "result" wird schließlich von der Mehtode zurückgegeben."""
         cursor = self._cnx.cursor()
-        command = "SELECT id, name, erstellungs_zeitpunkt, einzelhaendler_id FROM einzelhaendler WHERE name LIKE '{}' ORDER BY name".format(name)
+        command = "SELECT id, name, erstellungs_zeitpunkt, benutzer_id FROM einzelhaendler WHERE name LIKE '{}' ORDER BY name".format(name)
         cursor.execute(command)
         tuples = cursor.fetchall()
 
         try:
-            (id, name, erstellungs_zeitpunkt, einzelhaendler_id) = tuples[0]
+            (id, name, erstellungs_zeitpunkt, benutzer_id) = tuples[0]
             einzelhaendler = Einzelhaendler()
             einzelhaendler.set_id(id)
             einzelhaendler.set_name(name)
             einzelhaendler.set_erstellungs_zeitpunkt(erstellungs_zeitpunkt)
-            einzelhaendler.set_einzelhaendlerId(einzelhaendler_id)
+            einzelhaendler.set_benutzer_id(benutzer_id)
             result = einzelhaendler
         except IndexError:
             result = []
