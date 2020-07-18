@@ -15,6 +15,7 @@ class StatistikListenEintrag extends Component {
 
     // Init state
     this.state = {
+        listeneintrag: props.listeneintrag,
     };
   }
 
