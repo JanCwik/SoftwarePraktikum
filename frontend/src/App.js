@@ -16,6 +16,7 @@ import 'firebase/auth';
 import LoadingProgress from './components/dialogs/LoadingProgress';
 import ContextErrorMessage from './components/dialogs/ContextErrorMessage';
 import Einkaufsliste from "./components/Einkaufsliste";
+import Statistik from "./components/Statistik";
 
 class App extends React.Component {
     #firebaseConfig = {
@@ -157,6 +158,12 @@ class App extends React.Component {
                                 <Einzelhaendler/>
 
                             </Route>
+
+							<Route path='/statistik'>
+                                <Statistik/>
+
+                            </Route>
+
 
                             </>
 
