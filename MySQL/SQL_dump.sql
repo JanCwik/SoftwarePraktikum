@@ -37,7 +37,9 @@ CREATE TABLE einzelhaendler(
     name VARCHAR(30) NOT NULL,
     erstellungs_zeitpunkt datetime NOT NULL,
     PRIMARY KEY (id),
-    einzelhaendler_id INT NOT NULL
+    benutzer_id INT NOT Null,
+
+    FOREIGN KEY (benutzer_id) REFERENCES benutzer(id)
 );
 
 /*Legt einen Testdatensatz in der Tabelle "einzelhaendler" an*/
