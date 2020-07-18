@@ -7,8 +7,7 @@ import { withRouter } from 'react-router-dom';
 import  API from "../api/API";
 import ContextErrorMessage from './dialogs/ContextErrorMessage';
 import LoadingProgress from './dialogs/LoadingProgress';
-import EinzelhaendlerForm from './dialogs/EinzelhaendlerForm';
-import EinzelhaendlerListenEintrag from "./EinzelhaendlerListenEintrag";
+import StatistikListenEintrag from "./StatistikListenEintrag";
 
 /**
  * Kontrolliert eine Liste von EinzelhaendlerListenEintraegen um ein ExpansionPanel für jeden
@@ -64,10 +63,6 @@ class Statistik extends Component {
    */
 
 
-
-
-
-
   /** Rendert die Komponente */
   render() {
     const { classes } = this.props;
@@ -97,30 +92,19 @@ class Statistik extends Component {
                 </InputAdornment>,
               }}
             />
-            <Grid item xs={2}>
+          </Grid>
+          <Grid item xs />
+          <Grid item xs />
+          <Grid item xs />
+          <Grid item xs />
+          <Grid item xs />
+          <Grid item xs />
+          <Grid item xs />
+          <Grid item xs />
+          <Grid item>
             <Typography>
               Von:
-              </Typography>
-            <TextField
-              autoFocus
-              fullWidth
-              id='zeitraumVon'
-              type='text'
-              value={zeitraumVonFilter}
-              onChange={this.filterFieldValueChange}
-              InputProps={{
-
-                endAdornment: <InputAdornment position='end'>
-                  <IconButton onClick={this.clearFilterFieldButtonClicked}>
-                    <ClearIcon />
-                  </IconButton>
-                </InputAdornment>,
-              }}
-            />
-            </Grid>
-            <Typography>
-              Bis:
-              </Typography>
+            </Typography>
             <TextField
               autoFocus
               fullWidth
@@ -139,15 +123,32 @@ class Statistik extends Component {
           </Grid>
           <Grid item xs />
           <Grid item>
-
+            <Typography>
+              Bis:
+            </Typography>
+            <TextField
+              autoFocus
+              fullWidth
+              id='zeitraumBis'
+              type='text'
+              value={zeitraumBisFilter}
+              onChange={this.filterFieldValueChange}
+              InputProps={{
+                endAdornment: <InputAdornment position='end'>
+                  <IconButton onClick={this.clearFilterFieldButtonClicked}>
+                    <ClearIcon />
+                  </IconButton>
+                </InputAdornment>,
+              }}
+            />
           </Grid>
-        </Grid>
+          </Grid>
         {
           /** Zeigt die Liste der EinzelhaendlerListenEintrag Komponenten*/
-          //listeneintraege.map(einzelhaendler =>
-            //<StatistikListenEintrag key={einzelhaendler.getID()}
+          listeneintraege.map(listeneintrag =>
+            <StatistikListenEintrag key={listeneintrag.getID()}
 
-           // />)
+           />)
         }
         <LoadingProgress show={loadingInProgress} />
         <ContextErrorMessage error={error} contextErrorMsg={`Die Liste der Listeneintraege konnte nicht geladen werden.`} onReload={this.getEinzelhaendler} />
@@ -166,9 +167,8 @@ const styles = theme => ({
   einzelhaendlerFilter: {
     marginTop: theme.spacing(2),
     marginBottom: theme.spacing(1),
+  },
 
-
-  }
 });
 
 /** PropTypes */
