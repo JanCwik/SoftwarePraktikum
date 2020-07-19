@@ -8,7 +8,6 @@ class StatistikMapper(Mapper):
         super().__init__()
 
     def get_all_listeneintraege_by_benutzer(self, benutzer):
-
         cursor = self._cnx.cursor()
 
         template = "SELECT artikel_id FROM listeneintrag " + "WHERE benutzer_id=%s AND erledigt=%s"
@@ -20,36 +19,17 @@ class StatistikMapper(Mapper):
         cursor.close()
         return artikel
 
-    def get_top_Einzelhaendler(self):
-        EinzelhaendlerIDsInt = []
-        top = []
-
+    def get_all_listeneintraege_by_Einzelhaendler(self, benutzer, einzelhaendler):
         cursor = self._cnx.cursor()
 
-        command = "SELECT einzelhaendler_id FROM listeneintrag"
-        cursor.execute(command)
-        EinzelhaendlerIDs = cursor.fetchall()
-
-        for i in EinzelhaendlerIDs:
-            for i in i:
-                EinzelhaendlerIDsInt.append(i)
-
-        EinzelhaendlerIDsInt = list(set(EinzelhaendlerIDsInt))
-
-        for k in EinzelhaendlerIDsInt:
-            cursor.execute("SELECT COUNT(einkaufsliste_id) AS Anzahl FROM listeneintrag Where einzelhaendler_id={}".format(k))
-            gesamtZahl = cursor.fetchall()
-
-            for i in gesamtZahl:
-                for i in i:
-                    statistik = Statistik()
-                    statistik.set_EinzelhaendlerID(k)
-                    statistik.set_gesamtzahl(i)
-                    top.append(statistik)
+        template = "SELECT artikel_id FROM listeneintrag " + "WHERE einzelhaendler_id=%s AND benutzer_id=%s AND erledigt=%s"
+        vals = (einzelhaendler.get_id(), benutzer.get_id(), 1)
+        cursor.execute(template, vals)
+        artikel = cursor.fetchall()
 
         self._cnx.commit()
         cursor.close()
-        return top
+        return artikel
 
     def get_top_proMonat(self):
         ArtikelIDsInt = []
