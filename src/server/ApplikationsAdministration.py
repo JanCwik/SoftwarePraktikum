@@ -1,17 +1,18 @@
-from .bo.Artikel import Artikel
-from .bo.Einzelhaendler import Einzelhaendler
-from .bo.Benutzer import Benutzer
-from .bo.Anwenderverbund import Anwenderverbund
-from .bo.Einkaufsliste import Einkaufsliste
-from .bo.Listeneintrag import Listeneintrag
-from .db.ArtikelMapper import ArtikelMapper
-from .db.EinzelhaendlerMapper import EinzelhaendlerMapper
-from .db.BenutzerMapper import BenutzerMapper
-from .db.AnwenderverbundMapper import AnwenderverbundMapper
-from .db.EinkaufslisteMapper import EinkaufslistenMapper
-from .db.ListeneintragMapper import ListeneintragMapper
-from .db.StatistikMapper import StatistikMapper
-from .db.MitgliedschaftMapper import MitgliedschaftMapper
+from src.server.bo.Artikel import Artikel
+from src.server.bo.Einzelhaendler import Einzelhaendler
+from src.server.bo.Benutzer import Benutzer
+from src.server.bo.Anwenderverbund import Anwenderverbund
+from src.server.bo.Einkaufsliste import Einkaufsliste
+from src.server.bo.Listeneintrag import Listeneintrag
+from src.server.db.ArtikelMapper import ArtikelMapper
+from src.server.db.EinzelhaendlerMapper import EinzelhaendlerMapper
+from src.server.db.BenutzerMapper import BenutzerMapper
+from src.server.db.AnwenderverbundMapper import AnwenderverbundMapper
+from src.server.db.EinkaufslisteMapper import EinkaufslistenMapper
+from src.server.db.ListeneintragMapper import ListeneintragMapper
+from src.server.db.StatistikMapper import StatistikMapper
+from src.server.db.MitgliedschaftMapper import MitgliedschaftMapper
+from src.server.ReportGenerator import ReportGenerator
 from datetime import datetime
 
 
@@ -440,3 +441,24 @@ class ApplikationsAdministration(object):
     def statistik_pro_monat(self):
         with StatistikMapper() as mapper:
             return mapper.get_top_proMonat()
+
+
+    def get_top_artikel_5(self, benutzer):
+           report = ReportGenerator()
+           top5 = report.top_artikel(benutzer)
+           for i in top5:
+               id = i.get_ArtikelID()
+               with ArtikelMapper() as mapper:
+                   ArtikelObjekt = mapper.find_by_id(id)
+               i.set_ArtikelName(ArtikelObjekt.get_name())
+           return top5
+
+
+
+
+a = ApplikationsAdministration()
+c = a.get_benutzer_by_id(5)
+d = a.get_top_artikel_5(c)
+
+for i in d:
+    print(i)

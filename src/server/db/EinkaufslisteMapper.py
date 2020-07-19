@@ -1,7 +1,7 @@
-from server.db.Mapper import Mapper
-from server.bo.Einkaufsliste import Einkaufsliste
-from server.bo.Listeneintrag import Listeneintrag
-from server.bo.Artikel import Artikel
+from src.server.db.Mapper import Mapper
+from src.server.bo.Einkaufsliste import Einkaufsliste
+from src.server.bo.Listeneintrag import Listeneintrag
+from src.server.bo.Artikel import Artikel
 import datetime
 
 

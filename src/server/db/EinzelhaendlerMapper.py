@@ -1,5 +1,5 @@
-from server.db.Mapper import Mapper
-from server.bo.Einzelhaendler import Einzelhaendler
+from src.server.db.Mapper import Mapper
+from src.server.bo.Einzelhaendler import Einzelhaendler
 
 
 class EinzelhaendlerMapper(Mapper):

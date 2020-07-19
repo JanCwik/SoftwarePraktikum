@@ -1,5 +1,5 @@
-from server.db.Mapper import Mapper
-from server.bo.Statistik import Statistik
+from src.server.db.Mapper import Mapper
+from src.server.bo.Statistik import Statistik
 
 
 class StatistikMapper(Mapper):
@@ -7,37 +7,18 @@ class StatistikMapper(Mapper):
     def __init__(self):
         super().__init__()
 
-    def get_top_Artikel (self):
-        ArtikelIDsInt = []
-        top = []
+    def get_all_listeneintraege_by_benutzer(self, benutzer):
 
         cursor = self._cnx.cursor()
 
-        command = "SELECT artikel_id FROM listeneintrag"
-        cursor.execute(command)
-        ArtikelIDs = cursor.fetchall()
-
-        for i in ArtikelIDs:
-            for i in i:
-                ArtikelIDsInt.append(i)
-
-        ArtikelIDsInt = list(set(ArtikelIDsInt))
-
-
-        for k in ArtikelIDsInt:
-            cursor.execute("SELECT SUM(anzahl) FROM listeneintrag where artikel_id={}".format(k))
-            gesamtZahl = cursor.fetchall()
-
-            for i in gesamtZahl:
-                for i in i:
-                    statistik = Statistik()
-                    statistik.set_ArtikelID(k)
-                    statistik.set_gesamtzahl(i)
-                    top.append(statistik)
+        template = "SELECT artikel_id FROM listeneintrag " + "WHERE benutzer_id=%s AND erledigt=%s"
+        vals = (benutzer.get_id(), 1)
+        cursor.execute(template, vals)
+        artikel = cursor.fetchall()
 
         self._cnx.commit()
         cursor.close()
-        return top
+        return artikel
 
     def get_top_Einzelhaendler(self):
         EinzelhaendlerIDsInt = []

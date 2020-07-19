@@ -1,5 +1,5 @@
 
-class StatistikHaendler():
+class StatistikPosition():
 
     def __init__(self):
         self._gesamtzahl = 0
