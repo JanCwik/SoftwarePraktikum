@@ -188,12 +188,13 @@ class ArtikelMapper(Mapper):
         return result
 
 
-    def get_id_from_standardartikel(self):
-        id_standard = True
+    def get_id_from_standardartikel(self,benutzer):
+
 
         cursor = self._cnx.cursor()
-        command = "SELECT id FROM artikel WHERE standardartikel={}".format(id_standard)
-        cursor.execute(command)
+        temp = "SELECT id FROM artikel WHERE standardartikel=%s" + " AND benutzer_id = %s"
+        vals=( True ,benutzer.get_id())
+        cursor.execute(temp,vals)
         tuples = cursor.fetchall()
 
         return tuples
