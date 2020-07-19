@@ -21,7 +21,7 @@ export default class API {
 
 
     //Attribut um im späteren verlauf des Projekts das angeben aller URLs zu erleichtern
-    #ServerBaseURL = '/shopping';
+    #ServerBaseURL= process.env.NODE_ENV ==='production'?'https://backend-dot-shoppinglist2020.ey.r.appspot.com/shopping':'localhost:5000/shopping'
 
     //private Methoden um das angeben aller URLs zu erleichtern
     #getArtikelURL = () => `${this.#ServerBaseURL}/artikel`;
