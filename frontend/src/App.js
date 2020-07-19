@@ -120,7 +120,6 @@ class App extends React.Component {
     render() {
 
 	    const { currentUser, appError, authError, authLoading } = this.state;
-		console.log(currentUser)
         return (
             <div className="App">
 

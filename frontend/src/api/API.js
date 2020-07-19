@@ -21,7 +21,7 @@ export default class API {
 
 
     //Attribut um im späteren verlauf des Projekts das angeben aller URLs zu erleichtern
-    #ServerBaseURL= process.env.NODE_ENV ==='production'?'https://backend-dot-shoppinglist2020.ey.r.appspot.com/shopping':'localhost:5000/shopping'
+    #ServerBaseURL= process.env.NODE_ENV ==='production'?'https://backend-dot-shoppinglist2020.ey.r.appspot.com/shopping':'/shopping'
 
     //private Methoden um das angeben aller URLs zu erleichtern
     #getArtikelURL = () => `${this.#ServerBaseURL}/artikel`;
@@ -44,7 +44,7 @@ export default class API {
     #getAnwenderverbuendeByBenutzerURL = (userMail) => `${this.#ServerBaseURL}/benutzer/${userMail}/anwenderverbuende`;
 
     #getEinkaufslistenURL = () => `${this.#ServerBaseURL}/einkaufsliste`
-    #addEinkaufslisteURL = () => `${this.#ServerBaseURL}/einkaufsliste`;
+    #addEinkaufslisteURL = (email) => `${this.#ServerBaseURL}/einkaufsliste/${email}`;
     #getEinkaufslistenByAnwenderverbundURL = (id) => `${this.#ServerBaseURL}/anwenderverbund/${id}/einkauflisten`;
     #deleteEinkaufslisteURL = (id) => `${this.#ServerBaseURL}/einkaufsliste-by-id/${id}`;
     #updateEinkaufslisteURL = (id) => `${this.#ServerBaseURL}/einkaufsliste-by-id/${id}`;
@@ -330,8 +330,8 @@ export default class API {
 
 
     //führt einen POST Request aus und schreibt dabei das als Parameter übergebene Einkaufslisten-objekt in den Body des Json
-    addEinkaufslisteAPI(neweinkl) {
-        return this.#fetchAdvanced(this.#addEinkaufslisteURL(), {
+    addEinkaufslisteAPI(neweinkl, email) {
+        return this.#fetchAdvanced(this.#addEinkaufslisteURL(email), {
             method: 'POST',
             headers: {
                 'Accept': 'application/json, text/plain',

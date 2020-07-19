@@ -488,19 +488,20 @@ class EinkaufslisteListOperations(Resource):
 
 # ja diese Methode ist unnöti aber sie wird zurzeit vom frontend benutzt bis wir es richtig hinkriegen
 
-@shopping.route('/einkaufsliste')
+@shopping.route('/einkaufsliste/<string:email>')
 @shopping.response(500, 'Serverfehler')
 class EinkaufslisteListOperations(Resource):
     @shopping.marshal_with(einkaufsliste)
     @shopping.expect(einkaufsliste)
     #@secured
-    def post(self):  # id von Einkaufsliste muss mit id von Anwenderverbund angegeben werden, sonst Server-Error!
+    def post(self, email):  # id von Einkaufsliste muss mit id von Anwenderverbund angegeben werden, sonst Server-Error!
         """Anlegen einer Einkaufsliste"""
         adm = ApplikationsAdministration()
 
+        benutzer = adm.get_benutzer_by_email(email)
         test = Einkaufsliste.from_dict(api.payload)
         if test is not None:
-            a = adm.einkaufsliste_anlegen(test.get_name(), test.get_anwenderId())
+            a = adm.einkaufsliste_anlegen(test, benutzer)
             return a, 200
         else:
             return '', 500

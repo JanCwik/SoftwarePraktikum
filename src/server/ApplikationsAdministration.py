@@ -286,19 +286,16 @@ class ApplikationsAdministration(object):
 
 
 
-    def einkaufsliste_anlegen(self, name, anwenderverbund):
+    def einkaufsliste_anlegen(self, liste, benutzer):
         """Methode zum Anlegen einer neuen Einkaufsliste in der Datenbank"""
-        einkaufsliste = Einkaufsliste()
-        einkaufsliste.set_name(name)
-        einkaufsliste.set_anwenderId(anwenderverbund)
 
 
         with EinkaufslistenMapper() as mapper:
-            einkaufsliste = mapper.insert(einkaufsliste)
+            einkaufsliste = mapper.insert(liste)
 
 
         with ArtikelMapper() as mapper:
-                standardartikel = mapper.get_id_from_standardartikel()
+                standardartikel = mapper.get_id_from_standardartikel(benutzer)
 
         for i in standardartikel:
             for x in i:
