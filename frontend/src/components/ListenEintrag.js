@@ -120,7 +120,9 @@ class ListenEintrag extends Component {
 
           </Typography>
           <Typography className={classes.Menge} color='textPrimary'>
-            {listeneintrag.getMenge()+"  "}
+            {listeneintrag.getMenge()?
+               listeneintrag.getMenge() +"  "
+            : null }
             {listeneintrag.getArtikel_einheit()}
           </Typography>
 

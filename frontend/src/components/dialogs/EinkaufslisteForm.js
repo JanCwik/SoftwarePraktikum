@@ -46,7 +46,7 @@ class EinkaufslisteForm extends Component {
   addEinkaufsliste = () => {
     let newEinkaufsliste = new EinkaufslisteBO(this.state.einkaufslisteName);
     newEinkaufsliste.setAnwenderverbundID(this.props.anwenderverbund.getID())      //legt neues Einkaufslisten-Objekt mit name aus dem state an
-    API.getAPI().addEinkaufslisteAPI(newEinkaufsliste).then(einkaufsliste => {
+    API.getAPI().addEinkaufslisteAPI(newEinkaufsliste, this.props.userMail).then(einkaufsliste => {
       // Backend Aufruf erfolgreich
       // reinit den Dialog state für eine neue leere Einkaufsliste
       this.setState(this.baseState);

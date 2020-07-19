@@ -118,7 +118,7 @@ render(){
             }
             <LoadingProgress show={loadingInProgress} />
             <ContextErrorMessage error={error} contextErrorMsg={`Einkaufslisten konnten nicht geladen werden.`} onReload={this.getEinkaufslisten} />
-            <EinkaufslisteForm show={showEinkaufslisteForm} anwenderverbund={anwenderverbund} onClose={this.einkaufslisteFormClosed} />
+            <EinkaufslisteForm show={showEinkaufslisteForm} anwenderverbund={anwenderverbund} onClose={this.einkaufslisteFormClosed} userMail={this.props.userMail} />
         </div>
     )
   }
