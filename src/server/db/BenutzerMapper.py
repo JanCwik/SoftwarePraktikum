@@ -222,3 +222,15 @@ class BenutzerMapper(Mapper):
         cursor.close()
 
         return result
+
+
+    def get_benutzername_for_listeneintrag(self, eintraege):
+        cursor = self._cnx.cursor()
+
+        cursor.execute("SELECT name FROM benutzer WHERE id={}".format(eintraege.get_benutzerId()))
+        benutzername_tuple = cursor.fetchall()[0]
+        name_string = benutzername_tuple[0]
+        eintraege.set_benutzer_name(name_string)
+
+        self._cnx.commit()
+        cursor.close()

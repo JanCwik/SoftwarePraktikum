@@ -187,8 +187,7 @@ class ArtikelMapper(Mapper):
 
         return result
 
-# funktioniert bisher nicht --> Siehe def einkaufsliste_anlegen in ApplikationsAdministration
-"""
+
     def get_id_from_standardartikel(self):
         id_standard = True
 
@@ -198,4 +197,26 @@ class ArtikelMapper(Mapper):
         tuples = cursor.fetchall()
 
         return tuples
-"""
+
+    def get_artikelname_for_listeneintrag(self, eintraege):
+        cursor = self._cnx.cursor()
+
+        cursor.execute("SELECT name FROM artikel WHERE id={}".format(eintraege.get_artikelId()))
+        artikelname_tuple = cursor.fetchall()[0]
+        name_string = artikelname_tuple[0]
+        eintraege.set_artikel_name(name_string)
+
+        self._cnx.commit()
+        cursor.close()
+
+
+    def get_artikeleinheit_for_listeneintrag(self, eintraege):
+        cursor = self._cnx.cursor()
+
+        cursor.execute("SELECT einheit FROM artikel WHERE id={}".format(eintraege.get_artikelId()))
+        einheitname_tuple = cursor.fetchall()[0]
+        name_string = einheitname_tuple[0]
+        eintraege.set_artikel_einheit(name_string)
+
+        self._cnx.commit()
+        cursor.close()

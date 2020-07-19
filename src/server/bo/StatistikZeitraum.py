@@ -1,5 +1,6 @@
 from server.bo.Statistik import Statistik
 
+
 class StatistikZeitraum(Statistik):
 
     def __init__(self):

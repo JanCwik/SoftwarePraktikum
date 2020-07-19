@@ -33,18 +33,19 @@ class ListenEintrag extends Component {
 
     // Initialisiert ein leeres state
     this.state = {
+      listeneintrag: this.props.listeneintrag,
       balance: '',
       loadingInProgress: false,
       deletingInProgress: false,
       loadingError: null,
       deletingError: null,
+      showForm: false
 
     };
   }
 
-  updateListeneintrag = () => {
-
-    let updatedListeneintrag = Object.assign(new ListeneintragBO(), this.props.listeneintrag);
+  eintragAbhaken = () => {
+    let updatedListeneintrag = Object.assign(new ListeneintragBO(), this.state.listeneintrag);
     // Setzt die neuen Attribute aus dem Dialog
     updatedListeneintrag.setErledigt(true)
     API.getAPI().updateListeneintragAPI(updatedListeneintrag)
@@ -77,17 +78,40 @@ class ListenEintrag extends Component {
     });
   }
 
+  editButtonClicked=()=>{
+    this.setState({
+      showForm: true
+    })
+  }
+
+  /** Behandelt das onClose Ereignis vom ArtikelForm */
+  formClosed = (eintrag) => {
+    // Artikel ist nicht null und deshalb geändert.
+    if (eintrag) {
+      this.setState({
+        listeneintrag: eintrag,
+        showForm: false
+      });
+    } else {
+      this.setState({
+        showForm: false
+      });
+    }
+  }
+
+
+
   /** Rendert die Komponente */
   render() {
-    const { classes, listeneintrag } = this.props;
-    const { showListeneintragDeleteDialog, loadingInProgress, deletingInProgress, loadingError, deletingError, listeneintragErledigt } = this.state;
+    const { classes } = this.props;
+    const { showListeneintragDeleteDialog, listeneintrag ,loadingInProgress, deletingInProgress, loadingError, deletingError, listeneintragErledigt, showForm } = this.state;
 
     return (
       <div >
         <List  className={classes.Liste} >
         <ListItem>
           <Checkbox
-              onChange={this.updateListeneintrag}
+              onChange={this.eintragAbhaken}
               inputProps={{ 'aria-label': 'primary checkbox' }}
           />
 
@@ -114,14 +138,15 @@ class ListenEintrag extends Component {
           </Typography>
 
           <ListItemSecondaryAction>
-            <Button  color='secondary' size='small' startIcon={<EditIcon />} onClick={this.updateListeneintrag}>
+            <Button  color='secondary' size='small' startIcon={<EditIcon />} onClick={this.editButtonClicked}>
             </Button>
             <Button  color='secondary' size='small' startIcon={<DeleteIcon />} onClick={this.deleteListeneintragButtonClicked}>
             </Button>
           </ListItemSecondaryAction>
         </ListItem>
         </List>
-        <ListeneintragLoeschen show={showListeneintragDeleteDialog} listeneintrag={listeneintrag} artikel={listeneintrag.getArtikel_name} onClose={this.deleteListeneintragDialogClosed} />
+        <ListeneintragForm  listeneintrag={listeneintrag} show={showForm} reload={this.props.reload} onClose={this.formClosed} einkaufsliste={this.props.einkaufsliste} />
+        <ListeneintragLoeschen show={showListeneintragDeleteDialog}  listeneintrag={listeneintrag} onClose={this.deleteListeneintragDialogClosed} />
       </div>
     );
   }

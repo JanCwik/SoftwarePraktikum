@@ -294,15 +294,18 @@ class ApplikationsAdministration(object):
 
 
         with EinkaufslistenMapper() as mapper:
-            return mapper.insert(einkaufsliste)
+            einkaufsliste = mapper.insert(einkaufsliste)
 
-#Business Logik get_ID_from_standardartikel funktioniert wegen return nich (return stopt Funktion)
-    # mögliche Problemlösung (nicht vollständig)
-#        with ArtikelMapper() as mapper:
-#            standardartikel = mapper.get_id_from_standardartikel
 
-#        with ListeneintragMapper() as mapper:
-#            x = mapper.insert_standardartikel_in_Einkaufsliste(einkaufsliste, standardartikel)
+        with ArtikelMapper() as mapper:
+                standardartikel = mapper.get_id_from_standardartikel()
+
+        for i in standardartikel:
+            for x in i:
+                with ListeneintragMapper() as mapper:
+                    mapper.insert_standardartikel_in_Einkaufsliste(einkaufsliste, x)
+
+        return einkaufsliste
 
 
     def get_einkaufsliste_by_id(self, id):
@@ -329,19 +332,46 @@ class ApplikationsAdministration(object):
             mapper.delete(einkaufsliste)
 
 
-# muss bezüglicher der Business Logik noch angepasst werden!
+
     def get_all_listeneintraege_of_einkaufslisten(self, einkaufsliste):
-        """ Methode zum ausgeben aller Listeneinträge die zur jeweiligen Einkaufsliste gehören"""
+        """ Methode zum ausgeben aller Listeneinträge die zur jeweiligen Einkaufsliste gehören
+        KOMMENTAR VERALTET!
+        Mittels For-Schleife werden die einzelnen Attribute aus einem Tupel gezogen und einer neuen Instanz der
+        Klasse "Listeneintrag()" übergeben. Die einzelnen Instanzen werden in einem Array gespeichert.
+        Das Array mit allen Instanzen wird schließlich zurückgegeben.
+        In der besagten For-Schleife werden ausßerdem für jeden Listeneintrag 4 zusätzliche Select Statements ausgeführt.
+            Select Statement 1: holt den einzelhändlername aus der Einzelhändler tabelle, dann wird der name in das Listeneintrag Objekt als Attribut einzelhaendler_name gespeichert
+            Select Statement 2: holt den benutzername aus der Benutzer tabelle, dann wird der name in das Listeneintrag Objekt als Attribut benutzer_name gespeichert
+            Select Statement 3: holt den artikelname aus der Artikel tabelle, dann wird der name in das Listeneintrag Objekt als Attribut artikel_name gespeichert
+            Select Statement 4: holt den artikeleinheit aus der Artikel tabelle, dann wird der name in das Listeneintrag Objekt als Attribut artikel_einheit gespeichert
+        """
         with ListeneintragMapper() as mapper:
             eintraege = mapper.find_all_listeneintraege_by_einkaufsliste(einkaufsliste)
 
-            latest = eintraege[0]
-            for eintrag in eintraege:
-                 if eintrag.get_änderungs_zeitpunkt() > latest.get_änderungs_zeitpunkt():
-                     latest = eintrag
+        for i in eintraege:
+            if i.get_einzelhaendlerId() is not None:
+                with EinzelhaendlerMapper() as mapper:
+                    mapper.get_einzelhaendlername_for_listeneintrag(i)
 
-            latest.set_änderungs_zeitpunkt("latest")
-            return eintraege
+            if i.get_benutzerId() is not None:
+                with BenutzerMapper() as mapper:
+                    mapper.get_benutzername_for_listeneintrag(i)
+
+            with ArtikelMapper() as mapper:
+                mapper.get_artikelname_for_listeneintrag(i)
+
+            with ArtikelMapper() as mapper:
+                mapper.get_artikeleinheit_for_listeneintrag(i)
+
+
+
+        latest = eintraege[0]
+        for eintrag in eintraege:
+             if eintrag.get_änderungs_zeitpunkt() > latest.get_änderungs_zeitpunkt():
+                 latest = eintrag
+
+        latest.set_änderungs_zeitpunkt("latest")
+        return eintraege
 
 
 

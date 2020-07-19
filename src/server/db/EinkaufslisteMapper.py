@@ -25,8 +25,7 @@ class EinkaufslistenMapper(Mapper):
         Dann erfolgt erneut ein SQL-Statement welches die Instanz in der Datenbank speichert.
         Mittels der getter-Methoden, welche zuvor in der entsprechenden Business-Object-Klasse definierten wurden,
         werden die Attribute der Instanz an das SQL-Statement übergeben."""
-        id_standard = True
-        neueID = None
+
 
         cursor = self._cnx.cursor()
         cursor.execute("SELECT MAX(id) AS maxid FROM einkaufsliste ")
@@ -41,27 +40,6 @@ class EinkaufslistenMapper(Mapper):
         template = "INSERT INTO einkaufsliste (id, name, erstellungs_zeitpunkt, aenderungs_zeitpunkt, anwenderverbund_id) VALUES (%s,%s,%s,%s,%s)"
         vals = (einkaufsliste.get_id(), einkaufsliste.get_name(), einkaufsliste.get_erstellungs_zeitpunkt(), einkaufsliste.get_änderungs_zeitpunkt(), einkaufsliste.get_anwenderId())
         cursor.execute(template, vals)
-
-# muss in andere Mapper! --> Siehe def einkaufsliste_anlegen in ApplikationsAdministration
-
-        command = "SELECT id FROM artikel WHERE standardartikel={}".format(id_standard)
-        cursor.execute(command)
-        tuples = cursor.fetchall()
-
-        for i in tuples:
-            for i in i:
-                cursor.execute("SELECT MAX(id) AS maxid_listeneintrag FROM listeneintrag ")
-                ins = cursor.fetchall()
-
-                for (maxid_listeneintrag) in ins:
-                    if maxid_listeneintrag[0] is not None:
-                        neueID = (maxid_listeneintrag[0] + 1)
-                    else:
-                        neueID = 1
-
-                template2 = "INSERT INTO listeneintrag (id, einkaufsliste_id, artikel_id, erledigt) VALUES (%s,%s,%s,%s)"
-                vals2 = (neueID, einkaufsliste.get_id(), i, False)
-                cursor.execute(template2, vals2)
 
         self._cnx.commit()
         cursor.close()
