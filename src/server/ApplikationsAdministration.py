@@ -417,15 +417,6 @@ class ApplikationsAdministration(object):
 
 
 
-
-
-
-
-
-
-
-
-
     """Methoden bezüglich der Statistik - Kommi zur Übersicht kann nacher gelöscht werden -"""
     def statistik(self):
         with StatistikMapper() as mapper:
@@ -441,21 +432,31 @@ class ApplikationsAdministration(object):
 
 
     def get_top_artikel_5(self, benutzer):
-           report = ReportGenerator()
-           top5 = report.top_artikel(benutzer)
-           for i in top5:
-               id = i.get_ArtikelID()
-               with ArtikelMapper() as mapper:
-                   ArtikelObjekt = mapper.find_by_id(id)
-               i.set_ArtikelName(ArtikelObjekt.get_name())
-           return top5
+        report = ReportGenerator()
+        top5 = report.top_artikel(benutzer)
+        for i in top5:
+           id = i.get_ArtikelID()
+           with ArtikelMapper() as mapper:
+               ArtikelObjekt = mapper.find_by_id(id)
+           i.set_ArtikelName(ArtikelObjekt.get_name())
+        return top5
 
+    def get_top_artikel_5_by_einzelhaendler(self, benutzer, einzelhaendler):
+        report = ReportGenerator()
+        top5_by_einzelhaendler = report.top_artikel_by_einzelhaendler(benutzer, einzelhaendler)
+        for i in top5_by_einzelhaendler:
+           id = i.get_ArtikelID()
+           with ArtikelMapper() as mapper:
+               ArtikelObjekt = mapper.find_by_id(id)
+           i.set_ArtikelName(ArtikelObjekt.get_name())
+        return top5_by_einzelhaendler
 
 
 
 a = ApplikationsAdministration()
-c = a.get_benutzer_by_id(5)
-d = a.get_top_artikel_5(c)
+c = a.get_benutzer_by_id(3)
+b = a.get_einzelhaendler_by_id(2)
+d = a.get_top_artikel_5_by_einzelhaendler(c,b)
 
 for i in d:
     print(i)
