@@ -61,7 +61,7 @@ class AlleEinkaufslisten extends Component{
         {
           // Zeigt die Liste der Anwenderverrbunds Komponenten
           Anwenderverbuende.map(anwenderverbund =>
-            <AlleEinkaufslistenAnwenderverbund key={anwenderverbund.getID()} anwenderverbund={anwenderverbund}
+            <AlleEinkaufslistenAnwenderverbund key={anwenderverbund.getID()} anwenderverbund={anwenderverbund} userMail={this.props.userMail}
               onEinkaufslisteDeleted={this.EinkaufslisteDeleted}
             />)
         }

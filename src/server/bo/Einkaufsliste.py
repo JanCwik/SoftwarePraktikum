@@ -37,6 +37,5 @@ class Einkaufsliste(NamedBO):
         obj.set_id(dictionary["id"])
         obj.set_name(dictionary["name"])
         obj.set_erstellungs_zeitpunkt(dictionary["erstellungs_zeitpunkt"])
-        obj.set_änderungs_zeitpunkt(dictionary["aenderungs_zeitpunkt"])
         obj.set_anwenderId(dictionary["anwenderverbund_id"])
         return obj
