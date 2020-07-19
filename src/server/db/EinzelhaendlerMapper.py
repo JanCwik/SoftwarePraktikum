@@ -17,15 +17,16 @@ class EinzelhaendlerMapper(Mapper):
         Das Array mit allen Instanzen wird schließlich zurückgegeben."""
         result = []
         cursor = self._cnx.cursor()
-        cursor.execute("SELECT id, name, erstellungs_zeitpunkt FROM einzelhaendler")
+        cursor.execute("SELECT id, name, erstellungs_zeitpunkt, benutzer_id FROM einzelhaendler")
         res = cursor.fetchall()
 
-        for (id, name, erstellungs_zeitpunkt) in res:
+        for (id, name, erstellungs_zeitpunkt, benutzer_id) in res:
 
             einzelhaendler = Einzelhaendler()
             einzelhaendler.set_id(id)
             einzelhaendler.set_name(name)
             einzelhaendler.set_erstellungs_zeitpunkt(erstellungs_zeitpunkt)
+            einzelhaendler.set_benutzer_id(benutzer_id)
             result.append(einzelhaendler)
 
 
@@ -61,8 +62,8 @@ class EinzelhaendlerMapper(Mapper):
 
                 einzelhaendler.set_id(1)
 
-        template = "INSERT INTO einzelhaendler (id, name, erstellungs_zeitpunkt) VALUES (%s,%s,%s)"
-        vals = (einzelhaendler.get_id(), einzelhaendler.get_name(), einzelhaendler.get_erstellungs_zeitpunkt())
+        template = "INSERT INTO einzelhaendler (id, name, erstellungs_zeitpunkt, benutzer_id) VALUES (%s,%s,%s,%s)"
+        vals = (einzelhaendler.get_id(), einzelhaendler.get_name(), einzelhaendler.get_erstellungs_zeitpunkt(), einzelhaendler.get_benutzer_id())
         cursor.execute(template, vals)
 
         self._cnx.commit()
@@ -113,16 +114,17 @@ class EinzelhaendlerMapper(Mapper):
         Sollte die Datenbank anhand der ID kein Objekt zurückliefern, wird ausgegeben was innerhalb des IndexErrors steht --> None
         Die Variable "result" wird schließlich von der Mehtode zurückgegeben."""
         cursor = self._cnx.cursor()
-        command = "SELECT id, name, erstellungs_zeitpunkt FROM einzelhaendler WHERE id={}".format(id)
+        command = "SELECT id, name, erstellungs_zeitpunkt, benutzer_id FROM einzelhaendler WHERE id={}".format(id)
         cursor.execute(command)
         tuples = cursor.fetchall()
 
         try:
-            (id, name, erstellungs_zeitpunkt) = tuples[0]
+            (id, name, erstellungs_zeitpunkt, benutzer_id) = tuples[0]
             einzelhaendler = Einzelhaendler()
             einzelhaendler.set_id(id)
             einzelhaendler.set_name(name)
             einzelhaendler.set_erstellungs_zeitpunkt(erstellungs_zeitpunkt)
+            einzelhaendler.set_benutzer_id(benutzer_id)
             result = einzelhaendler
         except IndexError:
             result = None
@@ -143,16 +145,17 @@ class EinzelhaendlerMapper(Mapper):
         Sollte die Datenbank anhand des Namens kein Objekt zurückliefern, wird ausgegeben was innerhalb des IndexErrors steht --> None
         Die Variable "result" wird schließlich von der Mehtode zurückgegeben."""
         cursor = self._cnx.cursor()
-        command = "SELECT id, name, erstellungs_zeitpunkt FROM einzelhaendler WHERE name LIKE '{}' ORDER BY name".format(name)
+        command = "SELECT id, name, erstellungs_zeitpunkt, benutzer_id FROM einzelhaendler WHERE name LIKE '{}' ORDER BY name".format(name)
         cursor.execute(command)
         tuples = cursor.fetchall()
 
         try:
-            (id, name, erstellungs_zeitpunkt) = tuples[0]
+            (id, name, erstellungs_zeitpunkt, benutzer_id) = tuples[0]
             einzelhaendler = Einzelhaendler()
             einzelhaendler.set_id(id)
             einzelhaendler.set_name(name)
             einzelhaendler.set_erstellungs_zeitpunkt(erstellungs_zeitpunkt)
+            einzelhaendler.set_benutzer_id(benutzer_id)
             result = einzelhaendler
         except IndexError:
             result = []
@@ -161,3 +164,14 @@ class EinzelhaendlerMapper(Mapper):
         cursor.close()
 
         return result
+
+    def get_einzelhaendlername_for_listeneintrag(self, eintraege):
+        cursor = self._cnx.cursor()
+
+        cursor.execute("SELECT name FROM einzelhaendler WHERE id={}".format(eintraege.get_einzelhaendlerId()))
+        einzelhaendlername_tuple = cursor.fetchall()[0]                                # fetchall() gibt das Ergebnis in einem Tuple in einer Liste zurück z.B.
+        name_string = einzelhaendlername_tuple[0]                                      # deshalb wird zwei mal der Wert an der ersten Stelle der Liste bzw.  des tubles...
+        eintraege.set_einzelhaendler_name(name_string)                                 # ...in einer neuen variable gespeichert und weitergegeben, bis schließlich nur noch der gesuchte Wert übergeben werden kann
+
+        self._cnx.commit()
+        cursor.close()

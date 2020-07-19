@@ -420,7 +420,7 @@ class BenutzerByEmailOperations(Resource):
 @shopping.param('id', 'ID des Benutzer')
 class BenutzerRelatedListeneintragOperations(Resource):
     @shopping.marshal_with(listeneintrag)
-    @secured
+    #@secured
     def get(self, id):
         """Auslesen aller Listeneinträge für einen durch Id definierten Benutzer"""
         adm = ApplikationsAdministration()
@@ -493,7 +493,7 @@ class EinkaufslisteListOperations(Resource):
 class EinkaufslisteListOperations(Resource):
     @shopping.marshal_with(einkaufsliste)
     @shopping.expect(einkaufsliste)
-    @secured
+    #@secured
     def post(self):  # id von Einkaufsliste muss mit id von Anwenderverbund angegeben werden, sonst Server-Error!
         """Anlegen einer Einkaufsliste"""
         adm = ApplikationsAdministration()
@@ -565,7 +565,7 @@ class EinkaufslisteByNameOperations(Resource):                                  
 @shopping.param('id', 'ID der Einkaufsliste')
 class EinkaufslisteRelatedListeneintraegeOperations(Resource):
     @shopping.marshal_with(listeneintrag)
-    @secured
+    #@secured
     def get(self, id):
         """Auslesen aller Listeneinträge in einem durch Id definierten Einkaufsliste"""
         adm = ApplikationsAdministration()
