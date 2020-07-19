@@ -1,4 +1,4 @@
-from server.bo.NamedBO import NamedBO
+from src.server.bo.NamedBO import NamedBO
 
 
 class Einzelhaendler(NamedBO):

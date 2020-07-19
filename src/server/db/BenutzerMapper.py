@@ -1,6 +1,6 @@
-from server.db.Mapper import Mapper
-from server.bo.Benutzer import Benutzer
-from server.bo.Listeneintrag import Listeneintrag
+from src.server.db.Mapper import Mapper
+from src.server.bo.Benutzer import Benutzer
+from src.server.bo.Listeneintrag import Listeneintrag
 
 
 class BenutzerMapper(Mapper):

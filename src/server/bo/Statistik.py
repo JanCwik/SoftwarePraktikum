@@ -1,17 +1,26 @@
 class Statistik():
 
     def __init__(self):
-        self._gesamtzahl = 0
+        self._anzahl = 0
         self._ArtikelID = 0
         self._EinzelhaendlerID = 0
+        self._ArtikelName =""
 
-    def set_gesamtzahl(self, gesamtzahl):
+    def set_ArtikelName(self, artikelname):
         """Setzen der Anzahl"""
-        self._gesamtzahl = gesamtzahl
+        self._ArtikelName = artikelname
 
-    def get_gesamtzahl(self):
+    def get_ArtikelName(self):
         """Auslesen der Anzahl"""
-        return self._gesamtzahl
+        return self._ArtikelName
+
+    def set_anzahl(self, anzahl):
+        """Setzen der Anzahl"""
+        self._anzahl = anzahl
+
+    def get_anzahl(self):
+        """Auslesen der Anzahl"""
+        return self._anzahl
 
     def set_ArtikelID(self, ArtikelID):
         """Setzen der Anzahl"""
@@ -38,6 +47,6 @@ class Statistik():
     def __str__(self):
         """Erzeugen einer einfachen textuellen Darstellung der jeweiligen Instanz."""
         if self._ArtikelID != 0:
-            return "Artikel: {}, {}".format(self._ArtikelID, self._gesamtzahl)
+            return "Artikel: {}, {}, {}".format(self._ArtikelID, self._anzahl, self._ArtikelName)
         else:
-            return "Einzelhändler: {}, {}".format(self._EinzelhaendlerID, self._gesamtzahl)
+            return "Einzelhändler: {}, {}".format(self._EinzelhaendlerID, self._anzahl)

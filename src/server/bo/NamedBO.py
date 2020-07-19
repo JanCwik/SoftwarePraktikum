@@ -1,4 +1,4 @@
-from server.bo.BusinessObject import BusinessObject
+from src.server.bo.BusinessObject import BusinessObject
 from abc import ABC
 import datetime
 

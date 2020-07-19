@@ -1,5 +1,5 @@
-from server.db.Mapper import Mapper
-from server.bo.Listeneintrag import Listeneintrag
+from src.server.db.Mapper import Mapper
+from src.server.bo.Listeneintrag import Listeneintrag
 import datetime
 
 
