@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { withStyles } from '@material-ui/core';
+import { withStyles,Typography } from '@material-ui/core';
 import { withRouter }  from 'react-router-dom';
 import  API  from '../api/API';
 import ContextErrorMessage from './dialogs/ContextErrorMessage';
@@ -67,6 +67,13 @@ class AlleEinkaufslisten extends Component{
         }
         <LoadingProgress show={loadingInProgress} />
         <ContextErrorMessage error={error} contextErrorMsg={`Einkaufslisten konnten nicht geladen werden.`} onReload={this.getAnwenderverbund} />
+          <Typography className={classes.margins}>
+              {!loadingInProgress?
+                  Anwenderverbuende.length===0? "Legen sie einen Anwenderverbund an um Einkaufslisten zu erstellen"
+                      :null
+              :null
+              }
+          </Typography>
       </div>
     );
   }
@@ -77,7 +84,12 @@ const styles = theme => ({
   root: {
     width: '100%',
   },
+    margins: {
+    marginTop: theme.spacing(5)
+  }
 });
+
+
 
 /** PropTypes */
 AlleEinkaufslisten.propTypes = {

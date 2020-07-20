@@ -11,7 +11,7 @@ class Einkaufsliste(NamedBO):
 
     def set_änderungs_zeitpunkt(self, aenderungs_zeitpunkt):
         """Setzen des Änderungszeitpunkt"""
-        self._änderungs_zeitpunkt = aenderungs_zeitpunkt
+        self._änderungs_zeitpunkt = datetime.datetime.now()
 
     def get_änderungs_zeitpunkt(self):
         """Auslesen des Änderungszeitpunkt"""

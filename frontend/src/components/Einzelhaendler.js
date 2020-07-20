@@ -32,7 +32,7 @@ class Einzelhaendler extends Component {
 
   /** Fetchet alle EinzelhaendlerBOs für das Backend */
   getEinzelhaendler = () => {
-    API.getAPI().getEinzelhaendlerAPI()
+    API.getAPI().getEinzelhaendlerAPI(this.props.userMail)
       .then(einzelhaendlerBOs =>
         this.setState({               // Setzt neues state wenn EinzelhaendlerBOs gefetcht wurden
           einzelhaendler: einzelhaendlerBOs,
@@ -167,7 +167,7 @@ class Einzelhaendler extends Component {
         }
         <LoadingProgress show={loadingInProgress} />
         <ContextErrorMessage error={error} contextErrorMsg={`Die Liste der Einzelhändler konnte nicht geladen werden.`} onReload={this.getEinzelhaendler} />
-        <EinzelhaendlerForm show={showEinzelhaendlerForm} onClose={this.einzelhaendlerFormClosed} />
+        <EinzelhaendlerForm show={showEinzelhaendlerForm} onClose={this.einzelhaendlerFormClosed} userMail={this.props.userMail}/>
       </div>
     );
   }
