@@ -1,6 +1,7 @@
 from src.server.bo.Statistik import Statistik
 from src.server.bo.StatistikHändler import StatistikHaendler
 from src.server.bo.StatistikZeitraum import StatistikZeitraum
+from src.server.bo.StatistikHuZ import StatistikHuZ
 from src.server.bo.Benutzer import Benutzer
 from src.server.db.StatistikMapper import StatistikMapper
 import collections
@@ -76,3 +77,80 @@ class ReportGenerator(object):
                 x += 1
         return result
 
+    def top_artikel_by_zeitraum(self, benutzer, startzeitpunkt, endzeitpunkt):
+        artikel = []
+        instanzen = []
+        alle = []
+        result = []
+        x = 0
+
+        with StatistikMapper() as mapper:
+            tupel = mapper.get_all_listeneintraege_by_Datum(benutzer)
+
+        for i in tupel:
+            zeitpunkt = i.get_zeitpunkt()
+            #print(zeitpunkt)
+            zeitpunkt = zeitpunkt.strftime("%Y-%m-%d")
+            if zeitpunkt >= startzeitpunkt and zeitpunkt <= endzeitpunkt:
+                alle.append(i.get_ArtikelID())
+        #return instanzen
+
+        a = collections.Counter(alle)
+
+        for i in a:
+            instanz = StatistikZeitraum()
+            instanz.set_ArtikelID(i)
+            instanz.set_anzahl(a.get(i))
+
+            instanzen.append(instanz)
+
+        for i in range(len(instanzen)):
+            if x < 5:
+                highest = instanzen[0]
+                for obj in instanzen:
+                    if obj.get_anzahl() > highest.get_anzahl():
+                        highest = obj
+
+                result.append(highest)
+                instanzen.remove(highest)
+                x += 1
+        return result
+
+    def top_artikel_by_Einzelhaendler_zeitraum(self, benutzer, einzelhaendler, startzeitpunkt, endzeitpunkt):
+        artikel = []
+        instanzen = []
+        alle = []
+        result = []
+        x = 0
+
+        with StatistikMapper() as mapper:
+            tupel = mapper.get_all_listeneintraege_by_Einzelhaendler_Datum(benutzer, einzelhaendler)
+
+        for i in tupel:
+            zeitpunkt = i.get_zeitpunkt()
+            #print(zeitpunkt)
+            zeitpunkt = zeitpunkt.strftime("%Y-%m-%d")
+            if zeitpunkt >= startzeitpunkt and zeitpunkt <= endzeitpunkt:
+                alle.append(i.get_ArtikelID())
+        #return instanzen
+
+        a = collections.Counter(alle)
+
+        for i in a:
+            instanz = StatistikZeitraum()
+            instanz.set_ArtikelID(i)
+            instanz.set_anzahl(a.get(i))
+
+            instanzen.append(instanz)
+
+        for i in range(len(instanzen)):
+            if x < 5:
+                highest = instanzen[0]
+                for obj in instanzen:
+                    if obj.get_anzahl() > highest.get_anzahl():
+                        highest = obj
+
+                result.append(highest)
+                instanzen.remove(highest)
+                x += 1
+        return result
