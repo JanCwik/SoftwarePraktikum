@@ -144,7 +144,7 @@ class Einkaufsliste extends Component {
             />)
         }
         <LoadingProgress show={loadingInProgress} />
-        <ContextErrorMessage error={error} contextErrorMsg={`Die Liste der Einzelhändler konnte nicht geladen werden.`} onReload={this.getEinzelhaendler} />
+        <ContextErrorMessage error={error} contextErrorMsg={`Die Einkaufsliste konnte nicht geladen werden.`} onReload={this.getListeneintraege} />
         <ListeneintragForm reload={this.reload}  show={showListeneintragForm} onClose={this.listeneintragFormClosed} einkaufsliste={this.props.location.einkaufsliste}/>
       </div>
     );
