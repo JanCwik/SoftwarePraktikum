@@ -42,8 +42,13 @@ class EinzelhaendlerForm extends Component {
   }
 
   /** Legt Einzelhaendler an */
-  addEinzelhaendler = () => {
-    let newEinzelhaendler = new EinzelhaendlerBO(this.state.einzelhaendlerName); //legt neues Einzelhändlerobjekt mit name aus dem state an
+  addEinzelhaendler =async () => {
+    let newEinzelhaendler = new EinzelhaendlerBO(this.state.einzelhaendlerName);              //legt neues Einzelhändlerobjekt mit name aus dem state an
+
+    let user= await API.getAPI().getBenutzerByEmailAPI(this.props.userMail)              // Das BO des Benutzers wird anhand seiner Email abgerufen und in user gespeichert
+
+    newEinzelhaendler.setBenutzerID(user[0].getID())                                     //Dem Einzelhändler wird die BenutzerId des Benutzers mitgegeben
+
     API.getAPI().addEinzelhaendlerAPI(newEinzelhaendler).then(einzelhaendler => {
       // Backend Aufruf erfolgreich
       // reinit den Dialog state für einen neuen leeren Einzelhändler
