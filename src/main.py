@@ -247,17 +247,22 @@ class ListeneintragOperations(Resource):
 """Listeneintrag DONE -> no error. Einzelhaendler NEXT"""
 
 
+@shopping.route('/einzelhaendler/<string:email>')
+@shopping.response(500, 'Serverfehler')
+class EinzelhaendlerByBenutzerMailOperations(Resource):
+    @shopping.marshal_list_with(einzelhaendler)
+    @secured
+    def get(self,email):
+        """Auslesen aller Einzelhändler"""
+        adm = ApplikationsAdministration()
+        benutzer= adm.get_benutzer_by_email(email)
+        einzelhaendler = adm.get_all_einzelhaendler(benutzer)
+        return einzelhaendler
+
+
 @shopping.route('/einzelhaendler')
 @shopping.response(500, 'Serverfehler')
 class EinzelhaendlerListOperations(Resource):
-    @shopping.marshal_list_with(einzelhaendler)
-    @secured
-    def get(self):
-        """Auslesen aller Einzelhändler"""
-        adm = ApplikationsAdministration()
-        einzelhaendler = adm.get_all_einzelhaendler()
-        return einzelhaendler
-
     @shopping.marshal_with(einzelhaendler)
     @shopping.expect(einzelhaendler)
     @secured
@@ -267,7 +272,7 @@ class EinzelhaendlerListOperations(Resource):
 
         test = Einzelhaendler.from_dict(api.payload)
         if test is not None:
-            a = adm.einzelhaendler_anlegen(test.get_name(), test.get_id())
+            a = adm.einzelhaendler_anlegen(test)
             return a, 200
         else:
             return '', 500
