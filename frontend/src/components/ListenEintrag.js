@@ -130,7 +130,7 @@ class ListenEintrag extends Component {
             {listeneintrag.getEinzelhaendler_name()}
           </Typography>
 
-          {listeneintrag.getAenderungs_zeitpunkt() ==="latest"?
+          {listeneintrag.getZuletzt_geaendert()?
             <div>latest</div>
            : null
           }

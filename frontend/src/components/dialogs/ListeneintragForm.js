@@ -60,7 +60,7 @@ class ListeneintragForm extends Component {
   }
 
   /** Legt ListeneintragBO an */
-  addListeneintrag = () => {
+  addListeneintrag = async() => {
     let newListeneintrag = new ListeneintragBO();
     newListeneintrag.setMenge(this.state.listeneintragArtikelMenge);                          //übernimmt die benutzereingabe für "Menge"
     newListeneintrag.setEinkaufsliste_id(this.props.einkaufsliste.getID());                      // die restlichen Daten werden über die BO's geholt, welche von den
@@ -71,7 +71,7 @@ class ListeneintragForm extends Component {
     newListeneintrag.setArtikel_einheit(this.state.artikelObjekt.getEinheit());
     newListeneintrag.setBenutzer_id(this.state.benutzerObjekt.getID())
     newListeneintrag.setBenutzer_name(this.state.benutzerObjekt.getName())
-    API.getAPI().addListeneintragAPI(newListeneintrag).then(listeneintrag => {              // aufruf der API Funktion
+    await API.getAPI().addListeneintragAPI(newListeneintrag).then(listeneintrag => {              // aufruf der API Funktion
 
       this.setState(this.baseState);       // State wieder zurücksetzten
       this.props.onClose(listeneintrag);   // Aufruf der onClose fúnktion von Einkaufsliste.js -> dadurch wird der neue Listeneintrag direkt angezeigt
@@ -91,7 +91,7 @@ class ListeneintragForm extends Component {
   }
 
   /** Updated den Listeneintrag */
-  updateListeneintrag = () => {
+  updateListeneintrag = async() => {
 
     let updatedListeneintrag = Object.assign(new ListeneintragBO(), this.props.listeneintrag);   // Klont den aktuellen Listeneintrag
 
@@ -105,7 +105,7 @@ class ListeneintragForm extends Component {
     updatedListeneintrag.setBenutzer_id(this.state.benutzerObjekt.getID())
     updatedListeneintrag.setBenutzer_name(this.state.benutzerObjekt.getName())
 
-    API.getAPI().updateListeneintragAPI(updatedListeneintrag).then(listeneintrag => {         // aufruf der API Funktion
+    await API.getAPI().updateListeneintragAPI(updatedListeneintrag).then(listeneintrag => {         // aufruf der API Funktion
       this.setState({
         updatingInProgress: false,              // Ladeanzeige deaktivieren
         updatingError: null                     // keine Fehlermeldung anzeigen
@@ -129,9 +129,12 @@ class ListeneintragForm extends Component {
       updatingInProgress: true,                 // Ladeanzeige anzeigen
       updatingError: null                       // keine Fehlermeldung anzeigen
     });
-    this.props.reload()             // Seite wird neugeladen damit die neue letzte Änderung kenntlich gemacht werden kann
+    this.props.reload()                      // Seite wird neugeladen damit die neue letzte Änderung kenntlich gemacht werden kann
   }
 
+Sleep(milliseconds) {
+ return new Promise(resolve => setTimeout(resolve, milliseconds));
+}
 listeneintragArtikelNameChange = (event) => {
     let artikelName = event.target.value;
     this.setState({

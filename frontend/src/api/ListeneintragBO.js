@@ -17,8 +17,17 @@ export default class ListeneintragBO extends BusinessObject {
         this.artikel_einheit= ""
         this.benutzer_id= null
         this.benutzer_name=""
+        this.zuletzt_geaendert= false
     }
 
+
+    setZuletzt_geaendert(zuletzt_geaendert) {
+        this.zuletzt_geaendert = zuletzt_geaendert
+    }
+
+    getZuletzt_geaendert() {
+        return this.zuletzt_geaendert
+    }
 
 
     setMenge(menge) {
