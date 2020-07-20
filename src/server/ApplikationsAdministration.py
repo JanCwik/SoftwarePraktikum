@@ -63,20 +63,15 @@ class ApplikationsAdministration(object):
 
     """Methoden bezüglich einzelhändler - Kommi zur Übersicht kann nacher gelöscht werden -"""
 
-    def einzelhaendler_anlegen(self, name, id):
+    def einzelhaendler_anlegen(self, einzelhaendler):
         """Methode zum Anlegen eines neuen Einzelhändlers in der Datenbank"""
-        einzelhaendler = Einzelhaendler()
-        einzelhaendler.set_name(name)
-        einzelhaendler.set_id(id)
-        #Änderung: Hier wird auch id übergeben, da sie als response zu sehen sein soll
-
         with EinzelhaendlerMapper() as mapper:
             return mapper.insert(einzelhaendler)
 
-    def get_all_einzelhaendler(self):
+    def get_all_einzelhaendler(self, benutzer):
         """Methode zum ausgeben aller Einzelhändler aus der Datenbank"""
         with EinzelhaendlerMapper() as mapper:
-            return mapper.find_all()
+            return mapper.find_all(benutzer)
 
     def delete_einzelhaendler(self,einzelhaendler):
         """Methode zum löschen eines Einzelhändlers aus der Datenbank"""
@@ -208,16 +203,15 @@ class ApplikationsAdministration(object):
             listen = mapper.GetEinkaufslistenByAnwendeverbund(anwenderverbund)
 
         for i in listen:
-            for k in i:
 
-                with ListeneintragMapper() as mapper:
-                    eintraege = mapper.GetListeneintraegeByEinkaufsliste(k)
+            with ListeneintragMapper() as mapper:
+                eintraege = mapper.GetListeneintraegeByEinkaufsliste(i)
 
-                for i in eintraege:
-                    for k in i:
+            for i in eintraege:
+                for k in i:
 
-                        with ListeneintragMapper() as mapper:
-                            mapper.delete(k)
+                    with ListeneintragMapper() as mapper:
+                        mapper.delete(k)
 
         with EinkaufslistenMapper() as mapper:
             mapper.DeleteEinkaufslistenByAnwendeverbund(anwenderverbund)

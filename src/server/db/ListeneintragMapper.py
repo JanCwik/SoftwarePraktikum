@@ -8,11 +8,11 @@ class ListeneintragMapper(Mapper):
     def __init__(self):
         super().__init__()
 
-    def GetListeneintraegeByEinkaufsliste(self, id):
+    def GetListeneintraegeByEinkaufsliste(self, einkaufsliste):
         """ Mapper-Methode zum ausgeben aller Listeneinträge, die zu einer Einkaufsliste gehören"""
         cursor = self._cnx.cursor()
 
-        eintraegeauslesen = "SELECT id FROM listeneintrag WHERE einkaufsliste_id={}".format(id)
+        eintraegeauslesen = "SELECT id FROM listeneintrag WHERE einkaufsliste_id={}".format(einkaufsliste.get_id())
         cursor.execute(eintraegeauslesen)
         eintraege = cursor.fetchall()
 

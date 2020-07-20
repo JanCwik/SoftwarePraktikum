@@ -154,7 +154,7 @@ class App extends React.Component {
                             </Route>
 
                             <Route path='/einzelhaendler'>
-                                <Einzelhaendler/>
+                                <Einzelhaendler userMail={this.state.currentUser?.email} />
 
                             </Route>
 
