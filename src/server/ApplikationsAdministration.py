@@ -364,7 +364,14 @@ class ApplikationsAdministration(object):
 
             latest.set_zuletzt_geaendert(True)
 
+
             # sortiert die die Rückgabe nach Einzelhändler, dadurch sind die Listeneinträge bei anzeigen nach Einzelhändler gruppiert
+            ohneEinzelhaendler=[]
+            for i in eintraege:                                                    #Listeneinträge indenen kein Einzelhändler gesetzt sind werden im vorraus aussortiert um am ende hintendran gehängt
+                if i.get_einzelhaendlerId() is None:
+                    eintraege.remove(i)
+                    ohneEinzelhaendler.append(i)
+
             result = []
             for i in range(len(eintraege)):
                     if eintraege[0].get_einzelhaendlerId() is not None:
@@ -377,30 +384,11 @@ class ApplikationsAdministration(object):
                         result.append(highest)
                         eintraege.remove(highest)
 
-            eintraege= result
+            eintraege= result + ohneEinzelhaendler
         return eintraege
 
 
 
-    """Methoden bezüglich einkaufslisten - Kommi zur Übersicht kann nacher gelöscht werden - """
-
-    """ 
-    def listeneintrag_anlegen(self, anzahl, einkaufsliste, einzelhaendler, artikel, benutzer, erledigt):
-        # Methode zum Anlegen eines neuen Listeneintrags in der Datenbank
-        listeneintrag = Listeneintrag()
-        listeneintrag.set_anzahl(anzahl)
-        listeneintrag.set_einkaufslisteId(einkaufsliste.get_id())
-        listeneintrag.set_einzelhaendlerId(einzelhaendler.get_id())
-        listeneintrag.set_artikelId(artikel.get_id())
-        listeneintrag.set_benutzerId(benutzer.get_id())
-        listeneintrag.set_erledigt(erledigt)
-        #Änderung: Jetzt werden komplette Objekte übergeben
-
-        with ListeneintragMapper() as mapper:
-            return mapper.insert(listeneintrag)
-            """
-    #es geht doch auch einfach so: oder? Das listeneintragObjkt wird doch schon durch die from_dict methode in der main angelegt
-    #Also ich habs getestet es geht, und Thies is ja so au zufrieden oder?
 
     def listeneintrag_anlegen(self, listeneintrag):
          # Methode zum Anlegen eines neuen Listeneintrags in der Datenbank
