@@ -413,18 +413,6 @@ class ApplikationsAdministration(object):
 
 
     """Methoden bezüglich der Statistik - Kommi zur Übersicht kann nacher gelöscht werden -"""
-    def statistik(self):
-        with StatistikMapper() as mapper:
-            return mapper.get_top_Artikel()
-
-    def statistikEinzelhaendler(self):
-        with StatistikMapper() as mapper:
-            return mapper.get_top_Einzelhaendler()
-
-    def statistik_pro_monat(self):
-        with StatistikMapper() as mapper:
-            return mapper.get_top_proMonat()
-
 
     def get_top_artikel_5(self, benutzer):
         report = ReportGenerator()
@@ -446,12 +434,12 @@ class ApplikationsAdministration(object):
            i.set_ArtikelName(ArtikelObjekt.get_name())
         return top5_by_einzelhaendler
 
-
-"""
-a = ApplikationsAdministration()
-c = a.get_benutzer_by_id(3)
-b = a.get_einzelhaendler_by_id(2)
-d = a.get_top_artikel_5_by_einzelhaendler(c,b)
-
-for i in d:
-    print(i)"""
+    def get_top_artikel_5_by_datum(self, benutzer, startzeitpunkt, endzeitpunkt):
+        report = ReportGenerator()
+        top5_by_zeitraum = report.top_artikel_by_zeitraum(benutzer, startzeitpunkt, endzeitpunkt)
+        for i in top5_by_zeitraum:
+           id = i.get_ArtikelID()
+           with ArtikelMapper() as mapper:
+               ArtikelObjekt = mapper.find_by_id(id)
+           i.set_ArtikelName(ArtikelObjekt.get_name())
+        return top5_by_zeitraum
