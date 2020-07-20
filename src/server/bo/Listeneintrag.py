@@ -10,12 +10,12 @@ class Listeneintrag(BusinessObject):
         self._änderungs_zeitpunkt = datetime.datetime.now()
         self._einkaufsliste_id = None
         self._einzelhaendler_id = None
-        self._einzelhaendler_name = ""
+        self._einzelhaendler_name = None
         self._artikel_id = None
-        self._artikel_name = ""
-        self._artikel_einheit = ""
+        self._artikel_name = None
+        self._artikel_einheit = None
         self._benutzer_id = None
-        self._benutzer_name = ""
+        self._benutzer_name = None
         self._zuletzt_geaendert= False
 
 
