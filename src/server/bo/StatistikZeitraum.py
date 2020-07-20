@@ -5,21 +5,31 @@ class StatistikZeitraum(Statistik):
 
     def __init__(self):
         super().__init__()
-        self._von = ""
-        self._bis = ""
+        self._startzeitpunkt = ""
+        self._endzeitpunkt = ""
 
-    def set_von(self, von):
+    def set_startzeitpunkt(self, _startzeitpunkt):
         """Setzen des Beginnzeitpunkts"""
-        self._von = von
+        self._startzeitpunkt = _startzeitpunkt
 
-    def get_von(self):
+    def get_startzeitpunkt(self):
         """Auslesen des Beginnzeitpunkts"""
-        return self._von
+        return self._startzeitpunkt
 
-    def set_bis(self, bis):
+    def set_endzeitpunkt(self, _endzeitpunkt):
         """Setzen des Beginnzeitpunkts"""
-        self._bis = bis
+        self._endzeitpunkt = _endzeitpunkt
 
-    def get_bis(self):
+    def get_endzeitpunkt(self):
         """Auslesen des Beginnzeitpunkts"""
-        return self._bis
+        return self._endzeitpunkt
+
+
+    @staticmethod
+    def from_dict(dictionary=dict()):
+        """Einen Python dict() in ein StatistikZeitraumBO umwandeln."""
+        obj = StatistikZeitraum()
+        obj.set_startzeitpunkt(dictionary["startzeitpunkt"])
+        obj.set_endzeitpunkt(dictionary["endzeitpunkt"])
+
+        return obj

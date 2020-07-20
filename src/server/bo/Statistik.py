@@ -3,7 +3,6 @@ class Statistik():
     def __init__(self):
         self._anzahl = 0
         self._ArtikelID = 0
-        self._EinzelhaendlerID = 0
         self._ArtikelName =""
 
     def set_ArtikelName(self, artikelname):
@@ -30,19 +29,7 @@ class Statistik():
         """Auslesen der Anzahl"""
         return self._ArtikelID
 
-    def set_EinzelhaendlerID(self, EinzelhaendlerID):
-        """Setzen der Anzahl"""
-        self._EinzelhaendlerID = EinzelhaendlerID
 
-    def get_EinzelhaendlerID(self):
-        """Auslesen der Anzahl"""
-        return self._EinzelhaendlerID
-
-    def filter_zeitraum(self, anfangszeitpunkt, endzeitpunkt):
-        pass
-
-    def filter_einzelhändler(self, Einzelhändler):
-        pass
 
     def __str__(self):
         """Erzeugen einer einfachen textuellen Darstellung der jeweiligen Instanz."""
@@ -50,3 +37,4 @@ class Statistik():
             return "Artikel: {}, {}, {}".format(self._ArtikelID, self._anzahl, self._ArtikelName)
         else:
             return "Einzelhändler: {}, {}".format(self._EinzelhaendlerID, self._anzahl)
+

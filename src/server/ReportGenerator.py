@@ -1,6 +1,5 @@
 from src.server.bo.Statistik import Statistik
 from src.server.bo.StatistikHändler import StatistikHaendler
-from src.server.bo.StatistikPosition import StatistikPosition
 from src.server.bo.StatistikZeitraum import StatistikZeitraum
 from src.server.bo.Benutzer import Benutzer
 from src.server.db.StatistikMapper import StatistikMapper

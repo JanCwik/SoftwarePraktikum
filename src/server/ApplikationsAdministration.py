@@ -363,6 +363,7 @@ class ApplikationsAdministration(object):
                  latest = eintrag
 
         latest.set_änderungs_zeitpunkt("latest")
+
         return eintraege
 
 
@@ -446,11 +447,11 @@ class ApplikationsAdministration(object):
         return top5_by_einzelhaendler
 
 
-
+"""
 a = ApplikationsAdministration()
 c = a.get_benutzer_by_id(3)
 b = a.get_einzelhaendler_by_id(2)
 d = a.get_top_artikel_5_by_einzelhaendler(c,b)
 
 for i in d:
-    print(i)
+    print(i)"""
