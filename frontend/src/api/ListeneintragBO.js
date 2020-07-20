@@ -6,17 +6,17 @@ export default class ListeneintragBO extends BusinessObject {
 // und an die superklasse NapedBo weitergegeben werden
     constructor() {
         super();
-        this.menge=""
+        this.menge= null
         this.erledigt= false
-        this.aenderungs_zeitpunkt= ""
+        this.aenderungs_zeitpunkt= null
         this.einkaufsliste_id= null
         this.einzelhaendler_id= null
-        this.einzelhaendler_name= ""
+        this.einzelhaendler_name= null
         this.artikel_id= null
-        this.artikel_name= ""
-        this.artikel_einheit= ""
+        this.artikel_name= null
+        this.artikel_einheit= null
         this.benutzer_id= null
-        this.benutzer_name=""
+        this.benutzer_name=null
         this.zuletzt_geaendert= false
     }
 

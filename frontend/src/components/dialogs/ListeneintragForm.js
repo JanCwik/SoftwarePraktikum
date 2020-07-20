@@ -62,15 +62,20 @@ class ListeneintragForm extends Component {
   /** Legt ListeneintragBO an */
   addListeneintrag = async() => {
     let newListeneintrag = new ListeneintragBO();
-    newListeneintrag.setMenge(this.state.listeneintragArtikelMenge);                          //übernimmt die benutzereingabe für "Menge"
+    if(this.state.listeneintragArtikelMenge){
+      newListeneintrag.setMenge(this.state.listeneintragArtikelMenge)}                          //übernimmt die benutzereingabe für "Menge"
     newListeneintrag.setEinkaufsliste_id(this.props.einkaufsliste.getID());                      // die restlichen Daten werden über die BO's geholt, welche von den
-    newListeneintrag.setEinzelhaendler_id(this.state.einzelhaendlerObjekt.getID())                   // jeweiligen Suchfuniktionen zurückgegeben werden
-    newListeneintrag.setEinzelhaendler_name(this.state.einzelhaendlerObjekt.getName())
-    newListeneintrag.setArtikel_name(this.state.artikelObjekt.getName());
-    newListeneintrag.setArtikel_id(this.state.artikelObjekt.getID())
-    newListeneintrag.setArtikel_einheit(this.state.artikelObjekt.getEinheit());
-    newListeneintrag.setBenutzer_id(this.state.benutzerObjekt.getID())
-    newListeneintrag.setBenutzer_name(this.state.benutzerObjekt.getName())
+    if(this.state.einzelhaendlerObjekt){
+      newListeneintrag.setEinzelhaendler_id(this.state.einzelhaendlerObjekt.getID())                   // jeweiligen Suchfuniktionen zurückgegeben werden
+      newListeneintrag.setEinzelhaendler_name(this.state.einzelhaendlerObjekt.getName())}
+    if(this.state.artikelObjekt){
+      newListeneintrag.setArtikel_name(this.state.artikelObjekt.getName());
+      newListeneintrag.setArtikel_id(this.state.artikelObjekt.getID())
+      newListeneintrag.setArtikel_einheit(this.state.artikelObjekt.getEinheit())}
+    if(this.state.benutzerObjekt){
+      newListeneintrag.setBenutzer_id(this.state.benutzerObjekt.getID())
+      newListeneintrag.setBenutzer_name(this.state.benutzerObjekt.getName())}
+
     await API.getAPI().addListeneintragAPI(newListeneintrag).then(listeneintrag => {              // aufruf der API Funktion
 
       this.setState(this.baseState);       // State wieder zurücksetzten
@@ -94,16 +99,19 @@ class ListeneintragForm extends Component {
   updateListeneintrag = async() => {
 
     let updatedListeneintrag = Object.assign(new ListeneintragBO(), this.props.listeneintrag);   // Klont den aktuellen Listeneintrag
-
-    updatedListeneintrag.setMenge(this.state.listeneintragArtikelMenge);                     //übernimmt die benutzereingabe für "Menge"
+    if(this.state.listeneintragArtikelMenge){
+      updatedListeneintrag.setMenge(this.state.listeneintragArtikelMenge)}                     //übernimmt die benutzereingabe für "Menge"
     updatedListeneintrag.setEinkaufsliste_id(this.props.einkaufsliste.getID());                // die restlichen Daten werden über die BO's geholt, welche von den
-    updatedListeneintrag.setArtikel_name(this.state.artikelObjekt.getName());                   // jeweiligen Suchfuniktionen zurückgegeben werden
-    updatedListeneintrag.setArtikel_id(this.state.artikelObjekt.getID())
-    updatedListeneintrag.setArtikel_einheit(this.state.artikelObjekt.getEinheit());
-    updatedListeneintrag.setEinzelhaendler_id(this.state.einzelhaendlerObjekt.getID())
-    updatedListeneintrag.setEinzelhaendler_name(this.state.einzelhaendlerObjekt.getName())
-    updatedListeneintrag.setBenutzer_id(this.state.benutzerObjekt.getID())
-    updatedListeneintrag.setBenutzer_name(this.state.benutzerObjekt.getName())
+    if(this.state.artikelObjekt){
+      updatedListeneintrag.setArtikel_name(this.state.artikelObjekt.getName());                   // jeweiligen Suchfuniktionen zurückgegeben werden
+      updatedListeneintrag.setArtikel_id(this.state.artikelObjekt.getID())
+      updatedListeneintrag.setArtikel_einheit(this.state.artikelObjekt.getEinheit())}
+    if(this.state.einzelhaendlerObjekt){
+      updatedListeneintrag.setEinzelhaendler_id(this.state.einzelhaendlerObjekt.getID())
+      updatedListeneintrag.setEinzelhaendler_name(this.state.einzelhaendlerObjekt.getName())}
+    if(this.state.benutzerObjekt){
+      updatedListeneintrag.setBenutzer_id(this.state.benutzerObjekt.getID())
+      updatedListeneintrag.setBenutzer_name(this.state.benutzerObjekt.getName())}
 
     await API.getAPI().updateListeneintragAPI(updatedListeneintrag).then(listeneintrag => {         // aufruf der API Funktion
       this.setState({
@@ -132,9 +140,7 @@ class ListeneintragForm extends Component {
     this.props.reload()                      // Seite wird neugeladen damit die neue letzte Änderung kenntlich gemacht werden kann
   }
 
-Sleep(milliseconds) {
- return new Promise(resolve => setTimeout(resolve, milliseconds));
-}
+
 listeneintragArtikelNameChange = (event) => {
     let artikelName = event.target.value;
     this.setState({
@@ -402,11 +408,11 @@ sucheArtikel = async () => {
               {
                 // Wenn ein Listeineintrag-Prop vorhanden ist, zeige eine Update Taste, sonst eine Anlegen Taste.
                 listeneintrag ?
-                  <Button disabled={!artikelObjekt || !benutzerObjekt || !einzelhaendlerObjekt || !listeneintragArtikelMenge } variant='contained' onClick={this.updateListeneintrag} color='primary'>
+                  <Button disabled={!artikelObjekt } variant='contained' onClick={this.updateListeneintrag} color='primary'>
                     Update
                   </Button>
                   :
-                    <Button disabled={!artikelObjekt || !benutzerObjekt || !einzelhaendlerObjekt || !listeneintragArtikelMenge } variant='contained' onClick={this.addListeneintrag} color='primary'>
+                    <Button disabled={!artikelObjekt } variant='contained' onClick={this.addListeneintrag} color='primary'>
                       Hinzufügen
                     </Button>
               }
