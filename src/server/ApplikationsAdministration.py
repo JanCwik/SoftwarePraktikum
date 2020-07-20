@@ -355,15 +355,29 @@ class ApplikationsAdministration(object):
             with ArtikelMapper() as mapper:
                 mapper.get_artikeleinheit_for_listeneintrag(i)
 
+        if len(eintraege) !=0:
+            #findet den zuletzt geänderten Listeneintrag
+            latest = eintraege[0]
+            for eintrag in eintraege:
+                if eintrag.get_änderungs_zeitpunkt() > latest.get_änderungs_zeitpunkt():
+                    latest = eintrag
 
+            latest.set_zuletzt_geaendert(True)
 
-        latest = eintraege[0]
-        for eintrag in eintraege:
-             if eintrag.get_änderungs_zeitpunkt() > latest.get_änderungs_zeitpunkt():
-                 latest = eintrag
+            # sortiert die die Rückgabe nach Einzelhändler, dadurch sind die Listeneinträge bei anzeigen nach Einzelhändler gruppiert
+            result = []
+            for i in range(len(eintraege)):
+                    if eintraege[0].get_einzelhaendlerId() is not None:
+                        highest = eintraege[0]
+                        for obj in eintraege:
+                            if obj.get_einzelhaendlerId() is not None:
+                                if obj.get_einzelhaendlerId() > highest.get_einzelhaendlerId():
+                                    highest = obj
 
-        latest.set_änderungs_zeitpunkt("latest")
+                        result.append(highest)
+                        eintraege.remove(highest)
 
+            eintraege= result
         return eintraege
 
 

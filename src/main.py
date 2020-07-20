@@ -66,6 +66,7 @@ listeneintrag = api.inherit('Listeneintrag', bo, {
     'artikel_einheit': fields.String(attribute='_artikel_einheit', description='Einheit des Artikels'),
     'benutzer_id': fields.Integer(attribute='_benutzer_id', description='ID des Benutzer'),
     'benutzer_name': fields.String(attribute='_benutzer_name', description='Name des Benutzer'),
+    'zuletzt_geaendert': fields.Boolean(attribute='_zuletzt_geaendert', description='zuletzt_geaendert'),
 
 })
 
