@@ -457,3 +457,13 @@ class ApplikationsAdministration(object):
                ArtikelObjekt = mapper.find_by_id(id)
            i.set_ArtikelName(ArtikelObjekt.get_name())
         return top5_by_zeitraum
+
+    def get_top_artikel_5_by_einzelhaendler_datum(self, benutzer, einzelhaendler, startzeitpunkt, endzeitpunkt):
+        report = ReportGenerator()
+        top5_by_einzelhaendler_zeitraum = report.top_artikel_by_Einzelhaendler_zeitraum(benutzer, einzelhaendler, startzeitpunkt, endzeitpunkt)
+        for i in top5_by_einzelhaendler_zeitraum:
+           id = i.get_ArtikelID()
+           with ArtikelMapper() as mapper:
+               ArtikelObjekt = mapper.find_by_id(id)
+           i.set_ArtikelName(ArtikelObjekt.get_name())
+        return top5_by_einzelhaendler_zeitraum

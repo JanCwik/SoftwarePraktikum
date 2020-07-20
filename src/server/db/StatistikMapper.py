@@ -53,3 +53,23 @@ class StatistikMapper(Mapper):
         self._cnx.commit()
         cursor.close()
         return eintraege
+
+    def get_all_listeneintraege_by_Einzelhaendler_Datum(self, benutzer, einzelhaendler):
+        eintraege = []
+        cursor = self._cnx.cursor()
+
+        template = "SELECT artikel_id, aenderungs_zeitpunkt FROM listeneintrag " + "WHERE einzelhaendler_id=%s AND benutzer_id=%s AND erledigt=%s"
+
+        vals = (einzelhaendler.get_id(), benutzer.get_id(), 1)
+        cursor.execute(template, vals)
+        artikel = cursor.fetchall()
+
+        for (artikel_id, aenderungs_zeitpunkt) in artikel:
+            instanz = StatistikZeitraum()
+            instanz.set_ArtikelID(artikel_id)
+            instanz.set_zeitpunkt(aenderungs_zeitpunkt)
+            eintraege.append(instanz)
+
+        self._cnx.commit()
+        cursor.close()
+        return eintraege
