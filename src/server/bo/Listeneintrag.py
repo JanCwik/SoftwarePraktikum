@@ -16,8 +16,16 @@ class Listeneintrag(BusinessObject):
         self._artikel_einheit = ""
         self._benutzer_id = None
         self._benutzer_name = ""
+        self._zuletzt_geaendert= False
 
 
+    def set_zuletzt_geaendert(self, _zuletzt_geaendert):
+        """Setzen der Anzahl"""
+        self._zuletzt_geaendert = _zuletzt_geaendert
+
+    def get_zuletzt_geaendert(self):
+        """Auslesen der Anzahl"""
+        return self._zuletzt_geaendert
 
     def set_anzahl(self, anzahl):
         """Setzen der Anzahl"""
@@ -35,9 +43,9 @@ class Listeneintrag(BusinessObject):
         """Auslesen von dem Status erledigt"""
         return self._erledigt
 
-    def set_änderungs_zeitpunkt(self, erstellungs_zeitpunkt):
+    def set_änderungs_zeitpunkt(self, änderungs_zeitpunkt):
         """Setzen des Änderungszeitpunkt"""
-        self._änderungs_zeitpunkt = datetime.datetime.now()
+        self._änderungs_zeitpunkt = änderungs_zeitpunkt
 
     def get_änderungs_zeitpunkt(self):
         """Auslesen des Änderungszeitpunkt"""
@@ -110,9 +118,9 @@ class Listeneintrag(BusinessObject):
 
     def __str__(self):
         """Erzeugen einer einfachen textuellen Darstellung der jeweiligen Instanz."""
-        return "Listeneintrag: {}, {}, {}, {}, {}, {}, {}, {},{}, {}, {}, {}".format(self.get_id(), self._anzahl, self._erledigt,
+        return "Listeneintrag: {}, {}, {}, {}, {}, {}, {}, {},{}, {}, {}, {},{}".format(self.get_id(), self._anzahl, self._erledigt,
     self._änderungs_zeitpunkt, self._einkaufsliste_id, self._einzelhaendler_id, self._artikel_id, self._benutzer_id,
-    self._artikel_name,self._einzelhaendler_name, self._artikel_einheit, self._benutzer_name )
+    self._artikel_name,self._einzelhaendler_name, self._artikel_einheit, self._benutzer_name , self._zuletzt_geaendert)
 
     @staticmethod
     def from_dict(dictionary=dict()):
@@ -121,7 +129,6 @@ class Listeneintrag(BusinessObject):
         obj.set_id(dictionary["id"])
         obj.set_anzahl(dictionary["menge"])
         obj.set_erledigt(dictionary["erledigt"])
-        obj.set_änderungs_zeitpunkt(dictionary["aenderungs_zeitpunkt"])
         obj.set_einkaufslisteId(dictionary["einkaufsliste_id"])
         obj.set_einzelhaendlerId(dictionary["einzelhaendler_id"])
         obj.set_einzelhaendler_name(dictionary["einzelhaendler_name"])
@@ -130,4 +137,5 @@ class Listeneintrag(BusinessObject):
         obj.set_artikel_einheit(dictionary["artikel_einheit"])
         obj.set_benutzerId(dictionary["benutzer_id"])
         obj.set_benutzer_name(dictionary["benutzer_name"])
+        obj.set_zuletzt_geaendert(dictionary["zuletzt_geaendert"])
         return obj

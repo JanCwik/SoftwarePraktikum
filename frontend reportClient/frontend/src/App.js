@@ -1,24 +1,16 @@
-import  API  from '../src/api/API';
-import React, {Component} from 'react';
+import React from 'react';
+import './App.css';
+import Statistik from "./components/Statistik";
+import 'firebase/auth';
+import firebase from 'firebase/app';
+import SignIn from "./Pages/SignIn";
 import Header from "./components/layout/Header";
 import {BrowserRouter as Router, Route, Redirect} from "react-router-dom";
-import Artikel from "./components/Artikel";
-import Anwenderverbund from "./components/Anwenderverbund";
-import Einzelhaendler from "./components/Einzelhaendler";
-import AlleEinkaufslisten from "./components/AlleEinkaufslisten";
-import { Grid, Typography } from '@material-ui/core';
-import AnwenderverbundBO from "./api/AnwenderverbundBO";
-import ArtikelBO from "./api/ArtikelBO";
-import Listeneintrag from "./components/ListenEintrag";
-import SignIn from "./Pages/SignIn";
-import firebase from 'firebase/app';
-import 'firebase/auth';
-import LoadingProgress from './components/dialogs/LoadingProgress';
-import ContextErrorMessage from './components/dialogs/ContextErrorMessage';
-import Einkaufsliste from "./components/Einkaufsliste";
 
-class App extends React.Component {
-    #firebaseConfig = {
+
+class App extends React.Component{
+
+      #firebaseConfig = {
     apiKey: "AIzaSyCEuXbtugiUUVRXul-bVblzeWgbwivWz50",
     authDomain: "softwarepraktikum-85388.firebaseapp.com",
     databaseURL: "https://softwarepraktikum-85388.firebaseio.com",
@@ -116,48 +108,22 @@ class App extends React.Component {
 
 
 
-    render() {
+render(){
+		const { currentUser, appError, authError, authLoading } = this.state;
+  return (
+  	  <Router basename={'/'}>
+  		 <div className="App">
+			 <Header user={currentUser}/>
 
-	    const { currentUser, appError, authError, authLoading } = this.state;
-        return (
-            <div className="App">
-
-
-                <Router basename={'/'}>
-                    <div className="App">
-                        <Header user={currentUser}/>
                         {
 							// Is a user signed in?
 							currentUser ?
                             <>
 
-                            <Redirect from='/' to='/alleEinkaufslisten'/>
 
-                            <Route path='/alleEinkaufslisten'>
-                                <AlleEinkaufslisten userMail={this.state.currentUser?.email}/>
+      							<Statistik/>
 
-                            </Route>
-
-							<Route path='/einkaufsliste'>
-                                <Einkaufsliste/>
-
-                            </Route>
-
-                            <Route exact path='/artikel'>
-                                <Artikel userMail={this.state.currentUser?.email} />
-                            </Route>
-
-                            <Route path='/anwenderverbund'>
-                                <Anwenderverbund userMail={this.state.currentUser?.email}/>
-
-                            </Route>
-
-                            <Route path='/einzelhaendler'>
-                                <Einzelhaendler userMail={this.state.currentUser?.email} />
-
-                            </Route>
-
-                            </>
+      						</>
 
 								:
 								// else show the sign in page
@@ -167,18 +133,9 @@ class App extends React.Component {
 								</>
 						}
 
-						<LoadingProgress show={authLoading} />
-						<ContextErrorMessage error={authError} contextErrorMsg={`Something went wrong during sighn in process.`} onReload={this.handleSignIn} />
-						<ContextErrorMessage error={appError} contextErrorMsg={`Something went wrong inside the app. Please reload the page.`} />
-
-                    </div>
-                </Router>
-
-
-
-            </div>
-        );
-    }
+   		 </div>
+	  </Router>
+  );
+}
 }
 export default App;
-
