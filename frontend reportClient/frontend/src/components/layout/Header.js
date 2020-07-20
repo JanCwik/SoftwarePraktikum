@@ -20,13 +20,7 @@ class Header extends Component {
     };
   }
 
-  /** Handles onChange events of the Tabs component */
-  handleTabChange = (e, newIndex) => {
-    // console.log(newValue)
-    this.setState({
-      tabindex: newIndex
-    })
-  };
+
 
   /** Renders the component */
   render() {
@@ -41,22 +35,9 @@ class Header extends Component {
          SharedShoppingList
         </Typography>
         <Typography variant='h4' component='h2' align='center'>
-          Meine Einkäufe
+          Meine Einkaufs-Statistik
         </Typography>
 
-         {
-          user ?
-
-            <Tabs indicatorColor='primary' textColor='primary' centered value={this.state.tabindex} onChange={this.handleTabChange} >
-              <Tab icon ={<ListAltIcon/>} label='Einkaufslisten' component={RouterLink} to={`/alleEinkaufslisten`} />
-              <Tab icon ={<FastfoodIcon/>} label='Artikel' component={RouterLink} to={`/artikel`} />
-              <Tab icon ={<PeopleIcon/>} label='Anwenderverbund' component={RouterLink} to={`/anwenderverbund`}/>
-              <Tab icon ={<ShoppingCartIcon/>} label='Einzelhändler' component={RouterLink} to={`/einzelhaendler`}/>
-              <Tab icon ={<BarChartIcon/>} label='Statistik' href="http://localhost:3000/"  target="_blank" />
-            </Tabs>                                                                                                        // bei href muss die URL hin, auf der die Statistik läuft
-             : null
-
-        }
 
 
         </Paper>

@@ -23,6 +23,7 @@ class Statistik extends Component {
       listeneintraege: [],
         error: null,
       loadingInProgress: false,
+      zeitraumBisFilter: null
 
     };
   }
@@ -55,7 +56,7 @@ class Statistik extends Component {
   bisFieldChange = event => {
     const value = event.target.value.toLowerCase();
     this.setState({
-      zeitraumBisFilter: this.state.einzelhaendler.filter(einzelhaendler => {
+      filteredEinzelhaendler: this.state.einzelhaendler.filter(einzelhaendler => {
         let NameContainsValue = einzelhaendler.getName().toLowerCase().includes(value);
         return NameContainsValue;
       }),
@@ -173,4 +174,4 @@ Statistik.propTypes = {
   location: PropTypes.object.isRequired,
 }
 
-export default withRouter(withStyles(styles)(Statistik));
+export default withStyles(styles)(Statistik);
