@@ -7,7 +7,7 @@ class EinzelhaendlerMapper(Mapper):
     def __init__(self):
         super().__init__()
 
-    def find_all(self):
+    def find_all(self, benutzer):
         """Mapper-Methode zum ausgeben aller Einzelhändler aus der Datenbank
 
         Hier werden via SQL-Abfrage alle Einzelhändler aus der Datenbank ausgegeben.
@@ -17,7 +17,7 @@ class EinzelhaendlerMapper(Mapper):
         Das Array mit allen Instanzen wird schließlich zurückgegeben."""
         result = []
         cursor = self._cnx.cursor()
-        cursor.execute("SELECT id, name, erstellungs_zeitpunkt, benutzer_id FROM einzelhaendler")
+        cursor.execute("SELECT id, name, erstellungs_zeitpunkt, benutzer_id FROM einzelhaendler WHERE benutzer_id={}".format(benutzer.get_id()))
         res = cursor.fetchall()
 
         for (id, name, erstellungs_zeitpunkt, benutzer_id) in res:

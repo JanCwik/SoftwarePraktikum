@@ -20,7 +20,7 @@ export default class API {
     }
 
 
-    //Attribut um im späteren verlauf des Projekts das angeben aller URLs zu erleichtern
+    //Während der Entwicklung wird der Local host verwendet, im deployten Zustand wird der entsprechende Link auf das Deployte Backend verwendet
     #ServerBaseURL= process.env.NODE_ENV ==='production'?'https://backend-dot-shoppinglist2020.ey.r.appspot.com/shopping':'/shopping'
 
     //private Methoden um das angeben aller URLs zu erleichtern
@@ -31,7 +31,7 @@ export default class API {
     #getArtikelByNamelURL= (name) => `${this.#ServerBaseURL}/artikel-by-name/${name}`;
     #getArtikelByBenutzerURL = (userMail) => `${this.#ServerBaseURL}/benutzer/${userMail}/artikel`;
 
-    #getEinzelhaendlerURL = () => `${this.#ServerBaseURL}/einzelhaendler`;
+    #getEinzelhaendlerByBenutzerURL = (userMail) => `${this.#ServerBaseURL}/einzelhaendler/${userMail}`;
     #addEinzelhaendlerURL = () => `${this.#ServerBaseURL}/einzelhaendler`;
     #deleteEinzelhaendlerURL = (id) => `${this.#ServerBaseURL}/einzelhaendler-by-id/${id}`;
     #updateEinzelhaendlerURL = (id) => `${this.#ServerBaseURL}/einzelhaendler-by-id/${id}`;
@@ -165,8 +165,8 @@ export default class API {
 
 
     // Methode die den GET request ausführt und alle in der Datenbank gespeicherten Einzelhändler ausgibt
-    getEinzelhaendlerAPI() {
-        return this.#fetchAdvanced(this.#getEinzelhaendlerURL()).then((responseJSON) => {
+    getEinzelhaendlerAPI(mail) {
+        return this.#fetchAdvanced(this.#getEinzelhaendlerByBenutzerURL(mail)).then((responseJSON) => {
             let Einzelhaendler = EinzelhaendlerBO.fromJSON(responseJSON);
             return new Promise(function (resolve) {
                 resolve(Einzelhaendler);
@@ -263,8 +263,6 @@ export default class API {
 
     //führt einen POST Request aus und schreibt dabei das als Parameter übergebene Anwenderverbund-objekt in den Body des Json
     addAnwenderverbundAPI(newanw) {
-        console.log(newanw)
-         console.log(JSON.stringify(newanw))
         return this.#fetchAdvanced(this.#addAnwenderverbundURL(), {
             method: 'POST',
             headers: {
