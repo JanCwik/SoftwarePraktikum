@@ -55,9 +55,12 @@ class Statistik extends Component {
   }
 
   componentDidMount=() =>{
-    //this.byBenutzer()
+    this.byBenutzer()
   }
 
+  reload=() =>{
+    this.byBenutzer()
+  }
 
   byBenutzer =()=>{
     API.getAPI().getStatistikenAPI(this.props.userMail).then(statistiken=>{
@@ -149,7 +152,6 @@ class Statistik extends Component {
   render() {
     const { classes } = this.props;
     const {  einzelhaendler,endZeitpunkt,startZeitpunkt, loadingInProgress, error,statistikeintraege} = this.state;
-
     return (
       <div className={classes.root}>
         <Grid className={classes.eingabe} container spacing={1} justify='flex-start' alignItems='center'>
@@ -167,14 +169,16 @@ class Statistik extends Component {
             <Button color="primary" onClick={this.byEinzelhaendler} >
               Suche nach Einzelhändler
             </Button>
-
+              </Grid>
+            <Grid item xs={1} />
+            <Grid item xs={2}>
 
              <TextField
               autoFocus
               fullWidth
               id='zeitraumBis'
               type='text'
-              label="Von"
+              label="Von  YYYY-MM-DD"
               value={startZeitpunkt}
               onChange={this.vonFieldChange}
             />
@@ -183,7 +187,7 @@ class Statistik extends Component {
               fullWidth
               id='zeitraumBis'
               type='text'
-              label="Bis"
+              label="Bis   YYYY-MM-DD"
               value={endZeitpunkt}
               onChange={this.bisFieldChange}
             />
@@ -200,20 +204,27 @@ class Statistik extends Component {
               Suche nach Einzelhändler und Zeitraum
             </Button>
           </Grid>
+            <Grid item xs={1} />
 
-
+          <Grid item>
+            <Button color="primary" onClick={this.reload} >
+              Suche ohne Filter
+            </Button>
+              </Grid>
           </Grid>
-
-
+            <hr/>
+        <div className={classes.Top}>
         {
           /** Zeigt die Liste der EinzelhaendlerListenEintrag Komponenten*/
           statistikeintraege.map(statistikeintrag =>
-            <StatistikListenEintrag statistikeintrag = {statistikeintrag} key={statistikeintrag.getID()}
+            <StatistikListenEintrag statistikeintrag = {statistikeintrag} key={statistikeintrag.getArtikelID()}
 
            />)
         }
+        </div>
+
         <LoadingProgress show={loadingInProgress} />
-        <ContextErrorMessage error={error} contextErrorMsg={`Die Statistik konnte nicht geladen werden. Überprüfen Sie den Einzelhändler auf Tippfehler.`} onReload={this.byBenutzer} />
+        <ContextErrorMessage error={error} align='center' contextErrorMsg={`Die Statistik konnte nicht geladen werden. Überprüfen Sie den Einzelhändler auf Tippfehler und ob Sie bei Start- und Enddatum das vorgegebene Format eingehalten haben. `} onReload={this.byBenutzer} />
 
       </div>
     );
@@ -242,8 +253,12 @@ const styles = theme => ({
   eingabe: {
     marginTop: theme.spacing(2),
     marginBottom: theme.spacing(1),
-    marginLeft : theme.spacing(20)
+    marginLeft : theme.spacing(10)
+
   },
+  Top:{
+    marginTop: theme.spacing(7),
+  }
 
 });
 

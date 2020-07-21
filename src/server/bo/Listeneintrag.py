@@ -51,6 +51,10 @@ class Listeneintrag(BusinessObject):
         """Auslesen des Änderungszeitpunkt"""
         return self._änderungs_zeitpunkt
 
+    def set_aenderungs_zeitpunkt_now(self):
+        """Setzen des Änderungszeitpunkt"""
+        self._aenderungs_zeitpunkt = datetime.datetime.now()
+
     def set_einkaufslisteId(self, einkaufslisteID):
         """Setzen der einkaufsliste_id"""
         self._einkaufsliste_id = einkaufslisteID

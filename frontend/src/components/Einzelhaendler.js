@@ -158,6 +158,8 @@ class Einzelhaendler extends Component {
           </Button>
           </Grid>
         </Grid>
+
+        <div className={classes.top} >
         {
           /** Zeigt die Liste der EinzelhaendlerListenEintrag Komponenten*/
           filteredEinzelhaendler.map(einzelhaendler =>
@@ -165,6 +167,8 @@ class Einzelhaendler extends Component {
               onEinzelhaendlerDeleted={this.einzelhaendlerDeleted}
             />)
         }
+        </div>
+
         <LoadingProgress show={loadingInProgress} />
         <ContextErrorMessage error={error} contextErrorMsg={`Die Liste der Einzelhändler konnte nicht geladen werden.`} onReload={this.getEinzelhaendler} />
         <EinzelhaendlerForm show={showEinzelhaendlerForm} onClose={this.einzelhaendlerFormClosed} userMail={this.props.userMail}/>
@@ -181,6 +185,9 @@ const styles = theme => ({
   einzelhaendlerFilter: {
     marginTop: theme.spacing(2),
     marginBottom: theme.spacing(1),
+  },
+  top:{
+    marginTop : theme.spacing(5)
   }
 });
 

@@ -260,6 +260,7 @@ class ListeneintragOperations(Resource):
 
         if a is not None:
             a.set_id(id)
+            a.set_aenderungs_zeitpunkt_now()
             adm.update_listeneintrag(a)
             return '', 200
         else:
@@ -784,7 +785,7 @@ class StatistikListOperations(Resource):
 @shopping.param('email', 'Email des Benutzers')
 @shopping.param('name', 'Name des Einzelhändlers') #evtl. mehrere param nicht nötig/erwünscht
 class StatistikListOperationsByEinzelhaendler(Resource):
-    @shopping.marshal_list_with(statistik)
+    @shopping.marshal_list_with(statistikhaendler)
     @secured
     def get(self, email, name):
         """Auslesen der meist gekauften Artikel bei einem durch Namen definierten Einzelhaendler"""
@@ -808,16 +809,15 @@ class StatistikListOperationsByEinzelhaendler(Resource):
 @shopping.param('von', 'Startzeitpunkt')
 @shopping.param('von', 'Endzeitpunkt')
 class StatistikListOperationsByDatum(Resource):
-    @shopping.marshal_list_with(statistik)
+    @shopping.marshal_list_with(statistikzeitraum)
     @secured
     def get(self, email, von, bis):
         """Auslesen der meist gekauften Artikel bei einem durch Namen definierten Einzelhaendler"""
         adm = ApplikationsAdministration()
         benutzer = adm.get_benutzer_by_email(email)
-        start = "StatistikHuZ.get_startzeitpunkt"
-        ende = ""
+
         if benutzer is not None:
-            statistik = adm.get_top_artikel_5_by_datum(benutzer, start, ende)
+            statistik = adm.get_top_artikel_5_by_datum(benutzer, von, bis)
             return statistik
         else:
             return "Benutzer nicht gefunden", 500
@@ -830,7 +830,7 @@ class StatistikListOperationsByDatum(Resource):
 @shopping.param('von', 'Startzeitpunkt')
 @shopping.param('von', 'Endzeitpunkt')
 class StatistikListOperationsByEinzelhaendlerDatum(Resource):
-    @shopping.marshal_list_with(statistik)
+    @shopping.marshal_list_with(statistikhuz)
     @secured
     def get(self, email,name, von, bis):
         """Auslesen der meist gekauften Artikel bei einem durch Namen definierten Einzelhaendler"""

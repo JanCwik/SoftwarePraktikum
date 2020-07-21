@@ -5,33 +5,33 @@ export default class StatistikBO {
 // muss der Parameter im Constructor entgegengenommen werden
 // und an die superklasse NapedBo weitergegeben werden
     constructor() {
-        this.artikelName= ""
-        this.gesamtAnzahl = null
-        this.artikelID = null
+        this.ArtikelName= ""
+        this.GesamtAnzahl = null
+        this.ArtikelID = null
     }
 
     setArtikelName(artikelName) {
-        this.artikelName = artikelName
+        this.ArtikelName = artikelName
     }
 
     getArtikelName() {
-        return this.artikelName
+        return this.ArtikelName
     }
 
     setGesamtZahl(gesamtAnzahl) {
-        this.gesamtAnzahl = gesamtAnzahl
+        this.GesamtAnzahl = gesamtAnzahl
     }
 
     getGesamtAnzahl() {
-        return this.gesamtAnzahl
+        return this.GesamtAnzahl
     }
 
     setArtikelID(artikelID) {
-        this.artikelID = artikelID
+        this.ArtikelID = artikelID
     }
 
     getArtikelID() {
-        return this.artikelID
+        return this.ArtikelID
     }
 
       // Returns an Array of CustomerBOs from a given JSON structure
