@@ -1,9 +1,5 @@
-from src.server.bo.Artikel import Artikel
-from src.server.bo.Einzelhaendler import Einzelhaendler
 from src.server.bo.Benutzer import Benutzer
 from src.server.bo.Anwenderverbund import Anwenderverbund
-from src.server.bo.Einkaufsliste import Einkaufsliste
-from src.server.bo.Listeneintrag import Listeneintrag
 from src.server.db.ArtikelMapper import ArtikelMapper
 from src.server.db.EinzelhaendlerMapper import EinzelhaendlerMapper
 from src.server.db.BenutzerMapper import BenutzerMapper
@@ -12,7 +8,6 @@ from src.server.db.EinkaufslisteMapper import EinkaufslistenMapper
 from src.server.db.ListeneintragMapper import ListeneintragMapper
 from src.server.db.MitgliedschaftMapper import MitgliedschaftMapper
 from src.server.ReportGenerator import ReportGenerator
-from datetime import datetime
 
 
 class ApplikationsAdministration(object):
@@ -20,10 +15,8 @@ class ApplikationsAdministration(object):
     def __init__(self):
         pass
 
-    """ Methoden bezüglich Artikel - Kommi zur Übersicht kann nacher gelöscht werden -"""
     def artikel_anlegen(self, artikel):
         """Methode zum Anlegen eines neuen Artikels in der Datenbank"""
-
 
         with ArtikelMapper() as mapper:
             return mapper.insert(artikel)
@@ -53,15 +46,6 @@ class ApplikationsAdministration(object):
         with ArtikelMapper() as mapper:
             mapper.update(artikel)
 
-
-
-
-
-
-
-
-    """Methoden bezüglich einzelhändler - Kommi zur Übersicht kann nacher gelöscht werden -"""
-
     def einzelhaendler_anlegen(self, einzelhaendler):
         """Methode zum Anlegen eines neuen Einzelhändlers in der Datenbank"""
         with EinzelhaendlerMapper() as mapper:
@@ -72,7 +56,7 @@ class ApplikationsAdministration(object):
         with EinzelhaendlerMapper() as mapper:
             return mapper.find_all(benutzer)
 
-    def delete_einzelhaendler(self,einzelhaendler):
+    def delete_einzelhaendler(self, einzelhaendler):
         """Methode zum löschen eines Einzelhändlers aus der Datenbank"""
         with EinzelhaendlerMapper() as mapper:
             mapper.delete(einzelhaendler)
@@ -92,17 +76,6 @@ class ApplikationsAdministration(object):
         with EinzelhaendlerMapper() as mapper:
             mapper.update(einzelhaendler)
 
-
-
-
-
-
-
-
-
-
-    """Methoden bezüglich benutzer - Kommi zur Übersicht kann nacher gelöscht werden -"""
-
     def benutzer_anlegen(self, name, email, google_id):
         """Methode zum Anlegen eines neuen Benutzers in der Datenbank"""
         benutzer = Benutzer()
@@ -120,7 +93,6 @@ class ApplikationsAdministration(object):
 
     def delete_benutzer(self, benutzer):
         """Methode zum löschen eines Benutzers aus der Datenbank"""
-
         with MitgliedschaftMapper() as mapper:
             mapper.deleteByBenutzer(benutzer)
 
@@ -166,19 +138,6 @@ class ApplikationsAdministration(object):
         with ArtikelMapper() as mapper:
             return mapper.find_all_artikel_of_benutzer(benutzer)
 
-
-
-
-
-
-
-
-
-
-
-
-    """Methoden bezüglich Anwenderverbund - Kommi zur Übersicht kann nacher gelöscht werden -"""
-
     def anwenderverbund_anlegen(self, name):
         """Methode zum Anlegen eines neuen Anwenderverbunds in der Datenbank"""
         anwenderverbund = Anwenderverbund()
@@ -202,13 +161,11 @@ class ApplikationsAdministration(object):
             listen = mapper.GetEinkaufslistenByAnwendeverbund(anwenderverbund)
 
         for i in listen:
-
             with ListeneintragMapper() as mapper:
                 eintraege = mapper.GetListeneintraegeByEinkaufsliste(i)
 
             for i in eintraege:
                 for k in i:
-
                     with ListeneintragMapper() as mapper:
                         mapper.delete(k)
 
@@ -248,48 +205,23 @@ class ApplikationsAdministration(object):
         with MitgliedschaftMapper() as mapper:
             return mapper.alle_benutzer_ausgeben(anwenderverbund)
 
-    def mitglieder_vom_anwenderverbund_entfernen(self, anwenderverbund, benutzer):#Name der Methode geändert, Maik
+    def mitglieder_vom_anwenderverbund_entfernen(self, anwenderverbund, benutzer):  # Name der Methode geändert, Maik
         """Methode zum entfernen einzelner Mitglieder aus einem Anwenderverbund"""
         with MitgliedschaftMapper() as mapper:
             return mapper.benutzer_loeschen(anwenderverbund, benutzer)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    """ METHODEN ZUR VERWALTUNG VON EINKAUFSLISTEN IN DER DATENBANK- Kommi zur Übersicht kann nacher gelöscht werden -"""
-
-
 
     def get_all_einkaufslisten(self):
         """ Methode zum ausgeben aller Einkaufslisten aus der Datenbank"""
         with EinkaufslistenMapper() as mapper:
             return mapper.find_all_einkaufslisten()
 
-
-
     def einkaufsliste_anlegen(self, liste, benutzer):
         """Methode zum Anlegen einer neuen Einkaufsliste in der Datenbank"""
-
-
         with EinkaufslistenMapper() as mapper:
             einkaufsliste = mapper.insert(liste)
 
-
         with ArtikelMapper() as mapper:
-                standardartikel = mapper.get_id_from_standardartikel(benutzer)
+            standardartikel = mapper.get_id_from_standardartikel(benutzer)
 
         for i in standardartikel:
             for x in i:
@@ -298,13 +230,12 @@ class ApplikationsAdministration(object):
 
         return einkaufsliste
 
-
     def get_einkaufsliste_by_id(self, id):
         """Methode zum ausgeben einer Einkaufsliste aus der Datenbank anhand deren ID"""
         with EinkaufslistenMapper() as mapper:
             return mapper.find_by_id(id)
 
-    def get_einkaufsliste_by_name(self, name): #evtl. unnötig, da name nicht eindeutig ist
+    def get_einkaufsliste_by_name(self, name):  # evtl. unnötig, da name nicht eindeutig ist
         """Methode zum ausgeben einer Einkaufsliste aus der Datenbank anhand deren Name """
         with EinkaufslistenMapper() as mapper:
             return mapper.find_by_name(name)
@@ -322,20 +253,21 @@ class ApplikationsAdministration(object):
         with EinkaufslistenMapper() as mapper:
             mapper.delete(einkaufsliste)
 
-
-
     def get_all_listeneintraege_of_einkaufslisten(self, einkaufsliste):
         """ Methode zum ausgeben aller Listeneinträge die zur jeweiligen Einkaufsliste gehören
         KOMMENTAR VERALTET!
         Mittels For-Schleife werden die einzelnen Attribute aus einem Tupel gezogen und einer neuen Instanz der
         Klasse "Listeneintrag()" übergeben. Die einzelnen Instanzen werden in einem Array gespeichert.
         Das Array mit allen Instanzen wird schließlich zurückgegeben.
-        In der besagten For-Schleife werden ausßerdem für jeden Listeneintrag 4 zusätzliche Select Statements ausgeführt.
-            Select Statement 1: holt den einzelhändlername aus der Einzelhändler tabelle, dann wird der name in das Listeneintrag Objekt als Attribut einzelhaendler_name gespeichert
-            Select Statement 2: holt den benutzername aus der Benutzer tabelle, dann wird der name in das Listeneintrag Objekt als Attribut benutzer_name gespeichert
-            Select Statement 3: holt den artikelname aus der Artikel tabelle, dann wird der name in das Listeneintrag Objekt als Attribut artikel_name gespeichert
-            Select Statement 4: holt den artikeleinheit aus der Artikel tabelle, dann wird der name in das Listeneintrag Objekt als Attribut artikel_einheit gespeichert
-        """
+        In besagten For-Schleife werden ausßerdem für jeden Listeneintrag 4 zusätzliche Select Statements ausgeführt.
+        Select Statement1: holt den einzelhändlername aus der Einzelhändler tabelle, dann wird der name in das
+                            Listeneintrag Objekt als Attribut einzelhaendler_name gespeichert
+        Select Statement2: holt den benutzername aus der Benutzer tabelle, dann wird der name in das Listeneintrag
+                            Objekt als Attribut benutzer_name gespeichert
+        Select Statement3: holt den artikelname aus der Artikel tabelle, dann wird der name in das Listeneintrag Objekt
+                            als Attribut artikel_name gespeichert
+        Select Statement4: holt den artikeleinheit aus der Artikel tabelle, dann wird der name in das Listeneintrag
+                            Objekt als Attribut artikel_einheit gespeichert"""
         with ListeneintragMapper() as mapper:
             eintraege = mapper.find_all_listeneintraege_by_einkaufsliste(einkaufsliste)
 
@@ -354,8 +286,7 @@ class ApplikationsAdministration(object):
             with ArtikelMapper() as mapper:
                 mapper.get_artikeleinheit_for_listeneintrag(i)
 
-        if len(eintraege) !=0:
-            #findet den zuletzt geänderten Listeneintrag
+        if len(eintraege) != 0:  # findet den zuletzt geänderten Listeneintrag
             latest = eintraege[0]
             for eintrag in eintraege:
                 if eintrag.get_aenderungs_zeitpunkt() > latest.get_aenderungs_zeitpunkt():
@@ -363,38 +294,32 @@ class ApplikationsAdministration(object):
 
             latest.set_zuletzt_geaendert(True)
 
-
-            # sortiert die die Rückgabe nach Einzelhändler, dadurch sind die Listeneinträge bei anzeigen nach Einzelhändler gruppiert
-            ohneEinzelhaendler=[]
-            for i in eintraege:                                                    #Listeneinträge indenen kein Einzelhändler gesetzt sind werden im vorraus aussortiert um am ende hintendran gehängt
-                if i.get_einzelhaendlerId() is None:
+            ohneEinzelhaendler = []
+            for i in eintraege:  # sortiert die Rückgabe nach Einzelhändler, dadurch dann nach Einzelhändler gruppiert
+                if i.get_einzelhaendlerId() is None:  # Listeneinträge ohne Einzelhändler werden im vorraus aussortiert
                     eintraege.remove(i)
-                    ohneEinzelhaendler.append(i)
+                    ohneEinzelhaendler.append(i)  # am ende hintendran gehängt
 
             result = []
+
             for i in range(len(eintraege)):
-                    if eintraege[0].get_einzelhaendlerId() is not None:
-                        highest = eintraege[0]
-                        for obj in eintraege:
-                            if obj.get_einzelhaendlerId() is not None:
-                                if obj.get_einzelhaendlerId() > highest.get_einzelhaendlerId():
-                                    highest = obj
+                if eintraege[0].get_einzelhaendlerId() is not None:
+                    highest = eintraege[0]
+                    for obj in eintraege:
+                        if obj.get_einzelhaendlerId() is not None:
+                            if obj.get_einzelhaendlerId() > highest.get_einzelhaendlerId():
+                                highest = obj
 
                         result.append(highest)
                         eintraege.remove(highest)
 
-            eintraege= result + ohneEinzelhaendler
+            eintraege = result + ohneEinzelhaendler
         return eintraege
 
-
-
-
     def listeneintrag_anlegen(self, listeneintrag):
-         # Methode zum Anlegen eines neuen Listeneintrags in der Datenbank
-
+        """Methode zum Anlegen eines neuen Listeneintrags in der Datenbank"""
         with ListeneintragMapper() as mapper:
             return mapper.insert(listeneintrag)
-
 
     def update_listeneintrag(self, listeneintrag):
         """Methode zum aktualisieren eines Listeneintrags in der Datenbank"""
@@ -411,54 +336,47 @@ class ApplikationsAdministration(object):
         with ListeneintragMapper() as mapper:
             mapper.delete(listeneintrag)
 
-
-
-    """Methoden bezüglich der Statistik - Kommi zur Übersicht kann nacher gelöscht werden -"""
-
     def get_top_artikel_5(self, benutzer):
+        """ """
         report = ReportGenerator()
         top5 = report.top_artikel(benutzer)
         for i in top5:
-           id = i.get_ArtikelID()
-           with ArtikelMapper() as mapper:
-               ArtikelObjekt = mapper.find_by_id(id)
-           i.set_ArtikelName(ArtikelObjekt.get_name())
+            id = i.get_ArtikelID()
+            with ArtikelMapper() as mapper:
+                ArtikelObjekt = mapper.find_by_id(id)
+            i.set_ArtikelName(ArtikelObjekt.get_name())
         return top5
 
     def get_top_artikel_5_by_einzelhaendler(self, benutzer, einzelhaendler):
+        """ """
         report = ReportGenerator()
         top5_by_einzelhaendler = report.top_artikel_by_einzelhaendler(benutzer, einzelhaendler)
         for i in top5_by_einzelhaendler:
-           id = i.get_ArtikelID()
-           with ArtikelMapper() as mapper:
-               ArtikelObjekt = mapper.find_by_id(id)
-           i.set_ArtikelName(ArtikelObjekt.get_name())
+            id = i.get_ArtikelID()
+            with ArtikelMapper() as mapper:
+                ArtikelObjekt = mapper.find_by_id(id)
+            i.set_ArtikelName(ArtikelObjekt.get_name())
         return top5_by_einzelhaendler
 
     def get_top_artikel_5_by_datum(self, benutzer, startzeitpunkt, endzeitpunkt):
+        """ """
         report = ReportGenerator()
         top5_by_zeitraum = report.top_artikel_by_zeitraum(benutzer, startzeitpunkt, endzeitpunkt)
         for i in top5_by_zeitraum:
-           id = i.get_ArtikelID()
-           with ArtikelMapper() as mapper:
-               ArtikelObjekt = mapper.find_by_id(id)
-           i.set_ArtikelName(ArtikelObjekt.get_name())
+            id = i.get_ArtikelID()
+            with ArtikelMapper() as mapper:
+                ArtikelObjekt = mapper.find_by_id(id)
+            i.set_ArtikelName(ArtikelObjekt.get_name())
         return top5_by_zeitraum
 
     def get_top_artikel_5_by_einzelhaendler_datum(self, benutzer, einzelhaendler, startzeitpunkt, endzeitpunkt):
+        """ """
         report = ReportGenerator()
-        top5_by_einzelhaendler_zeitraum = report.top_artikel_by_Einzelhaendler_zeitraum(benutzer, einzelhaendler, startzeitpunkt, endzeitpunkt)
+        top5_by_einzelhaendler_zeitraum = report.top_artikel_by_Einzelhaendler_zeitraum(benutzer, einzelhaendler,
+                                                                                        startzeitpunkt, endzeitpunkt)
         for i in top5_by_einzelhaendler_zeitraum:
-           id = i.get_ArtikelID()
-           with ArtikelMapper() as mapper:
-               ArtikelObjekt = mapper.find_by_id(id)
-           i.set_ArtikelName(ArtikelObjekt.get_name())
+            id = i.get_ArtikelID()
+            with ArtikelMapper() as mapper:
+                ArtikelObjekt = mapper.find_by_id(id)
+            i.set_ArtikelName(ArtikelObjekt.get_name())
         return top5_by_einzelhaendler_zeitraum
-
-a = ApplikationsAdministration()
-c = a.get_benutzer_by_id(3)
-d = a.get_einzelhaendler_by_id(1)
-b = a.get_top_artikel_5_by_einzelhaendler_datum(c, d, "2020-05-09", "2020-09-18")
-
-for i in b:
-    print(i)

@@ -2,23 +2,23 @@ from src.server.bo.Statistik import Statistik
 from src.server.bo.StatistikHaendler import StatistikHaendler
 from src.server.bo.StatistikZeitraum import StatistikZeitraum
 from src.server.bo.StatistikHuZ import StatistikHuZ
-from src.server.bo.Benutzer import Benutzer
 from src.server.db.ListeneintragMapper import ListeneintragMapper
 import collections
-from datetime import datetime
+
 
 class ReportGenerator(object):
 
     def top_artikel(self, benutzer):
+        """ """
         artikel = []
         instanzen = []
         x = 0
         with ListeneintragMapper() as mapper:
-           tupel = mapper.get_all_listeneintraege_by_benutzer(benutzer)
+            tupel = mapper.get_all_listeneintraege_by_benutzer(benutzer)
 
-           for i in tupel:
-               for k in i:
-                   artikel.append(k)
+            for i in tupel:
+                for k in i:
+                    artikel.append(k)
 
         a = collections.Counter(artikel)
 
@@ -44,15 +44,16 @@ class ReportGenerator(object):
         return result
 
     def top_artikel_by_einzelhaendler(self, benutzer, einzelhaendler):
+        """ """
         artikel = []
         instanzen = []
         x = 0
         with ListeneintragMapper() as mapper:
-           tupel = mapper.get_all_listeneintraege_by_Einzelhaendler(benutzer, einzelhaendler)
+            tupel = mapper.get_all_listeneintraege_by_Einzelhaendler(benutzer, einzelhaendler)
 
-           for i in tupel:
-               for k in i:
-                   artikel.append(k)
+            for i in tupel:
+                for k in i:
+                    artikel.append(k)
 
         a = collections.Counter(artikel)
 
@@ -78,7 +79,7 @@ class ReportGenerator(object):
         return result
 
     def top_artikel_by_zeitraum(self, benutzer, startzeitpunkt, endzeitpunkt):
-        artikel = []
+        """ """
         instanzen = []
         alle = []
         result = []
@@ -89,11 +90,9 @@ class ReportGenerator(object):
 
         for i in tupel:
             zeitpunkt = i.get_zeitpunkt()
-            #print(zeitpunkt)
             zeitpunkt = zeitpunkt.strftime("%Y-%m-%d")
             if zeitpunkt >= startzeitpunkt and zeitpunkt <= endzeitpunkt:
                 alle.append(i.get_ArtikelID())
-        #return instanzen
 
         a = collections.Counter(alle)
 
@@ -117,7 +116,7 @@ class ReportGenerator(object):
         return result
 
     def top_artikel_by_Einzelhaendler_zeitraum(self, benutzer, einzelhaendler, startzeitpunkt, endzeitpunkt):
-        artikel = []
+        """ """
         instanzen = []
         alle = []
         result = []
@@ -128,16 +127,14 @@ class ReportGenerator(object):
 
         for i in tupel:
             zeitpunkt = i.get_zeitpunkt()
-            #print(zeitpunkt)
             zeitpunkt = zeitpunkt.strftime("%Y-%m-%d")
             if zeitpunkt >= startzeitpunkt and zeitpunkt <= endzeitpunkt:
                 alle.append(i.get_ArtikelID())
-        #return instanzen
 
         a = collections.Counter(alle)
 
         for i in a:
-            instanz = StatistikZeitraum()
+            instanz = StatistikHuZ()
             instanz.set_ArtikelID(i)
             instanz.set_anzahl(a.get(i))
 
