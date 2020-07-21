@@ -24,7 +24,7 @@ class ListeneintragForm extends Component {
   constructor(props) {
     super(props);
 
-    let lan = '', lam = '', lae = '', len = '', lbn = '', le = '';
+    let lan = '', lam = '', len = '', lbn = '', le = '';
 
     /** Wenn ein Listeneintrag editiert werden soll wird dieser als prop übergeben
         und der State wird mit den entsprechenden Daten gefüllt*/
