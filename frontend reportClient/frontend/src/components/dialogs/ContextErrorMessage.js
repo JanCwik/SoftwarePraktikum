@@ -19,7 +19,7 @@ class ContextErrorMessage extends Component {
 
     return (
       (error !== null) ?
-        <Alert severity='error' className={classes.root}>
+        <Alert severity='error' align='center' className={classes.root}>
           <div>
             {this.#standardText}
           </div>
