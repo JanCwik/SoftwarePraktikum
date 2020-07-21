@@ -80,7 +80,7 @@ import { Link as RouterLink } from 'react-router-dom';
                 </Link>
             </Typography>
           </Grid>
-           <Grid item xs={0.7} />
+           <Grid item xs={'auto'} />
             <Grid item>
             <ButtonGroup variant='text' size='small'>
               <Button color='primary' onClick={this.editEinkaufslisteButtonClicked}>
