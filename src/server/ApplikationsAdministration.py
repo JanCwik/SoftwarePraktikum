@@ -455,3 +455,11 @@ class ApplikationsAdministration(object):
                ArtikelObjekt = mapper.find_by_id(id)
            i.set_ArtikelName(ArtikelObjekt.get_name())
         return top5_by_einzelhaendler_zeitraum
+
+a = ApplikationsAdministration()
+c = a.get_benutzer_by_id(3)
+d = a.get_einzelhaendler_by_id(1)
+b = a.get_top_artikel_5_by_einzelhaendler_datum(c, d, "2020-05-09", "2020-09-18")
+
+for i in b:
+    print(i)

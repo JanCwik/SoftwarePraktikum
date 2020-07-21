@@ -4,6 +4,7 @@ from src.server.bo.StatistikZeitraum import StatistikZeitraum
 from src.server.bo.StatistikHuZ import StatistikHuZ
 from src.server.bo.Benutzer import Benutzer
 from src.server.db.StatistikMapper import StatistikMapper
+from src.server.db.ListeneintragMapper import ListeneintragMapper
 import collections
 from datetime import datetime
 
@@ -13,7 +14,7 @@ class ReportGenerator(object):
         artikel = []
         instanzen = []
         x = 0
-        with StatistikMapper() as mapper:
+        with ListeneintragMapper() as mapper:
            tupel = mapper.get_all_listeneintraege_by_benutzer(benutzer)
 
            for i in tupel:
@@ -47,7 +48,7 @@ class ReportGenerator(object):
         artikel = []
         instanzen = []
         x = 0
-        with StatistikMapper() as mapper:
+        with ListeneintragMapper() as mapper:
            tupel = mapper.get_all_listeneintraege_by_Einzelhaendler(benutzer, einzelhaendler)
 
            for i in tupel:
@@ -84,7 +85,7 @@ class ReportGenerator(object):
         result = []
         x = 0
 
-        with StatistikMapper() as mapper:
+        with ListeneintragMapper() as mapper:
             tupel = mapper.get_all_listeneintraege_by_Datum(benutzer)
 
         for i in tupel:
@@ -123,7 +124,7 @@ class ReportGenerator(object):
         result = []
         x = 0
 
-        with StatistikMapper() as mapper:
+        with ListeneintragMapper() as mapper:
             tupel = mapper.get_all_listeneintraege_by_Einzelhaendler_Datum(benutzer, einzelhaendler)
 
         for i in tupel:
