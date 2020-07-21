@@ -20,7 +20,7 @@ import { Link as RouterLink } from 'react-router-dom';
         };
     }
 
-    /** Behandlet das onClick Ereignis von der einkaufsliste bearbeiten Taste. */
+    /** Behandlet das onClick Ereignis von der Einkaufsliste bearbeiten Taste. */
     editEinkaufslisteButtonClicked = (event) => {
         event.stopPropagation();
         this.setState({
@@ -43,7 +43,7 @@ import { Link as RouterLink } from 'react-router-dom';
         }
     }
 
-    /** Behandelt das onClick Ereignis von der einkaufsliste löschen Taste. */
+    /** Behandelt das onClick Ereignis von der Einkaufsliste löschen Taste. */
     deleteEinkaufslisteButtonClicked = (event) => {
         event.stopPropagation();
         this.setState({
@@ -51,7 +51,7 @@ import { Link as RouterLink } from 'react-router-dom';
         });
     }
 
-    /** Behandelt das onClose Ereignis vom einkaufslisteLoeschenDialog */
+    /** Behandelt das onClose Ereignis vom Einkaufsliste löschen Dialog */
     deleteEinkaufslisteDialogClosed = (einkaufsliste) => {
         // Wenn die einkaufsliste nicht gleich null ist, lösche sie
         if (einkaufsliste) {
@@ -67,35 +67,34 @@ import { Link as RouterLink } from 'react-router-dom';
   render() {
     const { classes } = this.props;
     const { einkaufsliste, showEinkaufslisteForm, showEinkaufslisteDeleteDialog } = this.state;
-
     return (
       <div>
-            <Grid container spacing={3} justify='flex-start' alignItems='center'>
-              <Grid item>
-                <Typography variant='body1' className={classes.heading}>
-                    <Link component={RouterLink} to={{
-                          pathname: '/einkaufsliste',
-                          einkaufsliste: einkaufsliste
-                        }} >
-                          {einkaufsliste.getName()}
-                     </Link>
-                </Typography>
-              </Grid>
-               <Grid item xs={0.7} />
-                <Grid item>
-                <ButtonGroup variant='text' size='small'>
-                  <Button color='primary' onClick={this.editEinkaufslisteButtonClicked}>
-                    bearbeiten
-                  </Button>
-                  <Button color='secondary' onClick={this.deleteEinkaufslisteButtonClicked}>
-                    löschen
-                  </Button>
-                </ButtonGroup>
-              </Grid>
-            </Grid>
-          <EinkaufslisteForm show={showEinkaufslisteForm} einkaufsliste={einkaufsliste} onClose={this.einkaufslisteFormClosed} />
-          <EinkaufslisteLoeschen show={showEinkaufslisteDeleteDialog} einkaufsliste={einkaufsliste} onClose={this.deleteEinkaufslisteDialogClosed} />
-      </div>
+        <Grid container spacing={3} justify='flex-start' alignItems='center'>
+          <Grid item>
+            <Typography variant='body1' className={classes.heading}>
+                <Link component={RouterLink} to={{
+                      pathname: '/einkaufsliste',
+                      einkaufsliste: einkaufsliste
+                    }} >
+                      {einkaufsliste.getName()}
+                </Link>
+            </Typography>
+          </Grid>
+           <Grid item xs={0.7} />
+            <Grid item>
+            <ButtonGroup variant='text' size='small'>
+              <Button color='primary' onClick={this.editEinkaufslisteButtonClicked}>
+                bearbeiten
+              </Button>
+              <Button color='secondary' onClick={this.deleteEinkaufslisteButtonClicked}>
+                löschen
+              </Button>
+            </ButtonGroup>
+          </Grid>
+        </Grid>
+      <EinkaufslisteForm show={showEinkaufslisteForm} einkaufsliste={einkaufsliste} onClose={this.einkaufslisteFormClosed} />
+      <EinkaufslisteLoeschen show={showEinkaufslisteDeleteDialog} einkaufsliste={einkaufsliste} onClose={this.deleteEinkaufslisteDialogClosed} />
+  </div>
     );
   }
 }
