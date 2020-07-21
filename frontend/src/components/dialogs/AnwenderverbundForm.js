@@ -41,14 +41,33 @@ class AnwenderverbundForm extends Component {
     this.baseState = this.state;
   }
 
-  /** Legt Anwenderverbund an */
+  /** Legt Anwenderverbund an und erstellt die Mitgliedschaft zwischen diesem Anwenderverbund und dem Benutzer */
   addAnwenderverbund = () => {
+
+    this.setState({
+      updatingInProgress: true,       // Ladeanzeige anzeigen
+      updatingError: null             // Fehlermeldung deaktivieren
+    });
+
     let newAnwenderverbund = new AnwenderverbundBO(this.state.anwenderverbundName);
-    API.getAPI().addAnwenderverbundAPI(newAnwenderverbund).then(anwenderverbund => {
-      // Backend Aufruf erfolgreich
-      // reinit den Dialog state für einen neuen leeren Anwenderverbunds
-      this.setState(this.baseState);
-      this.props.onClose(anwenderverbund); // Aufruf mit Hilfe des Anwenderverbund Objekts aus dem Backend
+
+    API.getAPI().addAnwenderverbundAPI(newAnwenderverbund).then(anwenderverbund => {       // Anwenderverbund anlegen
+
+        API.getAPI().getBenutzerByEmailAPI(this.props.userMail).then( BenutzerBO =>{          // get currentUser
+
+            API.getAPI().addMitgliedschaftAPI(anwenderverbund.getID(),BenutzerBO[0])        //Mitgleidschaft zwischen currentUser und dem erstellten Anwenderverbund anlegen
+
+                this.setState(this.baseState);                           // State zurücksetzen
+                this.props.onClose(anwenderverbund,BenutzerBO[0]);       // Aufruf der onClose fúnktion von Anwenderverbund.js -> dadurch wird der
+                                                                          // neue Anwenderverbunf und die Mitgliedschaft direkt angezeigt
+        }).catch(e =>
+            this.setState({
+              updatingInProgress: false,    // Ladeanzeige deaktivieren
+              updatingError: e              // Zeige Error Nachricht
+            })
+        )
+
+
     }).catch(e =>
       this.setState({
         updatingInProgress: false,    // Ladeanzeige deaktivieren
@@ -56,11 +75,8 @@ class AnwenderverbundForm extends Component {
       })
     );
 
-    // Setze laden als true
-    this.setState({
-      updatingInProgress: true,       // Ladeanzeige anzeigen
-      updatingError: null             // Fehlermeldung deaktivieren
-    });
+
+
   }
 
   /** Updated den Anwenderverbund */

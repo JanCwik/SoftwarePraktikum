@@ -56,13 +56,22 @@ class BenutzerListe extends Component {
     });
   }
 
-  /** Lebenszyklus Methode, welche aufgerufen wird, wenn die Komponente in das DOM des Browsers eingefügt wird.*/
 
+  /** Lebenszyklus Methode, welche aufgerufen wird, wenn die Komponente in das DOM des Browsers eingefügt wird.
+   *  Wenn ein benutzer als prop übergeben wird (das passiert, wenn ein neuer Anwenderverbund erstellt wird)
+   *  dann wird der Benutzer in den State geschrieben, und dadurch direkt angezeigt
+   *  */
+  componentDidMount=async()=> {
+    await this.getMitgliederliste();
 
-  componentDidMount() {
-    this.getMitgliederliste();
+    if (this.props.newBenutzerFromNewAnwenderverbund) {
+      const newBenutzerList = [...this.state.benutzerliste, this.props.newBenutzerFromNewAnwenderverbund];
+      this.setState({
+            benutzerliste: newBenutzerList,
+          }
+      )
+    }
   }
-
 
   /**
    * Behandelt einzelhaendlerDeleted Ereignisse von der EinzelhaendlerListenEintrag Komponente.
@@ -98,7 +107,8 @@ class BenutzerListe extends Component {
 
         showBenutzerForm: false
       });
-    } else {
+    }
+    else {
       this.setState({
         showBenutzerForm: false
       });
