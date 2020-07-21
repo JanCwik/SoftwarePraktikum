@@ -1,7 +1,5 @@
 from src.server.db.Mapper import Mapper
 from src.server.bo.Einkaufsliste import Einkaufsliste
-from src.server.bo.Listeneintrag import Listeneintrag
-from src.server.bo.Artikel import Artikel
 import datetime
 
 
@@ -18,14 +16,13 @@ class EinkaufslistenMapper(Mapper):
         mit der fetchall-Methode in einem Tupel gespeichert.
 
         Mit einer for-schleife wird anschließend geschaut ob bereits eine ID in der Tabelle vorhanden ist.
-        Falls ja, wird diese genommen und um +1 hochgezählt und anschließend der Instanz, welche in der Datenbank gespeichert
-        werden soll übergeben.
+        Falls ja, wird diese genommen und um +1 hochgezählt und anschließend der Instanz, welche in der Datenbank
+        gespeichert werden soll übergeben.
         Falls noch keine ID in der Tabelle vorhanden sein sollte, wird die Zahl 1 an die Instanz weitergegeben
 
         Dann erfolgt erneut ein SQL-Statement welches die Instanz in der Datenbank speichert.
         Mittels der getter-Methoden, welche zuvor in der entsprechenden Business-Object-Klasse definierten wurden,
         werden die Attribute der Instanz an das SQL-Statement übergeben."""
-
 
         cursor = self._cnx.cursor()
         cursor.execute("SELECT MAX(id) AS maxid FROM einkaufsliste ")
@@ -37,8 +34,10 @@ class EinkaufslistenMapper(Mapper):
             else:
                 einkaufsliste.set_id(1)
 
-        template = "INSERT INTO einkaufsliste (id, name, erstellungs_zeitpunkt, aenderungs_zeitpunkt, anwenderverbund_id) VALUES (%s,%s,%s,%s,%s)"
-        vals = (einkaufsliste.get_id(), einkaufsliste.get_name(), einkaufsliste.get_erstellungs_zeitpunkt(), einkaufsliste.get_aenderungs_zeitpunkt(), einkaufsliste.get_anwenderId())
+        template = "INSERT INTO einkaufsliste (id, name, erstellungs_zeitpunkt, aenderungs_zeitpunkt, " \
+                   "anwenderverbund_id) VALUES (%s,%s,%s,%s,%s)"
+        vals = (einkaufsliste.get_id(), einkaufsliste.get_name(), einkaufsliste.get_erstellungs_zeitpunkt(),
+                einkaufsliste.get_aenderungs_zeitpunkt(), einkaufsliste.get_anwenderId())
         cursor.execute(template, vals)
 
         self._cnx.commit()
@@ -46,23 +45,21 @@ class EinkaufslistenMapper(Mapper):
 
         return einkaufsliste
 
-
-
-
     def find_all_einkaufslisten(self):
-        """ Mapper-Methode zum ausgeben aller Einkaufslisten aus der Datenbank"""
+        """ Mapper-Methode zum ausgeben aller Einkaufslisten aus der Datenbank.
 
-        """Hier werden via SQL-Abfrage alle Einkaufslisten aus der Datenbank ausgegeben.
-           Anschließend werden aus den Zeilen der Datenbank (welche ein Objekt mit dessen Attributen darstellen) 
-           mit der fetchall-Methode Tupel erstellt. 
+        Hier werden via SQL-Abfrage alle Einkaufslisten aus der Datenbank ausgegeben.
+        Anschließend werden aus den Zeilen der Datenbank (welche ein Objekt mit dessen Attributen darstellen)
+        mit der fetchall-Methode Tupel erstellt.
 
-           Mittels For-Schleife werden die einzelnen Attribute aus einem Tupel gezogen und einer neuen Instanz der
-           Klasse "Einkaufsliste()" übergeben. Die einzelnen Instanzen werden in einem Array gespeichert.
-           Das Array mit allen Instanzen wird schließlich zurückgegeben."""
+        Mittels For-Schleife werden die einzelnen Attribute aus einem Tupel gezogen und einer neuen Instanz der
+        Klasse "Einkaufsliste()" übergeben. Die einzelnen Instanzen werden in einem Array gespeichert.
+        Das Array mit allen Instanzen wird schließlich zurückgegeben."""
 
         result = []
         cursor = self._cnx.cursor()
-        cursor.execute("SELECT id, name, erstellungs_zeitpunkt, aenderungs_zeitpunkt, anwenderverbund_id FROM einkaufsliste ")
+        cursor.execute("SELECT id, name, erstellungs_zeitpunkt, aenderungs_zeitpunkt, anwenderverbund_id "
+                       "FROM einkaufsliste ")
         res = cursor.fetchall()
 
         for (id, name, erstellungs_zeitpunkt, aenderungs_zeitpunkt, anwenderverbund_id) in res:
@@ -79,7 +76,6 @@ class EinkaufslistenMapper(Mapper):
 
         return result
 
-    """ Mapper-Methode zum aktualisieren (des Namens) einer Einkaufsliste in der Datenbank"""
     def update(self, einkaufsliste):
         """ Mapper-Methode zum aktualisieren (des Namens) einer Einkaufsliste in der Datenbank.
 
@@ -102,14 +98,16 @@ class EinkaufslistenMapper(Mapper):
     def find_by_id(self, id):
         """ Mapper-Methode zum ausgeben einer Einkaufslsite anhand deren ID.
 
-        Beim Aufruf der Methode wird eine ID in der Variablen "id" gespeichert, welche schließlich an das SQL-Statement übergeben wird.
+        Beim Aufruf der Methode wird eine ID in der Variablen "id" gespeichert, welche schließlich an das SQL-Statement
+        übergeben wird.
         Das entsprechende Objekt, welches aus der Datenbank ausgegeben wird, wird in einem Tupel gespeichert.
-        Anschließend werden die einzelnen Attribute aus dem Tupel an der Stelle 0 genommen und an eine neue Artikel-Instanz via
-        den Setter-Methoden übergeben.
-        Sollte die Datenbank anhand der ID kein Objekt zurückliefern, wird ausgegeben was innerhalb des IndexErrors steht --> None
-        Das Ergebnis wir schließlich von der Mehtode zurückgegeben."""
+        Anschließend werden die einzelnen Attribute aus dem Tupel an der Stelle 0 genommen und an eine neue
+        Artikel-Instanz via den Setter-Methoden übergeben.
+        Sollte die Datenbank anhand der ID kein Objekt zurückliefern, wird ausgegeben was innerhalb des
+        IndexErrors steht --> None. Das Ergebnis wir schließlich von der Mehtode zurückgegeben."""
         cursor = self._cnx.cursor()
-        command = "SELECT id, name, erstellungs_zeitpunkt, aenderungs_zeitpunkt, anwenderverbund_id FROM einkaufsliste WHERE id={}".format(id)
+        command = "SELECT id, name, erstellungs_zeitpunkt, aenderungs_zeitpunkt, anwenderverbund_id " \
+                  "FROM einkaufsliste WHERE id={}".format(id)
         cursor.execute(command)
         tuples = cursor.fetchall()
 
@@ -133,15 +131,17 @@ class EinkaufslistenMapper(Mapper):
     def find_by_name(self, name):
         """ Mapper-Methode zum ausgeben einer Einkaufsliste anhand deren Name.
 
-        Beim Aufruf der Methode wird ein Name in der Variablen "name" gespeichert, welche schließlich an das SQL-Statement übergeben wird.
+        Beim Aufruf der Methode wird ein Name in der Variablen "name" gespeichert, welche schließlich an das
+        SQL-Statement übergeben wird.
         Das entsprechende Objekt, welches aus der Datenbank ausgegeben wird, wird in einem Tupel gespeichert.
-        Anschließend werden die einzelnen Attribute aus dem Tupel an der Stelle 0 genommen und an eine neue Artikel-Instanz via
-        den Setter-Methoden übergeben.
-        Sollte die Datenbank anhand des Namens kein Objekt zurückliefern, wird ausgegeben was innerhalb des IndexErrors steht --> None
-        Das Ergebnis wir schließlich von der Mehtode zurückgegeben."""
+        Anschließend werden die einzelnen Attribute aus dem Tupel an der Stelle 0 genommen und an eine neue
+        Artikel-Instanz via den Setter-Methoden übergeben.
+        Sollte die Datenbank anhand des Namens kein Objekt zurückliefern, wird ausgegeben was innerhalb des
+        IndexErrors steht --> None. Das Ergebnis wir schließlich von der Mehtode zurückgegeben."""
 
         cursor = self._cnx.cursor()
-        command = "SELECT id, name, erstellungs_zeitpunkt, aenderungs_zeitpunkt, anwenderverbund_id FROM einkaufsliste WHERE name LIKE '{}' ORDER BY name".format(name)
+        command = "SELECT id, name, erstellungs_zeitpunkt, aenderungs_zeitpunkt, anwenderverbund_id " \
+                  "FROM einkaufsliste WHERE name LIKE '{}' ORDER BY name".format(name)
         cursor.execute(command)
         tuples = cursor.fetchall()
 
@@ -177,33 +177,29 @@ class EinkaufslistenMapper(Mapper):
         self._cnx.commit()
         cursor.close()
 
-
-
-
     def GetEinkaufslistenByAnwendeverbund(self, anwenderverbund):
-            """ Mapper-Methode zum ausgeben aller Einkaufslisten, die zu einem Anwenderverbund gehören"""
-            cursor = self._cnx.cursor()
+        """ Mapper-Methode zum ausgeben aller Einkaufslisten, die zu einem Anwenderverbund gehören"""
+        cursor = self._cnx.cursor()
 
+        listenauslesen = "SELECT id, name, erstellungs_zeitpunkt, aenderungs_zeitpunkt, anwenderverbund_id " \
+                         "FROM einkaufsliste WHERE anwenderverbund_id={}".format(anwenderverbund.get_id())
+        cursor.execute(listenauslesen)
+        listen = cursor.fetchall()
+        result = []
 
-            listenauslesen = "SELECT id, name, erstellungs_zeitpunkt, aenderungs_zeitpunkt, anwenderverbund_id FROM einkaufsliste WHERE anwenderverbund_id={}".format(anwenderverbund.get_id())
-            cursor.execute(listenauslesen)
-            listen = cursor.fetchall()
-            result=[]
+        for (id, name, erstellungs_zeitpunkt, aenderungs_zeitpunkt, anwenderverbund_id) in listen:
+            einkaufsliste = Einkaufsliste()
+            einkaufsliste.set_id(id)
+            einkaufsliste.set_name(name)
+            einkaufsliste.set_erstellungs_zeitpunkt(erstellungs_zeitpunkt)
+            einkaufsliste.set_aenderungs_zeitpunkt(aenderungs_zeitpunkt)
+            einkaufsliste.set_anwenderId(anwenderverbund_id)
+            result.append(einkaufsliste)
 
-            for (id, name, erstellungs_zeitpunkt, aenderungs_zeitpunkt, anwenderverbund_id) in listen:
-                einkaufsliste = Einkaufsliste()
-                einkaufsliste.set_id(id)
-                einkaufsliste.set_name(name)
-                einkaufsliste.set_erstellungs_zeitpunkt(erstellungs_zeitpunkt)
-                einkaufsliste.set_aenderungs_zeitpunkt(aenderungs_zeitpunkt)
-                einkaufsliste.set_anwenderId(anwenderverbund_id)
-                result.append(einkaufsliste)
+        self._cnx.commit()
+        cursor.close()
 
-
-            self._cnx.commit()
-            cursor.close()
-
-            return result
+        return result
 
     def DeleteEinkaufslistenByAnwendeverbund(self, anwenderverbund):
         """ Mapper-Methode zum löschen von Einkaufslisten anhand des Anwenderverbundes"""
@@ -214,4 +210,3 @@ class EinkaufslistenMapper(Mapper):
 
         self._cnx.commit()
         cursor.close()
-
