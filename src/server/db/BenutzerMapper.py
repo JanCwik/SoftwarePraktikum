@@ -1,6 +1,5 @@
-from server.db.Mapper import Mapper
-from server.bo.Benutzer import Benutzer
-from server.bo.Listeneintrag import Listeneintrag
+from src.server.db.Mapper import Mapper
+from src.server.bo.Benutzer import Benutzer
 
 
 class BenutzerMapper(Mapper):
@@ -45,8 +44,8 @@ class BenutzerMapper(Mapper):
         mit der fetchall-Methode in einem Tupel gespeichert.
 
         Mit einer for-schleife wird anschließend geschaut ob bereits eine ID in der Tabelle vorhanden ist.
-        Falls ja, wird diese genommen und um +1 hochgezählt und anschließend der Instanz, welche in der Datenbank gespeichert
-        werden soll übergeben.
+        Falls ja, wird diese genommen und um +1 hochgezählt und anschließend der Instanz, welche in der Datenbank
+        gespeichert werden soll übergeben.
         Falls noch keine ID in der Tabelle vorhanden sein sollte, wird die Zahl 1 an die Instanz weitergegeben
 
         Dann erfolgt erneut ein SQL-Statement welches die Instanz in der Datenbank speichert.
@@ -63,7 +62,8 @@ class BenutzerMapper(Mapper):
                 benutzer.set_id(1)
 
         template = "INSERT INTO benutzer (id, name, erstellungs_zeitpunkt, email, google_id) VALUES (%s,%s,%s,%s,%s)"
-        vals = (benutzer.get_id(), benutzer.get_name(), benutzer.get_erstellungs_zeitpunkt(), benutzer.get_email(), benutzer.get_google_id())
+        vals = (benutzer.get_id(), benutzer.get_name(), benutzer.get_erstellungs_zeitpunkt(), benutzer.get_email(),
+                benutzer.get_google_id())
         cursor.execute(template, vals)
 
         self._cnx.commit()
@@ -105,12 +105,13 @@ class BenutzerMapper(Mapper):
     def find_by_id(self, id):
         """ Mapper-Methode zum ausgeben eines Benutzers anhand dessen ID.
 
-        Beim Aufruf Methode wird eine ID in der Variablen "id" gespeichert, welche schließlich an das SQL-Statement übergeben wird.
+        Beim Aufruf Methode wird eine ID in der Variablen "id" gespeichert, welche schließlich an das SQL-Statement
+        übergeben wird.
         Das entsprechende Objekt, welches aus der Datenbank ausgegeben wird, wird in einem Tupel gespeichert.
-        Anschließend werden die einzelnen Attribute aus dem Tupel an der Stelle 0 genommen und an eine neue Benutzer-Instanz via
-        den Setter-Methoden übergeben.
-        Sollte die Datenbank anhand der ID kein Objekt zurückliefern, wird ausgegeben was innerhalb des IndexErrors steht --> None
-        Das Ergebnis wir schließlich von der Mehtode zurückgegeben."""
+        Anschließend werden die einzelnen Attribute aus dem Tupel an der Stelle 0 genommen und an eine neue
+        Benutzer-Instanz via den Setter-Methoden übergeben.
+        Sollte die Datenbank anhand der ID kein Objekt zurückliefern, wird ausgegeben was innerhalb des
+        IndexErrors steht --> None. Das Ergebnis wir schließlich von der Mehtode zurückgegeben."""
         cursor = self._cnx.cursor()
         command = "SELECT id, name, erstellungs_zeitpunkt, email, google_id FROM benutzer WHERE id={}".format(id)
         cursor.execute(command)
@@ -136,14 +137,16 @@ class BenutzerMapper(Mapper):
     def find_by_name(self, name):
         """ Mapper-Methode zum ausgeben eines Benutzers anhand dessen Name.
 
-        Beim Aufruf Methode wird ein Name in der Variablen "name" gespeichert, welche schließlich an das SQL-Statement übergeben wird.
+        Beim Aufruf Methode wird ein Name in der Variablen "name" gespeichert, welche schließlich an das SQL-Statement
+        übergeben wird.
         Das entsprechende Objekt, welches aus der Datenbank ausgegeben wird, wird in einem Tupel gespeichert.
-        Anschließend werden die einzelnen Attribute aus dem Tupel an der Stelle 0 genommen und an eine neue Benutzer-Instanz via
-        den Setter-Methoden übergeben.
-        Sollte die Datenbank anhand des Namens kein Objekt zurückliefern, wird ausgegeben was innerhalb des IndexErrors steht --> None
-        Das Ergebnis wir schließlich von der Mehtode zurückgegeben."""
+        Anschließend werden die einzelnen Attribute aus dem Tupel an der Stelle 0 genommen und an eine neue
+        Benutzer-Instanz via den Setter-Methoden übergeben.
+        Sollte die Datenbank anhand des Namens kein Objekt zurückliefern, wird ausgegeben was innerhalb des
+        IndexErrors steht --> None. Das Ergebnis wir schließlich von der Mehtode zurückgegeben."""
         cursor = self._cnx.cursor()
-        command = "SELECT id, name, erstellungs_zeitpunkt, email, google_id FROM benutzer WHERE name LIKE '{}' ORDER BY name".format(name)
+        command = "SELECT id, name, erstellungs_zeitpunkt, email, google_id FROM benutzer WHERE name LIKE '{}' " \
+                  "ORDER BY name".format(name)
         cursor.execute(command)
         tuples = cursor.fetchall()
 
@@ -167,14 +170,16 @@ class BenutzerMapper(Mapper):
     def find_by_email(self, email):
         """Mapper-Methode zum ausgeben eines Benutzers anhand dessen Email
 
-        Beim Aufruf Methode wird ein Email in der Variablen "email" gespeichert, welche schließlich an das SQL-Statement übergeben wird.
+        Beim Aufruf Methode wird ein Email in der Variablen "email" gespeichert, welche schließlich an das SQL-Statement
+        übergeben wird.
         Das entsprechende Objekt, welches aus der Datenbank ausgegeben wird, wird in einem Tupel gespeichert.
-        Anschließend werden die einzelnen Attribute aus dem Tupel an der Stelle 0 genommen und an eine neue Benutzer-Instanz via
-        den Setter-Methoden übergeben.
-        Sollte die Datenbank anhand der Email kein Objekt zurückliefern, wird ausgegeben was innerhalb des IndexErrors steht --> None
-        Das Ergebnis wir schließlich von der Mehtode zurückgegeben."""
+        Anschließend werden die einzelnen Attribute aus dem Tupel an der Stelle 0 genommen und an eine neue
+        Benutzer-Instanz via den Setter-Methoden übergeben.
+        Sollte die Datenbank anhand der Email kein Objekt zurückliefern, wird ausgegeben was innerhalb des
+        IndexErrors steht --> None. Das Ergebnis wir schließlich von der Mehtode zurückgegeben."""
         cursor = self._cnx.cursor()
-        command = "SELECT id, name, erstellungs_zeitpunkt, email, google_id FROM benutzer WHERE email LIKE '{}' ORDER BY email".format(email)
+        command = "SELECT id, name, erstellungs_zeitpunkt, email, google_id FROM benutzer WHERE email LIKE '{}' " \
+                  "ORDER BY email".format(email)
         cursor.execute(command)
         tuples = cursor.fetchall()
 
@@ -196,14 +201,16 @@ class BenutzerMapper(Mapper):
         return result
 
     def find_by_google_user_id(self, google_Benutzer_id):
-        """Suchen eines Benutzers mit vorgegebener Google ID. Da diese eindeutig ist, wird genau ein Objekt zurückgegeben.
+        """Suchen eines Benutzers mit vorgegebener Google ID. Da diese eindeutig ist, wird genau ein Objekt
+        zurückgegeben.
 
         :param google_user_id die Google ID des gesuchten Users.
         :return User-Objekt, das die übergebene Google ID besitzt,
                 None bei nicht vorhandenem DB-Tupel.
         """
         cursor = self._cnx.cursor()
-        command = "SELECT id, name, email, google_id FROM benutzer WHERE google_id='{}'".format(google_Benutzer_id) #Änderung: aus google_benutzer_id wurde google_id
+        command = "SELECT id, name, email, google_id FROM benutzer WHERE google_id='{}'"\
+            .format(google_Benutzer_id)  # Änderung: aus google_benutzer_id wurde google_id
         cursor.execute(command)
         tuples = cursor.fetchall()
 
@@ -216,15 +223,15 @@ class BenutzerMapper(Mapper):
             b.set_google_id(google_Benutzer_id)
             result = b
         except IndexError:
-           result = None
+            result = None
 
         self._cnx.commit()
         cursor.close()
 
         return result
 
-
     def get_benutzername_for_listeneintrag(self, eintraege):
+        """ """
         cursor = self._cnx.cursor()
 
         cursor.execute("SELECT name FROM benutzer WHERE id={}".format(eintraege.get_benutzerId()))

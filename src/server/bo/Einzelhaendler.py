@@ -16,7 +16,8 @@ class Einzelhaendler(NamedBO):
 
     def __str__(self):
         """Erzeugen einer einfachen textuellen Darstellung der jeweiligen Instanz."""
-        return "Einzelhaendler: {}, {}, {}".format(self.get_id(), self.get_name(), self.get_erstellungs_zeitpunkt(), self.get_benutzer_id())
+        return "Einzelhaendler: {}, {}, {}".format(self.get_id(), self.get_name(), self.get_erstellungs_zeitpunkt(),
+                                                   self.get_benutzer_id())
 
     @staticmethod
     def from_dict(dictionary=dict()):

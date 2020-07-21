@@ -8,7 +8,7 @@ import ContextErrorMessage from "./dialogs/ContextErrorMessage";
 import EinkaufslisteForm from "./dialogs/EinkaufslisteForm";
 import PropTypes from "prop-types";
 
-/** Rendert eine Liste von Einkaufslisten, die in den einzelnen Anwenderverbünden enthalten sind. */
+/** Kontrolliert die Zugehörigkeit von Einkaufslisten zu deren Anwenderverbünden.. */
 
 class AlleEinkaufslistenAnwenderverbund extends Component{
 
@@ -21,7 +21,7 @@ class AlleEinkaufslistenAnwenderverbund extends Component{
              loadingInProgress: false
          }
      }
-  /** Fetchet alle EinkaufslisteBOs für das Backend */
+  /** Fetchet alle EinkaufslisteBOs und die dazugehörigen Anwenderverbünde für das Backend */
     getEinkaufslisten = () => {
     API.getAPI().getEinkaufslistenByAnwenderverbundAPI(this.props.anwenderverbund.getID())
       .then(EinkaufslistenBOs =>
@@ -56,7 +56,7 @@ class AlleEinkaufslistenAnwenderverbund extends Component{
    * @param einkaufsliste EinkaufslisteBO von dem AlleEinkaufslistenListenEintrag um gelöscht zu werden.
    */
 
-  /** Löschen des Artikels */
+  /** Löschen der Einkaufsliste */
   einkaufslisteDeleted = einkaufsliste => {
     const newEinkaufslisteList = this.state.einkaufslisten.filter(EinkaufslisteFromState => EinkaufslisteFromState.getID() !== einkaufsliste.getID());
     this.setState({
@@ -91,38 +91,39 @@ class AlleEinkaufslistenAnwenderverbund extends Component{
     }
   }
 
-render(){
-    const { classes,anwenderverbund } = this.props;
-      const{showEinkaufslisteForm ,einkaufslisten, error, loadingInProgress} = this.state;
-    return(
-        <div className={classes.root}>
-            <Grid  container spacing={1} justify='flex-start' alignItems='center'>
-                  <Grid item>
-                      <h2>
-                          {anwenderverbund.getName()}
-                      </h2>
-                  </Grid>
-                <Grid item xs />
-                <Grid item>
-                <Button variant='contained' color='primary' startIcon={<AddIcon />} onClick={this.addEinkaufslisteButtonClicked}>
-                  Einkaufsliste zu {anwenderverbund.getName()} hinzufügen
-                </Button>
+    /** Rendert die Komponente */
+    render(){
+        const { classes,anwenderverbund } = this.props;
+        const{showEinkaufslisteForm ,einkaufslisten, error, loadingInProgress} = this.state;
+        return(
+            <div className={classes.root}>
+                <Grid  container spacing={1} justify='flex-start' alignItems='center'>
+                      <Grid item>
+                          <h2>
+                              {anwenderverbund.getName()}
+                          </h2>
+                      </Grid>
+                    <Grid item xs />
+                    <Grid item>
+                    <Button variant='contained' color='primary' startIcon={<AddIcon />} onClick={this.addEinkaufslisteButtonClicked}>
+                      Einkaufsliste zu {anwenderverbund.getName()} hinzufügen
+                    </Button>
+                    </Grid>
                 </Grid>
-            </Grid>
-            {
-              // Zeigt die Liste der AlleEinkaufslistenListenEintrag Komponenten
-              einkaufslisten.map(einkaufsliste =>
-                <AlleEinkaufslistenListenEintrag key={einkaufsliste.getID()} einkaufsliste={einkaufsliste}
-                  onEinkaufslisteDeleted={this.einkaufslisteDeleted}
-                />)
-            }
-            <LoadingProgress show={loadingInProgress} />
-            <ContextErrorMessage error={error} contextErrorMsg={`Einkaufslisten konnten nicht geladen werden.`} onReload={this.getEinkaufslisten} />
-            <EinkaufslisteForm show={showEinkaufslisteForm} anwenderverbund={anwenderverbund} onClose={this.einkaufslisteFormClosed} userMail={this.props.userMail} />
-        </div>
-    )
-  }
-}
+                {
+                  // Zeigt die Liste der AlleEinkaufslistenListenEintrag Komponenten
+                  einkaufslisten.map(einkaufsliste =>
+                    <AlleEinkaufslistenListenEintrag key={einkaufsliste.getID()} einkaufsliste={einkaufsliste}
+                      onEinkaufslisteDeleted={this.einkaufslisteDeleted}
+                    />)
+                }
+                <LoadingProgress show={loadingInProgress} />
+                <ContextErrorMessage error={error} contextErrorMsg={`Einkaufslisten konnten nicht geladen werden.`} onReload={this.getEinkaufslisten} />
+                <EinkaufslisteForm show={showEinkaufslisteForm} anwenderverbund={anwenderverbund} onClose={this.einkaufslisteFormClosed} userMail={this.props.userMail} />
+            </div>
+        )
+      }
+    }
 /** Komponentenspezifisches Styling */
 const styles = theme => ({
   root: {

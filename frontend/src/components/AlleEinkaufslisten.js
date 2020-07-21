@@ -89,8 +89,6 @@ const styles = theme => ({
   }
 });
 
-
-
 /** PropTypes */
 AlleEinkaufslisten.propTypes = {
   /** @ignore */

@@ -7,8 +7,6 @@ import  EinkaufslisteBO  from '../../api/EinkaufslisteBO';
 import ContextErrorMessage from './ContextErrorMessage';
 import LoadingProgress from './LoadingProgress';
 
-
-
 /**
  * Zeigt einen modalen Formulardialog für ein EinkaufslisteBO in prop einkaufsliste. Wenn die Einkaufsliste
  * angelegt ist, ist der Dialog als ein Editierdialog konfiguriert. Dabei ist das Formular mit dem gegebenen
@@ -22,7 +20,6 @@ class EinkaufslisteForm extends Component {
 
   constructor(props) {
     super(props);
-
     let en = ''
     if (props.einkaufsliste) {
       en = props.einkaufsliste.getName();
@@ -65,7 +62,7 @@ class EinkaufslisteForm extends Component {
     });
   }
 
-  /** Updates the customer */
+  /** Updated die Einkaufsliste */
   updateEinkaufsliste = () => {
     // Klont die originalen Einkaufliste, wenn der Backend Aufruf fehlschlägt
     let updatedEinkaufsliste = Object.assign(new EinkaufslisteBO(), this.props.einkaufsliste);
@@ -76,9 +73,9 @@ class EinkaufslisteForm extends Component {
         updatingInProgress: false,              // Ladeanzeige deaktivieren
         updatingError: null                     // Keine Error Nachricht
       });
-      // Behalte das neue state als Grund state
+      // Behalte das neue state als base state
       this.baseState.einkaufslisteName = this.state.einkaufslisteName;
-      this.props.onClose(updatedEinkaufsliste);      // Aufruf mit dem neuen Einzelhaendler
+      this.props.onClose(updatedEinkaufsliste);      // Aufruf mit der neuen Einkaufsliste
     }).catch(e =>
       this.setState({
         updatingInProgress: false,              // Ladeanzeige deaktivieren
@@ -182,11 +179,12 @@ class EinkaufslisteForm extends Component {
   }
 }
 
-/** Componentenspezifische Stile */
+/** Komponentenspezifische Styles */
 const styles = theme => ({
   root: {
     width: '100%',
   },
+
   closeButton: {
     position: 'absolute',
     right: theme.spacing(-1),

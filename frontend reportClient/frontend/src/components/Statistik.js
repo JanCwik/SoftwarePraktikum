@@ -20,23 +20,21 @@ class Statistik extends Component {
 
     // Init ein leeres state
     this.state = {
-      listeneintraege: [],
-        error: null,
+      statistikeintraege: [],
+      error: null,
       loadingInProgress: false,
-      zeitraumBisFilter: null
+      startZeitpunkt: null,
+      endZeitpunkt: null,
+      einzelhaendler: null
 
     };
   }
 
     /** Behandelt das onChange Ereignis von dem Einzelhaendler filtern Textfeld */
   einzelhaendlerFieldChange = event => {
-    const value = event.target.value.toLowerCase();
+    const value = event.target.value
     this.setState({
-      filteredEinzelhaendler: this.state.einzelhaendler.filter(einzelhaendler => {
-        let NameContainsValue = einzelhaendler.getName().toLowerCase().includes(value);
-        return NameContainsValue;
-      }),
-      einzelhaendlerFilter: value
+      einzelhaendler: value
     });
   }
 
@@ -44,11 +42,7 @@ class Statistik extends Component {
   vonFieldChange = event => {
     const value = event.target.value.toLowerCase();
     this.setState({
-      filteredEinzelhaendler: this.state.einzelhaendler.filter(einzelhaendler => {
-        let NameContainsValue = einzelhaendler.getName().toLowerCase().includes(value);
-        return NameContainsValue;
-      }),
-      zeitraumVonFilter: value
+      startZeitpunkt: value
     });
   }
 
@@ -56,11 +50,100 @@ class Statistik extends Component {
   bisFieldChange = event => {
     const value = event.target.value.toLowerCase();
     this.setState({
-      filteredEinzelhaendler: this.state.einzelhaendler.filter(einzelhaendler => {
-        let NameContainsValue = einzelhaendler.getName().toLowerCase().includes(value);
-        return NameContainsValue;
-      }),
-      zeitraumBisFilter: value
+      endZeitpunkt: value
+    });
+  }
+
+  componentDidMount=() =>{
+    this.byBenutzer()
+  }
+
+  reload=() =>{
+    this.byBenutzer()
+  }
+
+  byBenutzer =()=>{
+    API.getAPI().getStatistikenAPI(this.props.userMail).then(statistiken=>{
+      this.setState({
+        statistikeintraege: statistiken,
+         loadingInProgress: false,   // Ladeanzeige deaktivieren
+          error: null
+        })}).catch(e =>
+          this.setState({             // Setzt state mit Error vom catch zurück
+            statistikeintraege: [],
+            loadingInProgress: false, // Ladeanzeige deaktivieren
+            error: e
+          })
+        );
+
+    // Setzt laden auf true
+    this.setState({
+      loadingInProgress: true,
+      error: null
+    });}
+
+
+  byEinzelhaendler =()=>{
+    API.getAPI().getStatistikenByHaendlerAPI(this.props.userMail, this.state.einzelhaendler).then(statistiken=>{
+      this.setState({
+        statistikeintraege: statistiken,
+         loadingInProgress: false,   // Ladeanzeige deaktivieren
+          error: null
+        })}).catch(e =>
+          this.setState({             // Setzt state mit Error vom catch zurück
+            statistikeintraege: [],
+            loadingInProgress: false, // Ladeanzeige deaktivieren
+            error: e
+          })
+        );
+
+    // Setzt laden auf true
+    this.setState({
+      loadingInProgress: true,
+      error: null
+    });}
+
+
+  byZeitraum =()=>{
+  API.getAPI().getStatistikenByZeitraumAPI(this.props.userMail, this.state.startZeitpunkt, this.state.endZeitpunkt).then(statistiken=>{
+      this.setState({
+        statistikeintraege: statistiken,
+         loadingInProgress: false,   // Ladeanzeige deaktivieren
+          error: null
+        })}).catch(e =>
+          this.setState({             // Setzt state mit Error vom catch zurück
+            statistikeintraege: [],
+            loadingInProgress: false, // Ladeanzeige deaktivieren
+            error: e
+          })
+        );
+
+    // Setzt laden auf true
+    this.setState({
+      loadingInProgress: true,
+      error: null
+    });}
+
+
+
+  byEinzelhaendlerUndZeitraum=()=>{
+  API.getAPI().getStatistikenByZuHAPI(this.props.userMail, this.state.einzelhaendler,this.state.startZeitpunkt, this.state.endZeitpunkt).then(statistiken=>{
+      this.setState({
+        statistikeintraege: statistiken,
+         loadingInProgress: false,   // Ladeanzeige deaktivieren
+          error: null
+        })}).catch(e =>
+          this.setState({             // Setzt state mit Error vom catch zurück
+            statistikeintraege: [],
+            loadingInProgress: false, // Ladeanzeige deaktivieren
+            error: e
+          })
+        );
+
+    // Setzt laden auf true
+    this.setState({
+      loadingInProgress: true,
+      error: null
     });
   }
 
@@ -68,90 +151,98 @@ class Statistik extends Component {
   /** Rendert die Komponente */
   render() {
     const { classes } = this.props;
-    const {  einzelhaendlerFilter,zeitraumBisFilter,zeitraumVonFilter, loadingInProgress, error,listeneintraege} = this.state;
-
+    const {  einzelhaendler,endZeitpunkt,startZeitpunkt, loadingInProgress, error,statistikeintraege} = this.state;
     return (
       <div className={classes.root}>
-        <Grid className={classes.einzelhaendlerFilter} container spacing={1} justify='flex-start' alignItems='center'>
-          <Grid item>
-            <Typography>
-              Filter nach Einzelhändler:
-              </Typography>
-          </Grid>
+        <Grid className={classes.eingabe} container spacing={1} justify='flex-start' alignItems='center'>
+
           <Grid item xs={2}>
             <TextField
               autoFocus
               fullWidth
-              id='einzelhaendlerFilter'
+              id='einzelhaendler'
+              label="Einzelhändler"
               type='text'
-              value={einzelhaendlerFilter}
+              value={einzelhaendler}
               onChange={this.einzelhaendlerFieldChange}
-              InputProps={{
-                endAdornment: <InputAdornment position='end'>
-                  <IconButton onClick={this.clearFilterFieldButtonClicked}>
-                    <ClearIcon />
-                  </IconButton>
-                </InputAdornment>,
-              }}
             />
-          </Grid>
-          <Grid item xs={4} />
-          <Grid item>
-            <Typography>
-              Von:
-            </Typography>
-            <TextField
+            <Button color="primary" onClick={this.byEinzelhaendler} >
+              Suche nach Einzelhändler
+            </Button>
+              </Grid>
+            <Grid item xs={1} />
+            <Grid item xs={2}>
+
+             <TextField
               autoFocus
               fullWidth
               id='zeitraumBis'
               type='text'
-              value={zeitraumVonFilter}
+              label="Von  YYYY-MM-DD"
+              value={startZeitpunkt}
               onChange={this.vonFieldChange}
-              InputProps={{
-                endAdornment: <InputAdornment position='end'>
-                  <IconButton onClick={this.clearFilterFieldButtonClicked}>
-                    <ClearIcon />
-                  </IconButton>
-                </InputAdornment>,
-              }}
             />
-          </Grid>
-          <Grid item xs />
-          <Grid item>
-            <Typography>
-              Bis:
-            </Typography>
-            <TextField
+               <TextField
               autoFocus
               fullWidth
               id='zeitraumBis'
               type='text'
-              value={zeitraumBisFilter}
+              label="Bis   YYYY-MM-DD"
+              value={endZeitpunkt}
               onChange={this.bisFieldChange}
-              InputProps={{
-                endAdornment: <InputAdornment position='end'>
-                  <IconButton onClick={this.clearFilterFieldButtonClicked}>
-                    <ClearIcon />
-                  </IconButton>
-                </InputAdornment>,
-              }}
             />
+             <Button color="primary" onClick={this.byZeitraum} >
+              Suche nach Zeitraum
+            </Button>
           </Grid>
+
+          <Grid item xs={1} />
+
+          <Grid item>
+
+             <Button color="primary" onClick={this.byEinzelhaendlerUndZeitraum}>
+              Suche nach Einzelhändler und Zeitraum
+            </Button>
           </Grid>
+            <Grid item xs={1} />
+
+          <Grid item>
+            <Button color="primary" onClick={this.reload} >
+              Suche ohne Filter
+            </Button>
+              </Grid>
+          </Grid>
+            <hr/>
+        <div className={classes.Top}>
         {
           /** Zeigt die Liste der EinzelhaendlerListenEintrag Komponenten*/
-          listeneintraege.map(listeneintrag =>
-            <StatistikListenEintrag listeneintrag = {listeneintrag} key={listeneintrag.getID()}
+          statistikeintraege.map(statistikeintrag =>
+            <StatistikListenEintrag statistikeintrag = {statistikeintrag} key={statistikeintrag.getArtikelID()}
 
            />)
         }
+        </div>
+
         <LoadingProgress show={loadingInProgress} />
-        <ContextErrorMessage error={error} contextErrorMsg={`Die Liste der Listeneintraege konnte nicht geladen werden.`} onReload={this.getEinzelhaendler} />
+        <ContextErrorMessage error={error} align='center' contextErrorMsg={`Die Statistik konnte nicht geladen werden. Überprüfen Sie den Einzelhändler auf Tippfehler und ob Sie bei Start- und Enddatum das vorgegebene Format eingehalten haben. `} onReload={this.byBenutzer} />
 
       </div>
     );
   }
 }
+
+
+/*
+
+        <Typography>
+          {statistikeintraege[0].getEinzelhaendlerName()? "Meistgekauften Artikel bei " + statistikeintraege[0].getEinzelhaendlerName()  :null}
+          {statistikeintraege[0].getStartZeitpunkt()? "Meistgekauften Artikel im Zeitraum Von:" + statistikeintraege[0].getStartZeitpunkt()  :null}
+          {statistikeintraege[0].getEndZeitpunkt()? "Bis:" + statistikeintraege[0].getEndZeitpunkt()  :null}
+
+        </Typography>
+ */
+
+
 
 /** Komponentenspezifisches Styling */
 const styles = theme => ({
@@ -159,10 +250,15 @@ const styles = theme => ({
     width: '100%',
 
   },
-  einzelhaendlerFilter: {
+  eingabe: {
     marginTop: theme.spacing(2),
     marginBottom: theme.spacing(1),
+    marginLeft : theme.spacing(10)
+
   },
+  Top:{
+    marginTop: theme.spacing(7),
+  }
 
 });
 
