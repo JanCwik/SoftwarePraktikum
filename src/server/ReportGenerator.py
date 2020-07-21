@@ -3,7 +3,6 @@ from src.server.bo.StatistikHaendler import StatistikHaendler
 from src.server.bo.StatistikZeitraum import StatistikZeitraum
 from src.server.bo.StatistikHuZ import StatistikHuZ
 from src.server.bo.Benutzer import Benutzer
-from src.server.db.StatistikMapper import StatistikMapper
 from src.server.db.ListeneintragMapper import ListeneintragMapper
 import collections
 from datetime import datetime
