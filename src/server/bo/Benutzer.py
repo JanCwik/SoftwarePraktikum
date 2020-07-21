@@ -16,7 +16,7 @@ class Benutzer(NamedBO):
         self._email = value
 
     def get_google_id(self):
-        """Auslesen der externen Google ID)."""
+        """Auslesen der externen Google ID."""
         return self._google_id
 
     def set_google_id(self, value):
@@ -25,7 +25,8 @@ class Benutzer(NamedBO):
 
     def __str__(self):
         """Erzeugen einer einfachen textuellen Darstellung der jeweiligen Instanz."""
-        return "Benutzer: {}, {}, {}, {}, {}".format(self.get_id(), self.get_name(), self._email, self.get_erstellungs_zeitpunkt(), self._google_id)
+        return "Benutzer: {}, {}, {}, {}, {}".format(self.get_id(), self.get_name(), self._email,
+                                                     self.get_erstellungs_zeitpunkt(), self._google_id)
 
     @staticmethod
     def from_dict(dictionary=dict()):

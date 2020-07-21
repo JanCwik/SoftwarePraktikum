@@ -358,7 +358,7 @@ class ApplikationsAdministration(object):
             #findet den zuletzt geänderten Listeneintrag
             latest = eintraege[0]
             for eintrag in eintraege:
-                if eintrag.get_änderungs_zeitpunkt() > latest.get_änderungs_zeitpunkt():
+                if eintrag.get_aenderungs_zeitpunkt() > latest.get_aenderungs_zeitpunkt():
                     latest = eintrag
 
             latest.set_zuletzt_geaendert(True)
