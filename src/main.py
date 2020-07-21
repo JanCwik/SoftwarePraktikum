@@ -75,7 +75,7 @@ listeneintrag = api.inherit('Listeneintrag', bo, {
 
 statistik = api.inherit('Statistik', {
     'ArtikelName': fields.String(attribute='_ArtikelName', description='Name des Artikels'),
-    'GesamtAnzahl': fields.String(attribute='_GesamtAnzahl', description='Gesamtanzahl wie oft der Artikel gekauft wurde'),
+    'GesamtAnzahl': fields.Integer(attribute='_anzahl', description='Gesamtanzahl wie oft der Artikel gekauft wurde'),
     'ArtikelID': fields.Integer(attribute='_ArtikelID', description='ID des Artikels')
 })
 
