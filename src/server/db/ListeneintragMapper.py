@@ -27,7 +27,7 @@ class ListeneintragMapper(Mapper):
         """Mapper-Methode zum speichern eines neuen Listeneintrags in der Datenbank
 
         Beim Aufruf der Methode wird eine zuvor erstellte Instanz der Klasse "Listeneintrag()" übergeben.
-        Anschließend wird der Änderungszeitpunkt mittels der set_änderungs_zeitpunkt-Methode bei der Instanz gesetzt.
+        Anschließend wird der Änderungszeitpunkt mittels der set_aenderungs_zeitpunkt-Methode bei der Instanz gesetzt.
         Anschließend wird via SQL-Abfrage die höchste ID aus der Tabelle "listeneintrag" ausgegeben.
         Die ID wird anschließend von der fetchall()-Methode als Tupel zurückgegeben.
 
@@ -39,7 +39,7 @@ class ListeneintragMapper(Mapper):
         Dann erfolgt erneut ein SQL-Statement welches die Instanz in der Datenbank speichert.
         Mittels der getter-Methoden, welche zuvor in der entsprechenden Business-Object-Klasse definierten wurden,
         werden die Attribute der Instanz an das SQL-Statement übergeben."""
-        listeneintrag.set_änderungs_zeitpunkt(datetime.datetime.now())
+        listeneintrag.set_aenderungs_zeitpunkt(datetime.datetime.now())
 
         cursor = self._cnx.cursor()
         cursor.execute("SELECT MAX(id) AS maxid FROM listeneintrag ")
@@ -54,7 +54,7 @@ class ListeneintragMapper(Mapper):
                 listeneintrag.set_id(1)
 
         template = "INSERT INTO listeneintrag (id, anzahl, aenderungs_zeitpunkt, einkaufsliste_id, einzelhaendler_id, artikel_id, benutzer_id, erledigt) VALUES (%s,%s,%s,%s,%s,%s,%s,%s)"
-        vals = (listeneintrag.get_id(), listeneintrag.get_anzahl(), listeneintrag.get_änderungs_zeitpunkt(), listeneintrag.get_einkaufslisteId(), listeneintrag.get_einzelhaendlerId(), listeneintrag.get_artikelId(), listeneintrag.get_benutzerId(), listeneintrag.get_erledigt())
+        vals = (listeneintrag.get_id(), listeneintrag.get_anzahl(), listeneintrag.get_aenderungs_zeitpunkt(), listeneintrag.get_einkaufslisteId(), listeneintrag.get_einzelhaendlerId(), listeneintrag.get_artikelId(), listeneintrag.get_benutzerId(), listeneintrag.get_erledigt())
         cursor.execute(template, vals)
 
         self._cnx.commit()
@@ -70,12 +70,12 @@ class ListeneintragMapper(Mapper):
         Dann erfolgt ein SQL-Statement welches das Objekt in der Datenbank aktualisiert.
         Mittels der getter-Methoden, welche zuvor in der entsprechenden Business-Object-Klasse definierten wurden,
         werden die Attribute der Instanz an das SQL-Statement übergeben."""
-        listeneintrag.set_änderungs_zeitpunkt(datetime.datetime.now())
+        listeneintrag.set_aenderungs_zeitpunkt(datetime.datetime.now())
 
         cursor = self._cnx.cursor()
 
         template = "UPDATE listeneintrag " + "SET anzahl=%s, aenderungs_zeitpunkt=%s, einzelhaendler_id=%s, artikel_id=%s, benutzer_id=%s, erledigt=%s WHERE id=%s"
-        vals = (listeneintrag.get_anzahl(), listeneintrag.get_änderungs_zeitpunkt(), listeneintrag.get_einzelhaendlerId(), listeneintrag.get_artikelId(), listeneintrag.get_benutzerId(), listeneintrag.get_erledigt(), listeneintrag.get_id())
+        vals = (listeneintrag.get_anzahl(), listeneintrag.get_aenderungs_zeitpunkt(), listeneintrag.get_einzelhaendlerId(), listeneintrag.get_artikelId(), listeneintrag.get_benutzerId(), listeneintrag.get_erledigt(), listeneintrag.get_id())
         cursor.execute(template, vals)
 
         self._cnx.commit()
@@ -103,7 +103,7 @@ class ListeneintragMapper(Mapper):
             listeneintrag = Listeneintrag()
             listeneintrag.set_id(id)
             listeneintrag.set_anzahl(anzahl)
-            listeneintrag.set_änderungs_zeitpunkt(aenderungs_zeitpunkt)
+            listeneintrag.set_aenderungs_zeitpunkt(aenderungs_zeitpunkt)
             listeneintrag.set_einkaufslisteId(einkaufsliste_id)
             listeneintrag.set_einzelhaendlerId(einzelhaendler_id)
             listeneintrag.set_artikelId(artikel_id)
@@ -142,7 +142,7 @@ class ListeneintragMapper(Mapper):
             listeneintrag = Listeneintrag()
             listeneintrag.set_id(id)
             listeneintrag.set_anzahl(anzahl)
-            listeneintrag.set_änderungs_zeitpunkt(aenderungs_zeitpunkt)
+            listeneintrag.set_aenderungs_zeitpunkt(aenderungs_zeitpunkt)
             listeneintrag.set_einkaufslisteId(einkaufsliste_id)
             listeneintrag.set_einzelhaendlerId(einzelhaendler_id)
             listeneintrag.set_artikelId(artikel_id)
@@ -189,7 +189,7 @@ class ListeneintragMapper(Mapper):
             listeneintrag = Listeneintrag()
             listeneintrag.set_id(id)
             listeneintrag.set_anzahl(anzahl)
-            listeneintrag.set_änderungs_zeitpunkt(aenderungs_zeitpunkt)
+            listeneintrag.set_aenderungs_zeitpunkt(aenderungs_zeitpunkt)
             listeneintrag.set_einkaufslisteId(einkaufsliste_id)
             listeneintrag.set_einzelhaendlerId(einzelhaendler_id)
             listeneintrag.set_artikelId(artikel_id)
@@ -236,7 +236,7 @@ class ListeneintragMapper(Mapper):
         neuer_eintrag.set_artikelId(standardartikelID)
         neuer_eintrag.set_erledigt(False)
         template2 = "INSERT INTO listeneintrag (id, aenderungs_zeitpunkt, einkaufsliste_id, artikel_id, erledigt) VALUES (%s,%s,%s,%s,%s)"
-        vals2 = (neuer_eintrag.get_id(), neuer_eintrag.get_änderungs_zeitpunkt(), neuer_eintrag.get_einkaufslisteId(), neuer_eintrag.get_artikelId(), neuer_eintrag.get_erledigt())
+        vals2 = (neuer_eintrag.get_id(), neuer_eintrag.get_aenderungs_zeitpunkt(), neuer_eintrag.get_einkaufslisteId(), neuer_eintrag.get_artikelId(), neuer_eintrag.get_erledigt())
         cursor.execute(template2, vals2)
 
         self._cnx.commit()

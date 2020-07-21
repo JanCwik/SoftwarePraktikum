@@ -38,7 +38,7 @@ class EinkaufslistenMapper(Mapper):
                 einkaufsliste.set_id(1)
 
         template = "INSERT INTO einkaufsliste (id, name, erstellungs_zeitpunkt, aenderungs_zeitpunkt, anwenderverbund_id) VALUES (%s,%s,%s,%s,%s)"
-        vals = (einkaufsliste.get_id(), einkaufsliste.get_name(), einkaufsliste.get_erstellungs_zeitpunkt(), einkaufsliste.get_änderungs_zeitpunkt(), einkaufsliste.get_anwenderId())
+        vals = (einkaufsliste.get_id(), einkaufsliste.get_name(), einkaufsliste.get_erstellungs_zeitpunkt(), einkaufsliste.get_aenderungs_zeitpunkt(), einkaufsliste.get_anwenderId())
         cursor.execute(template, vals)
 
         self._cnx.commit()
@@ -70,7 +70,7 @@ class EinkaufslistenMapper(Mapper):
             einkaufsliste.set_id(id)
             einkaufsliste.set_name(name)
             einkaufsliste.set_erstellungs_zeitpunkt(erstellungs_zeitpunkt)
-            einkaufsliste.set_änderungs_zeitpunkt(aenderungs_zeitpunkt)
+            einkaufsliste.set_aenderungs_zeitpunkt(aenderungs_zeitpunkt)
             einkaufsliste.set_anwenderId(anwenderverbund_id)
             result.append(einkaufsliste)
 
@@ -119,7 +119,7 @@ class EinkaufslistenMapper(Mapper):
             einkaufsliste.set_id(id)
             einkaufsliste.set_name(name)
             einkaufsliste.set_erstellungs_zeitpunkt(erstellungs_zeitpunkt)
-            einkaufsliste.set_änderungs_zeitpunkt(aenderungs_zeitpunkt)
+            einkaufsliste.set_aenderungs_zeitpunkt(aenderungs_zeitpunkt)
             einkaufsliste.set_anwenderId(anwenderverbund_id)
             result = einkaufsliste
         except IndexError:
@@ -151,7 +151,7 @@ class EinkaufslistenMapper(Mapper):
             einkaufsliste.set_id(id)
             einkaufsliste.set_name(name)
             einkaufsliste.set_erstellungs_zeitpunkt(erstellungs_zeitpunkt)
-            einkaufsliste.set_änderungs_zeitpunkt(aenderungs_zeitpunkt)
+            einkaufsliste.set_aenderungs_zeitpunkt(aenderungs_zeitpunkt)
             einkaufsliste.set_anwenderId(anwenderverbund_id)
             result = einkaufsliste
         except IndexError:
@@ -195,7 +195,7 @@ class EinkaufslistenMapper(Mapper):
                 einkaufsliste.set_id(id)
                 einkaufsliste.set_name(name)
                 einkaufsliste.set_erstellungs_zeitpunkt(erstellungs_zeitpunkt)
-                einkaufsliste.set_änderungs_zeitpunkt(aenderungs_zeitpunkt)
+                einkaufsliste.set_aenderungs_zeitpunkt(aenderungs_zeitpunkt)
                 einkaufsliste.set_anwenderId(anwenderverbund_id)
                 result.append(einkaufsliste)
 

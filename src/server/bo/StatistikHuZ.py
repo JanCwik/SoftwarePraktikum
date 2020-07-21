@@ -19,39 +19,39 @@ class StatistikHuZ(Statistik):
         """Auslesen des Namens eines Einzelhaendlers"""
         return self._Einzelhaendler_name
 
-    def set_Einzelhaendler_id(self, _Einzelhaendler_id):
-        """Setzen des Namens eines Einzelhaendlers"""
-        self._Einzelhaendler_id = _Einzelhaendler_id
+    def set_Einzelhaendler_id(self, Einzelhaendler_id):
+        """Setzen der ID eines Einzelhaendlers"""
+        self._Einzelhaendler_id = Einzelhaendler_id
 
     def get_Einzelhaendler_ide(self):
-        """Auslesen des Namens eines Einzelhaendlers"""
+        """Auslesen der ID eines Einzelhaendlers"""
         return self._Einzelhaendler_id
 
-    def set_startzeitpunkt(self, _startzeitpunkt):
-        """Setzen des Beginnzeitpunkts"""
-        self._startzeitpunkt = _startzeitpunkt
+    def set_startzeitpunkt(self, startzeitpunkt):
+        """Setzen des Startzeitpunkts"""
+        self._startzeitpunkt = startzeitpunkt
 
     def get_startzeitpunkt(self):
-        """Auslesen des Beginnzeitpunkts"""
+        """Auslesen des Startzeitpunkts"""
         return self._startzeitpunkt
 
-    def set_endzeitpunkt(self, _endzeitpunkt):
-        """Setzen des Beginnzeitpunkts"""
-        self._endzeitpunkt = _endzeitpunkt
+    def set_endzeitpunkt(self, endzeitpunkt):
+        """Setzen des Endzeitpunkts"""
+        self._endzeitpunkt = endzeitpunkt
 
     def get_endzeitpunkt(self):
-        """Auslesen des Beginnzeitpunkts"""
+        """Auslesen des Endzeitpunkts"""
         return self._endzeitpunkt
 
-    def set_zeitpunkt(self, _zeitpunkt):
-        """Setzen des Beginnzeitpunkts"""
-        self._zeitpunkt = _zeitpunkt
+    def set_zeitpunkt(self, zeitpunkt):
+        """Setzen des Zeitpunkts"""
+        self._zeitpunkt = zeitpunkt
 
     def get_zeitpunkt(self):
-        """Auslesen des Beginnzeitpunkts"""
+        """Auslesen des Zeitpunkts"""
         return self._zeitpunkt
 
     def __str__(self):
         """Erzeugen einer einfachen textuellen Darstellung der jeweiligen Instanz."""
-        return "Artikel: {}, {}, {}, {}".format(self.get_ArtikelID(), self.get_ArtikelName(), self.get_anzahl(), self._zeitpunkt)
-
+        return "Artikel: {}, {}, {}, {}".format(self.get_ArtikelID(), self.get_ArtikelName(), self.get_anzahl(),
+                                                self._zeitpunkt)
