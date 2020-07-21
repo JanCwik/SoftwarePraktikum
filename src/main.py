@@ -70,10 +70,10 @@ listeneintrag = api.inherit('Listeneintrag', bo, {
 
 })
 
-# Statistik hinzugefügt, Maik
 statistik = api.inherit('Statistik', {
-    'gesamtzahl': fields.String(attribute='_gesamtzahl', description='Gesamtzahl wie oft der Artikel gekauft wurde'),
-    'ArtikelID': fields.Integer(attribute='_ArtikelID', description='ID des Anwenderverbundes')
+    'ArtikelName': fields.String(attribute='_ArtikelName', description='Name des Artikels'),
+    'GesamtAnzahl': fields.String(attribute='_GesamtAnzahl', description='Gesamtanzahl wie oft der Artikel gekauft wurde'),
+    'ArtikelID': fields.Integer(attribute='_ArtikelID', description='ID des Artikels')
 })
 
 

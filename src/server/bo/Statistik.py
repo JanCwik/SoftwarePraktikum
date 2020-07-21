@@ -1,7 +1,7 @@
 class Statistik():
 
     def __init__(self):
-        self._anzahl = 0
+        self._GesamtAnzahl = 0
         self._ArtikelID = 0
         self._ArtikelName =""
 
@@ -13,13 +13,13 @@ class Statistik():
         """Auslesen der Anzahl"""
         return self._ArtikelName
 
-    def set_anzahl(self, anzahl):
+    def set_GesamtAnzahl(self, anzahl):
         """Setzen der Anzahl"""
         self._anzahl = anzahl
 
-    def get_anzahl(self):
+    def get_GesamtAnzahl(self):
         """Auslesen der Anzahl"""
-        return self._anzahl
+        return self._GesamtAnzahl
 
     def set_ArtikelID(self, ArtikelID):
         """Setzen der Anzahl"""
