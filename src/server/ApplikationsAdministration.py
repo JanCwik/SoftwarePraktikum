@@ -10,7 +10,6 @@ from src.server.db.BenutzerMapper import BenutzerMapper
 from src.server.db.AnwenderverbundMapper import AnwenderverbundMapper
 from src.server.db.EinkaufslisteMapper import EinkaufslistenMapper
 from src.server.db.ListeneintragMapper import ListeneintragMapper
-from src.server.db.StatistikMapper import StatistikMapper
 from src.server.db.MitgliedschaftMapper import MitgliedschaftMapper
 from src.server.ReportGenerator import ReportGenerator
 from datetime import datetime
