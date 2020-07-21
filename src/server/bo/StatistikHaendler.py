@@ -24,10 +24,3 @@ class StatistikHaendler(Statistik):
         """Auslesen des Namens eines Einzelhaendlers"""
         return self._Einzelhaendler_id
 
-    @staticmethod
-    def from_dict(dictionary=dict()):
-        """Einen Python dict() in ein StatistikHaendlerBO umwandeln."""
-        obj = StatistikHaendler()
-        obj.set_Einzelhaendler_name(dictionary["Einzelhaendler_name"])
-
-        return obj

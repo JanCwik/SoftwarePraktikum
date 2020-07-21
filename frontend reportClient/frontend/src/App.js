@@ -121,7 +121,7 @@ render(){
                             <>
 
 
-      							<Statistik/>
+      							<Statistik userMail={this.state.currentUser?.email} />
 
       						</>
 
