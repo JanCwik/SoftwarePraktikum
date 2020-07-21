@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import {withStyles, Button, ListItem, ListItemSecondaryAction, Link, Typography, ButtonGroup} from '@material-ui/core';
+import {withStyles, Button, ListItem, ListItemSecondaryAction, Typography} from '@material-ui/core';
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
 import UpdateIcon from '@material-ui/icons/Update';
@@ -11,21 +11,9 @@ import ListeneintragLoeschen from "./dialogs/ListeneintragLoeschen";
 import ListeneintragForm from "./dialogs/ListeneintragForm";
 import ListeneintragBO from "../api/ListeneintragBO";
 
+/** Rendert einen Listeneintrag in einer Einkaufsliste */
 
-/**
- * Rendert einen Listeneintrag mit einem Delete Button, der auch das Löschen erlaubt.
- *
- * @see See Material-UIs [ListItem](https://material-ui.com/api/list-item/)
- * @see See Material-UIs [Link](https://material-ui.com/components/links/)
- * @see See Material-UIs React Router integration [Composition](https://material-ui.com/guides/composition/#link)
- * @see See React Router [ReactRouter](https://reacttraining.com/react-router/web/guides/quick-start)
- * @see See React Router [Link](https://reacttraining.com/react-router/web/api/Link)
- *
-
-
- */
 class ListenEintrag extends Component {
-
 
   constructor(props) {
     super(props);
@@ -33,11 +21,6 @@ class ListenEintrag extends Component {
     // Initialisiert ein leeres state
     this.state = {
       listeneintrag: this.props.listeneintrag,
-      balance: '',
-      loadingInProgress: false,
-      deletingInProgress: false,
-      loadingError: null,
-      deletingError: null,
       showForm: false
     };
   }
@@ -50,8 +33,7 @@ class ListenEintrag extends Component {
       this.deleteListeneintragDialogClosed(updatedListeneintrag);
     };
 
-
-
+  /** Behandelt das onClick Ereignis vom ListenEintragForm */
   deleteListeneintragButtonClicked = (event) => {
     event.stopPropagation();
     this.setState({
@@ -59,8 +41,9 @@ class ListenEintrag extends Component {
     });
   }
 
+  /** Behandelt das onClose Ereignis vom ListeneintragLoeschen Dialog */
   deleteListeneintragDialogClosed = (listeneintrag) => {
-    // Wenn der Artikel nicht gleich null ist, lösche ihn
+    // Wenn der Listeneintrag nicht gleich null ist, lösche ihn
     if (listeneintrag) {
       this.props.onListeneintragDeleted(listeneintrag);
     }
@@ -74,6 +57,7 @@ class ListenEintrag extends Component {
     });
   }
 
+  /** Behandelt das onClick Ereignis vom ListenEintragForm zum updaten*/
   editButtonClicked=()=>{
     this.setState({
       showForm: true
@@ -82,7 +66,7 @@ class ListenEintrag extends Component {
 
   /** Behandelt das onClose Ereignis vom ArtikelForm */
   formClosed = (eintrag) => {
-    // Artikel ist nicht null und deshalb geändert.
+    // Listeneintrag ist nicht null und deshalb geändert.
     if (eintrag) {
       this.setState({
         listeneintrag: eintrag,
@@ -100,12 +84,10 @@ class ListenEintrag extends Component {
     alert("Dies ist der zuletzt geänderte Listeneintrag!");
   }
 
-
   /** Rendert die Komponente */
   render() {
     const { classes } = this.props;
-    const { showListeneintragDeleteDialog, listeneintrag ,loadingInProgress, deletingInProgress, loadingError, deletingError, listeneintragErledigt, showForm } = this.state;
-
+    const { showListeneintragDeleteDialog, listeneintrag , showForm } = this.state;
     return (
       <div >
         <List  className={classes.Liste} >
@@ -114,10 +96,8 @@ class ListenEintrag extends Component {
               onChange={this.eintragAbhaken}
               inputProps={{ 'aria-label': 'primary checkbox' }}
           />
-
           <Typography color='textPrimary' className={classes.Artikel} >
             {listeneintrag.getArtikel_name()}
-
           </Typography>
           <Typography className={classes.Menge} color='textPrimary'>
             {listeneintrag.getMenge()?
@@ -125,11 +105,9 @@ class ListenEintrag extends Component {
             : null }
             {listeneintrag.getArtikel_einheit()}
           </Typography>
-
           <Typography className={classes.Ort} color='textPrimary'>
             {listeneintrag.getEinzelhaendler_name()}
           </Typography>
-
           <Typography className={classes.Benutzer} color='textPrimary'>
            {listeneintrag.getBenutzer_name()}
 
@@ -139,7 +117,6 @@ class ListenEintrag extends Component {
            : null
           }
           </Typography>
-
           <ListItemSecondaryAction>
             <Button  color='secondary' size='small' startIcon={<EditIcon />} onClick={this.editButtonClicked}>
             </Button>
@@ -160,16 +137,18 @@ const styles = theme => ({
   root: {
     width: '100%'
   },
+
   buttonMargin: {
     marginRight: theme.spacing(2),
   },
+
     Artikel: {
     fontSize: theme.typography.pxToRem(15),
     flexBasis: '25%',
     flexShrink: 0,
     align:'justify'
-
   },
+
     Liste:{
     listStyleType: false,
     variant: 'overline'
@@ -187,7 +166,6 @@ const styles = theme => ({
     flexBasis: '25%',
     flexShrink: 0,
     align:'justify'
-
     },
 
     Benutzer: {
@@ -195,12 +173,7 @@ const styles = theme => ({
     flexBasis: '25%',
     flexShrink: 0,
     align:'justify'
-
     },
-
-
-
-
 });
 
 /** PropTypes */
