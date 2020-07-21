@@ -59,7 +59,7 @@ class ReportGenerator(object):
         for i in a:
             instanz = StatistikHaendler()
             instanz.set_ArtikelID(i)
-            instanz.set_GesamtAnzahl(a.get(i))
+            instanz.set_anzahl(a.get(i))
 
             instanzen.append(instanz)
 
