@@ -108,7 +108,7 @@ class AnwenderverbundListenEintrag extends Component {
             </Grid>
           </ExpansionPanelSummary>
           <ExpansionPanelDetails>
-            <BenutzerListe anwenderverbund={anwenderverbund}/>
+            <BenutzerListe anwenderverbund={anwenderverbund} newBenutzerFromNewAnwenderverbund={this.props.newBenutzerFromNewAnwenderverbund}/>
         </ExpansionPanelDetails>
         </ExpansionPanel>
         <AnwenderverbundForm show={showAnwenderverbundForm} anwenderverbund={anwenderverbund} onClose={this.anwenderverbundFormClosed} />

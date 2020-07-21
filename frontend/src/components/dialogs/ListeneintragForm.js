@@ -61,6 +61,11 @@ class ListeneintragForm extends Component {
 
   /** Legt ListeneintragBO an */
   addListeneintrag = async() => {
+
+    this.setState({
+      addingInProgress: true,       // Ladeanzeige anzeigen
+      addingError: null             // keine Fehlermeldung anzeigen
+    });
     let newListeneintrag = new ListeneintragBO();
     if(this.state.listeneintragArtikelMenge){
       newListeneintrag.setMenge(this.state.listeneintragArtikelMenge)}                          //übernimmt die benutzereingabe für "Menge"
@@ -82,21 +87,21 @@ class ListeneintragForm extends Component {
       this.props.onClose(listeneintrag);   // Aufruf der onClose fúnktion von Einkaufsliste.js -> dadurch wird der neue Listeneintrag direkt angezeigt
     }).catch(e =>
       this.setState({
-        updatingInProgress: false,    // Ladeanzeige deaktivieren
-        updatingError: e              // Error Nachricht zwischenspeichern
+        addingInProgress: false,    // Ladeanzeige deaktivieren
+        addingError: e              // Error Nachricht zwischenspeichern
       })
     );
-
-    this.setState({
-      updatingInProgress: true,       // Ladeanzeige anzeigen
-      updatingError: null             // keine Fehlermeldung anzeigen
-    });
 
     this.props.reload()            // Seite wird neugeladen damit die neue letzte Änderung kenntlich gemacht werden kann
   }
 
   /** Updated den Listeneintrag */
   updateListeneintrag = async() => {
+
+     this.setState({
+      updatingInProgress: true,                 // Ladeanzeige anzeigen
+      updatingError: null                       // keine Fehlermeldung anzeigen
+    });
 
     let updatedListeneintrag = Object.assign(new ListeneintragBO(), this.props.listeneintrag);   // Klont den aktuellen Listeneintrag
     if(this.state.listeneintragArtikelMenge){
@@ -132,11 +137,6 @@ class ListeneintragForm extends Component {
       })
     );
 
-    // Setzt laden auf true
-    this.setState({
-      updatingInProgress: true,                 // Ladeanzeige anzeigen
-      updatingError: null                       // keine Fehlermeldung anzeigen
-    });
     this.props.reload()                      // Seite wird neugeladen damit die neue letzte Änderung kenntlich gemacht werden kann
   }
 
