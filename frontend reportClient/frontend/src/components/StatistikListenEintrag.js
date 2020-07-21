@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withStyles, Typography, Grid } from '@material-ui/core';
-import { Button, ButtonGroup } from '@material-ui/core';
 
 /**
  * Rendert ein EinzelhaendlerBO innerhalb eines EinzelhaendlerListenEintrags
