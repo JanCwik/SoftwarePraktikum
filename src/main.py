@@ -761,17 +761,93 @@ class AnwenderverbundRelatedBenutzerOperations(Resource):
 """Statistik-Methoden, Maik"""
 
 
-@shopping.route('/statistik')
+@shopping.route('/statistik/<string:email>')
 @shopping.response(500, 'Serverfehler')
-class StatistikGetTopArtikelOperations(Resource):
+@shopping.param('email', 'Email des Benutzers')
+class StatistikListOperations(Resource):
     @shopping.marshal_list_with(statistik)
     @secured
-    def get(self):
+    def get(self, email):
         """Auslesen der meist gekauften Artikel"""
         adm = ApplikationsAdministration()
-        statistik = adm.statistik()
+        benutzer = adm.get_benutzer_by_email(email)
 
-        return statistik
+        if benutzer is not None:
+            statistik = adm.get_top_artikel_5(benutzer)
+            return statistik
+        else:
+            return "Benutzer nicht gefunden", 500
+
+
+@shopping.route('/statistik/<string:email>/<string:name>')
+@shopping.response(500, 'Serverfehler')
+@shopping.param('email', 'Email des Benutzers')
+@shopping.param('name', 'Name des Einzelhändlers') #evtl. mehrere param nicht nötig/erwünscht
+class StatistikListOperationsByEinzelhaendler(Resource):
+    @shopping.marshal_list_with(statistik)
+    @secured
+    def get(self, email, name):
+        """Auslesen der meist gekauften Artikel bei einem durch Namen definierten Einzelhaendler"""
+        adm = ApplikationsAdministration()
+        benutzer = adm.get_benutzer_by_email(email)
+        einzelhaendler = adm.get_einzelhaendler_by_name(name)
+
+        if benutzer is not None:
+            if einzelhaendler is not None:
+                statistik = adm.get_top_artikel_5_by_einzelhaendler(benutzer, einzelhaendler)
+                return statistik
+            else:
+                return "Einzelhändler nicht gefunden", 500
+        else:
+            return "Benutzer nicht gefunden", 500
+
+
+@shopping.route('/statistik/<string:email>/<string:von>/<string:bis>')
+@shopping.response(500, 'Serverfehler')
+@shopping.param('email', 'Email des Benutzers')
+@shopping.param('von', 'Startzeitpunkt')
+@shopping.param('von', 'Endzeitpunkt')
+class StatistikListOperationsByDatum(Resource):
+    @shopping.marshal_list_with(statistik)
+    @secured
+    def get(self, email, von, bis):
+        """Auslesen der meist gekauften Artikel bei einem durch Namen definierten Einzelhaendler"""
+        adm = ApplikationsAdministration()
+        benutzer = adm.get_benutzer_by_email(email)
+        start = "StatistikHuZ.get_startzeitpunkt"
+        ende = ""
+        if benutzer is not None:
+            statistik = adm.get_top_artikel_5_by_datum(benutzer, start, ende)
+            return statistik
+        else:
+            return "Benutzer nicht gefunden", 500
+
+
+@shopping.route('/statistik/<string:email>/<string:name>/<string:von>/<string:bis>')
+@shopping.response(500, 'Serverfehler')
+@shopping.param('email', 'Email des Benutzers')
+@shopping.param('name', 'Name des Einzelhändlers')
+@shopping.param('von', 'Startzeitpunkt')
+@shopping.param('von', 'Endzeitpunkt')
+class StatistikListOperationsByEinzelhaendlerDatum(Resource):
+    @shopping.marshal_list_with(statistik)
+    @secured
+    def get(self, email,name, von, bis):
+        """Auslesen der meist gekauften Artikel bei einem durch Namen definierten Einzelhaendler"""
+        adm = ApplikationsAdministration()
+        benutzer = adm.get_benutzer_by_email(email)
+        einzelhaendler = adm.get_einzelhaendler_by_name(name)
+        start = "StatistikHuZ.get_startzeitpunkt"
+        ende = ""
+        if benutzer is not None:
+            if einzelhaendler is not None:
+                statistik = adm.get_top_artikel_5_by_einzelhaendler_datum(benutzer, einzelhaendler, start, ende)
+                return statistik
+            else:
+                return "Einzelhändler nicht gefunden", 500
+        else:
+            return "Benutzer nicht gefunden", 500
+
 
 
 if __name__ == '__main__':
