@@ -1,4 +1,4 @@
-from src.server.db.Mapper import Mapper
+from .Mapper import Mapper
 
 
 class MitgliedschaftMapper(Mapper):

@@ -1,8 +1,8 @@
-from src.server.bo.Statistik import Statistik
-from src.server.bo.StatistikHaendler import StatistikHaendler
-from src.server.bo.StatistikZeitraum import StatistikZeitraum
-from src.server.bo.StatistikHuZ import StatistikHuZ
-from src.server.db.ListeneintragMapper import ListeneintragMapper
+from server.bo.Statistik import Statistik
+from server.bo.StatistikHaendler import StatistikHaendler
+from server.bo.StatistikZeitraum import StatistikZeitraum
+from server.bo.StatistikHuZ import StatistikHuZ
+from server.db.ListeneintragMapper import ListeneintragMapper
 import collections
 
 

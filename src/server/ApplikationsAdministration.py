@@ -1,13 +1,13 @@
-from src.server.bo.Benutzer import Benutzer
-from src.server.bo.Anwenderverbund import Anwenderverbund
-from src.server.db.ArtikelMapper import ArtikelMapper
-from src.server.db.EinzelhaendlerMapper import EinzelhaendlerMapper
-from src.server.db.BenutzerMapper import BenutzerMapper
-from src.server.db.AnwenderverbundMapper import AnwenderverbundMapper
-from src.server.db.EinkaufslisteMapper import EinkaufslistenMapper
-from src.server.db.ListeneintragMapper import ListeneintragMapper
-from src.server.db.MitgliedschaftMapper import MitgliedschaftMapper
-from src.server.ReportGenerator import ReportGenerator
+from server.bo.Benutzer import Benutzer
+from server.bo.Anwenderverbund import Anwenderverbund
+from server.db.ArtikelMapper import ArtikelMapper
+from server.db.EinzelhaendlerMapper import EinzelhaendlerMapper
+from server.db.BenutzerMapper import BenutzerMapper
+from server.db.AnwenderverbundMapper import AnwenderverbundMapper
+from server.db.EinkaufslisteMapper import EinkaufslistenMapper
+from server.db.ListeneintragMapper import ListeneintragMapper
+from server.db.MitgliedschaftMapper import MitgliedschaftMapper
+from server.ReportGenerator import ReportGenerator
 
 
 class ApplikationsAdministration(object):

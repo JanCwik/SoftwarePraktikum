@@ -1,7 +1,7 @@
-from src.server.db.Mapper import Mapper
-from src.server.bo.Listeneintrag import Listeneintrag
-from src.server.bo.StatistikZeitraum import StatistikZeitraum
-from src.server.bo.StatistikHuZ import StatistikHuZ
+from .Mapper import Mapper
+from server.bo.Listeneintrag import Listeneintrag
+from server.bo.StatistikZeitraum import StatistikZeitraum
+from server.bo.StatistikHuZ import StatistikHuZ
 import datetime
 
 
