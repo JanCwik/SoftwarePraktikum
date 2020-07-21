@@ -1,4 +1,4 @@
-import NamedBO from './NamedBO';
+import NamedBO from "../../../../frontend/src/api/NamedBO";
 
 export default class StatistikBO extends NamedBO {
 //damit direkt über diese KLasse ein Name angelegt werden kann

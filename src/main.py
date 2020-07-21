@@ -76,6 +76,11 @@ statistik = api.inherit('Statistik', {
     'ArtikelID': fields.Integer(attribute='_ArtikelID', description='ID des Artikels')
 })
 
+statistikhaendler = api.inherit('StatistikHaendler', statistik, {
+    'EinzelhaendlerName': fields.String(attribute='_Einzelhaendler_name', description='Name des Einzelhändlers'),
+    'EinzelhaendlerID': fields.Integer(attribute='_Einzelhaendler_id', description='ID des Einzelhändlers')
+})
+
 
 @shopping.route('/artikel')
 @shopping.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
