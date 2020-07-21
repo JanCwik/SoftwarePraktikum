@@ -73,8 +73,8 @@ class EinzelhaendlerListenEintrag extends Component {
     const { einzelhaendler, showEinzelhaendlerForm, showEinzelhaendlerDeleteDialog } = this.state;
 
     return (
-      <div>
-            <Grid container spacing={3} justify='flex-start' alignItems='center'>
+      <div className={classes.root} >
+            <Grid  container spacing={3} justify='flex-start' alignItems='center'>
               <Grid item>
                 <Typography variant='body1' className={classes.heading}>{einzelhaendler.getName()}
                 </Typography>
@@ -91,6 +91,7 @@ class EinzelhaendlerListenEintrag extends Component {
               </Grid>
               <Grid item xs />
             </Grid>
+          <hr/>
         <EinzelhaendlerForm show={showEinzelhaendlerForm} einzelhaendler={einzelhaendler} onClose={this.einzelhaendlerFormClosed} />
         <EinzelhaendlerLoeschen show={showEinzelhaendlerDeleteDialog} einzelhaendler={einzelhaendler} onClose={this.deleteEinzelhaendlerDialogClosed} />
       </div>
@@ -102,7 +103,10 @@ class EinzelhaendlerListenEintrag extends Component {
 const styles = theme => ({
   root: {
     width: '100%',
+  marginLeft : theme.spacing(2),
+    marginTop : theme.spacing(0.5)
   }
+
 });
 
 /** PropTypes */
