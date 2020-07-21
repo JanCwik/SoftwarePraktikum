@@ -1,23 +1,11 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import {
-  withStyles,
-  Button,
-  IconButton,
-  Dialog,
-  DialogTitle,
-  DialogContent,
-  DialogContentText,
-  DialogActions,
-  TextField,
-  InputAdornment
-} from '@material-ui/core';
+import { withStyles, Button, IconButton, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, TextField, InputAdornment } from '@material-ui/core';
 import CloseIcon from '@material-ui/icons/Close';
 import  API from "../../api/API";
 import ContextErrorMessage from './ContextErrorMessage';
 import LoadingProgress from './LoadingProgress';
 import SearchIcon from "@material-ui/icons/Search";
-
 
 /**
  * Zeigt einen modalen Formulardialog für ein BenutzerBO in prop benutzer. Wenn der Einzelhaendler null ist,
@@ -128,7 +116,7 @@ class BenutzerListeForm extends Component {
   /** Rendert die Komponente */
   render() {
     const {classes, show} = this.props;
-    const {benutzerEmail, benutzerEmailValidationFailed, addingInProgress, addingError, benutzerNotFound} = this.state;
+    const {benutzerEmailValidationFailed, addingInProgress, addingError, benutzerNotFound} = this.state;
 
     let title = '';
     let header = '';
