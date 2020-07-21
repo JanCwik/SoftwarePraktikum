@@ -11,12 +11,10 @@ from server.bo.Anwenderverbund import Anwenderverbund
 from server.bo.Listeneintrag import Listeneintrag
 from server.bo.Statistik import Statistik
 from server.bo.StatistikHuZ import StatistikHuZ
-from server.bo.StatistikHändler import StatistikHändler
+from server.bo.StatistikHaendler import StatistikHaendler
 from server.bo.StatistikZeitraum import StatistikZeitraum
-
-
-
 from SecurityDecorator import secured
+
 
 """requirements: Flask, Flask-Cors, flask-restx, mysql-connector-python"""
 
@@ -95,7 +93,7 @@ statistikzeitraum = api.inherit('StatistikZeitraum', statistik, {
 statistikhuz = api.inherit('StatistikHuZ', statistik, {
     'Zeitpunkt': fields.String(attribute='_zeitpunkt', description='Zugriffszeitpunkt'),
     'StartZeitpunkt': fields.String(attribute='_startzeitpunkt', description='Starrtzeitpunkt des Filters'),
-    'EndZeitpunkt': fields.String(attribute='_endzeitpunkt', description='Endzeitpunkt des Filters')
+    'EndZeitpunkt': fields.String(attribute='_endzeitpunkt', description='Endzeitpunkt des Filters'),
     'EinzelhaendlerName': fields.String(attribute='_Einzelhaendler_name', description='Name des Einzelhändlers'),
     'EinzelhaendlerID': fields.Integer(attribute='_Einzelhaendler_id', description='ID des Einzelhändlers')
 })
