@@ -23,7 +23,7 @@ export default class API {
 
     //private Methoden um das angeben aller URLs zu erleichtern
 
-    #getBenutzerByNameURL= (name) => `${this.#ServerBaseURL}/benutzer-by-name/${name}`;
+    #getStatistikURL= () => `${this.#ServerBaseURL}/statistik`;
 
 
     //führt die fetch-Funktion aus, fängt dabei mögliche Errors ab und führt anschließend schon die json-Funktion mit der Response aus.

@@ -87,6 +87,14 @@ statistikzeitraum = api.inherit('StatistikZeitraum', statistik, {
     'EndZeitpunkt': fields.String(attribute='_endzeitpunkt', description='Endzeitpunkt des Filters')
 })
 
+statistikhuz = api.inherit('StatistikHuZ', statistik, {
+    'Zeitpunkt': fields.String(attribute='_zeitpunkt', description='Zugriffszeitpunkt'),
+    'StartZeitpunkt': fields.String(attribute='_startzeitpunkt', description='Starrtzeitpunkt des Filters'),
+    'EndZeitpunkt': fields.String(attribute='_endzeitpunkt', description='Endzeitpunkt des Filters')
+    'EinzelhaendlerName': fields.String(attribute='_Einzelhaendler_name', description='Name des Einzelhändlers'),
+    'EinzelhaendlerID': fields.Integer(attribute='_Einzelhaendler_id', description='ID des Einzelhändlers')
+})
+
 @shopping.route('/artikel')
 @shopping.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
 class ArtikelListOperations(Resource):
