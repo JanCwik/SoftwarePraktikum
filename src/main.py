@@ -443,7 +443,7 @@ class BenutzerRelatedListeneintragOperations(Resource):
 @shopping.param('email', 'Email des Benutzers')
 class BenutzerRelatedArtikelOperations(Resource):
     @shopping.marshal_with(artikel)
-    @secured
+    #@secured
     def get(self, email):
         """Auslesen aller Artikel die zu einem Benutzer gehören"""
         adm = ApplikationsAdministration()
