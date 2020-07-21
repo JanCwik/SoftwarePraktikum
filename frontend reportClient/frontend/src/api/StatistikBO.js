@@ -1,11 +1,10 @@
-import NamedBO from "../../../../frontend/src/api/NamedBO";
 
-export default class StatistikBO extends NamedBO {
+
+export default class StatistikBO {
 //damit direkt über diese KLasse ein Name angelegt werden kann
 // muss der Parameter im Constructor entgegengenommen werden
 // und an die superklasse NapedBo weitergegeben werden
-    constructor(name) {
-        super(name);
+    constructor() {
         this.artikelName= ""
         this.gesamtAnzahl = null
         this.artikelID = null
