@@ -40,8 +40,8 @@ class AnwenderverbundMapper(Mapper):
         mit der fetchall-Methode in einem Tupel gespeichert.
 
         Mit einer for-schleife wird anschließend geschaut ob bereits eine ID in der Tabelle vorhanden ist.
-        Falls ja, wird diese genommen und um +1 hochgezählt und anschließend der Instanz, welche in der Datenbank gespeichert
-        werden soll übergeben.
+        Falls ja, wird diese genommen und um +1 hochgezählt und anschließend der Instanz, welche in der Datenbank
+        gespeichert werden soll übergeben.
         Falls noch keine ID in der Tabelle vorhanden sein sollte, wird die Zahl 1 an die Instanz weitergegeben.
 
         Dann erfolgt erneut ein SQL-Statement welches die Instanz in der Datenbank speichert.
@@ -100,12 +100,13 @@ class AnwenderverbundMapper(Mapper):
     def find_by_id(self, id):
         """ Mapper-Methode zum ausgeben eines Anwenderverbunds anhand dessen ID.
 
-        Beim Aufruf der Methode wird eine ID in der Variablen "id" gespeichert, welche schließlich an das SQL-Statement übergeben wird.
+        Beim Aufruf der Methode wird eine ID in der Variablen "id" gespeichert, welche schließlich an das SQL-Statement
+        übergeben wird.
         Das entsprechende Objekt, welches aus der Datenbank ausgegeben wird, wird in einem Tupel gespeichert.
-        Anschließend werden die einzelnen Attribute aus dem Tupel an der Stelle 0 genommen und an eine neue Anwenderverbund-Instanz via
-        den Setter-Methoden übergeben.
-        Sollte die Datenbank anhand der ID kein Objekt zurückliefern, wird ausgegeben was innerhalb des IndexErrors steht --> None
-        Das Ergebnis wir schließlich von der Mehtode zurückgegeben."""
+        Anschließend werden die einzelnen Attribute aus dem Tupel an der Stelle 0 genommen und an eine neue
+        Anwenderverbund-Instanz via den Setter-Methoden übergeben.
+        Sollte die Datenbank anhand der ID kein Objekt zurückliefern, wird ausgegeben was innerhalb des IndexErrors
+        steht --> None. Das Ergebnis wir schließlich von der Mehtode zurückgegeben."""
         cursor = self._cnx.cursor()
         statement = "SELECT id, name, erstellungs_zeitpunkt FROM anwenderverbund WHERE id={}".format(id)
         cursor.execute(statement)
@@ -129,15 +130,16 @@ class AnwenderverbundMapper(Mapper):
     def find_by_name(self, name):
         """ Mapper-Methode zum ausgeben eines Anwenderverbunds anhand dessen Name.
 
-        Beim Aufruf der Methode wird ein Name in der Variablen "name" gespeichert, welche schließlich an das SQL-Statement übergeben wird.
+        Beim Aufruf der Methode wird ein Name in der Variablen "name" gespeichert, welche schließlich an das
+        SQL-Statement übergeben wird.
         Das entsprechende Objekt, welches aus der Datenbank ausgegeben wird, wird in einem Tupel gespeichert.
-        Anschließend werden die einzelnen Attribute aus dem Tupel an der Stelle 0 genommen und an eine neue Anwenderverbund-Instanz via
-        den Setter-Methoden übergeben.
-        Sollte die Datenbank anhand des Namens kein Objekt zurückliefern, wird ausgegeben was innerhalb des IndexErrors steht --> None
-        Das Ergebnis wir schließlich von der Mehtode zurückgegeben."""
+        Anschließend werden die einzelnen Attribute aus dem Tupel an der Stelle 0 genommen und an eine neue
+        Anwenderverbund-Instanz via den Setter-Methoden übergeben.
+        Sollte die Datenbank anhand des Namens kein Objekt zurückliefern, wird ausgegeben was innerhalb des
+        IndexErrors steht --> None. Das Ergebnis wir schließlich von der Mehtode zurückgegeben."""
         cursor = self._cnx.cursor()
-        statement = "SELECT id, name, erstellungs_zeitpunkt FROM anwenderverbund WHERE name LIKE '{}' ORDER BY name".format(
-            name)
+        statement = "SELECT id, name, erstellungs_zeitpunkt FROM anwenderverbund WHERE name LIKE '{}' ORDER BY name"\
+            .format(name)
         cursor.execute(statement)
         verbund = cursor.fetchall()
 

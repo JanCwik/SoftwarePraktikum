@@ -7,10 +7,10 @@ class BusinessObject(ABC):
     def __init__(self):
         self._id = 0
 
-    def set_id(self,id):
-        """Auslesen der ID."""
-        self._id = id
+    def set_id(self, value):
+        """Setzen der ID."""
+        self._id = value
 
     def get_id(self):
-        """Setzen der ID."""
+        """Auslesen der ID."""
         return self._id

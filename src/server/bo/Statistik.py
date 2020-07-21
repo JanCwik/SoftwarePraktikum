@@ -3,14 +3,14 @@ class Statistik():
     def __init__(self):
         self._anzahl = 0
         self._ArtikelID = 0
-        self._ArtikelName =""
+        self._ArtikelName = ""
 
     def set_ArtikelName(self, artikelname):
-        """Setzen der Anzahl"""
+        """Setzen des Artikelnamens"""
         self._ArtikelName = artikelname
 
     def get_ArtikelName(self):
-        """Auslesen der Anzahl"""
+        """Auslesen des Artikelnamens"""
         return self._ArtikelName
 
     def set_anzahl(self, anzahl):
@@ -22,14 +22,12 @@ class Statistik():
         return self._anzahl
 
     def set_ArtikelID(self, ArtikelID):
-        """Setzen der Anzahl"""
+        """Setzen der Artikel ID"""
         self._ArtikelID = ArtikelID
 
     def get_ArtikelID(self):
-        """Auslesen der Anzahl"""
+        """Auslesen der Artikel ID"""
         return self._ArtikelID
-
-
 
     def __str__(self):
         """Erzeugen einer einfachen textuellen Darstellung der jeweiligen Instanz."""

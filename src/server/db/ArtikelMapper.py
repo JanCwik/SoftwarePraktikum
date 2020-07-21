@@ -43,8 +43,8 @@ class ArtikelMapper(Mapper):
         mit der fetchall-Methode in einem Tupel gespeichert.
 
         Mit einer for-schleife wird anschließend geschaut ob bereits eine ID in der Tabelle vorhanden ist.
-        Falls ja, wird diese genommen und um +1 hochgezählt und anschließend der Instanz, welche in der Datenbank gespeichert
-        werden soll übergeben.
+        Falls ja, wird diese genommen und um +1 hochgezählt und anschließend der Instanz, welche in der Datenbank
+        gespeichert werden soll übergeben.
         Falls noch keine ID in der Tabelle vorhanden sein sollte, wird die Zahl 1 an die Instanz weitergegeben
 
         Dann erfolgt erneut ein SQL-Statement welches die Instanz in der Datenbank speichert.
@@ -60,8 +60,10 @@ class ArtikelMapper(Mapper):
             else:
                 artikel.set_id(1)
 
-        template = "INSERT INTO artikel (id, name, erstellungs_zeitpunkt, einheit, standardartikel, benutzer_id) VALUES (%s,%s,%s,%s,%s,%s)"
-        vals = (artikel.get_id(), artikel.get_name(), artikel.get_erstellungs_zeitpunkt(), artikel.get_einheit(), artikel.get_standardartikel(), artikel.get_benutzer_id())
+        template = "INSERT INTO artikel (id, name, erstellungs_zeitpunkt, einheit, standardartikel, benutzer_id) " \
+                   "VALUES (%s,%s,%s,%s,%s,%s)"
+        vals = (artikel.get_id(), artikel.get_name(), artikel.get_erstellungs_zeitpunkt(), artikel.get_einheit(),
+                artikel.get_standardartikel(), artikel.get_benutzer_id())
         cursor.execute(template, vals)
 
         self._cnx.commit()
@@ -103,14 +105,16 @@ class ArtikelMapper(Mapper):
     def find_by_id(self, id):
         """ Mapper-Methode zum ausgeben eines Artikels anhand dessen ID.
 
-        Beim Aufruf Methode wird eine ID in der Variablen "id" gespeichert, welche schließlich an das SQL-Statement übergeben wird.
+        Beim Aufruf Methode wird eine ID in der Variablen "id" gespeichert, welche schließlich an das SQL-Statement
+        übergeben wird.
         Das entsprechende Objekt, welches aus der Datenbank ausgegeben wird, wird in einem Tupel gespeichert.
-        Anschließend werden die einzelnen Attribute aus dem Tupel an der Stelle 0 genommen und an eine neue Artikel-Instanz via
-        den Setter-Methoden übergeben.
-        Sollte die Datenbank anhand der ID kein Objekt zurückliefern, wird ausgegeben was innerhalb des IndexErrors steht --> None
-        Das Ergebnis wir schließlich von der Mehtode zurückgegeben."""
+        Anschließend werden die einzelnen Attribute aus dem Tupel an der Stelle 0 genommen und an eine neue
+        Artikel-Instanz via den Setter-Methoden übergeben.
+        Sollte die Datenbank anhand der ID kein Objekt zurückliefern, wird ausgegeben was innerhalb des
+        IndexErrors steht --> None. Das Ergebnis wir schließlich von der Mehtode zurückgegeben."""
         cursor = self._cnx.cursor()
-        command = "SELECT id, name, erstellungs_zeitpunkt, einheit, standardartikel, benutzer_id FROM artikel WHERE id={}".format(id)
+        command = "SELECT id, name, erstellungs_zeitpunkt, einheit, standardartikel, benutzer_id FROM artikel " \
+                  "WHERE id={}".format(id)
         cursor.execute(command)
         tuples = cursor.fetchall()
 
@@ -135,14 +139,16 @@ class ArtikelMapper(Mapper):
     def find_by_name(self, name):
         """ Mapper-Methode zum ausgeben eines Artikels anhand dessen Name.
 
-        Beim Aufruf Methode wird ein Name in der Variablen "name" gespeichert, welche schließlich an das SQL-Statement übergeben wird.
+        Beim Aufruf Methode wird ein Name in der Variablen "name" gespeichert, welche schließlich an das SQL-Statement
+        übergeben wird.
         Das entsprechende Objekt, welches aus der Datenbank ausgegeben wird, wird in einem Tupel gespeichert.
-        Anschließend werden die einzelnen Attribute aus dem Tupel an der Stelle 0 genommen und an eine neue Artikel-Instanz via
-        den Setter-Methoden übergeben.
-        Sollte die Datenbank anhand des Namens kein Objekt zurückliefern, wird ausgegeben was innerhalb des IndexErrors steht --> None
-        Das Ergebnis wir schließlich von der Mehtode zurückgegeben."""
+        Anschließend werden die einzelnen Attribute aus dem Tupel an der Stelle 0 genommen und an eine neue
+        Artikel-Instanz via den Setter-Methoden übergeben.
+        Sollte die Datenbank anhand des Namens kein Objekt zurückliefern, wird ausgegeben was innerhalb des
+        IndexErrors steht --> None. Das Ergebnis wir schließlich von der Mehtode zurückgegeben."""
         cursor = self._cnx.cursor()
-        command = "SELECT id, name, erstellungs_zeitpunkt, einheit, standardartikel, benutzer_id FROM artikel WHERE name LIKE '{}' ORDER BY name".format(name)
+        command = "SELECT id, name, erstellungs_zeitpunkt, einheit, standardartikel, benutzer_id FROM artikel " \
+                  "WHERE name LIKE '{}' ORDER BY name".format(name)
         cursor.execute(command)
         tuples = cursor.fetchall()
 
@@ -165,10 +171,11 @@ class ArtikelMapper(Mapper):
         return result
 
     def find_all_artikel_of_benutzer(self, benutzer):
-        """Mapper-Methode zum ausgeben aller Artikel aus der Datenbank welche zu einem bestimmten Benutzer gehören"""
+        """Mapper-Methode zum ausgeben aller Artikel aus der Datenbank welche zu einem bestimmten Benutzer gehören."""
         result = []
         cursor = self._cnx.cursor()
-        command = "SELECT id, name, erstellungs_zeitpunkt, einheit, standardartikel, benutzer_id FROM artikel WHERE benutzer_id={}".format(benutzer.get_id())
+        command = "SELECT id, name, erstellungs_zeitpunkt, einheit, standardartikel, benutzer_id FROM artikel " \
+                  "WHERE benutzer_id={}".format(benutzer.get_id())
         cursor.execute(command)
         res = cursor.fetchall()
 
@@ -187,19 +194,18 @@ class ArtikelMapper(Mapper):
 
         return result
 
-
-    def get_id_from_standardartikel(self,benutzer):
-
-
+    def get_id_from_standardartikel(self, benutzer):
+        """ """
         cursor = self._cnx.cursor()
         temp = "SELECT id FROM artikel WHERE standardartikel=%s" + " AND benutzer_id = %s"
-        vals=( True ,benutzer.get_id())
-        cursor.execute(temp,vals)
+        vals = (True, benutzer.get_id())
+        cursor.execute(temp, vals)
         tuples = cursor.fetchall()
 
         return tuples
 
     def get_artikelname_for_listeneintrag(self, eintraege):
+        """ """
         cursor = self._cnx.cursor()
 
         cursor.execute("SELECT name FROM artikel WHERE id={}".format(eintraege.get_artikelId()))
@@ -210,8 +216,8 @@ class ArtikelMapper(Mapper):
         self._cnx.commit()
         cursor.close()
 
-
     def get_artikeleinheit_for_listeneintrag(self, eintraege):
+        """ """
         cursor = self._cnx.cursor()
 
         cursor.execute("SELECT einheit FROM artikel WHERE id={}".format(eintraege.get_artikelId()))

@@ -16,18 +16,10 @@ class StatistikHaendler(Statistik):
         """Auslesen des Namens eines Einzelhaendlers"""
         return self._Einzelhaendler_name
 
-    def set_Einzelhaendler_id(self, _Einzelhaendler_id):
-        """Setzen des Namens eines Einzelhaendlers"""
-        self._Einzelhaendler_id = _Einzelhaendler_id
+    def set_Einzelhaendler_id(self, Einzelhaendler_id):
+        """Setzen der ID eines Einzelhaendlers"""
+        self._Einzelhaendler_id = Einzelhaendler_id
 
-    def get_Einzelhaendler_ide(self):
-        """Auslesen des Namens eines Einzelhaendlers"""
+    def get_Einzelhaendler_id(self):
+        """Auslesen der ID eines Einzelhaendlers"""
         return self._Einzelhaendler_id
-
-    @staticmethod
-    def from_dict(dictionary=dict()):
-        """Einen Python dict() in ein StatistikHaendlerBO umwandeln."""
-        obj = StatistikHaendler()
-        obj.set_Einzelhaendler_name(dictionary["Einzelhaendler_name"])
-
-        return obj
