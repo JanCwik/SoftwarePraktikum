@@ -25,8 +25,10 @@ import ListeneintragBO from "../api/ListeneintragBO";
 
  */
 class ListenEintrag extends Component {
+
+  /** Erstellt einen alert, der bei demdem zuletzt geänderten Listeneintrag erscheint. */
     latest() {
-      alert("Dies ist der zuletzt geänderte Listeneintrag");
+      alert("Dies ist der zuletzt geänderte Listeneintrag!");
   }
 
   constructor(props) {
