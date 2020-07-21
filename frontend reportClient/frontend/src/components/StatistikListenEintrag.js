@@ -22,22 +22,14 @@ class StatistikListenEintrag extends Component {
   render() {
     const { classes } = this.props;
     const { statistikeintrag } = this.state;
-
     return (
-      <div>
-            <Grid container spacing={3} justify='flex-start' alignItems='center'>
-              <Grid item>
-                <Typography variant='body1' className={classes.heading}>
-                  {statistikeintrag.getArtikelName()}
+      <div className={classes.root}  >
+
+                <Typography variant='h5' component='h5' align='center' >
+                  Der Artikel {statistikeintrag.getArtikelName()} wurde {statistikeintrag.getGesamtAnzahl()} mal gekauft
                 </Typography>
-              </Grid>
-              <Grid item>
-                <Typography variant='body1' className={classes.heading}>
-                  {statistikeintrag.getGesamtAnzahl()}
-                </Typography>
-              </Grid>
-              <Grid item xs />
-            </Grid>
+
+
       </div>
     );
   }
@@ -47,7 +39,9 @@ class StatistikListenEintrag extends Component {
 const styles = theme => ({
   root: {
     width: '100%',
-  }
+    marginTop : theme.spacing(4)
+  },
+
 });
 
 /** PropTypes */
@@ -55,11 +49,8 @@ StatistikListenEintrag.propTypes = {
   /** @ignore */
   classes: PropTypes.object.isRequired,
   /** Das EinzelhaendlerBO gerendert */
-  einzelhaendler: PropTypes.object.isRequired,
-   /**
-   *  Ereignis Handler Funktion, welche aufgerufen wird, wenn ein Einzelhaendler erfolgreich gelöscht wurde.
-   */
-  onEinzelhaendlerDeleted: PropTypes.func.isRequired
+  statistikeintrag: PropTypes.object.isRequired,
+
 }
 
 export default withStyles(styles)(StatistikListenEintrag);
