@@ -1,4 +1,4 @@
-from src.server.bo.Statistik import Statistik
+from .Statistik import Statistik
 
 
 class StatistikHuZ(Statistik):

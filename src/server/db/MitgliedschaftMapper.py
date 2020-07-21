@@ -1,7 +1,7 @@
-from src.server.db.Mapper import Mapper
-from src.server.bo.Anwenderverbund import Anwenderverbund
-from src.server.bo.Einkaufsliste import Einkaufsliste
-from src.server.bo.Benutzer import Benutzer
+from server.db.Mapper import Mapper
+from server.bo.Anwenderverbund import Anwenderverbund
+from server.bo.Einkaufsliste import Einkaufsliste
+from server.bo.Benutzer import Benutzer
 
 
 class MitgliedschaftMapper(Mapper):

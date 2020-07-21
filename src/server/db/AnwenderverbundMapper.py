@@ -1,5 +1,5 @@
-from src.server.db.Mapper import Mapper
-from src.server.bo.Anwenderverbund import Anwenderverbund
+from .Mapper import Mapper
+from server.bo.Anwenderverbund import Anwenderverbund
 
 
 class AnwenderverbundMapper(Mapper):
