@@ -8,9 +8,9 @@ class StatistikHaendler(Statistik):
         self._Einzelhaendler_name = ""
         self._Einzelhaendler_id = 0
 
-    def set_Einzelhaendler_name(self, Einzelhaendler_name):
+    def set_Einzelhaendler_name(self, _Einzelhaendler_name):
         """Setzen des Namens eines Einzelhaendlers"""
-        self._Einzelhaendler_name = Einzelhaendler_name
+        self._Einzelhaendler_name = _Einzelhaendler_name
 
     def get_Einzelhaendler_name(self):
         """Auslesen des Namens eines Einzelhaendlers"""
@@ -20,7 +20,7 @@ class StatistikHaendler(Statistik):
         """Setzen des Namens eines Einzelhaendlers"""
         self._Einzelhaendler_id = _Einzelhaendler_id
 
-    def get_Einzelhaendler_ide(self):
+    def get_Einzelhaendler_id(self):
         """Auslesen des Namens eines Einzelhaendlers"""
         return self._Einzelhaendler_id
 

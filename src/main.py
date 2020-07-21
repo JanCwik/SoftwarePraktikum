@@ -75,12 +75,30 @@ listeneintrag = api.inherit('Listeneintrag', bo, {
 
 })
 
-# Statistik hinzugefügt, Maik
 statistik = api.inherit('Statistik', {
-    'gesamtzahl': fields.String(attribute='_gesamtzahl', description='Gesamtzahl wie oft der Artikel gekauft wurde'),
+    'ArtikelName': fields.String(attribute='_ArtikelName', description='Name des Artikels'),
+    'GesamtAnzahl': fields.String(attribute='_GesamtAnzahl', description='Gesamtanzahl wie oft der Artikel gekauft wurde'),
     'ArtikelID': fields.Integer(attribute='_ArtikelID', description='ID des Artikels')
 })
 
+statistikhaendler = api.inherit('StatistikHaendler', statistik, {
+    'EinzelhaendlerName': fields.String(attribute='_Einzelhaendler_name', description='Name des Einzelhändlers'),
+    'EinzelhaendlerID': fields.Integer(attribute='_Einzelhaendler_id', description='ID des Einzelhändlers')
+})
+
+statistikzeitraum = api.inherit('StatistikZeitraum', statistik, {
+    'Zeitpunkt': fields.String(attribute='_zeitpunkt', description='Zugriffszeitpunkt'),
+    'StartZeitpunkt': fields.String(attribute='_startzeitpunkt', description='Starrtzeitpunkt des Filters'),
+    'EndZeitpunkt': fields.String(attribute='_endzeitpunkt', description='Endzeitpunkt des Filters')
+})
+
+statistikhuz = api.inherit('StatistikHuZ', statistik, {
+    'Zeitpunkt': fields.String(attribute='_zeitpunkt', description='Zugriffszeitpunkt'),
+    'StartZeitpunkt': fields.String(attribute='_startzeitpunkt', description='Starrtzeitpunkt des Filters'),
+    'EndZeitpunkt': fields.String(attribute='_endzeitpunkt', description='Endzeitpunkt des Filters')
+    'EinzelhaendlerName': fields.String(attribute='_Einzelhaendler_name', description='Name des Einzelhändlers'),
+    'EinzelhaendlerID': fields.Integer(attribute='_Einzelhaendler_id', description='ID des Einzelhändlers')
+})
 
 @shopping.route('/artikel')
 @shopping.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
@@ -745,92 +763,17 @@ class AnwenderverbundRelatedBenutzerOperations(Resource):
 """Statistik-Methoden, Maik"""
 
 
-@shopping.route('/statistik/<string:email>')
+@shopping.route('/statistik')
 @shopping.response(500, 'Serverfehler')
-@shopping.param('email', 'Email des Benutzers')
-class StatistikListOperations(Resource):
+class StatistikGetTopArtikelOperations(Resource):
     @shopping.marshal_list_with(statistik)
     @secured
-    def get(self, email):
+    def get(self):
         """Auslesen der meist gekauften Artikel"""
         adm = ApplikationsAdministration()
-        benutzer = adm.get_benutzer_by_email(email)
+        statistik = adm.statistik()
 
-        if benutzer is not None:
-            statistik = adm.get_top_artikel_5(benutzer)
-            return statistik
-        else:
-            return "Benutzer nicht gefunden", 500
-
-
-@shopping.route('/statistik/<string:email>/<string:name>')
-@shopping.response(500, 'Serverfehler')
-@shopping.param('email', 'Email des Benutzers')
-@shopping.param('name', 'Name des Einzelhändlers')
-class StatistikListOperationsByEinzelhaendler(Resource):
-    @shopping.marshal_list_with(statistik)
-    @secured
-    def get(self, email, name):
-        """Auslesen der meist gekauften Artikel bei einem durch Namen definierten Einzelhaendler"""
-        adm = ApplikationsAdministration()
-        benutzer = adm.get_benutzer_by_email(email)
-        einzelhaendler = adm.get_einzelhaendler_by_name(name)
-
-        if benutzer is not None:
-            if einzelhaendler is not None:
-                statistik = adm.get_top_artikel_5_by_einzelhaendler(benutzer, einzelhaendler)
-                return statistik
-            else:
-                return "Einzelhändler nicht gefunden", 500
-        else:
-            return "Benutzer nicht gefunden", 500
-
-
-@shopping.route('/statistik/<string:email>/<string:von>/<string:bis>')
-@shopping.response(500, 'Serverfehler')
-@shopping.param('email', 'Email des Benutzers')
-@shopping.param('von', 'Startzeitpunkt')
-@shopping.param('von', 'Endzeitpunkt')
-class StatistikListOperationsByDatum(Resource):
-    @shopping.marshal_list_with(statistik)
-    @secured
-    def get(self, email, von, bis):
-        """Auslesen der meist gekauften Artikel bei einem durch Namen definierten Einzelhaendler"""
-        adm = ApplikationsAdministration()
-        benutzer = adm.get_benutzer_by_email(email)
-        start = "StatistikHuZ.get_startzeitpunkt"
-        ende = ""
-        if benutzer is not None:
-            statistik = adm.get_top_artikel_5_by_datum(benutzer, start, ende)
-            return statistik
-        else:
-            return "Benutzer nicht gefunden", 500
-
-
-@shopping.route('/statistik/<string:email>/<string:name>/<string:von>/<string:bis>')
-@shopping.response(500, 'Serverfehler')
-@shopping.param('email', 'Email des Benutzers')
-@shopping.param('name', 'Name des Einzelhändlers')
-@shopping.param('von', 'Startzeitpunkt')
-@shopping.param('von', 'Endzeitpunkt')
-class StatistikListOperationsByEinzelhaendlerDatum(Resource):
-    @shopping.marshal_list_with(statistik)
-    @secured
-    def get(self, email,name, von, bis):
-        """Auslesen der meist gekauften Artikel bei einem durch Namen definierten Einzelhaendler"""
-        adm = ApplikationsAdministration()
-        benutzer = adm.get_benutzer_by_email(email)
-        einzelhaendler = adm.get_einzelhaendler_by_name(name)
-        start = "StatistikHuZ.get_startzeitpunkt"
-        ende = ""
-        if benutzer is not None:
-            if einzelhaendler is not None:
-                statistik = adm.get_top_artikel_5_by_einzelhaendler_datum(benutzer, einzelhaendler, start, ende)
-                return statistik
-            else:
-                return "Einzelhändler nicht gefunden", 500
-        else:
-            return "Benutzer nicht gefunden", 500
+        return statistik
 
 
 if __name__ == '__main__':
