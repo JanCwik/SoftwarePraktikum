@@ -8,9 +8,9 @@ class BusinessObject(ABC):
         self._id = 0
 
     def set_id(self, value):
-        """Auslesen der ID."""
+        """Setzen der ID."""
         self._id = value
 
     def get_id(self):
-        """Setzen der ID."""
+        """Auslesen der ID."""
         return self._id

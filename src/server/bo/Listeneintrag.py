@@ -18,12 +18,12 @@ class Listeneintrag(BusinessObject):
         self._benutzer_name = None
         self._zuletzt_geaendert= False
 
-    def set_zuletzt_geaendert(self, _zuletzt_geaendert):
-        """Setzen der Anzahl"""
-        self._zuletzt_geaendert = _zuletzt_geaendert
+    def set_zuletzt_geaendert(self, zuletzt_geaendert):
+        """Setzen des zuletztgeaendert Datums"""
+        self._zuletzt_geaendert = zuletzt_geaendert
 
     def get_zuletzt_geaendert(self):
-        """Auslesen der Anzahl"""
+        """Auslesen des zuletztgeaendert Datums"""
         return self._zuletzt_geaendert
 
     def set_anzahl(self, anzahl):
