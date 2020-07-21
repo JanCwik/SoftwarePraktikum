@@ -3,12 +3,10 @@ import PropTypes from 'prop-types';
 import {withStyles, Button, ListItem, ListItemSecondaryAction, Link, Typography, ButtonGroup} from '@material-ui/core';
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
-import SwapHoriz from '@material-ui/icons/SwapHoriz';
-import { Link as RouterLink } from 'react-router-dom';
+import UpdateIcon from '@material-ui/icons/Update';
 import  API  from '../api/API';
 import List from '@material-ui/core/List';
 import Checkbox from '@material-ui/core/Checkbox';
-import IconButton from '@material-ui/core/IconButton';
 import ListeneintragLoeschen from "./dialogs/ListeneintragLoeschen";
 import ListeneintragForm from "./dialogs/ListeneintragForm";
 import ListeneintragBO from "../api/ListeneintragBO";
@@ -27,6 +25,9 @@ import ListeneintragBO from "../api/ListeneintragBO";
 
  */
 class ListenEintrag extends Component {
+    latest() {
+      alert("Dies ist der zuletzt geänderte Listeneintrag");
+  }
 
   constructor(props) {
     super(props);
@@ -40,7 +41,6 @@ class ListenEintrag extends Component {
       loadingError: null,
       deletingError: null,
       showForm: false
-
     };
   }
 
@@ -71,8 +71,6 @@ class ListenEintrag extends Component {
         this.props.reload()
       }
     }
-
-
       this.setState({
       showListeneintragDeleteDialog: false
     });
@@ -98,7 +96,6 @@ class ListenEintrag extends Component {
       });
     }
   }
-
 
 
   /** Rendert die Komponente */
@@ -130,13 +127,14 @@ class ListenEintrag extends Component {
             {listeneintrag.getEinzelhaendler_name()}
           </Typography>
 
-          {listeneintrag.getZuletzt_geaendert()?
-            <div>latest</div>
-           : null
-          }
-
           <Typography className={classes.Benutzer} color='textPrimary'>
            {listeneintrag.getBenutzer_name()}
+
+           {listeneintrag.getZuletzt_geaendert()?
+              <Button  color='secondary' size='small' startIcon={<UpdateIcon/>} onClick={this.latest}>
+            </Button>
+           : null
+          }
           </Typography>
 
           <ListItemSecondaryAction>
