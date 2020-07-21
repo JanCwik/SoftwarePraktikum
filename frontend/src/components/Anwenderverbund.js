@@ -34,7 +34,8 @@ class Anwenderverbund extends Component {
       error: null,
       loadingInProgress: false,
       expandedAnwenderverbundID: expandedID,
-      showAnwenderverbundForm: false
+      showAnwenderverbundForm: false,
+      newBenutzerFromNewAnwenderverbund: null
     };
   }
 
@@ -113,16 +114,23 @@ class Anwenderverbund extends Component {
   }
 
   /** Behandelt das onClose Ereignis vom AnwenderverbundForm */
-  anwenderverbundFormClosed = anwenderverbund => {
-    // Anwenderverbund ist nicht null und deshalb erstellt
+  anwenderverbundFormClosed = (anwenderverbund, benutzer) => {
+
     if (anwenderverbund) {
-      const newAnwenderverbundList = [...this.state.anwenderverbund, anwenderverbund];
-      this.setState({
+      const newAnwenderverbundList = [...this.state.anwenderverbund, anwenderverbund];      // Wenn Anwenderverbund übergeben wird, wird er
+      this.setState({                                                                   // zum Sate hinzugefügt und direkt angezeigt
         anwenderverbund: newAnwenderverbundList,
         filteredAnwenderverbund: [...newAnwenderverbundList],
         showAnwenderverbundForm: false
       });
-    } else {
+    }
+    if(benutzer){                                                                   // Wenn benutzer übergeben wird (wenn ein neuer Anwenderverbund erstellt wird)
+      this.setState({                                                           // dann wird der Benutzer in den State geschrieben, welcher als prop weitergegeben wird
+        newBenutzerFromNewAnwenderverbund:benutzer})
+
+    }
+
+    else {
       this.setState({
         showAnwenderverbundForm: false
       });
@@ -194,13 +202,13 @@ class Anwenderverbund extends Component {
 
           filteredAnwenderverbund.map(anwenderverbund =>
             <AnwenderverbundListenEintrag key={anwenderverbund.getID()} anwenderverbund={anwenderverbund} expandedState={expandedAnwenderverbundID === anwenderverbund.getID()}
-              onExpandedStateChange={this.onExpandedStateChange}
+              onExpandedStateChange={this.onExpandedStateChange}  newBenutzerFromNewAnwenderverbund={this.state.newBenutzerFromNewAnwenderverbund}
               onAnwenderverbundDeleted={this.anwenderverbundDeleted}
             />)
         }
         <LoadingProgress show={loadingInProgress} />
         <ContextErrorMessage error={error} contextErrorMsg={`Die Liste der Anwenderverbünde konnte nicht geladen werden.`} onReload={this.getAnwenderverbund} />
-        <AnwenderverbundForm show={showAnwenderverbundForm} onClose={this.anwenderverbundFormClosed} />
+        <AnwenderverbundForm show={showAnwenderverbundForm} userMail={this.props.userMail} onClose={this.anwenderverbundFormClosed} />
       </div>
     );
   }
