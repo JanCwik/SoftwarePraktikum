@@ -1,9 +1,10 @@
 import mysql.connector as connector
 import os
-from abc import ABC, abstractmethod
+from abc import ABC
 from contextlib import AbstractContextManager
 
-class Mapper (AbstractContextManager, ABC):
+
+class Mapper(AbstractContextManager, ABC):
 
     def __init__(self):
         self._cnx = None
@@ -24,9 +25,8 @@ class Mapper (AbstractContextManager, ABC):
             installierten mySQL-Datenbank her."""
 
             self._cnx = connector.connect(user='root', password='1234',
-                                  host='127.0.0.1',
-                                  database='shoppinglist')
-
+                                          host='127.0.0.1',
+                                          database='shoppinglist')
 
         return self
 

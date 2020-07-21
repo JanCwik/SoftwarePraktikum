@@ -1,7 +1,4 @@
 from src.server.db.Mapper import Mapper
-from src.server.bo.Anwenderverbund import Anwenderverbund
-from src.server.bo.Einkaufsliste import Einkaufsliste
-from src.server.bo.Benutzer import Benutzer
 
 
 class MitgliedschaftMapper(Mapper):
@@ -13,11 +10,12 @@ class MitgliedschaftMapper(Mapper):
         """ Mapper-Methode zum löschen eines Anwenderverbunds aus der Datenbank.
 
         Beim Aufruf der Methode wird eine zuvor erstellte Instanz der Klasse "Anwenderverbund()" übergeben.
-        Dann erfolgt ein SQL-Statement welches die Tabelle mitgliedschaft bereinigt, indem alle Einträge gelöscht werden,
-        in den der Anwenderverbund vorhanden ist."""
+        Dann erfolgt ein SQL-Statement welches die Tabelle mitgliedschaft bereinigt, indem alle Einträge gelöscht
+        werden, in den der Anwenderverbund vorhanden ist."""
         cursor = self._cnx.cursor()
 
-        mitgliedschaftloeschen = "DELETE FROM mitgliedschaft WHERE anwenderverbund_id={}".format(anwenderverbund.get_id())
+        mitgliedschaftloeschen = "DELETE FROM mitgliedschaft WHERE anwenderverbund_id={}".format(anwenderverbund.
+                                                                                                 get_id())
         cursor.execute(mitgliedschaftloeschen)
 
         self._cnx.commit()
@@ -70,6 +68,7 @@ class MitgliedschaftMapper(Mapper):
         return result
 
     def deleteByBenutzer(self, benutzer):
+        """Mapper-Methode zum löschen einer Mitgliedschaft eines Benutzers."""
         cursor = self._cnx.cursor()
 
         mitgliedschaftloeschen = "DELETE FROM mitgliedschaft WHERE benutzer_id={}".format(benutzer.get_id())
@@ -78,11 +77,11 @@ class MitgliedschaftMapper(Mapper):
         self._cnx.commit()
         cursor.close()
 
-
     def alle_anwenderverbunde_ausgeben(self, benutzer):
         """Mapper-Methode zum ausgeben aller Anwenderverbunde bei denen der Benutzer ein Mitglied ist.
 
-        Hier werden via SQL-Abfrage alle Anwenderverbunde in denen ein Benutzer ein Mitglied ist aus der Tabelle Mitgliedschaft ausgegeben.
+        Hier werden via SQL-Abfrage alle Anwenderverbunde in denen ein Benutzer ein Mitglied ist aus der Tabelle
+        Mitgliedschaft ausgegeben.
         Anschließend werden aus den Zeilen der Datenbank (welche ein Objekt mit dessen Attributen darstellen)
         mit der fetchall-Methode Tupel erstellt.
 
