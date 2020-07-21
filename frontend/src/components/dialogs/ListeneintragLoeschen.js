@@ -104,7 +104,7 @@ ListeneintragLoeschen.propTypes = {
   /** Um das ListeneintragBO zu löschen */
   listeneintrag: PropTypes.object.isRequired,
   /** Wenn true, wird der Dialog gerendert */
-  show: PropTypes.bool.isRequired,
+  show: PropTypes.bool,
   /**
    * Handler Funktion, die aufgerufen wird, wenn der Dialog geschlossen wurde.
    * Sendet das gelöschte ListeneintragBO als Parameter oder null, wenn abbrechen gedrückt wurde.

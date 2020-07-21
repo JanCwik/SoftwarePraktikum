@@ -1,15 +1,10 @@
-import  API  from '../src/api/API';
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import Header from "./components/layout/Header";
 import {BrowserRouter as Router, Route, Redirect} from "react-router-dom";
 import Artikel from "./components/Artikel";
 import Anwenderverbund from "./components/Anwenderverbund";
 import Einzelhaendler from "./components/Einzelhaendler";
 import AlleEinkaufslisten from "./components/AlleEinkaufslisten";
-import { Grid, Typography } from '@material-ui/core';
-import AnwenderverbundBO from "./api/AnwenderverbundBO";
-import ArtikelBO from "./api/ArtikelBO";
-import Listeneintrag from "./components/ListenEintrag";
 import SignIn from "./Pages/SignIn";
 import firebase from 'firebase/app';
 import 'firebase/auth';
@@ -17,7 +12,7 @@ import LoadingProgress from './components/dialogs/LoadingProgress';
 import ContextErrorMessage from './components/dialogs/ContextErrorMessage';
 import Einkaufsliste from "./components/Einkaufsliste";
 
-class App extends React.Component {
+class App extends Component {
     #firebaseConfig = {
     apiKey: "AIzaSyCEuXbtugiUUVRXul-bVblzeWgbwivWz50",
     authDomain: "softwarepraktikum-85388.firebaseapp.com",
