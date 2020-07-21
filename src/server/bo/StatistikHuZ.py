@@ -55,15 +55,3 @@ class StatistikHuZ(Statistik):
         """Erzeugen einer einfachen textuellen Darstellung der jeweiligen Instanz."""
         return "Artikel: {}, {}, {}, {}".format(self.get_ArtikelID(), self.get_ArtikelName(), self.get_anzahl(), self._zeitpunkt)
 
-    @staticmethod
-    def from_dict(dictionary=dict()):
-        """Einen Python dict() in ein StatistikZeitraumBO umwandeln."""
-        obj = StatistikHuZ()
-        obj.set_startzeitpunkt(dictionary["startzeitpunkt"])
-        obj.set_endzeitpunkt(dictionary["endzeitpunkt"])
-        obj.set_Einzelhaendler_name(dictionary["Einzelhaendler_name"])
-        obj.set_zeitpunkt(dictionary["zeitpunkt"])
-        obj.set_anzahl(dictionary["anzahl"])
-        obj.set_ArtikelName(dictionary["artikelname"])
-
-        return obj

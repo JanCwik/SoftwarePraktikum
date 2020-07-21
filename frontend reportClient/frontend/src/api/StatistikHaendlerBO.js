@@ -4,8 +4,8 @@ export default class StatistikHaendlerBO extends StatistikBO {
 //damit direkt über diese KLasse ein Name angelegt werden kann
 // muss der Parameter im Constructor entgegengenommen werden
 // und an die superklasse NapedBo weitergegeben werden
-    constructor(name) {
-        super(name);
+    constructor() {
+        super();
         this.einzelhaendlerName= ""
         this.einzelhaendlerID = null
     }

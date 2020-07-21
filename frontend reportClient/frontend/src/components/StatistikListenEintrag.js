@@ -14,23 +14,27 @@ class StatistikListenEintrag extends Component {
 
     // Init state
     this.state = {
-        listeneintrag: props.listeneintrag,
+        statistikeintrag: props.statistikeintrag,
     };
   }
 
   /** Rendert den Komponent */
   render() {
     const { classes } = this.props;
-    const { listeneintrag, showEinzelhaendlerForm, showEinzelhaendlerDeleteDialog } = this.state;
+    const { statistikeintrag } = this.state;
 
     return (
       <div>
             <Grid container spacing={3} justify='flex-start' alignItems='center'>
               <Grid item>
-                <Typography variant='body1' className={classes.heading}>{listeneintrag.getID()}
+                <Typography variant='body1' className={classes.heading}>
+                  {statistikeintrag.getArtikelName()}
                 </Typography>
               </Grid>
               <Grid item>
+                <Typography variant='body1' className={classes.heading}>
+                  {statistikeintrag.getGesamtAnzahl()}
+                </Typography>
               </Grid>
               <Grid item xs />
             </Grid>
