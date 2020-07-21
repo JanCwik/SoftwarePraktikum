@@ -7,11 +7,12 @@ import ContextErrorMessage from './ContextErrorMessage';
 import LoadingProgress from './LoadingProgress';
 
 /**
- * Zeigt einen modalen loeschen/abbrechen Dialog, der nach dem löschen eines Artikels fragt. Um den ArtikelBO
- * zu loeschen muss er in prop Artikel gegeben sein. In Abhängigkeit der Benutzerinteraktion (loeschen/abbrechen)
- * wird jeweils der Backendaufruf gemacht. Danch wird die Funktion onClose prop mit dem ArtikelBO loeschen
+ * Zeigt einen modalen löschen/abbrechen Dialog, der nach dem löschen eines Listeneintrags fragt. Um das ListeneintragBO
+ * zu löschen muss er in prop Listeneintrag gegeben sein. In Abhängigkeit der Benutzerinteraktion (löschen/abbrechen)
+ * wird jeweils der Backendaufruf gemacht. Danch wird die Funktion onClose prop mit dem ListeneintragBO löschen
  * Objekt als Parameter aufgerufen. Wenn der Dialog abgebrochen wird, wird onClose mit null aufgerufen.
  */
+
 class ListeneintragLoeschen extends Component {
 
   constructor(props) {
@@ -24,14 +25,14 @@ class ListeneintragLoeschen extends Component {
     };
   }
 
-  /** Löschen des Artikels */
+  /** Löschen des Listeneintrags */
   deleteListeneintrag = () => {
     API.getAPI().deleteListeneintragAPI(this.props.listeneintrag.getID()).then(listeneintrag => {
       this.setState({
         deletingInProgress: false,              // Ladeanzeige deaktivieren
         deletingError: null                     // Keine Error Nachricht
       });
-      this.props.onClose(this.props.listeneintrag);  // Aufruf des Urhebers mit dem geloeschten Artikel
+      this.props.onClose(this.props.listeneintrag);  // Aufruf des Urhebers mit dem gelöschten Listeneintrag
     }).catch(e =>
       this.setState({
         deletingInProgress: false,              // Ladeanzeige deaktivieren
@@ -56,7 +57,6 @@ class ListeneintragLoeschen extends Component {
   render() {
     const { classes, artikel, listeneintrag, show } = this.props;
     const { deletingInProgress, deletingError } = this.state;
-
     return (
       show ?
         <Dialog open={show} onClose={this.handleClose}>
@@ -87,7 +87,7 @@ class ListeneintragLoeschen extends Component {
   }
 }
 
-/** Komponentenspezifische Stile */
+/** Komponentenspezifische Styles */
 const styles = theme => ({
   closeButton: {
     position: 'absolute',
@@ -101,13 +101,13 @@ const styles = theme => ({
 ListeneintragLoeschen.propTypes = {
   /** @ignore */
   classes: PropTypes.object.isRequired,
-  /** Um das ArtikelBO zu loeschen */
+  /** Um das ListeneintragBO zu löschen */
   listeneintrag: PropTypes.object.isRequired,
   /** Wenn true, wird der Dialog gerendert */
   show: PropTypes.bool.isRequired,
   /**
    * Handler Funktion, die aufgerufen wird, wenn der Dialog geschlossen wurde.
-   * Sendet das geloeschte ArtikelBO als Parameter oder null, wenn abbrechen gedrückt wurde.
+   * Sendet das gelöschte ListeneintragBO als Parameter oder null, wenn abbrechen gedrückt wurde.
    */
   onClose: PropTypes.func.isRequired,
 }

@@ -7,9 +7,9 @@ import ContextErrorMessage from './ContextErrorMessage';
 import LoadingProgress from './LoadingProgress';
 
 /**
- * Zeigt einen modalen löschen/abbrechen Dialog, der nach dem löschen eines Einzelhändlers fragt. Um den EinzelhaendlerBO
- * zu löschen muss er in prop Einzelhaendler gegeben sein. In Abhängigkeit der Benutzerinteraktion (löschen/abbrechen)
- * wird jeweils der Backendaufruf gemacht. Danch wird die Funktion onClose prop mit dem EinzelhaendlerBO löschen
+ * Zeigt einen modalen löschen/abbrechen Dialog, der nach dem löschen einer Einkaufsliste fragt. Um das EinkaufslisteBO
+ * zu löschen muss er in prop einkaufsliste gegeben sein. In Abhängigkeit der Benutzerinteraktion (löschen/abbrechen)
+ * wird jeweils der Backendaufruf gemacht. Danch wird die Funktion onClose prop mit dem EinkaufslisteBO löschen
  * Objekt als Parameter aufgerufen. Wenn der Dialog abgebrochen wird, wird onClose mit null aufgerufen.
  */
 
@@ -25,18 +25,18 @@ class EinkaufslisteLoeschen extends Component {
     };
   }
 
-  /** Löschen des Einzelhändlers */
+  /** Löschen der Einkaufsliste */
   deleteEinkaufsliste = () => {
     API.getAPI().deleteEinkaufslisteAPI(this.props.einkaufsliste.getID()).then(einkaufsliste => {
       this.setState({
-        deletingInProgress: false,              // Ladeanzeige deaktivieren
-        deletingError: null                     // Keine Error Nachricht
+        deletingInProgress: false,                    // Ladeanzeige deaktivieren
+        deletingError: null                           // Keine Error Nachricht
       });
-      this.props.onClose(this.props.einkaufsliste);  // Aufruf des Urhebers mit dem gelöschten Einzelhändler
+      this.props.onClose(this.props.einkaufsliste);   // Aufruf des Urhebers mit der gelöschten Einkaufsliste
     }).catch(e =>
       this.setState({
-        deletingInProgress: false,              // Ladeanzeige deaktivieren
-        deletingError: e                        // Zeigt Error Nachricht
+        deletingInProgress: false,                    // Ladeanzeige deaktivieren
+        deletingError: e                              // Zeigt Error Nachricht
       })
     );
 
@@ -56,7 +56,6 @@ class EinkaufslisteLoeschen extends Component {
   render() {
     const { classes, einkaufsliste, show } = this.props;
     const { deletingInProgress, deletingError } = this.state;
-
     return (
       show ?
         <Dialog open={show} onClose={this.handleClose}>
@@ -101,13 +100,13 @@ const styles = theme => ({
 EinkaufslisteLoeschen.propTypes = {
   /** @ignore */
   classes: PropTypes.object.isRequired,
-  /** Um das EinzelhaendlerBO zu loeschen */
+  /** Um das EinkaufslisteBO zu löschen */
   einkaufsliste: PropTypes.object.isRequired,
   /** Wenn true, wird der Dialog gerendert */
   show: PropTypes.bool.isRequired,
   /**
    * Handler Funktion, die aufgerufen wird, wenn der Dialog geschlossen wurde.
-   * Sendet das geloeschte EinzelhaendlerBO als Parameter oder null, wenn abbrechen gedrückt wurde.
+   * Sendet das geloeschte EinkaufslisteBO als Parameter oder null, wenn abbrechen gedrückt wurde.
    */
   onClose: PropTypes.func.isRequired,
 }

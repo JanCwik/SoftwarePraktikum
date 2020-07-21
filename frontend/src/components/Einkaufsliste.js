@@ -1,28 +1,20 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { withStyles, Button, TextField, InputAdornment, IconButton, Grid, Typography,Link} from '@material-ui/core';
+import { withStyles, Button, Grid} from '@material-ui/core';
 import AddIcon from '@material-ui/icons/Add';
-import ClearIcon from '@material-ui/icons/Clear'
 import { withRouter } from 'react-router-dom';
 import  API from "../api/API";
-import { Link as RouterLink } from 'react-router-dom';
 import ContextErrorMessage from './dialogs/ContextErrorMessage';
 import LoadingProgress from './dialogs/LoadingProgress';
 import ListeneintragForm from "./dialogs/ListeneintragForm";
 import ListenEintrag from "./ListenEintrag";
-import ArtikelForm from "./dialogs/ArtikelForm";
 
-/**
- * Kontrolliert eine Liste von EinzelhaendlerListenEintraegen um ein Akkordeon für jeden
- * Einzelhaendler zu erstellen.
- */
+/** Kontrolliert eine Liste von Liste von Listeneinträgen */
+
 class Einkaufsliste extends Component {
 
   constructor(props) {
     super(props);
-
-    // console.log(props);
-
 
     // Init ein leeres state
     this.state = {
@@ -34,22 +26,20 @@ class Einkaufsliste extends Component {
     };
   }
 
-  /** Fetchet alle EinzelhaendlerBOs für das Backend */
+  /** Fetchet alle ListeneinträgeBOs für das Backend */
   getListeneintraege = () => {
  const { einkaufsliste } = this.props.location
 
     API.getAPI().getListeneintraegeByEinkaufslisteAPI(einkaufsliste.getID())
       .then(ListeneintragBOs =>
-
-       this.setState({               // Setzt neues state wenn EinzelhaendlerBOs gefetcht wurden
+       this.setState({                  // Setzt neues state wenn ListeneintragsBOs gefetcht wurden
           listeneintraege: ListeneintragBOs,
-
-          loadingInProgress: false,   // Ladeanzeige deaktivieren
+          loadingInProgress: false,           // Ladeanzeige deaktivieren
           error: null
         })).catch(e =>
-          this.setState({             // Setzt state mit Error vom catch zurück
+          this.setState({               // Setzt state mit Error vom catch zurück
             listeneintraege: [],
-            loadingInProgress: false, // Ladeanzeige deaktivieren
+            loadingInProgress: false,         // Ladeanzeige deaktivieren
             error: e
           })
         );
@@ -62,7 +52,6 @@ class Einkaufsliste extends Component {
 
   /** Lebenszyklus Methode, welche aufgerufen wird, wenn die Komponente in das DOM des Browsers eingefügt wird.*/
 
-
   componentDidMount() {
     this.getListeneintraege();
   }
@@ -72,11 +61,9 @@ class Einkaufsliste extends Component {
 
   }
 
-
   /**
-   * Behandelt einzelhaendlerDeleted Ereignisse von der EinzelhaendlerListenEintrag Komponente.
-   *
-   * @param {Einzelhaendler} EinzelhaendlerBO von dem EinzelhaendlerListenEintrag um gelöscht zu werde
+   * Behandelt listeneintragDeleted Ereignisse von der ListenEintrag Komponente.
+   * @param {Listeneintrag} ListeneintragBO von dem ListenEintrag um gelöscht zu werde
    */
   listeneintragDeleted = listeneintrag => {
     const newListeneintragList = this.state.listeneintraege.filter(listeneintragFromState => listeneintragFromState.getID() !== listeneintrag.getID());
@@ -84,25 +71,21 @@ class Einkaufsliste extends Component {
       listeneintraege: newListeneintragList,
       showListeneintragForm: false
     });
-
   }
 
-  /** Behandelt das onClick Ereignis, der Einzelhaendler anlegen Taste. */
-
+  /** Behandelt das onClick Ereignis, der Listeneintrag anlegen Taste. */
   addListeneintragButtonClicked = event => {
     // Nicht das erweiterte state umschalten
     event.stopPropagation();
-    //Zeige den EinzelhaendlerForm
+    //Zeige den ListeneintragForm
     this.setState({
       showListeneintragForm: true
     });
   }
 
-
-  /** Behandelt das onClose Ereignis vom EinzelhaendlerForm */
-
+  /** Behandelt das onClose Ereignis vom ListeneintragForm */
   listeneintragFormClosed = listeneintrag => {
-    // Einzelhaendler ist nicht null und deshalb erstellt
+    // Listeneintrag ist nicht null und deshalb erstellt
     if (listeneintrag) {
       const newListeneintragList = [...this.state.listeneintraege, listeneintrag];
       this.setState({
@@ -117,27 +100,19 @@ class Einkaufsliste extends Component {
     }
   }
 
-  /** Behandelt das onChange Ereignis von dem Einzelhaendler filtern Textfeld */
-
-
   /** Rendert die Komponente */
   render() {
     const { classes} = this.props;
-    const { listeneintraege, ListeneintraegeFilter, loadingInProgress, error, showListeneintragForm, artikel } = this.state;
-
+    const { listeneintraege, loadingInProgress, error, showListeneintragForm } = this.state;
     return (
       <div className={classes.root}>
-
           <Grid item>
             <Button  variant='contained' color='primary' startIcon={<AddIcon />} onClick={this.addListeneintragButtonClicked}>
                 Listeneintrag hinzufügen
           </Button>
           </Grid>
-
         {
-          /** Zeigt die Liste der EinzelhaendlerListenEintrag Komponenten
-         */
-
+          /** Zeigt die Liste der ListenEintrag Komponenten */
           listeneintraege.map(listeneintrag =>
             <ListenEintrag key={listeneintrag.getID()} listeneintrag={listeneintrag} einkaufsliste={this.props.location.einkaufsliste} reload={this.reload}
               onListeneintragDeleted={this.listeneintragDeleted}
@@ -156,7 +131,6 @@ const styles = theme => ({
   root: {
     width: '100%',
   },
-
 });
 
 /** PropTypes */
