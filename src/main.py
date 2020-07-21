@@ -81,6 +81,11 @@ statistikhaendler = api.inherit('StatistikHaendler', statistik, {
     'EinzelhaendlerID': fields.Integer(attribute='_Einzelhaendler_id', description='ID des Einzelhändlers')
 })
 
+statistikzeitraum = api.inherit('StatistikZeitraum', statistik, {
+    'Zeitpunkt': fields.String(attribute='_zeitpunkt', description='Zugriffszeitpunkt'),
+    'StartZeitpunkt': fields.String(attribute='_startzeitpunkt', description='Starrtzeitpunkt des Filters'),
+    'EndZeitpunkt': fields.String(attribute='_endzeitpunkt', description='Endzeitpunkt des Filters')
+})
 
 @shopping.route('/artikel')
 @shopping.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
