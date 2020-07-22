@@ -187,7 +187,7 @@ BenutzerListeForm.propTypes = {
   /** Das BenutzerBO wird editiert. */
   benutzer: PropTypes.object,
   /** Wenn true, wird das Formular gerendert. */
-  show: PropTypes.bool.isRequired,
+  show: PropTypes.bool,
   /**
    * Handler Funktion, die aufgerufen wird wenn der Dialog geschlossen ist.
    * Sendet das angelegte BenutzerBO als Parameter oder null,
