@@ -141,7 +141,7 @@ class Anwenderverbund extends Component {
   filterFieldValueChange = event => {
     const value = event.target.value.toLowerCase();
     this.setState({
-      filteredAnwenderverbund: this.state.einzelhaendler.filter(anwenderverbund => {
+      filteredAnwenderverbund: this.state.anwenderverbund.filter(anwenderverbund => {
         let NameContainsValue = anwenderverbund.getName().toLowerCase().includes(value);
         return NameContainsValue;
       }),
