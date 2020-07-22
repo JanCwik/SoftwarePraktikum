@@ -13,15 +13,22 @@ class ListeneintragMapper(Mapper):
     def GetListeneintraegeByEinkaufsliste(self, einkaufsliste):
         """ Mapper-Methode zum ausgeben aller Listeneinträge, die zu einer Einkaufsliste gehören"""
         cursor = self._cnx.cursor()
-
+        result=[]
         eintraegeauslesen = "SELECT id FROM listeneintrag WHERE einkaufsliste_id={}".format(einkaufsliste.get_id())
         cursor.execute(eintraegeauslesen)
-        eintraege = cursor.fetchall()
+        ids = cursor.fetchall()
+
+        for id in ids:
+            for i in id:
+                listeneintrag = Listeneintrag()
+                listeneintrag.set_id(i)
+                result.append(listeneintrag)
+
 
         self._cnx.commit()
         cursor.close()
 
-        return eintraege
+        return result
 
     def insert(self, listeneintrag):
         """Mapper-Methode zum speichern eines neuen Listeneintrags in der Datenbank
