@@ -2,9 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withStyles, LinearProgress } from '@material-ui/core';
 
-/**
- * Zeigt einen Ladefortschritt, wenn show prop true ist.
- */
+/** Zeigt einen Ladefortschritt, wenn show prop true ist.*/
 class LoadingProgress extends Component {
 
   /** Rendert den Komponenten */
