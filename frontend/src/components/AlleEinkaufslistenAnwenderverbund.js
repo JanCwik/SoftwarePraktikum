@@ -135,8 +135,6 @@ const styles = theme => ({
 AlleEinkaufslistenAnwenderverbund.propTypes = {
   /** @ignore */
   classes: PropTypes.object.isRequired,
-  /** @ignore */
-  location: PropTypes.object.isRequired,
   /** Das AnwenderverbundBO gerendert */
   anwenderverbund: PropTypes.object.isRequired,
 }

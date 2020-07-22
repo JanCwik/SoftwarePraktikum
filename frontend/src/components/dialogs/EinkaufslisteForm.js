@@ -200,7 +200,7 @@ EinkaufslisteForm.propTypes = {
   /** Das EinkaufslisteBO wird editiert. */
   einkaufsliste: PropTypes.object,
   /** Wenn true, wird das Formular gerendert. */
-  show: PropTypes.bool.isRequired,
+  show: PropTypes.bool,
   /**
    * Handler Funktion, die aufgerufen wird wenn der Dialog geschlossen ist.
    * Sendet das editierte oder angelegte EinkaufslisteBO als Parameter oder null,
