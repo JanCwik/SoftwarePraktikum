@@ -1,13 +1,2 @@
 runtime: python37
 service: backend
-
-handlers:
-    - url: /frontend
-
-      static_files: build/index.html
-
-      upload: build/index.html
-
-    - url: /frontend
-
-      static_dir: build
