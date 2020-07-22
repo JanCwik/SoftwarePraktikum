@@ -22,14 +22,11 @@ class BenutzerListeForm extends Component {
     // Init state
     this.state = {
       benutzerEmail: '',
-      benutzerEmailValidationFailed: false,
       benutzerObjekt: null,
       benutzerSearchError: null,
       benutzerNotFound: false,
-      addingInProgress: false,
-      updatingInProgress: false,
+      loadingInProgress: false,
       addingError: null,
-      updatingError: null
     };
     // Speichere dieses state zum abbrechen
     this.baseState = this.state;
@@ -41,15 +38,15 @@ class BenutzerListeForm extends Component {
       this.setState(this.baseState);
       this.props.onClose(BenutzerBO[0]); // Aufruf mit Hilfe des Benutzer Objekts aus dem Backend
     }).catch(e =>
+
         this.setState({
-          updatingInProgress: false,    // Ladeanzeige deaktivieren
-          updatingError: e              // Zeige Error Nachricht
+          loadingInProgress: false,    // Ladeanzeige deaktivieren
+          addingError: e              // Zeige Error Nachricht
         })
     )
-    // Setze laden als true
     this.setState({
-      updatingInProgress: true,       // Ladeanzeige anzeigen
-      updatingError: null             // Fehlermeldung deaktivieren
+      loadingInProgress: true,       // Ladeanzeige anzeigen
+      addingError: null             // Fehlermeldung deaktivieren
     }
     )
   }
@@ -59,7 +56,6 @@ class BenutzerListeForm extends Component {
      let benutzerEmail = event.target.value;
      this.setState({
       benutzerEmail: benutzerEmail,
-      benutzerEmailEdited: true
     });
   }
 
@@ -116,7 +112,7 @@ class BenutzerListeForm extends Component {
   /** Rendert die Komponente */
   render() {
     const {classes, show} = this.props;
-    const {benutzerEmailValidationFailed, addingInProgress, addingError, benutzerNotFound} = this.state;
+    const { loadingInProgress, addingError,benutzerObjekt, benutzerNotFound,benutzerSearchError} = this.state;
 
     let title = '';
     let header = '';
@@ -139,8 +135,8 @@ class BenutzerListeForm extends Component {
                 <form className={classes.root} noValidate autoComplete='off'>
                   <TextField autoFocus type='text' required fullWidth margin='normal' id='benutzerEmail'
                              label='Benutzer E-mail'
-                             onChange={this.textFieldValueChange} error={benutzerNotFound}
-                             helperText={benutzerNotFound ? 'Die E-Mail muss mindestens ein Zeichen enthalten' : ' '}
+                             onChange={this.textFieldValueChange} error={benutzerSearchError}
+                             helperText={benutzerNotFound ? 'Es wurde kein Benutzer mit dieser E-Mail Adresse gefunden' : ' '}
                              InputProps={{
                               endAdornment: <InputAdornment position='end'>
                                 <IconButton onClick={this.sucheBenutzer}>
@@ -149,14 +145,14 @@ class BenutzerListeForm extends Component {
                               </InputAdornment>,
                             }} />
                 </form>
-                <LoadingProgress show={addingInProgress}/>
+                <LoadingProgress show={loadingInProgress}/>
                 <ContextErrorMessage error={addingError} contextErrorMsg={`Der Benutzer konnte nicht hinzugefügt werden..`} onReload={this.addMitgliedschaft} />
               </DialogContent>
               <DialogActions>
                 <Button onClick={this.handleClose} color='secondary'>
                   Abbrechen
                 </Button>
-                <Button disabled={benutzerEmailValidationFailed} variant='contained' onClick={this.addMitgliedschaft} color='primary'>
+                <Button disabled={!benutzerObjekt} variant='contained' onClick={this.addMitgliedschaft} color='primary'>
                   Hinzufügen
                 </Button>
 

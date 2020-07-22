@@ -165,9 +165,8 @@ class ApplikationsAdministration(object):
                 eintraege = mapper.GetListeneintraegeByEinkaufsliste(i)
 
             for i in eintraege:
-                for k in i:
                     with ListeneintragMapper() as mapper:
-                        mapper.delete(k)
+                        mapper.delete(i)
 
         with EinkaufslistenMapper() as mapper:
             mapper.DeleteEinkaufslistenByAnwendeverbund(anwenderverbund)

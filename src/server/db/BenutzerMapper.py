@@ -193,7 +193,7 @@ class BenutzerMapper(Mapper):
             benutzer.set_google_id(google_id)
             result = benutzer
         except IndexError:
-            result = None
+            result = []
 
         self._cnx.commit()
         cursor.close()
