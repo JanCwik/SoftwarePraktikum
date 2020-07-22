@@ -286,7 +286,14 @@ class ApplikationsAdministration(object):
             with ArtikelMapper() as mapper:
                 mapper.get_artikeleinheit_for_listeneintrag(i)
 
-        if len(eintraege) != 0:  # findet den zuletzt geänderten Listeneintrag
+        if len(eintraege) == 1:
+            eintraege[0].set_zuletzt_geaendert(True)
+            return eintraege
+
+        elif len(eintraege) == 0:
+            return []
+
+        else:           # findet den zuletzt geänderten Listeneintrag
             latest = eintraege[0]
             for eintrag in eintraege:
                 if eintrag.get_aenderungs_zeitpunkt() > latest.get_aenderungs_zeitpunkt():
@@ -294,27 +301,25 @@ class ApplikationsAdministration(object):
 
             latest.set_zuletzt_geaendert(True)
 
-            ohneEinzelhaendler = []
-            for i in eintraege:  # sortiert die Rückgabe nach Einzelhändler, dadurch dann nach Einzelhändler gruppiert
-                if i.get_einzelhaendlerId() is None:  # Listeneinträge ohne Einzelhändler werden im vorraus aussortiert
-                    eintraege.remove(i)
-                    ohneEinzelhaendler.append(i)  # am ende hintendran gehängt
+            ohne_einzelhaendler = []
+            mit_einzelhaendler = []
+            for i in eintraege:                                     # sortiert die Rückgabe nach Einzelhändler, dadurch dann nach Einzelhändler gruppiert
+                if i.get_einzelhaendlerId() is None:                # Listeneinträge ohne Einzelhändler werden im vorraus aussortiert
+                    ohne_einzelhaendler.append(i)                   # am ende hintendran gehängt
+                else:
+                    mit_einzelhaendler.append(i)
 
-            result = []
+            if len(mit_einzelhaendler) != 0:                                #Bubblesort
+                n = len(mit_einzelhaendler)
+                for passes_left in range(n-1, 0, -1):
+                    for i in range(passes_left):
+                        if mit_einzelhaendler[i].get_einzelhaendlerId() > mit_einzelhaendler[i+1].get_einzelhaendlerId():
+                            mit_einzelhaendler[i], mit_einzelhaendler[i+1] = mit_einzelhaendler[i+1], mit_einzelhaendler[i]
 
-            for i in range(len(eintraege)):
-                if eintraege[0].get_einzelhaendlerId() is not None:
-                    highest = eintraege[0]
-                    for obj in eintraege:
-                        if obj.get_einzelhaendlerId() is not None:
-                            if obj.get_einzelhaendlerId() > highest.get_einzelhaendlerId():
-                                highest = obj
+            res = mit_einzelhaendler + ohne_einzelhaendler
+            return res
 
-                        result.append(highest)
-                        eintraege.remove(highest)
 
-            eintraege = result + ohneEinzelhaendler
-        return eintraege
 
     def listeneintrag_anlegen(self, listeneintrag):
         """Methode zum Anlegen eines neuen Listeneintrags in der Datenbank"""

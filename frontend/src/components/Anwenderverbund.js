@@ -161,8 +161,7 @@ class Anwenderverbund extends Component {
   /** Rendert die Komponente */
   render() {
     const { classes } = this.props;
-    const { filteredAnwenderverbund, anwenderverbundFilter, expandedAnwenderverbundID, loadingInProgress, error, showAnwenderverbundForm } = this.state;
-
+    const { filteredAnwenderverbund, anwenderverbundFilter, expandedAnwenderverbundID, loadingInProgress, error, showAnwenderverbundForm ,newBenutzerFromNewAnwenderverbund} = this.state;
     return (
       <div className={classes.root}>
         <Grid className={classes.anwenderverbundFilter} container spacing={1} justify='flex-start' alignItems='center'>
@@ -202,7 +201,7 @@ class Anwenderverbund extends Component {
 
           filteredAnwenderverbund.map(anwenderverbund =>
             <AnwenderverbundListenEintrag key={anwenderverbund.getID()} anwenderverbund={anwenderverbund} expandedState={expandedAnwenderverbundID === anwenderverbund.getID()}
-              onExpandedStateChange={this.onExpandedStateChange}  newBenutzerFromNewAnwenderverbund={this.state.newBenutzerFromNewAnwenderverbund}
+              onExpandedStateChange={this.onExpandedStateChange}  newBenutzerFromNewAnwenderverbund={newBenutzerFromNewAnwenderverbund}
               onAnwenderverbundDeleted={this.anwenderverbundDeleted}
             />)
         }
