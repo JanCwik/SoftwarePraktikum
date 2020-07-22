@@ -37,14 +37,11 @@ class Header extends Component {
         <Typography variant='h4' component='h2' align='center'>
           Meine Einkaufs-Statistik
         </Typography>
+            <hr/>
         <Typography variant='h6' component='h5' align='center'>
           Auf dieser Seite sehen Sie Ihre fünf meistgekauften Artikel.
           Sie können einen Ihrer Einzelhändler und/oder einen Zeitraum angeben um den Report einzuschränken
         </Typography>
-
-
-
-
         </Paper>
         //</Router>
     )
