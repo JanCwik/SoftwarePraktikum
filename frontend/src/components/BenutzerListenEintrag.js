@@ -1,15 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { withStyles, Typography, ExpansionPanel, ExpansionPanelSummary, ExpansionPanelDetails, Grid } from '@material-ui/core';
+import { withStyles, Typography, Grid } from '@material-ui/core';
 import { Button, ButtonGroup } from '@material-ui/core';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import BenutzerListeFormForm from './dialogs/EinzelhaendlerForm';
-import EinzelhaendlerLoeschen from "./dialogs/EinzelhaendlerLoeschen";
-import BenutzerListeForm from "./dialogs/BenutzerListeForm";
 import DeleteIcon from '@material-ui/icons/Delete';
 import BenutzerListeneintragLoeschen from "./dialogs/BenutzerListeneintragLoeschen";
-import ArtikelLoeschen from "./dialogs/ArtikelLoeschen";
-
 
 /**
  * Rendert ein EinzelhaendlerBO innerhalb eines  EinzelhaendlerListenEintrags
@@ -72,10 +66,7 @@ class BenutzerListenEintrag extends Component {
   /** Rendert den Komponent */
   render() {
     const { classes, anwenderverbund } = this.props;
-    // Benutz den states Einzelhaendler
-    const { benutzer, showBenutzerForm, showBenutzerDeleteDialog } = this.state;
-
-    // console.log(this.state);
+    const { benutzer, showBenutzerDeleteDialog } = this.state;
     return (
       <div>
 
