@@ -3,8 +3,7 @@ import PropTypes from 'prop-types';
 import { withStyles, Typography, Grid } from '@material-ui/core';
 
 /**
- * Rendert ein EinzelhaendlerBO innerhalb eines EinzelhaendlerListenEintrags
- * mit den Einzelhändler manipulations Funktionen.
+ * Rendert ein StatistikBO innerhalb eines StatistikListenEintrags
  */
 
 class StatistikListenEintrag extends Component {
@@ -12,7 +11,6 @@ class StatistikListenEintrag extends Component {
   constructor(props) {
     super(props);
 
-    // Init state
     this.state = {
         statistikeintrag: props.statistikeintrag,
     };

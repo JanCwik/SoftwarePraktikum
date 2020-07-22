@@ -10,15 +10,14 @@ import LoadingProgress from './dialogs/LoadingProgress';
 import StatistikListenEintrag from "./StatistikListenEintrag";
 
 /**
- * Kontrolliert eine Liste von EinzelhaendlerListenEintraegen um ein ExpansionPanel für jeden
- * Einzelhaendler zu erstellen.
+ * Kontrolliert eine Liste von StatistikListenEintraegen um ein StatistikListenEintraegen-Component für jede
+ * Statistik-instanz zu erstellen.
  */
 class Statistik extends Component {
 
   constructor(props) {
     super(props);
 
-    // Init ein leeres state
     this.state = {
       statistikeintraege: [],
       error: null,
@@ -30,7 +29,7 @@ class Statistik extends Component {
     };
   }
 
-    /** Behandelt das onChange Ereignis von dem Einzelhaendler filtern Textfeld */
+    /** Behandelt das onChange Ereignis von dem Einzelhaendler Textfeld */
   einzelhaendlerFieldChange = event => {
     const value = event.target.value
     this.setState({
@@ -38,7 +37,7 @@ class Statistik extends Component {
     });
   }
 
-    /** Behandelt das onChange Ereignis von dem Einzelhaendler filtern Textfeld */
+    /** Behandelt das onChange Ereignis von dem "von" Textfeld */
   vonFieldChange = event => {
     const value = event.target.value.toLowerCase();
     this.setState({
@@ -46,7 +45,7 @@ class Statistik extends Component {
     });
   }
 
-    /** Behandelt das onChange Ereignis von dem Einzelhaendler filtern Textfeld */
+    /** Behandelt das onChange Ereignis von dem "bis" Textfeld */
   bisFieldChange = event => {
     const value = event.target.value.toLowerCase();
     this.setState({
@@ -54,6 +53,7 @@ class Statistik extends Component {
     });
   }
 
+  /** Lebenszyklus Methode, welche aufgerufen wird, wenn die Komponente in das DOM des Browsers eingefügt wird.*/
   componentDidMount=() =>{
     this.byBenutzer()
   }
@@ -62,6 +62,7 @@ class Statistik extends Component {
     this.byBenutzer()
   }
 
+    /** Fetchet alle StatistikBos des Benutzers aus dem Backend */
   byBenutzer =()=>{
     API.getAPI().getStatistikenAPI(this.props.userMail).then(statistiken=>{
       this.setState({
@@ -82,7 +83,7 @@ class Statistik extends Component {
       error: null
     });}
 
-
+    /** Fetchet alle StatistikBos des Benutzers für einen bestimmten Einzelhändler aus dem Backend */
   byEinzelhaendler =()=>{
     API.getAPI().getStatistikenByHaendlerAPI(this.props.userMail, this.state.einzelhaendler).then(statistiken=>{
       this.setState({
@@ -103,6 +104,7 @@ class Statistik extends Component {
       error: null
     });}
 
+    /** Fetchet alle StatistikBos des Benutzers für einen bestimmten Zeitraum aus dem Backend */
 
   byZeitraum =()=>{
   API.getAPI().getStatistikenByZeitraumAPI(this.props.userMail, this.state.startZeitpunkt, this.state.endZeitpunkt).then(statistiken=>{
@@ -125,6 +127,7 @@ class Statistik extends Component {
     });}
 
 
+    /** Fetchet alle StatistikBos des Benutzers für einen bestimmten Einzelhändler und einen bestimmten Zeitraum aus dem Backend */
 
   byEinzelhaendlerUndZeitraum=()=>{
   API.getAPI().getStatistikenByZuHAPI(this.props.userMail, this.state.einzelhaendler,this.state.startZeitpunkt, this.state.endZeitpunkt).then(statistiken=>{
@@ -152,6 +155,7 @@ class Statistik extends Component {
   render() {
     const { classes } = this.props;
     const {  einzelhaendler,endZeitpunkt,startZeitpunkt, loadingInProgress, error, statistikeintraege} = this.state;
+
     return (
       <div className={classes.root}>
         <Grid className={classes.eingabe} container spacing={1} justify='flex-start' alignItems='center'>
@@ -213,9 +217,10 @@ class Statistik extends Component {
               </Grid>
           </Grid>
             <hr/>
+
         <div className={classes.Top}>
         {
-          /** Zeigt die Liste der EinzelhaendlerListenEintrag Komponenten*/
+          /** Zeigt die Liste der StatistikListenEintrag Komponenten*/
           statistikeintraege.map(statistikeintrag =>
             <StatistikListenEintrag statistikeintrag = {statistikeintrag} key={statistikeintrag.getArtikelID()}
 
@@ -232,15 +237,6 @@ class Statistik extends Component {
 }
 
 
-/*
-
-        <Typography>
-          {statistikeintraege[0].getEinzelhaendlerName()? "Meistgekauften Artikel bei " + statistikeintraege[0].getEinzelhaendlerName()  :null}
-          {statistikeintraege[0].getStartZeitpunkt()? "Meistgekauften Artikel im Zeitraum Von:" + statistikeintraege[0].getStartZeitpunkt()  :null}
-          {statistikeintraege[0].getEndZeitpunkt()? "Bis:" + statistikeintraege[0].getEndZeitpunkt()  :null}
-
-        </Typography>
- */
 
 
 

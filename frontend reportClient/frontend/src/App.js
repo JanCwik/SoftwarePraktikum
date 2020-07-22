@@ -116,7 +116,7 @@ render(){
 			 <Header user={currentUser}/>
 
                         {
-							// Is a user signed in?
+							// Wenn ein benutzer abgemeldet ist
 							currentUser ?
                             <>
 
@@ -126,7 +126,7 @@ render(){
       						</>
 
 								:
-								// else show the sign in page
+								// wenn nicht:
 								<>
 									<Redirect to='/index.html' />
 									<SignIn onSignIn={this.handleSignIn} />
