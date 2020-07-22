@@ -151,7 +151,7 @@ class Statistik extends Component {
   /** Rendert die Komponente */
   render() {
     const { classes } = this.props;
-    const {  einzelhaendler,endZeitpunkt,startZeitpunkt, loadingInProgress, error,statistikeintraege} = this.state;
+    const {  einzelhaendler,endZeitpunkt,startZeitpunkt, loadingInProgress, error, statistikeintraege} = this.state;
     return (
       <div className={classes.root}>
         <Grid className={classes.eingabe} container spacing={1} justify='flex-start' alignItems='center'>
@@ -166,7 +166,7 @@ class Statistik extends Component {
               value={einzelhaendler}
               onChange={this.einzelhaendlerFieldChange}
             />
-            <Button color="primary" onClick={this.byEinzelhaendler} >
+            <Button className={classes.buttons} color="primary" onClick={this.byEinzelhaendler} >
               Suche nach Einzelhändler
             </Button>
               </Grid>
@@ -191,7 +191,7 @@ class Statistik extends Component {
               value={endZeitpunkt}
               onChange={this.bisFieldChange}
             />
-             <Button color="primary" onClick={this.byZeitraum} >
+             <Button className={classes.buttons} color="primary" onClick={this.byZeitraum} >
               Suche nach Zeitraum
             </Button>
           </Grid>
@@ -200,14 +200,14 @@ class Statistik extends Component {
 
           <Grid item>
 
-             <Button color="primary" onClick={this.byEinzelhaendlerUndZeitraum}>
+             <Button className={classes.buttons} color="primary" onClick={this.byEinzelhaendlerUndZeitraum}>
               Suche nach Einzelhändler und Zeitraum
             </Button>
           </Grid>
-            <Grid item xs={1} />
+            <Grid item xs={0} />
 
           <Grid item>
-            <Button color="primary" onClick={this.reload} >
+            <Button className={classes.buttons} color="primary" onClick={this.reload} >
               Suche ohne Filter
             </Button>
               </Grid>
@@ -258,6 +258,12 @@ const styles = theme => ({
   },
   Top:{
     marginTop: theme.spacing(7),
+  },
+
+  buttons:{
+      border: 'solid',
+      borderWidth: 1,
+      marginTop: 10,
   }
 
 });
