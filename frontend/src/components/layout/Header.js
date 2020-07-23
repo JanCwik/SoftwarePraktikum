@@ -57,10 +57,11 @@ class Header extends Component {
   }
 }
 
+/** Komponentenspezifisches Styling */
 /** PropTypes */
 Header.propTypes = {
   /** Der eingeloggte Firebase User */
   user: PropTypes.object,
 }
 
-export default Header;
+export default (Header);
