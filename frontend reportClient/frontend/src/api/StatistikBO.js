@@ -1,5 +1,3 @@
-
-
 export default class StatistikBO {
 //damit direkt über diese KLasse ein Name angelegt werden kann
 // muss der Parameter im Constructor entgegengenommen werden
@@ -51,10 +49,5 @@ export default class StatistikBO {
         }
 
         return result;
-
-
     }
-
-
-
 }

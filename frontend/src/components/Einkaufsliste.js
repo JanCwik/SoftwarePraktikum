@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import {withStyles, Button, Grid, Typography} from '@material-ui/core';
+import {withStyles, Button, Grid} from '@material-ui/core';
 import AddIcon from '@material-ui/icons/Add';
 import { withRouter } from 'react-router-dom';
 import  API from "../api/API";

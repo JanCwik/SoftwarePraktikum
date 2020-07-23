@@ -1,12 +1,6 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
-import {Typography,Tabs, Tab, Paper} from "@material-ui/core";
-import {Link as RouterLink} from "react-router-dom"
-import FastfoodIcon from "@material-ui/icons/Fastfood";
-import ListAltIcon from '@material-ui/icons/ListAlt';
-import PeopleIcon from "@material-ui/icons/People";
-import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
-import BarChartIcon from '@material-ui/icons/BarChart';
+import {Typography, Paper} from "@material-ui/core";
 import ProfileDropDown from '../dialogs/ProfileDropDown';
 
 class Header extends Component {
@@ -14,21 +8,16 @@ class Header extends Component {
   constructor(props) {
     super(props);
 
-    // Init an empty state
+    // Init ein leeres state
     this.state = {
       tabindex: 0
     };
   }
 
-
-
-  /** Renders the component */
+  /** Rendert die Komponente */
   render() {
    const { user } = this.props;
-
     return (
-      //<Router>
-
         <Paper variant='outlined'>
         <ProfileDropDown user={user} />
         <Typography variant='h3' component='h1' align='center'>
@@ -43,14 +32,13 @@ class Header extends Component {
           Sie können einen Ihrer Einzelhändler und/oder einen Zeitraum angeben um den Report einzuschränken
         </Typography>
         </Paper>
-        //</Router>
     )
   }
 }
 
 /** PropTypes */
 Header.propTypes = {
-  /** The logged in firesbase user */
+  /** Der eingeloggte Firbase User */
   user: PropTypes.object,
 }
 

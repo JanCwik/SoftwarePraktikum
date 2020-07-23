@@ -1,7 +1,7 @@
 import StatistikBO from "./StatistikBO";
 
 export default class StatistikHuZBO extends StatistikBO {
-//damit direkt über diese KLasse ein Name angelegt werden kann
+// damit direkt über diese KLasse ein Name angelegt werden kann
 // muss der Parameter im Constructor entgegengenommen werden
 // und an die superklasse NapedBo weitergegeben werden
     constructor() {
@@ -56,7 +56,6 @@ export default class StatistikHuZBO extends StatistikBO {
       // Returns an Array of CustomerBOs from a given JSON structure
     static fromJSON(stathuz) {
         let result = [];
-
         if (Array.isArray(stathuz)) {
             stathuz.forEach((c) => {
                 Object.setPrototypeOf(c, StatistikHuZBO.prototype)
@@ -70,10 +69,5 @@ export default class StatistikHuZBO extends StatistikBO {
         }
 
         return result;
-
-
     }
-
-
-
 }
