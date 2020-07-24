@@ -349,12 +349,12 @@ sucheArtikel = async () => {
                     :null
                   }
               </div>
-              <TextField autoFocus type='text' required fullWidth margin='normal' id='menge' label='Menge'
+              <TextField autoFocus type='text'  fullWidth margin='normal' id='menge' label='Menge'
                  value={listeneintragArtikelMenge}
                  onChange={this.listeneintragArtikelMengeChange}
                  helperText={listeneintragArtikelMengeError ? 'ACHTUNG: Geben Sie eine Zahl ein' : ' '}
               />
-              <TextField autoFocus fullWidth margin='normal' type='text' required id='EinzelhaendlerName' label='Einzelhändler:'
+              <TextField autoFocus fullWidth margin='normal' type='text'  id='EinzelhaendlerName' label='Einzelhändler:'
                  onChange={this.listeneintragEinzelhaendlerNameChange}
                  value={listeneintragEinzelhaendlerName}
                  error={einzelhaendlerNotFound}
@@ -369,7 +369,7 @@ sucheArtikel = async () => {
                      </InputAdornment>,
                  }}
               />
-              <TextField autoFocus fullWidth margin='normal' type='text' required id='BenutzerName' label='Zuständig:'
+              <TextField autoFocus fullWidth margin='normal' type='text'  id='BenutzerName' label='Zuständig:'
                  onChange={this.listeneintragBenutzerNameChange}
                  value={listeneintragBenutzerName}
                  error={benutzerNotFound}

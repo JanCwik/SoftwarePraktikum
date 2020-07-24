@@ -63,7 +63,7 @@ class BenutzerListeneintragLoeschen extends Component {
           </DialogTitle>
           <DialogContent>
             <DialogContentText>
-              Wollen Sie '{benutzer.getName()}' (ID: {benutzer.getID()}) wirklich aus dem Anwenderverbund entfernen?
+              Wollen Sie wirklich den Anwenderverbund verlassen?
             </DialogContentText>
             <LoadingProgress show={deletingInProgress} />
             <ContextErrorMessage error={deletingError} contextErrorMsg={`Der Benutzer '${benutzer.getName()}' (ID: ${benutzer.getID()}) konnte nicht gelöscht werden.`}

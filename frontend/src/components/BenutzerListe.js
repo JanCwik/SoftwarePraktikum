@@ -84,6 +84,8 @@ class BenutzerListe extends Component {
 
       showEinzelhaendlerForm: false
     });
+
+    this.props.onVerbundVerlassen(this.props.anwenderverbund)
   }
 
   /** Behandelt das onClick Ereignis, der Einzelhaendler anlegen Taste. */
@@ -134,7 +136,7 @@ class BenutzerListe extends Component {
 
               benutzerliste.map(benutzer =>
                 <BenutzerListenEintrag key={benutzer.getID()} benutzer={benutzer} anwenderverbund={anwenderverbund} expandedState={expandedBenutzerlisteID === benutzer.getID()}
-                  onExpandedStateChange={this.onExpandedStateChange}
+                  onExpandedStateChange={this.onExpandedStateChange}  userMail={this.props.userMail}
                   onBenutzerDeleted={this.benutzerDeleted}
                 />)
               }

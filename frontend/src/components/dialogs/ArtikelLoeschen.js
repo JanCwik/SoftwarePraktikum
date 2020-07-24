@@ -67,7 +67,9 @@ class ArtikelLoeschen extends Component {
           </DialogTitle>
           <DialogContent>
             <DialogContentText>
-              Wollen Sie wirklich den Artikel '{artikel.getName()}' (ID: {artikel.getID()}) löschen? Wenn Sie einen Artikel löschen wird er auch aus Ihrer Einkaufsstatistik gelöscht.
+              Wollen Sie wirklich den Artikel '{artikel.getName()}' (ID: {artikel.getID()}) löschen?
+              Wenn Sie einen Artikel löschen wird er auch aus Ihrer Einkaufsstatistik gelöscht.
+              Außerdem werden alle Listeneinträge mit diesem Artikel gelöscht.
             </DialogContentText>
             <LoadingProgress show={deletingInProgress} />
             <ContextErrorMessage error={deletingError} contextErrorMsg={`Der Artikel '${artikel.getName()}' (ID: ${artikel.getID()}) konnte nicht gelöscht werden.`}
