@@ -237,7 +237,8 @@ class BenutzerMapper(Mapper):
         cursor.execute("SELECT name FROM benutzer WHERE id={}".format(eintraege.get_benutzerId()))
         benutzername_tuple = cursor.fetchall()[0]
         name_string = benutzername_tuple[0]
-        eintraege.set_benutzer_name(name_string)
 
         self._cnx.commit()
         cursor.close()
+
+        return name_string

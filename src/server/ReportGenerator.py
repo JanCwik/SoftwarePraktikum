@@ -32,7 +32,33 @@ class ReportGenerator(object):
 
         result = []
 
+        for i in instanzen:
+            print(i)
+        print("-----")
+
+
+        if len(instanzen) != 0:  # Bubblesort
+            n = len(instanzen)
+            for passes_left in range(n - 1, 0, -1):
+                for i in range(passes_left):
+                    if instanzen[i].get_anzahl() < instanzen[i + 1].get_anzahl():
+                        instanzen[i], instanzen[i + 1] = instanzen[i + 1], instanzen[i]
+
+        for i in instanzen:
+            print(i)
+
         for i in range(len(instanzen)):
+            if i < 4:
+                result.append(instanzen[i])             # nur die ersten 5 elemente
+                i += 1
+        print("----")
+        for i in result:
+            print(i)
+        return result
+
+
+
+    """  for i in range(len(instanzen)):
             if x < 5:
                 highest = instanzen[0]
                 for obj in instanzen:
@@ -41,8 +67,7 @@ class ReportGenerator(object):
 
                 result.append(highest)
                 instanzen.remove(highest)
-                x += 1
-        return result
+                x += 1"""
 
     def top_artikel_by_einzelhaendler(self, benutzer, einzelhaendler):
         """ Methode um alle Artikel zu einem bestimmten Benutzer und einem bestimmten Einzelhaendler heraus zubekommen
@@ -71,11 +96,13 @@ class ReportGenerator(object):
             n = len(instanzen)
             for passes_left in range(n - 1, 0, -1):
                 for i in range(passes_left):
-                    if instanzen[i].get_anzahl() > instanzen[i + 1].get_anzahl():
+                    if instanzen[i].get_anzahl() < instanzen[i + 1].get_anzahl():
                         instanzen[i], instanzen[i + 1] = instanzen[i + 1], instanzen[i]
 
-        for i in range(4):
-            result.append(instanzen[i])                 #nur die ersten 5 elemente
+        for i in range(len(instanzen)):
+            if i < 4:
+                result.append(instanzen[i])                 #nur die ersten 5 elemente
+                i += 1
 
         return result
 
@@ -108,11 +135,13 @@ class ReportGenerator(object):
             n = len(instanzen)
             for passes_left in range(n - 1, 0, -1):
                 for i in range(passes_left):
-                    if instanzen[i].get_anzahl() > instanzen[i + 1].get_anzahl():
+                    if instanzen[i].get_anzahl() < instanzen[i + 1].get_anzahl():
                         instanzen[i], instanzen[i + 1] = instanzen[i + 1], instanzen[i]
 
-        for i in range(4):
-            result.append(instanzen[i])                 # nur die ersten 5 elemente
+        for i in range(len(instanzen)):
+            if i < 4:
+                result.append(instanzen[i])  # nur die ersten 5 elemente
+                i += 1
         return result
 
     def top_artikel_by_Einzelhaendler_zeitraum(self, benutzer, einzelhaendler, startzeitpunkt, endzeitpunkt):
@@ -145,9 +174,11 @@ class ReportGenerator(object):
             n = len(instanzen)
             for passes_left in range(n - 1, 0, -1):
                 for i in range(passes_left):
-                    if instanzen[i].get_anzahl() > instanzen[i + 1].get_anzahl():
+                    if instanzen[i].get_anzahl() < instanzen[i + 1].get_anzahl():
                         instanzen[i], instanzen[i + 1] = instanzen[i + 1], instanzen[i]
 
-        for i in range(4):
-            result.append(instanzen[i])                # nur die ersten 5 elemente
+        for i in range(len(instanzen)):
+            if i < 4:
+                result.append(instanzen[i])  # nur die ersten 5 elemente
+                i += 1
         return result
