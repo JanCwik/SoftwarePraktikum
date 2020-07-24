@@ -32,7 +32,7 @@ class Header extends Component {
 
   /** Rendert die Komponente */
   render() {
-   const { user, classes} = this.props;
+   const { user } = this.props;
     return (
         <Paper variant='outlined'>
         <ProfileDropDown user={user} />
