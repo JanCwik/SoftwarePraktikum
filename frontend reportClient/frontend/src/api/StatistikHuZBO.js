@@ -1,9 +1,11 @@
 import StatistikBO from "./StatistikBO";
 
 export default class StatistikHuZBO extends StatistikBO {
-// damit direkt über diese KLasse ein Name angelegt werden kann
-// muss der Parameter im Constructor entgegengenommen werden
-// und an die superklasse NapedBo weitergegeben werden
+
+/**Damit direkt über diese KLasse ein Name angelegt werden kann
+ * muss der Parameter im Constructor entgegengenommen werden
+ * und an die superklasse NamedBO weitergegeben werden. */
+
     constructor() {
         super();
         this.zeitpunkt= ""
@@ -53,7 +55,7 @@ export default class StatistikHuZBO extends StatistikBO {
         return this.einzelhaendlerID
     }
 
-      // Returns an Array of CustomerBOs from a given JSON structure
+    /** Gibt ein Array von StatistikHuZBOs von einer gegebenen JSON Struktur zurück */
     static fromJSON(stathuz) {
         let result = [];
         if (Array.isArray(stathuz)) {
@@ -62,12 +64,11 @@ export default class StatistikHuZBO extends StatistikBO {
                 result.push(c)
             })
         } else {
-            // Es handelt sich offenbar um ein singuläres Objekt
+            // Es handelt sich um ein einzelnes Objekt
             let c = stathuz;
             Object.setPrototypeOf(c, StatistikHuZBO.prototype)
             result.push(c)
         }
-
         return result;
     }
 }

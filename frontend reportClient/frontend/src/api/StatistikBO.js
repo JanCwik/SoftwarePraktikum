@@ -1,7 +1,9 @@
 export default class StatistikBO {
-//damit direkt über diese KLasse ein Name angelegt werden kann
-// muss der Parameter im Constructor entgegengenommen werden
-// und an die superklasse NapedBo weitergegeben werden
+
+/**Damit direkt über diese KLasse ein Name angelegt werden kann
+ * muss der Parameter im Constructor entgegengenommen werden
+ * und an die superklasse NamedBO weitergegeben werden. */
+
     constructor() {
         this.ArtikelName= ""
         this.GesamtAnzahl = null
@@ -32,22 +34,20 @@ export default class StatistikBO {
         return this.ArtikelID
     }
 
-      // Returns an Array of CustomerBOs from a given JSON structure
+    /** Gibt ein Array von StatistikBOs von einer gegebenen JSON Struktur zurück */
     static fromJSON(stat) {
         let result = [];
-
         if (Array.isArray(stat)) {
             stat.forEach((c) => {
                 Object.setPrototypeOf(c, StatistikBO.prototype)
                 result.push(c)
             })
         } else {
-            // Es handelt sich offenbar um ein singuläres Objekt
+            // Es handelt sich um ein einzelnes Objekt
             let c = stat;
             Object.setPrototypeOf(c, StatistikBO.prototype)
             result.push(c)
         }
-
         return result;
     }
 }
