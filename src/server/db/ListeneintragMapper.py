@@ -170,22 +170,11 @@ class ListeneintragMapper(Mapper):
     def find_all_listeneintraege_by_einkaufsliste(self, einkaufsliste):
         """Mapper-Methode zum ausgeben aller Listeneinträge zu einer Einkaufsliste.
 
-        Hier werden via SQL-Abfrage alle Listeneinträge aus der Datenbank ausgegeben.
+        Hier werden via SQL-Abfrage alle Listeneinträge aus der Datenbank ausgegeben die zu einer bestimmten
+        Einkaufsliste gehören und noch nicht erledigt sind.
         Anschließend werden aus den Zeilen der Datenbank (welche ein Objekt mit dessen Attributen darstellen)
-        mit der fetchall-Methode Tupel erstellt.
+        mit der fetchall-Methode Tupel erstellt und daraus Listeneintrag-Objekte erstellt."""
 
-        Mittels For-Schleife werden die einzelnen Attribute aus einem Tupel gezogen und einer neuen Instanz der
-        Klasse "Listeneintrag()" übergeben. Die einzelnen Instanzen werden in einem Array gespeichert.
-        Das Array mit allen Instanzen wird schließlich zurückgegeben.
-        In besagter For-Schleife werden ausßerdem für jeden Listeneintrag 4 zusätzliche Select Statements ausgeführt.
-        Select Statement1: holt den einzelhändlername aus der Einzelhändler tabelle, dann wird der name in das
-                            Listeneintrag Objekt als Attribut einzelhaendler_name gespeichert
-        Select Statement2: holt den benutzername aus der Benutzer tabelle, dann wird der name in das Listeneintrag
-                            Objekt als Attribut benutzer_name gespeichert
-        Select Statement3: holt den artikelname aus der Artikel tabelle, dann wird der name in das Listeneintrag Objekt
-                            als Attribut artikel_name gespeichert
-        Select Statement4: holt den artikeleinheit aus der Artikel tabelle, dann wird der name in das Listeneintrag
-                            Objekt als Attribut artikel_einheit gespeichert"""
         result = []
         cursor = self._cnx.cursor()
         template = "SELECT id, anzahl, aenderungs_zeitpunkt, einkaufsliste_id, einzelhaendler_id, artikel_id, " \

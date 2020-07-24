@@ -213,10 +213,11 @@ class ArtikelMapper(Mapper):
         cursor.execute("SELECT name FROM artikel WHERE id={}".format(eintraege.get_artikelId()))
         artikelname_tuple = cursor.fetchall()[0]
         name_string = artikelname_tuple[0]
-        eintraege.set_artikel_name(name_string)
 
         self._cnx.commit()
         cursor.close()
+
+        return name_string
 
     def get_artikeleinheit_for_listeneintrag(self, eintraege):
         """Mapper-Methode zum ausgeben der Einheit aller Artikel aus der Datenbank,
@@ -226,7 +227,8 @@ class ArtikelMapper(Mapper):
         cursor.execute("SELECT einheit FROM artikel WHERE id={}".format(eintraege.get_artikelId()))
         einheitname_tuple = cursor.fetchall()[0]
         name_string = einheitname_tuple[0]
-        eintraege.set_artikel_einheit(name_string)
 
         self._cnx.commit()
         cursor.close()
+
+        return name_string
