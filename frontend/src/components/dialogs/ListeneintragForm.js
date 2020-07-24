@@ -90,9 +90,11 @@ class ListeneintragForm extends Component {
         addingError: e              // Error Nachricht zwischenspeichern
       })
     );
-
-    this.props.reload()            // Seite wird neu geladen damit die neue letzte Änderung kenntlich gemacht werden kann
+    if(this.state.einzelhaendlerObjekt){
+      this.props.reload()                                 // Seite wird neugeladen, dadurch wird die Einkaufsliste automatisch nach Einzelhändler gruppiert
+    }
   }
+
 
   /** Updated den Listeneintrag */
   updateListeneintrag = async() => {
@@ -134,8 +136,9 @@ class ListeneintragForm extends Component {
             updatingError: e                       // Error Nachricht zwischenspeichern
           })
         );
-
-    this.props.reload()                      // Seite wird neugeladen damit die neue letzte Änderung kenntlich gemacht werden kann
+    if(this.state.einzelhaendlerObjekt){
+      this.props.reload()                      // Seite wird neugeladen, dadurch wird die Einkaufsliste automatisch nach Einzelhändler gruppiert
+    }
   }
 
   /** Behandelt Wertänderungen aus dem Artikel Textfeld */
@@ -325,7 +328,7 @@ sucheArtikel = async () => {
               {header}
             </DialogContentText>
             <form className={classes.root} noValidate autoComplete='off'>
-              <TextField autoFocus fullWidth margin='normal' type='text' required id='ArtikelName' label='Artikel Name:'
+              <TextField autoFocus fullWidth margin='normal' type='text' required id='ArtikelName' label='Artikel:'
                  onChange={this.listeneintragArtikelNameChange}
                  value={listeneintragArtikelName}
                  error={artikelNotFound}
@@ -351,7 +354,7 @@ sucheArtikel = async () => {
                  onChange={this.listeneintragArtikelMengeChange}
                  helperText={listeneintragArtikelMengeError ? 'ACHTUNG: Geben Sie eine Zahl ein' : ' '}
               />
-              <TextField autoFocus fullWidth margin='normal' type='text' required id='EinzelhaendlerName' label='Einzelhändler Name:'
+              <TextField autoFocus fullWidth margin='normal' type='text' required id='EinzelhaendlerName' label='Einzelhändler:'
                  onChange={this.listeneintragEinzelhaendlerNameChange}
                  value={listeneintragEinzelhaendlerName}
                  error={einzelhaendlerNotFound}
@@ -366,7 +369,7 @@ sucheArtikel = async () => {
                      </InputAdornment>,
                  }}
               />
-              <TextField autoFocus fullWidth margin='normal' type='text' required id='BenutzerName' label='Benutzer Name:'
+              <TextField autoFocus fullWidth margin='normal' type='text' required id='BenutzerName' label='Zuständig:'
                  onChange={this.listeneintragBenutzerNameChange}
                  value={listeneintragBenutzerName}
                  error={benutzerNotFound}

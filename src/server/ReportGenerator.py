@@ -20,12 +20,12 @@ class ReportGenerator(object):
                 for k in i:
                     artikel.append(k)
 
-        a = collections.Counter(artikel)
+        dictionary = collections.Counter(artikel)
 
-        for i in a:
+        for i in dictionary:
             instanz = Statistik()
             instanz.set_ArtikelID(i)
-            instanz.set_anzahl(a.get(i))
+            instanz.set_anzahl(dictionary.get(i))
 
             instanzen.append(instanz)
 
@@ -41,6 +41,7 @@ class ReportGenerator(object):
                 result.append(highest)
                 instanzen.remove(highest)
                 x += 1
+
         return result
 
     def top_artikel_by_einzelhaendler(self, benutzer, einzelhaendler):

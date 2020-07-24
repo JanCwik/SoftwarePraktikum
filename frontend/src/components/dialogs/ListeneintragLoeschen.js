@@ -67,7 +67,8 @@ class ListeneintragLoeschen extends Component {
           </DialogTitle>
           <DialogContent>
             <DialogContentText>
-              Wirklich den Listeneintrag '{artikel}' (ID: {listeneintrag.getID()}) löschen?
+              Wirklich den Listeneintrag '{listeneintrag.getArtikel_name()}' (ID: {listeneintrag.getID()}) löschen?
+              Wenn Sie einen Listeneintrag löschen wird er auch aus Ihrer Einkaufsstatistik gelöscht.
             </DialogContentText>
             <LoadingProgress show={deletingInProgress} />
             <ContextErrorMessage error={deletingError} contextErrorMsg={`Der Listeneintrag '${artikel}' (ID: ${listeneintrag.getID()}) konnte nicht gelöscht werden.`}
