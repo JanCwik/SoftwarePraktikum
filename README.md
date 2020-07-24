@@ -17,7 +17,7 @@ enthalten.
 um die Applikation einzurichten, damit es auf Ihrem Entwicklungsrechner lauffähig wird.
 - [RUN.md](RUN.md) baut auf [INSTALLATION.md](INSTALLATION.md) auf und erklärt den Start der
 SharedShoppingList (DB, Backend und schließlich Frontend).
--[ResourceNaming.md](ResourceNaming.md) dokumentiert sämtliche REST-Service-Ressourcen des
+-[RESOURCENAMING.md](RESOURCENAMING.md) dokumentiert sämtliche REST-Service-Ressourcen des
 Backend.
 - [LINKS.md](LINKS.md) ist eine Zusammenstellung von Links auf in diesem Projekt verwendete
 oder anderweitig relevante APIs, Frameworks, Dokumentationen etc.
