@@ -2,15 +2,12 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withStyles, LinearProgress } from '@material-ui/core';
 
-/**
- * Zeigt einen Ladefortschritt, wenn show prop true ist.
- */
+/** Zeigt einen Ladefortschritt, wenn show prop true ist. */
 class LoadingProgress extends Component {
 
-  /** Rendert den Komponenten */
+  /** Rendert die Komponentene */
   render() {
     const { classes, show } = this.props;
-
     return (
       show ?
         <div className={classes.root}>
@@ -21,7 +18,7 @@ class LoadingProgress extends Component {
   }
 }
 
-/** Komponentenspezifische Stile */
+/** Komponentenspezifische Styles */
 const styles = theme => ({
   root: {
     width: '100%',
