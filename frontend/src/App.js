@@ -14,13 +14,13 @@ import Einkaufsliste from "./components/Einkaufsliste";
 
 class App extends Component {
     #firebaseConfig = {
-    apiKey: "AIzaSyCEuXbtugiUUVRXul-bVblzeWgbwivWz50",
-    authDomain: "softwarepraktikum-85388.firebaseapp.com",
-    databaseURL: "https://softwarepraktikum-85388.firebaseio.com",
-    projectId: "softwarepraktikum-85388",
-    storageBucket: "softwarepraktikum-85388.appspot.com",
-    messagingSenderId: "243362182329",
-    appId: "1:243362182329:web:2125e0a6b68f6310f59768"
+    apiKey: "AIzaSyANZB_3k6o2TXjNsh7cJ1-eYEC2Uk08gLs",
+    authDomain: "shoppinglist2020.firebaseapp.com",
+    databaseURL: "https://shoppinglist2020.firebaseio.com",
+    projectId: "shoppinglist2020",
+    storageBucket: "shoppinglist2020.appspot.com",
+    messagingSenderId: "957864387277",
+    appId: "1:957864387277:web:cd2319f51101c1ed023f84"
   };
 
     constructor(props) {
