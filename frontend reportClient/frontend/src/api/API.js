@@ -5,9 +5,7 @@ import StatistikZeitraumBO from "./StatistikZeitraumBO"
 
 export default class API {
 
-
     static #api = null;
-
 
     //diese Klassenmethode realisiert die Umsetztung als Singelton, dadurch kann nur eine Instanz dieser Klasse existieren
     static getAPI() {
@@ -16,7 +14,6 @@ export default class API {
         }
         return this.#api;
     }
-
 
     //Während der Entwicklung wird der Local host verwendet, im deployten Zustand wird der entsprechende Link auf das Deployte Backend verwendet
     #ServerBaseURL = process.env.NODE_ENV === 'production' ? 'https://backend-dot-shoppinglist2020.ey.r.appspot.com/shopping' : '/shopping'
@@ -85,8 +82,4 @@ export default class API {
                 })
               })
         }
-
-
-
-
 }

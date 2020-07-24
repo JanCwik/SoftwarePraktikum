@@ -172,7 +172,7 @@ class Statistik extends Component {
              <TextField
               autoFocus
               fullWidth
-              id='zeitraumBis'
+              id='zeitraumVon'
               type='text'
               label="Von  YYYY-MM-DD"
               value={startZeitpunkt}
@@ -193,11 +193,11 @@ class Statistik extends Component {
           </Grid>
           <Grid item xs={1} />
           <Grid item>
-             <Button color="primary" onClick={this.byEinzelhaendlerUndZeitraum}>
+             <Button className={classes.buttons} color="primary" onClick={this.byEinzelhaendlerUndZeitraum}>
               Suche nach Einzelhändler und Zeitraum
             </Button>
           </Grid>
-            <Grid item xs={1} />
+            <Grid item xs={0} />
           <Grid item>
             <Button className={classes.buttons} color="primary" onClick={this.reload} >
               Suche ohne Filter
@@ -248,7 +248,7 @@ Statistik.propTypes = {
   /** @ignore */
   classes: PropTypes.object.isRequired,
   /** @ignore */
-  location: PropTypes.object.isRequired,
+  location: PropTypes.object,
 }
 
 export default withStyles(styles)(Statistik);
