@@ -1,9 +1,11 @@
 import NamedBO from './NamedBO';
 
 export default class EinkaufslisteBO extends NamedBO {
-//damit direkt über diese KLasse ein Name angelegt werden kann
-// muss der Parameter im Constructor entgegengenommen werden
-// und an die superklasse NapedBo weitergegeben werden
+
+/** Damit direkt über diese KLasse ein Name angelegt werden kann,
+     muss der Parameter im Constructor entgegengenommen werden
+     und an die Superklasse NamedBO weitergegeben werden. */
+
     constructor(name) {
         super(name);
         this.aenderungs_zeitpunkt= ""
@@ -27,29 +29,20 @@ export default class EinkaufslisteBO extends NamedBO {
         return this.anwenderverbund_id
     }
 
-
-
-      // Returns an Array of CustomerBOs from a given JSON structure
+    /** Gibt ein Array von EinkaufslisteBOs von einer gegebenen JSON Struktur zurück */
     static fromJSON(eink) {
         let result = [];
-
         if (Array.isArray(eink)) {
             eink.forEach((c) => {
                 Object.setPrototypeOf(c, EinkaufslisteBO.prototype)
                 result.push(c)
             })
         } else {
-            // Es handelt sich offenbar um ein singuläres Objekt
+            // Es handelt sich um ein einzelnes Objekt
             let c = eink;
             Object.setPrototypeOf(c, EinkaufslisteBO.prototype)
             result.push(c)
         }
-
         return result;
-
-
     }
-
-
-
 }

@@ -1,9 +1,11 @@
 import BusinessObject from "./BusinessObject";
 
 export default class ListeneintragBO extends BusinessObject {
-//damit direkt über diese KLasse ein Name angelegt werden kann
-// muss der Parameter im Constructor entgegengenommen werden
-// und an die superklasse NapedBo weitergegeben werden
+
+/** Damit direkt über diese KLasse ein Name angelegt werden kann,
+     muss der Parameter im Constructor entgegengenommen werden
+     und an die Superklasse NamedBO weitergegeben werden. */
+
     constructor() {
         super();
         this.menge= null
@@ -20,7 +22,6 @@ export default class ListeneintragBO extends BusinessObject {
         this.zuletzt_geaendert= false
     }
 
-
     setZuletzt_geaendert(zuletzt_geaendert) {
         this.zuletzt_geaendert = zuletzt_geaendert
     }
@@ -28,7 +29,6 @@ export default class ListeneintragBO extends BusinessObject {
     getZuletzt_geaendert() {
         return this.zuletzt_geaendert
     }
-
 
     setMenge(menge) {
         this.menge = menge
@@ -38,7 +38,6 @@ export default class ListeneintragBO extends BusinessObject {
         return this.menge
     }
 
-
     setErledigt(erledigt) {
         this.erledigt = erledigt
     }
@@ -46,7 +45,6 @@ export default class ListeneintragBO extends BusinessObject {
     getErledigt() {
         return this.erledigt
     }
-
 
     setAenderungs_zeitpunkt(aenderungs_zeitpunkt) {
         this.aenderungs_zeitpunkt = aenderungs_zeitpunkt
@@ -56,7 +54,6 @@ export default class ListeneintragBO extends BusinessObject {
         return this.aenderungs_zeitpunkt
     }
 
-
     setEinkaufsliste_id(einkaufsliste_id) {
         this.einkaufsliste_id = einkaufsliste_id
     }
@@ -64,7 +61,6 @@ export default class ListeneintragBO extends BusinessObject {
     getEinkaufsliste_id() {
         return this.einkaufsliste_id
     }
-
 
     setEinzelhaendler_id(einzelhaendler_id) {
         this.einzelhaendler_id = einzelhaendler_id
@@ -81,7 +77,6 @@ export default class ListeneintragBO extends BusinessObject {
     getEinzelhaendler_name() {
         return this.einzelhaendler_name
     }
-
 
     setArtikel_id(artikel_id) {
         this.artikel_id = artikel_id
@@ -123,28 +118,20 @@ export default class ListeneintragBO extends BusinessObject {
         return this.benutzer_name
     }
 
-
-      // Returns an Array of CustomerBOs from a given JSON structure
+    /** Gibt ein Array von ListeneintragBOs von einer gegebenen JSON Struktur zurück */
     static fromJSON(lis) {
         let result = [];
-
         if (Array.isArray(lis)) {
             lis.forEach((c) => {
                 Object.setPrototypeOf(c, ListeneintragBO.prototype)
                 result.push(c)
             })
         } else {
-            // Es handelt sich offenbar um ein singuläres Objekt
+            // Es handelt sich um ein einzelnes Objekt
             let c = lis;
             Object.setPrototypeOf(c, ListeneintragBO.prototype)
             result.push(c)
         }
-
         return result;
-
-
     }
-
-
-
 }

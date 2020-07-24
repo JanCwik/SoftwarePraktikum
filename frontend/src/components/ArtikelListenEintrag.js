@@ -117,7 +117,7 @@ class ArtikelListenEintrag extends Component {
             <Typography className={classes.panelDetails}>
               Standardartikel: {`${this.StandardartikelAusgeben()} `}
             </Typography>
-            <Typography className>
+            <Typography>
               Einheit: {`${artikel.getEinheit()}`}
             </Typography>
         </ExpansionPanelDetails>

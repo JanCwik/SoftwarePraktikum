@@ -1,15 +1,16 @@
 import NamedBO from './NamedBO';
 
 export default class ArtikelBO extends NamedBO {
-//damit direkt über diese KLasse ein Name angelegt werden kann
-// muss der Parameter im Constructor entgegengenommen werden
-// und an die superklasse NapedBo weitergegeben werden
+
+/** Damit direkt über diese KLasse ein Name angelegt werden kann,
+     muss der Parameter im Constructor entgegengenommen werden
+     und an die Superklasse NamedBO weitergegeben werden. */
+
     constructor(name) {
         super(name);
         this.einheit=""
         this.standardartikel= false
         this.benutzer_id= 0
-
     }
 
     setEinheit(einheit) {
@@ -28,7 +29,6 @@ export default class ArtikelBO extends NamedBO {
         return this.standardartikel
     }
 
-
     setBenutzerID(benutzer_id) {
         this.benutzer_id = benutzer_id
     }
@@ -37,28 +37,20 @@ export default class ArtikelBO extends NamedBO {
         return this.benutzer_id
     }
 
-
-      // Returns an Array of CustomerBOs from a given JSON structure
+    /** Gibt ein Array von ArtikelBOs von einer gegebenen JSON Struktur zurück */
     static fromJSON(art) {
         let result = [];
-
         if (Array.isArray(art)) {
             art.forEach((c) => {
                 Object.setPrototypeOf(c, ArtikelBO.prototype)
                 result.push(c)
             })
         } else {
-            // Es handelt sich offenbar um ein singuläres Objekt
+            // Es handelt sich um ein einzelnes Objekt
             let c = art;
             Object.setPrototypeOf(c, ArtikelBO.prototype)
             result.push(c)
         }
-
         return result;
-
-
     }
-
-
-
 }
