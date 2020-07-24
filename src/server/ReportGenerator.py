@@ -21,12 +21,13 @@ class ReportGenerator(object):
                 for k in i:
                     artikel.append(k)
 
-        a = collections.Counter(artikel)
+        dictionary = collections.Counter(artikel)
 
-        for i in a:
+        for i in dictionary:
             instanz = Statistik()
             instanz.set_ArtikelID(i)
-            instanz.set_anzahl(a.get(i))
+            instanz.set_anzahl(dictionary.get(i))
+
             instanzen.append(instanz)
 
         result = []
