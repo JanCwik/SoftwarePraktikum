@@ -25,14 +25,14 @@ class AlleEinkaufslistenAnwenderverbund extends Component{
     getEinkaufslisten = () => {
     API.getAPI().getEinkaufslistenByAnwenderverbundAPI(this.props.anwenderverbund.getID())
       .then(EinkaufslistenBOs =>
-        this.setState({               // Setzt neues state wenn EinkaufslistenBOs gefetcht wurden
+        this.setState({                 // Setzt neues state wenn EinkaufslistenBOs gefetcht wurden
           einkaufslisten: EinkaufslistenBOs,
-          loadingInProgress: false,   // Ladeanzeige deaktivieren
+          loadingInProgress: false,           // Ladeanzeige deaktivieren
           error: null
         })).catch(e =>
-          this.setState({             // Setzt state mit Error vom catch zurück
+          this.setState({               // Setzt state mit Error vom catch zurück
             einkaufslisten: [],
-            loadingInProgress: false, // Ladeanzeige deaktivieren
+            loadingInProgress: false,         // Ladeanzeige deaktivieren
             error: e
           })
         );
@@ -98,17 +98,17 @@ class AlleEinkaufslistenAnwenderverbund extends Component{
         return(
             <div className={classes.root}>
                 <Grid  container spacing={1} justify='flex-start' alignItems='center'>
-                      <Grid item>
-                          <h2>
-                              {anwenderverbund.getName()}
-                          </h2>
-                      </Grid>
-                    <Grid item xs />
-                    <Grid item>
-                    <Button variant='contained' color='primary' startIcon={<AddIcon />} onClick={this.addEinkaufslisteButtonClicked}>
-                      Einkaufsliste zu {anwenderverbund.getName()} hinzufügen
-                    </Button>
-                    </Grid>
+                  <Grid item>
+                      <h2>
+                          {anwenderverbund.getName()}
+                      </h2>
+                  </Grid>
+                <Grid item xs />
+                <Grid item>
+                <Button variant='contained' color='primary' startIcon={<AddIcon />} onClick={this.addEinkaufslisteButtonClicked}>
+                  Einkaufsliste zu {anwenderverbund.getName()} hinzufügen
+                </Button>
+                </Grid>
                 </Grid>
                 {
                   // Zeigt die Liste der AlleEinkaufslistenListenEintrag Komponenten

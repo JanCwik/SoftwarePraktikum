@@ -9,18 +9,12 @@ import LoadingProgress from './dialogs/LoadingProgress';
 import BenutzerListeForm from "./dialogs/BenutzerListeForm";
 import BenutzerListenEintrag from "./BenutzerListenEintrag";
 
+/** Kontrolliert eine Liste von Benutzern. */
 
-/**
- * Kontrolliert eine Liste von EinzelhaendlerListenEintraegen um ein Akkordeon für jeden
- * Einzelhaendler zu erstellen.
- */
 class BenutzerListe extends Component {
 
   constructor(props) {
     super(props);
-
-    // console.log(props);
-
 
     // Init ein leeres state
     this.state = {
@@ -31,19 +25,19 @@ class BenutzerListe extends Component {
     };
   }
 
-  /** Fetchet alle EinzelhaendlerBOs für das Backend */
+  /** Fetchet alle BenutzerBOs für das Backend */
   getMitgliederliste = () => {
     API.getAPI().GetBenutzerByAnwenderverbundAPI(this.props.anwenderverbund.getID())
       .then(BenutzerBOs =>
-        this.setState({               // Setzt neues state wenn EinzelhaendlerBOs gefetcht wurden
+        this.setState({               // Setzt neues state wenn BenutzerBOs gefetcht wurden
           benutzerliste: BenutzerBOs,
 
-          loadingInProgress: false,   // Ladeanzeige deaktivieren
+          loadingInProgress: false,         // Ladeanzeige deaktivieren
           error: null
         })).catch(e =>
           this.setState({             // Setzt state mit Error vom catch zurück
             benutzerliste: [],
-            loadingInProgress: false, // Ladeanzeige deaktivieren
+            loadingInProgress: false,       // Ladeanzeige deaktivieren
             error: e
           })
         );
@@ -55,9 +49,8 @@ class BenutzerListe extends Component {
     });
   }
 
-
   /** Lebenszyklus Methode, welche aufgerufen wird, wenn die Komponente in das DOM des Browsers eingefügt wird.
-   *  Wenn ein benutzer als prop übergeben wird (das passiert, wenn ein neuer Anwenderverbund erstellt wird)
+   *  Wenn ein Benutzer als prop übergeben wird (das passiert, wenn ein neuer Anwenderverbund erstellt wird)
    *  dann wird der Benutzer in den State geschrieben, und dadurch direkt angezeigt
    *  */
   componentDidMount=async()=> {
@@ -73,20 +66,18 @@ class BenutzerListe extends Component {
   }
 
   /**
-   * Behandelt einzelhaendlerDeleted Ereignisse von der EinzelhaendlerListenEintrag Komponente.
-   *
-   * @param {Benutzer} BenutzerBO von dem BenutzerListenEintrag um gelöscht zu werde
+   * Behandelt benutzerDeleted Ereignisse von der BenutzerListenEintrag Komponente.
+   * @param {Benutzer} BenutzerBO von dem BenutzerListenEintrag um gelöscht zu werden.
    */
   benutzerDeleted = benutzer => {
     const newBenutzerList = this.state.benutzerliste.filter(benutzerFromState => benutzerFromState.getID() !== benutzer.getID());
     this.setState({
       benutzerliste: newBenutzerList,
-
       showEinzelhaendlerForm: false
     });
   }
 
-  /** Behandelt das onClick Ereignis, der Einzelhaendler anlegen Taste. */
+  /** Behandelt das onClick Ereignis, der Benutzer anlegen Taste. */
   addBenutzerButtonClicked = event => {
     // Nicht das erweiterte state umschalten
     event.stopPropagation();
@@ -96,14 +87,13 @@ class BenutzerListe extends Component {
     });
   }
 
-  /** Behandelt das onClose Ereignis vom EinzelhaendlerForm */
+  /** Behandelt das onClose Ereignis vom BenutzerForm */
   benutzerFormClosed = benutzer => {
-    // Einzelhaendler ist nicht null und deshalb erstellt
+    // Benutzer ist nicht null und deshalb erstellt
     if (benutzer) {
       const newBenutzerList = [...this.state.benutzerliste, benutzer];
       this.setState({
         benutzerliste: newBenutzerList,
-
         showBenutzerForm: false
       });
     }
@@ -113,10 +103,6 @@ class BenutzerListe extends Component {
       });
     }
   }
-
-
-
-
 
   /** Rendert die Komponente */
   render() {
@@ -128,9 +114,9 @@ class BenutzerListe extends Component {
 
           <Grid item>
              {
-              /** Zeigt die Liste der AnwenderverbundListenEintrag Komponenten
-              // Benutze keinen strengen Vergleich, da expandedAnwenderverbundID vielleicht ein string ist,
-               wenn dies von den URL Parametern gegeben ist. */
+              /** Zeigt die Liste der BenutzerListenEintrag Komponenten.
+                  Benutze keinen strengen Vergleich, da expandedAnwenderverbundID vielleicht ein string ist,
+                  wenn dies von den URL Parametern gegeben ist. */
 
               benutzerliste.map(benutzer =>
                 <BenutzerListenEintrag key={benutzer.getID()} benutzer={benutzer} anwenderverbund={anwenderverbund} expandedState={expandedBenutzerlisteID === benutzer.getID()}
@@ -146,7 +132,6 @@ class BenutzerListe extends Component {
             </Button>
           </Grid>
         </Grid>
-
         <LoadingProgress show={loadingInProgress} />
         <ContextErrorMessage error={error} contextErrorMsg={`Die Liste der Einzelhändler konnte nicht geladen werden.`} onReload={this.getEinzelhaendler} />
         <BenutzerListeForm anwenderverbund={this.props.anwenderverbund} show={showBenutzerForm} onClose={this.benutzerFormClosed} />
@@ -159,6 +144,7 @@ class BenutzerListe extends Component {
 const styles = theme => ({
   root: {
     width: '100%',
+
   },
   einzelhaendlerFilter: {
     marginTop: theme.spacing(2),

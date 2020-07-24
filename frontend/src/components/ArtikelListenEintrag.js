@@ -129,7 +129,7 @@ class ArtikelListenEintrag extends Component {
   }
 }
 
-/** Komponentenspezifische Stile */
+/** Komponentenspezifische Styles */
 const styles = theme => ({
   root: {
     width: '100%',

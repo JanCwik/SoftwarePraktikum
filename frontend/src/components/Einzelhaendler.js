@@ -14,6 +14,7 @@ import EinzelhaendlerListenEintrag from "./EinzelhaendlerListenEintrag";
  * Kontrolliert eine Liste von EinzelhaendlerListenEintraegen um ein ExpansionPanel für jeden
  * Einzelhaendler zu erstellen.
  */
+
 class Einzelhaendler extends Component {
 
   constructor(props) {
@@ -85,7 +86,7 @@ class Einzelhaendler extends Component {
 
   /** Behandelt das onClose Ereignis vom EinzelhaendlerForm */
   einzelhaendlerFormClosed = einzelhaendler => {
-    // Einzelhaendler ist nicht null und deshalb bereits erstellt
+    // Einzelhändler ist nicht null und deshalb bereits erstellt
     if (einzelhaendler) {
       const newEinzelhaendlerList = [...this.state.einzelhaendler, einzelhaendler];
       this.setState({
@@ -125,7 +126,6 @@ class Einzelhaendler extends Component {
   render() {
     const { classes } = this.props;
     const { filteredEinzelhaendler, einzelhaendlerFilter, loadingInProgress, error, showEinzelhaendlerForm } = this.state;
-
     return (
       <div className={classes.root}>
         <Grid className={classes.einzelhaendlerFilter} container spacing={1} justify='flex-start' alignItems='center'>
@@ -158,7 +158,6 @@ class Einzelhaendler extends Component {
           </Button>
           </Grid>
         </Grid>
-
         <div className={classes.top} >
         {
           /** Zeigt die Liste der EinzelhaendlerListenEintrag Komponenten*/
@@ -182,10 +181,12 @@ const styles = theme => ({
   root: {
     width: '100%',
   },
+
   einzelhaendlerFilter: {
     marginTop: theme.spacing(2),
     marginBottom: theme.spacing(1),
   },
+
   top:{
     marginTop : theme.spacing(5)
   }

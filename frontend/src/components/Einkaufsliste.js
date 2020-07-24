@@ -9,7 +9,7 @@ import LoadingProgress from './dialogs/LoadingProgress';
 import ListeneintragForm from "./dialogs/ListeneintragForm";
 import ListenEintrag from "./ListenEintrag";
 
-/** Kontrolliert eine Liste von Liste von Listeneinträgen */
+/** Kontrolliert eine Liste von Listeneinträgen */
 
 class Einkaufsliste extends Component {
 
@@ -28,7 +28,6 @@ class Einkaufsliste extends Component {
 
   /** Fetchet alle ListeneinträgeBOs für das Backend */
   getListeneintraege = () => {
-
     API.getAPI().getListeneintraegeByEinkaufslisteAPI(this.props.location.einkaufsliste.getID())
       .then(ListeneintragBOs =>
        this.setState({                  // Setzt neues state wenn ListeneintragsBOs gefetcht wurden
@@ -57,7 +56,6 @@ class Einkaufsliste extends Component {
 
   reload=()=>{
       this.getListeneintraege();
-
   }
 
   /**
@@ -106,16 +104,16 @@ class Einkaufsliste extends Component {
     return (
       <div className={classes.root}>
           <Grid container spacing={1} justify='flex-start' alignItems='center' >
-                <Grid item >
-                     <h2>
-                        {this.props.location.einkaufsliste.getName()}
-                    </h2>
-                </Grid>
-              <Grid item xs />
-              <Grid item>
+            <Grid item >
+             <h2>
+                {this.props.location.einkaufsliste.getName()}
+            </h2>
+            </Grid>
+          <Grid item xs />
+          <Grid item>
             <Button  variant='contained' color='primary' startIcon={<AddIcon />} onClick={this.addListeneintragButtonClicked}>
                 Listeneintrag hinzufügen
-          </Button>
+            </Button>
               </Grid>
           </Grid>
         {

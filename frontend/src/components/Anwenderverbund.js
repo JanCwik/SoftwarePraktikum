@@ -19,7 +19,6 @@ class Anwenderverbund extends Component {
 
   constructor(props) {
     super(props);
-
     let expandedID = null;
 
     if (this.props.location.expandAnwenderverbund) {
@@ -43,15 +42,15 @@ class Anwenderverbund extends Component {
   getAnwenderverbund = () => {
     API.getAPI().getAnwenderverbuendeByBenutzerAPI(this.props.userMail)
       .then(anwenderverbundBOs =>
-        this.setState({               // Setzt neues state wenn AnwenderverbundBOs gefetcht wurden
+        this.setState({                               // Setzt neues state wenn AnwenderverbundBOs gefetcht wurden
           anwenderverbund: anwenderverbundBOs,
           filteredAnwenderverbund: [...anwenderverbundBOs], // Speichert eine Kopie
-          loadingInProgress: false,   // Ladeanzeige deaktivieren
+          loadingInProgress: false,                         // Ladeanzeige deaktivieren
           error: null
         })).catch(e =>
-          this.setState({             // Setzt state mit Error vom catch zurück
+          this.setState({                             // Setzt state mit Error vom catch zurück
             anwenderverbund: [],
-            loadingInProgress: false, // Ladeanzeige deaktivieren
+            loadingInProgress: false,                       // Ladeanzeige deaktivieren
             error: e
           })
         );
@@ -127,9 +126,7 @@ class Anwenderverbund extends Component {
     if(benutzer){                                                                   // Wenn benutzer übergeben wird (wenn ein neuer Anwenderverbund erstellt wird)
       this.setState({                                                           // dann wird der Benutzer in den State geschrieben, welcher als prop weitergegeben wird
         newBenutzerFromNewAnwenderverbund:benutzer})
-
     }
-
     else {
       this.setState({
         showAnwenderverbundForm: false
