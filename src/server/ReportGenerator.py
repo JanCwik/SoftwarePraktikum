@@ -9,7 +9,8 @@ import collections
 class ReportGenerator(object):
 
     def top_artikel(self, benutzer):
-        """ """
+        """ Methode um alle Artikel zu einem bestimmten Benutzer heraus zubekommen und dann nach den 5 Artikeln die die
+        größte Anzahl haben schauen und diese zurückgeben"""
         artikel = []
         instanzen = []
         x = 0
@@ -26,7 +27,6 @@ class ReportGenerator(object):
             instanz = Statistik()
             instanz.set_ArtikelID(i)
             instanz.set_anzahl(a.get(i))
-
             instanzen.append(instanz)
 
         result = []
@@ -44,7 +44,8 @@ class ReportGenerator(object):
         return result
 
     def top_artikel_by_einzelhaendler(self, benutzer, einzelhaendler):
-        """ """
+        """ Methode um alle Artikel zu einem bestimmten Benutzer und einem bestimmten Einzelhaendler heraus zubekommen
+        und dann nach den 5 Artikeln die die größte Anzahl haben schauen und diese zurückgeben """
         artikel = []
         instanzen = []
         x = 0
@@ -61,7 +62,6 @@ class ReportGenerator(object):
             instanz = StatistikHaendler()
             instanz.set_ArtikelID(i)
             instanz.set_anzahl(a.get(i))
-
             instanzen.append(instanz)
 
         result = []
@@ -79,7 +79,8 @@ class ReportGenerator(object):
         return result
 
     def top_artikel_by_zeitraum(self, benutzer, startzeitpunkt, endzeitpunkt):
-        """ """
+        """ Methode um alle Artikel zu einem bestimmten Benutzer heraus zubekommen, welche in dem angegebenen Zeitraum
+        liegen und dann nach den 5 Artikeln die die größte Anzahl haben schauen und diese zurückgeben"""
         instanzen = []
         alle = []
         result = []
@@ -100,7 +101,6 @@ class ReportGenerator(object):
             instanz = StatistikZeitraum()
             instanz.set_ArtikelID(i)
             instanz.set_anzahl(a.get(i))
-
             instanzen.append(instanz)
 
         for i in range(len(instanzen)):
@@ -116,7 +116,9 @@ class ReportGenerator(object):
         return result
 
     def top_artikel_by_Einzelhaendler_zeitraum(self, benutzer, einzelhaendler, startzeitpunkt, endzeitpunkt):
-        """ """
+        """ Methode um alle Artikel zu einem bestimmten Benutzer und einem bestimmten Einzelhaendler heraus zubekommen,
+        welche in dem angegebenen Zeitraum liegen und dann nach den 5 Artikeln die die größte Anzahl haben schauen
+        und diese zurückgeben"""
         instanzen = []
         alle = []
         result = []
@@ -128,7 +130,7 @@ class ReportGenerator(object):
         for i in tupel:
             zeitpunkt = i.get_zeitpunkt()
             zeitpunkt = zeitpunkt.strftime("%Y-%m-%d")
-            if zeitpunkt >= startzeitpunkt and zeitpunkt <= endzeitpunkt:
+            if startzeitpunkt <= zeitpunkt <= endzeitpunkt:
                 alle.append(i.get_ArtikelID())
 
         a = collections.Counter(alle)
@@ -137,7 +139,6 @@ class ReportGenerator(object):
             instanz = StatistikHuZ()
             instanz.set_ArtikelID(i)
             instanz.set_anzahl(a.get(i))
-
             instanzen.append(instanz)
 
         for i in range(len(instanzen)):
