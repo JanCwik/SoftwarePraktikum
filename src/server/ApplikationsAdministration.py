@@ -27,6 +27,10 @@ class ApplikationsAdministration(object):
 
     def delete_artikel(self, artikel):
         """Methode zum löschen eines Artikels aus der Datenbank"""
+
+        with ListeneintragMapper() as mapper:
+            mapper.delete_by_artikel(artikel)
+
         with ArtikelMapper() as mapper:
             mapper.delete(artikel)
 
@@ -57,6 +61,10 @@ class ApplikationsAdministration(object):
 
     def delete_einzelhaendler(self, einzelhaendler):
         """Methode zum löschen eines Einzelhändlers aus der Datenbank"""
+
+        with ListeneintragMapper() as mapper:
+            mapper.delete_by_einzelhaendler(einzelhaendler)
+
         with EinzelhaendlerMapper() as mapper:
             mapper.delete(einzelhaendler)
 
