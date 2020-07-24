@@ -5,7 +5,7 @@ import 'firebase/auth';
 import firebase from 'firebase/app';
 import SignIn from "./Pages/SignIn";
 import Header from "./components/layout/Header";
-import {BrowserRouter as Router, Route, Redirect} from "react-router-dom";
+import {BrowserRouter as Router, Redirect} from "react-router-dom";
 
 
 class App extends React.Component{
@@ -109,14 +109,14 @@ class App extends React.Component{
 
 
 render(){
-		const { currentUser, appError, authError, authLoading } = this.state;
+		const { currentUser } = this.state;
   return (
   	  <Router basename={'/'}>
   		 <div className="App">
 			 <Header user={currentUser}/>
 
                         {
-							// Is a user signed in?
+							// Wenn ein benutzer abgemeldet ist
 							currentUser ?
                             <>
 
@@ -126,7 +126,7 @@ render(){
       						</>
 
 								:
-								// else show the sign in page
+								// wenn nicht:
 								<>
 									<Redirect to='/index.html' />
 									<SignIn onSignIn={this.handleSignIn} />

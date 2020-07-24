@@ -49,7 +49,7 @@ class Header extends Component {
               <Tab icon ={<FastfoodIcon/>} label='Artikel' component={RouterLink} to={`/artikel`} />
               <Tab icon ={<PeopleIcon/>} label='Anwenderverbund' component={RouterLink} to={`/anwenderverbund`}/>
               <Tab icon ={<ShoppingCartIcon/>} label='Einzelhändler' component={RouterLink} to={`/einzelhaendler`}/>
-              <Tab icon ={<BarChartIcon/>} label='Statistik' href="http://localhost:3000/"  target="_blank" />
+              <Tab icon ={<BarChartIcon/>} label='Statistik' href="http://localhost:3001/"  target="_blank" />
             </Tabs>                                                                                                        // bei href muss die URL hin, auf der die Statistik läuft
              : null
         }

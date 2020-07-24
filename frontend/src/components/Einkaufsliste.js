@@ -28,8 +28,6 @@ class Einkaufsliste extends Component {
 
   /** Fetchet alle ListeneinträgeBOs für das Backend */
   getListeneintraege = () => {
- const { einkaufsliste } = this.props.location
-
     API.getAPI().getListeneintraegeByEinkaufslisteAPI(this.props.location.einkaufsliste.getID())
       .then(ListeneintragBOs =>
        this.setState({                  // Setzt neues state wenn ListeneintragsBOs gefetcht wurden

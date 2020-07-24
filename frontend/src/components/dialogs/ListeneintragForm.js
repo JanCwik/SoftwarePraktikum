@@ -332,7 +332,7 @@ sucheArtikel = async () => {
                  onChange={this.listeneintragArtikelNameChange}
                  value={listeneintragArtikelName}
                  error={artikelNotFound}
-                 onBlur={listeneintragArtikelName? this.sucheArtikel:''}     //Wenn dr Benutzer etwas eingegeben hat und das Textfeld verlässt wird automatisch gesucht
+                 onBlur={listeneintragArtikelName ? this.sucheArtikel:''}     //Wenn dr Benutzer etwas eingegeben hat und das Textfeld verlässt wird automatisch gesucht
                  helperText={artikelNotFound ? 'Es wurde kein Artikel mit diesem Namen gefunden. Erstelle den Artikel im "Artikel" Tab.' : ' '}
                  InputProps={{
                    endAdornment:
@@ -451,6 +451,7 @@ ListeneintragForm.propTypes = {
    * wenn abbrechen gedrückt wurde, ist der parameter null
    */
   onClose: PropTypes.func.isRequired,
+  onBlur: PropTypes.func,
 }
 
 export default withStyles(styles)(ListeneintragForm);
