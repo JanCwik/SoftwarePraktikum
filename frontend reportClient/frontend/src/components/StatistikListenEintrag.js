@@ -1,39 +1,47 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { withStyles, Typography } from '@material-ui/core';
+import { withStyles, Typography, Grid } from '@material-ui/core';
 
-/** Rendert ein StatistikBO innerhalb eines StatistikListenEintrags */
+/**
+ * Rendert ein EinzelhaendlerBO innerhalb eines EinzelhaendlerListenEintrags
+ * mit den Einzelhändler manipulations Funktionen.
+ */
 
 class StatistikListenEintrag extends Component {
 
   constructor(props) {
     super(props);
 
+    // Init state
     this.state = {
         statistikeintrag: props.statistikeintrag,
     };
   }
 
-  /** Rendert die Komponente */
+  /** Rendert den Komponent */
   render() {
     const { classes } = this.props;
     const { statistikeintrag } = this.state;
     return (
       <div className={classes.root}  >
-        <Typography variant='h5' component='h5' align='center' >
-          Der Artikel {statistikeintrag.getArtikelName()} wurde {statistikeintrag.getGesamtAnzahl()} mal gekauft
-        </Typography>
+
+                <Typography variant='h5' component='h5' align='center' >
+                  Der Artikel {statistikeintrag.getArtikelName()} wurde {statistikeintrag.getGesamtAnzahl()} mal gekauft
+                </Typography>
+
+
       </div>
     );
   }
 }
 
-/** Komponentenspezifisches Styling */
+/** Komponentenspezifische Stile */
 const styles = theme => ({
   root: {
     width: '100%',
     marginTop : theme.spacing(4)
   },
+
 });
 
 /** PropTypes */

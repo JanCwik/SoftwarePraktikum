@@ -98,7 +98,7 @@ BenutzerListeneintragLoeschen.propTypes = {
   /** @ignore */
   classes: PropTypes.object.isRequired,
   /** Um das BenutzerBO zu loeschen */
-  benutzerlisteneintrag: PropTypes.object,
+  benutzerlisteneintrag: PropTypes.object.isRequired,
   /** Wenn true, wird der Dialog gerendert */
   show: PropTypes.bool.isRequired,
   /**

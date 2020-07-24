@@ -38,6 +38,7 @@ export default class StatistikZeitraumBO extends StatistikBO {
       // Returns an Array of CustomerBOs from a given JSON structure
     static fromJSON(statzpkt) {
         let result = [];
+
         if (Array.isArray(statzpkt)) {
             statzpkt.forEach((c) => {
                 Object.setPrototypeOf(c, StatistikZeitraumBO.prototype)
@@ -51,5 +52,10 @@ export default class StatistikZeitraumBO extends StatistikBO {
         }
 
         return result;
+
+
     }
+
+
+
 }

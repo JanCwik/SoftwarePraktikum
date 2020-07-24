@@ -7,11 +7,10 @@ import BenutzerBO from "./BenutzerBO";
 
 export default class API {
 
-
     static #api = null;
 
-
-    //diese Klassenmethode realisiert die Umsetztung als Singelton, dadurch kann nur eine Instanz dieser Klasse existieren
+/** Diese Klassenmethode realisiert die Umsetztung
+    als Singelton, dadurch kann nur eine Instanz dieser Klasse existieren */
     static getAPI() {
         if (this.#api == null) {
             this.#api = new API();
@@ -19,11 +18,10 @@ export default class API {
         return this.#api;
     }
 
-
-    //Während der Entwicklung wird der Local host verwendet, im deployten Zustand wird der entsprechende Link auf das Deployte Backend verwendet
+    //Während der Entwicklung wird der Local host verwendet, im deployten Zustand wird der entsprechende Link auf das deployte Backend verwendet
     #ServerBaseURL= process.env.NODE_ENV ==='production'?'https://backend-dot-shoppinglist2020.ey.r.appspot.com/shopping':'/shopping'
     //#ServerBaseURL= '/shopping';
-    //private Methoden um das angeben aller URLs zu erleichtern
+    //private Methoden um das Angeben aller URLs zu erleichtern
     #getArtikelURL = () => `${this.#ServerBaseURL}/artikel`;
     #addArtikelURL = () => `${this.#ServerBaseURL}/artikel`;
     #deleteArtikelURL = (id) => `${this.#ServerBaseURL}/artikel-by-id/${id}`;
@@ -61,26 +59,19 @@ export default class API {
     #deleteMitgliedschaftURL= (id) => `${this.#ServerBaseURL}/anwenderverbund/${id}/mitglieder`;
     #getBenutzerByNameURL= (name) => `${this.#ServerBaseURL}/benutzer-by-name/${name}`;
 
-
-
-
-    //führt die fetch-Funktion aus, fängt dabei mögliche Errors ab und führt anschließend schon die json-Funktion mit der Response aus.
+    //Führt die Fetch-Funktion aus, fängt dabei mögliche Errors ab und führt anschließend schon die JSON-Funktion mit der Response aus.
     #fetchAdvanced = (url, init) =>
         fetch(url, init)
             .then(res =>{
-                //console.log(res)
                     if (!res.ok) {
                         throw Error(`${res.status} ${res.statusText}`);
                     }
                     return res.json();
                 }
-
             )
 
-
-
-    // Methode die den GET request ausführt und alle in der Datenbank gespeicherten Artikel ausgibt, zu denen der Benutzer gehört
-    // Die ID des Benutzers wird an die URL gehängt
+    /** Methode die den GET request ausführt und alle in der Datenbank gespeicherten Artikel ausgibt,
+        zu denen der Benutzer gehört. Die ID des Benutzers wird an die URL gehängt. */
     getArtikelByBenutzerAPI(userMail) {
         return this.#fetchAdvanced(this.#getArtikelByBenutzerURL(userMail)).then((responseJSON) => {
             let Artikel = ArtikelBO.fromJSON(responseJSON);
@@ -88,11 +79,10 @@ export default class API {
                 resolve(Artikel);
             })
         })
-
     }
 
-    // Methode die den GET request ausführt und einen Artikel anhand seines namen ausgibt
-    // Der name des Artikels wird an die URL gehängt
+    /** Methode die den GET request ausführt und einen Artikel
+     * anhand seines Namens ausgibt Der Name des Artikels wird an die URL gehängt. */
     getArtikelByNameAPI(name) {
         return this.#fetchAdvanced(this.#getArtikelByNamelURL(name)).then((responseJSON) => {
                 let response = ArtikelBO.fromJSON(responseJSON);
@@ -102,7 +92,7 @@ export default class API {
             })
     }
 
-    // Methode die den GET request ausführt und alle in der Datenbank gespeicherten Artikel ausgibt
+    /** Methode die den GET request ausführt und alle in der Datenbank gespeicherten Artikel ausgibt. */
     getArtikelAPI() {
         return this.#fetchAdvanced(this.#getArtikelURL()).then((responseJSON) => {
             let artikel = ArtikelBO.fromJSON(responseJSON);
@@ -112,8 +102,8 @@ export default class API {
         })
     }
 
-
-    //führt einen POST Request aus und schreibt dabei das als Parameter übergebene Artikelobjekt in den Body des Json
+    /** Führt einen POST Request aus und schreibt dabei das als Parameter übergebene
+     *  Artikelobjekt in den Body des JSON. */
     addArtikelAPI(newArt) {
         return this.#fetchAdvanced(this.#addArtikelURL(), {
             method: 'POST',
@@ -131,7 +121,7 @@ export default class API {
         })
     }
 
-    //führt einen DELETE Request aus und gibt dabei die id des zu löschenden Artikels weiter
+    /** Führt einen DELETE Request aus und gibt dabei die ID des zu löschenden Artikels weiter. */
     deleteArtikelAPI(id) {
         return this.#fetchAdvanced(this.#deleteArtikelURL(id), {
             method: 'DELETE'
@@ -144,8 +134,8 @@ export default class API {
         })
     }
 
-    //Fürht ein PUT Request aus. Die ID des Artikels der geupdatet werden soll wird an die URL gehängt
-    //und das aktualisierte Artikel-Objekt wird in den Body des JSON geschrieben
+    /** Fürht ein PUT Request aus. Die ID des Artikels der geupdatet werden soll wird an die URL gehängt
+        und das aktualisierte Artikel-Objekt wird in den Body des JSON geschrieben. */
     updateArtikelAPI(artikel) {
         return this.#fetchAdvanced(this.#updateArtikelURL(artikel.getID()), {
             method: 'PUT',
@@ -163,8 +153,7 @@ export default class API {
         })
     }
 
-
-    // Methode die den GET request ausführt und alle in der Datenbank gespeicherten Einzelhändler ausgibt
+    /**  Methode die den GET request ausführt und alle in der Datenbank gespeicherten Einzelhändler ausgibt */
     getEinzelhaendlerAPI(mail) {
         return this.#fetchAdvanced(this.#getEinzelhaendlerByBenutzerURL(mail)).then((responseJSON) => {
             let Einzelhaendler = EinzelhaendlerBO.fromJSON(responseJSON);
@@ -174,21 +163,19 @@ export default class API {
         })
     }
 
-
-    // Methode die den GET request ausführt und einen Einzelhaendler anhand seines namen ausgibt
-    // Der name des Einzelhaendlers wird an die URL gehängt
+    /** Methode die den GET request ausführt und einen Einzelhändler anhand seines Namen ausgibt
+        Der name des Einzelhändlers wird an die URL gehängt. */
     getEinzelhaendlerByNameAPI(name) {
         return this.#fetchAdvanced(this.#getEinzelhaendlerByNameURL(name)).then((responseJSON) => {
                 let response = EinzelhaendlerBO.fromJSON(responseJSON);
                 return new Promise(function (resolve) {
                     resolve(response);
                 })
-
         })
     }
 
-
-    //führt einen POST Request aus und schreibt dabei das als Parameter übergebene Einzelhändler-objekt in den Body des Json
+    /** Führt einen POST Request aus und schreibt dabei das als Parameter
+     *  übergebene Einzelhändler-Objekt in den Body des JSON. */
     addEinzelhaendlerAPI(neweinz) {
         return this.#fetchAdvanced(this.#addEinzelhaendlerURL(), {
             method: 'POST',
@@ -206,7 +193,7 @@ export default class API {
         })
     }
 
-    //führt einen DELETE Request aus und gibt dabei die id des zu löschenden Einzelhändlers weiter
+    /** Führt einen DELETE Request aus und gibt dabei die ID des zu löschenden Einzelhändlers weiter */
     deleteEinzelhaendlerAPI(id) {
         return this.#fetchAdvanced(this.#deleteEinzelhaendlerURL(id), {
             method: 'DELETE'
@@ -219,8 +206,8 @@ export default class API {
         })
     }
 
-    //Führt ein PUT Request aus. Die ID des Einzelhändlers der geupdatet werden soll wird an die URL gehängt
-    //und das aktualisierte Einzelhändler-Objekt wird in den Body des JSON geschrieben
+    /** Führt ein PUT Request aus. Die ID des Einzelhändlers der geupdatet werden soll wird an die URL gehängt
+        und das aktualisierte Einzelhändler-Objekt wird in den Body des JSON geschrieben. */
     updateEinzelhaendlerAPI(einz) {
         return this.#fetchAdvanced(this.#updateEinzelhaendlerURL(einz.getID()), {
             method: 'PUT',
@@ -238,8 +225,7 @@ export default class API {
         })
     }
 
-
-    // Methode die den GET request ausführt und alle in der Datenbank gespeicherten Anwenderverbünde ausgibt
+    /** Methode die den GET request ausführt und alle in der Datenbank gespeicherten Anwenderverbünde ausgibt. */
     getAnwenderverbuendeAPI() {
         return this.#fetchAdvanced(this.#getAnwenderverbuendeURL()).then((responseJSON) => {
             let Anwenderverbund = AnwenderverbundBO.fromJSON(responseJSON);
@@ -249,8 +235,8 @@ export default class API {
         })
     }
 
-    // Methode die den GET request ausführt und alle in der Datenbank gespeicherten Anwenderverbünde ausgibt, zu denen der Benutzer gehört
-    // Die ID des Benutzers wird an die URL gehängt
+    /** Methode die den GET request ausführt und alle in der Datenbank gespeicherten Anwenderverbünde ausgibt,
+     * zu denen der Benutzer gehört. Die ID des Benutzers wird an die URL gehängt. */
     getAnwenderverbuendeByBenutzerAPI(userMail) {
         return this.#fetchAdvanced(this.#getAnwenderverbuendeByBenutzerURL(userMail)).then((responseJSON) => {
             let verbuende = AnwenderverbundBO.fromJSON(responseJSON);
@@ -258,10 +244,10 @@ export default class API {
                 resolve(verbuende);
             })
         })
-
     }
 
-    //führt einen POST Request aus und schreibt dabei das als Parameter übergebene Anwenderverbund-objekt in den Body des Json
+    /** Führt einen POST Request aus und schreibt dabei das als Parameter
+     *  übergebene Anwenderverbund-Objekt in den Body des JSON. */
     addAnwenderverbundAPI(newanw) {
         return this.#fetchAdvanced(this.#addAnwenderverbundURL(), {
             method: 'POST',
@@ -279,7 +265,7 @@ export default class API {
         })
     }
 
-    //führt einen DELETE Request aus und gibt dabei die id des zu löschenden Anwenderverbunds weiter
+    /** führt einen DELETE Request aus und gibt dabei die ID des zu löschenden Anwenderverbunds weiter. */
     deleteAnwenderverbundAPI(id) {
         return this.#fetchAdvanced(this.#deleteAnwenderverbundURL(id), {
             method: 'DELETE'
@@ -292,8 +278,8 @@ export default class API {
         })
     }
 
-    //Fürht ein PUT Request aus. Die ID des Anwenderverbunds der geupdatet werden soll wird an die URL gehängt
-    //und das aktualisierte Anwenderverbund-Objekt wird in den Body des JSON geschrieben
+    /** Führt ein PUT Request aus. Die ID des Anwenderverbunds der geupdatet werden soll wird an die URL gehängt
+        und das aktualisierte Anwenderverbund-Objekt wird in den Body des JSON geschrieben. */
     updateAnwenderverbundAPI(anw) {
         return this.#fetchAdvanced(this.#updateAnwenderverbundURL(anw.getID()), {
             method: 'PUT',
@@ -311,12 +297,7 @@ export default class API {
         })
     }
 
-
-
-
-
-
-    // Methode die den GET request ausführt und alle in der Datenbank gespeicherten Einkaufslisten ausgibt
+    /** Methode die den GET request ausführt und alle in der Datenbank gespeicherten Einkaufslisten ausgibt. */
     getEinkaufslistenAPI() {
         return this.#fetchAdvanced(this.#getEinkaufslistenURL()).then((responseJSON) => {
             let Einkaufslisten = EinkaufslisteBO.fromJSON(responseJSON);
@@ -326,8 +307,8 @@ export default class API {
         })
     }
 
-
-    //führt einen POST Request aus und schreibt dabei das als Parameter übergebene Einkaufslisten-objekt in den Body des Json
+    /** Führt einen POST Request aus und schreibt dabei das als Parameter
+     *  übergebene Einkaufslisten-Objekt in den Body des JSON. */
     addEinkaufslisteAPI(neweinkl, email) {
         return this.#fetchAdvanced(this.#addEinkaufslisteURL(email), {
             method: 'POST',
@@ -345,8 +326,8 @@ export default class API {
         })
     }
 
-    // Methode die den GET request ausführt und alle in der Datenbank gespeicherten Einkaufslisten ausgibt, die zu einem Anwenderverbund gehören
-    // Die ID des Anwenderverbundes wird an die URL gehängt
+    /** Methode die den GET request ausführt und alle in der Datenbank gespeicherten Einkaufslisten ausgibt, die zu einem Anwenderverbund gehören
+        Die ID des Anwenderverbundes wird an die URL gehängt */
     getEinkaufslistenByAnwenderverbundAPI(id) {
         return this.#fetchAdvanced(this.#getEinkaufslistenByAnwenderverbundURL(id)).then((responseJSON) => {
             let liste = EinkaufslisteBO.fromJSON(responseJSON);
@@ -356,8 +337,8 @@ export default class API {
         })
     }
 
-    //Fürht ein PUT Request aus. Die ID der Einkaufsliste die geupdatet werden soll wird an die URL gehängt
-    //und das aktualisierte Einkaufslisten-Objekt wird in den Body des JSON geschrieben
+    /** Fürht ein PUT Request aus. Die ID der Einkaufsliste die geupdatet werden soll wird an die URL gehängt
+        und das aktualisierte Einkaufslisten-Objekt wird in den Body des JSON geschrieben. */
     updateEinkaufslisteAPI(lis) {
         return this.#fetchAdvanced(this.#updateEinkaufslisteURL(lis.getID()), {
             method: 'PUT',
@@ -375,22 +356,20 @@ export default class API {
         })
     }
 
-    //führt einen DELETE Request aus und gibt dabei die id der zu löschenden Einkaufsliste weiter
+    /** Führt einen DELETE Request aus und gibt dabei die ID der zu löschenden Einkaufsliste weiter. */
     deleteEinkaufslisteAPI(id){
         return this.#fetchAdvanced(this.#deleteEinkaufslisteURL(id), {
             method: 'DELETE'
         }).then((responseJSON) => {
             // Zugriff auf das erste Einkaufsliste Objekt des Arrays, welches .fromJSON zurückgibt
             let responseEinkaufslisteBO = EinkaufslisteBO.fromJSON(responseJSON)[0];
-            //console.log(responseEinkaufslisteBO)
             return new Promise(function (resolve) {
                 resolve(responseEinkaufslisteBO);
             })
         })
     }
 
-
-    // Methode die den GET request ausführt und ein Listeneintrag anhand seiner ID ausgibt
+    /** Methode die den GET request ausführt und ein Listeneintrag anhand seiner ID ausgibt. */
     getListeneintragByIdAPI(id) {
         return this.#fetchAdvanced(this.#getListeneintragByIdURL(id)).then((responseJSON) => {
             let eintrag = ListeneintragBO.fromJSON(responseJSON);
@@ -400,9 +379,8 @@ export default class API {
         })
     }
 
-    // Methode die den GET request ausführt und alle in der Datenbank gespeicherten Listeneinträge ausgibt die zu einer
-    // bestimmten Einkaufsliste gehören
-    // Die ID der Einkaufsliste wird an die URL gehängt
+    /** Methode die den GET request ausführt und alle in der Datenbank gespeicherten Listeneinträge
+     * ausgibt die zu einer bestimmten Einkaufsliste gehören. Die ID der Einkaufsliste wird an die URL gehängt */
     getListeneintraegeByEinkaufslisteAPI(id) {
         return this.#fetchAdvanced(this.#getListeneintragByEinkaufslisteURL(id)).then((responseJSON) => {
             let eintrag = ListeneintragBO.fromJSON(responseJSON);
@@ -412,7 +390,8 @@ export default class API {
         })
     }
 
-    //führt einen POST Request aus und schreibt dabei das als Parameter übergebene Listeneintrag-objekt in den Body des Json
+    /** Führt einen POST Request aus und schreibt dabei das als Parameter
+     *  übergebene Listeneintrag-Objekt in den Body des JSON. */
     addListeneintragAPI(neweintr) {
         return this.#fetchAdvanced(this.#addListeneintragURL(), {
             method: 'POST',
@@ -430,8 +409,8 @@ export default class API {
         })
     }
 
-     //Fürht ein PUT Request aus. Die ID des Listeneintrages der geupdatet werden soll wird an die URL gehängt
-    //und das aktualisierte Listeneintrag-Objekt wird in den Body des JSON geschrieben
+     /** Führt ein PUT Request aus. Die ID des Listeneintrages der geupdatet werden soll wird an die URL gehängt
+       * und das aktualisierte Listeneintrag-Objekt wird in den Body des JSON geschrieben. */
      updateListeneintragAPI(eintr) {
         return this.#fetchAdvanced(this.#updateListeneintragURL(eintr.getID()), {
             method: 'PUT',
@@ -449,7 +428,7 @@ export default class API {
         })
     }
 
-    //führt einen DELETE Request aus und gibt dabei die id des zu löschenden Listeneintrages weiter
+    /** Führt einen DELETE Request aus und gibt dabei die ID des zu löschenden Listeneintrages weiter. */
     deleteListeneintragAPI(id){
         return this.#fetchAdvanced(this.#deleteListeneintragURL(id), {
             method: 'DELETE'
@@ -462,9 +441,8 @@ export default class API {
         })
     }
 
-    // Methode die den GET request ausführt und alle in der Datenbank gespeicherten benutzer ausgibt die zu einem
-    // bestimmten Anwenderverbund gehören
-    // Die ID der Anwenderverbund wird an die URL gehängt
+    /** Methode die den GET request ausführt und alle in der Datenbank gespeicherten Benutzer ausgibt die zu einem
+      * bestimmten Anwenderverbund gehören. Die ID der Anwenderverbund wird an die URL gehängt */
     GetBenutzerByAnwenderverbundAPI(id) {
         return this.#fetchAdvanced(this.#getBenutzerByAnwenderverbundURL(id)).then((responseJSON) => {
             let benutzer = BenutzerBO.fromJSON(responseJSON);
@@ -474,8 +452,8 @@ export default class API {
         })
     }
 
-     //führt einen POST Request aus und schreibt dabei das als Parameter übergebene Benutzer-objekt in den Body des Json
-    // und die id des Anwenderverbundes in die URL
+    /** Führt einen POST Request aus und schreibt dabei das als Parameter übergebene Benutzer-Objekt
+     *  in den Body des JSON und die ID des Anwenderverbundes in die URL. */
     addMitgliedschaftAPI(anwenderverbundID, BenutzerBO) {
         return this.#fetchAdvanced(this.#addMitgliedschaftURL(anwenderverbundID), {
             method: 'POST',
@@ -485,21 +463,11 @@ export default class API {
             },
             body: JSON.stringify(BenutzerBO)
         })
-        /*   //funktioniert iwi nicht
-            .then((responseJSON) => {
-            console.log(responseJSON)
-            // Zugriff auf das erste Listeneintrag Objekt des Arrays, welches .fromJSON zurückgibt
-            let responseBO = BenutzerBO.fromJSON(responseJSON);
-           return new Promise(function (resolve) {
-                resolve(responseBO);
-            })
-        })
-         */
     }
 
-    //führt einen DELETE Request aus und schreibt dabei die id des Anwenderverbundes in die URL und das BenutzerBO in den Body der Json
+    /** Führt einen DELETE Request aus und schreibt dabei die ID des Anwenderverbundes in die URL und das
+     *  BenutzerBO in den Body der JSON. */
     deleteMitgliedschaftAPI(anwenderverbundID,BenutzerBO){
-
         return this.#fetchAdvanced(this.#deleteMitgliedschaftURL(anwenderverbundID), {
             method: 'DELETE',
             headers: {
@@ -508,21 +476,10 @@ export default class API {
             },
             body: JSON.stringify(BenutzerBO)
         })
-            /*
-            .then((responseJSON) => {
-            console.log(responseJSON)
-            // Zugriff auf das erste Listeneintrag Objekt des Arrays, welches .fromJSON zurückgibt
-            let response = BenutzerBO.fromJSON(responseJSON)[0];
-            return new Promise(function (resolve) {
-                resolve(response);
-            })
-        })
-
-             */
     }
 
-    // Methode die den GET request ausführt und einen benutzer anhand seiner email ausgibt
-    // Die email des Benutzers wird an die URL gehängt
+    /** Methode die den GET request ausführt und einen Benutzer anhand seiner Email ausgibt.
+        Die Email des Benutzers wird an die URL gehängt. */
     getBenutzerByEmailAPI(email) {
         return this.#fetchAdvanced(this.#getBenutzerByEmailURL(email)).then((responseJSON) => {
             let benutzer = BenutzerBO.fromJSON(responseJSON);
@@ -532,19 +489,14 @@ export default class API {
         })
     }
 
-
-    // Methode die den GET request ausführt und einen Benutzer anhand seines namen ausgibt
-    // Der name des Benutzers wird an die URL gehängt
+    /** Methode die den GET request ausführt und einen Benutzer anhand seines Namens ausgibt.
+        Der Name des Benutzers wird an die URL gehängt. */
     getBenutzerByNameAPI(name) {
         return this.#fetchAdvanced(this.#getBenutzerByNameURL(name)).then((responseJSON) => {
                 let response = BenutzerBO.fromJSON(responseJSON);
                 return new Promise(function (resolve) {
                     resolve(response);
                 })
-
         })
     }
-
-
-
 }

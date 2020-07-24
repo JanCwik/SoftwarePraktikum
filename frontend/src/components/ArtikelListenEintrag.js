@@ -117,7 +117,7 @@ class ArtikelListenEintrag extends Component {
             <Typography className={classes.panelDetails}>
               Standardartikel: {`${this.StandardartikelAusgeben()} `}
             </Typography>
-            <Typography className={classes.panelDetails}>
+            <Typography className>
               Einheit: {`${artikel.getEinheit()}`}
             </Typography>
         </ExpansionPanelDetails>
@@ -135,7 +135,7 @@ const styles = theme => ({
     width: '100%',
   },
   panelDetails: {
-    flexBasis: '17%',
+    flexBasis: '15%',
   }
 });
 

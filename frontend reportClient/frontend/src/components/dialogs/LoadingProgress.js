@@ -21,7 +21,7 @@ class LoadingProgress extends Component {
   }
 }
 
-/** Komponentenspezifisches Styling */
+/** Komponentenspezifische Stile */
 const styles = theme => ({
   root: {
     width: '100%',

@@ -1,6 +1,12 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
-import {Typography, Paper} from "@material-ui/core";
+import {Typography,Tabs, Tab, Paper} from "@material-ui/core";
+import {Link as RouterLink} from "react-router-dom"
+import FastfoodIcon from "@material-ui/icons/Fastfood";
+import ListAltIcon from '@material-ui/icons/ListAlt';
+import PeopleIcon from "@material-ui/icons/People";
+import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
+import BarChartIcon from '@material-ui/icons/BarChart';
 import ProfileDropDown from '../dialogs/ProfileDropDown';
 
 class Header extends Component {
@@ -8,16 +14,21 @@ class Header extends Component {
   constructor(props) {
     super(props);
 
-    // Init ein leeres state
+    // Init an empty state
     this.state = {
       tabindex: 0
     };
   }
 
-  /** Rendert die Komponente */
+
+
+  /** Renders the component */
   render() {
    const { user } = this.props;
+
     return (
+      //<Router>
+
         <Paper variant='outlined'>
         <ProfileDropDown user={user} />
         <Typography variant='h3' component='h1' align='center'>
@@ -26,19 +37,23 @@ class Header extends Component {
         <Typography variant='h4' component='h2' align='center'>
           Meine Einkaufs-Statistik
         </Typography>
-            <hr/>
         <Typography variant='h6' component='h5' align='center'>
           Auf dieser Seite sehen Sie Ihre fünf meistgekauften Artikel.
           Sie können einen Ihrer Einzelhändler und/oder einen Zeitraum angeben um den Report einzuschränken
         </Typography>
+
+
+
+
         </Paper>
+        //</Router>
     )
   }
 }
 
 /** PropTypes */
 Header.propTypes = {
-  /** Der eingeloggte Firbase User */
+  /** The logged in firesbase user */
   user: PropTypes.object,
 }
 

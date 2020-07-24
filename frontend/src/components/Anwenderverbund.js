@@ -141,7 +141,7 @@ class Anwenderverbund extends Component {
   filterFieldValueChange = event => {
     const value = event.target.value.toLowerCase();
     this.setState({
-      filteredAnwenderverbund: this.state.anwenderverbund.filter(anwenderverbund => {
+      filteredAnwenderverbund: this.state.einzelhaendler.filter(anwenderverbund => {
         let NameContainsValue = anwenderverbund.getName().toLowerCase().includes(value);
         return NameContainsValue;
       }),
@@ -161,7 +161,8 @@ class Anwenderverbund extends Component {
   /** Rendert die Komponente */
   render() {
     const { classes } = this.props;
-    const { filteredAnwenderverbund, anwenderverbundFilter, expandedAnwenderverbundID, loadingInProgress, error, showAnwenderverbundForm ,newBenutzerFromNewAnwenderverbund} = this.state;
+    const { filteredAnwenderverbund, anwenderverbundFilter, expandedAnwenderverbundID, loadingInProgress, error, showAnwenderverbundForm } = this.state;
+
     return (
       <div className={classes.root}>
         <Grid className={classes.anwenderverbundFilter} container spacing={1} justify='flex-start' alignItems='center'>
@@ -201,7 +202,7 @@ class Anwenderverbund extends Component {
 
           filteredAnwenderverbund.map(anwenderverbund =>
             <AnwenderverbundListenEintrag key={anwenderverbund.getID()} anwenderverbund={anwenderverbund} expandedState={expandedAnwenderverbundID === anwenderverbund.getID()}
-              onExpandedStateChange={this.onExpandedStateChange}  newBenutzerFromNewAnwenderverbund={newBenutzerFromNewAnwenderverbund}
+              onExpandedStateChange={this.onExpandedStateChange}  newBenutzerFromNewAnwenderverbund={this.state.newBenutzerFromNewAnwenderverbund}
               onAnwenderverbundDeleted={this.anwenderverbundDeleted}
             />)
         }
