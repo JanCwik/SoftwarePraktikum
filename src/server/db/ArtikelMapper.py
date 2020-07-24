@@ -10,10 +10,10 @@ class ArtikelMapper(Mapper):
     def find_all(self):
         """Mapper-Methode zum ausgeben aller Artikel aus der Datenbank
 
-        Hier werden via SQL-Abfrage alle Anwenderverbunde aus der Datenbank ausgegeben.
-        Die Anwenderverbund-Objekte werden anschließend von der fetchall()-Methode als Tupel zurückgegeben.
+        Hier werden via SQL-Abfrage alle Artikel aus der Datenbank ausgegeben.
+        Die Artikel-Objekte werden anschließend von der fetchall()-Methode als Tupel zurückgegeben.
         Mittels einer For-Schleife werden die einzelnen Attribute aus einem Tupel gezogen und einer neuen Instanz der
-        Klasse "Anwenderverbund()" übergeben. Die einzelnen Instanzen werden in einem Array gespeichert.
+        Klasse "Artikel()" übergeben. Die einzelnen Instanzen werden in einem Array gespeichert.
         Das Array mit allen Instanzen wird schließlich zurückgegeben."""
         result = []
         cursor = self._cnx.cursor()
@@ -195,7 +195,8 @@ class ArtikelMapper(Mapper):
         return result
 
     def get_id_from_standardartikel(self, benutzer):
-        """ """
+        """Mapper-Methode zum ausgeben der IDs aller Standartartikel aus der Datenbank,
+        welche zu einem bestimmten Benutzer gehören."""
         cursor = self._cnx.cursor()
         temp = "SELECT id FROM artikel WHERE standardartikel=%s" + " AND benutzer_id = %s"
         vals = (True, benutzer.get_id())
@@ -205,7 +206,8 @@ class ArtikelMapper(Mapper):
         return tuples
 
     def get_artikelname_for_listeneintrag(self, eintraege):
-        """ """
+        """Mapper-Methode zum ausgeben der Namen aller Artikel aus der Datenbank,
+        welche zu einem bestimmten Listeneintrag gehören."""
         cursor = self._cnx.cursor()
 
         cursor.execute("SELECT name FROM artikel WHERE id={}".format(eintraege.get_artikelId()))
@@ -217,7 +219,8 @@ class ArtikelMapper(Mapper):
         cursor.close()
 
     def get_artikeleinheit_for_listeneintrag(self, eintraege):
-        """ """
+        """Mapper-Methode zum ausgeben der Einheit aller Artikel aus der Datenbank,
+        welche zu einem bestimmten Listeneintrag gehören."""
         cursor = self._cnx.cursor()
 
         cursor.execute("SELECT einheit FROM artikel WHERE id={}".format(eintraege.get_artikelId()))

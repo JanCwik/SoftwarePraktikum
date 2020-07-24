@@ -19,11 +19,11 @@ class Listeneintrag(BusinessObject):
         self._zuletzt_geaendert= False
 
     def set_zuletzt_geaendert(self, zuletzt_geaendert):
-        """Setzen des zuletztgeaendert Datums"""
+        """Setzen des Datums der letzten Änderung"""
         self._zuletzt_geaendert = zuletzt_geaendert
 
     def get_zuletzt_geaendert(self):
-        """Auslesen des zuletztgeaendert Datums"""
+        """Auslesen des Datums der letzten Änderung"""
         return self._zuletzt_geaendert
 
     def set_anzahl(self, anzahl):
@@ -43,31 +43,31 @@ class Listeneintrag(BusinessObject):
         return self._erledigt
 
     def set_aenderungs_zeitpunkt(self, aenderungs_zeitpunkt):
-        """Setzen des Aenderungszeitpunkt"""
+        """Setzen des Aenderungszeitpunkts"""
         self._aenderungs_zeitpunkt = aenderungs_zeitpunkt
 
     def get_aenderungs_zeitpunkt(self):
-        """Auslesen des Aenderungszeitpunkt"""
+        """Auslesen des Aenderungszeitpunkts"""
         return self._aenderungs_zeitpunkt
 
     def set_aenderungs_zeitpunkt_now(self):
-        """Setzen des Änderungszeitpunkt"""
+        """Setzen des Aenderungszeitpunkts jetzt"""
         self._aenderungs_zeitpunkt = datetime.datetime.now()
 
     def set_einkaufslisteId(self, einkaufslisteID):
-        """Setzen der einkaufsliste_id"""
+        """Setzen der Einkaufslisten_id"""
         self._einkaufsliste_id = einkaufslisteID
 
     def get_einkaufslisteId(self):
-        """Auslesen der einkaufsliste_id"""
+        """Auslesen der Einkaufslisten_id"""
         return self._einkaufsliste_id
 
     def set_einzelhaendlerId(self, einzelhaendlerId):
-        """Setzen der einzelhaendler_id"""
+        """Setzen der Einzelhaendler_id"""
         self._einzelhaendler_id = einzelhaendlerId
 
     def get_einzelhaendlerId(self):
-        """Auslesen der einzelhaendler_id"""
+        """Auslesen der Einzelhaendler_id"""
         return self._einzelhaendler_id
 
     def set_einzelhaendler_name(self, name):
@@ -79,11 +79,11 @@ class Listeneintrag(BusinessObject):
         return self._einzelhaendler_name
 
     def set_artikelId(self, artikelId):
-        """Setzen der artikel_id"""
+        """Setzen der Artikel_id"""
         self._artikel_id = artikelId
 
     def get_artikelId(self):
-        """Auslesen der artikel_id"""
+        """Auslesen der Artikel_id"""
         return self._artikel_id
 
     def set_artikel_name(self, name):
@@ -103,11 +103,11 @@ class Listeneintrag(BusinessObject):
         return self._artikel_einheit
 
     def set_benutzerId(self, benutzerId):
-        """Setzen der benutzer_id"""
+        """Setzen der Benutzer_id"""
         self._benutzer_id = benutzerId
 
     def get_benutzerId(self):
-        """Auslesen der benutzer_id"""
+        """Auslesen der Benutzer_id"""
         return self._benutzer_id
 
     def set_benutzer_name(self, name):

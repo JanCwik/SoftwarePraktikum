@@ -52,7 +52,7 @@ class MitgliedschaftMapper(Mapper):
         return benutzer
 
     def alle_benutzer_ausgeben(self, anwenderverbund):
-        """Mapper-Methode zum ausgeben aller Benutzer aus einem Anwenderverbund."""
+        """Mapper-Methode zum ausgeben aller Benutzer die zu einem bestimmten Anwenderverbund gehören."""
         result = []
         cursor = self._cnx.cursor()
         cursor.execute(
@@ -84,7 +84,6 @@ class MitgliedschaftMapper(Mapper):
         Mitgliedschaft ausgegeben.
         Anschließend werden aus den Zeilen der Datenbank (welche ein Objekt mit dessen Attributen darstellen)
         mit der fetchall-Methode Tupel erstellt.
-
         Mittels For-Schleife werden die einzelnen Attribute aus einem Tupel gezogen und einer neuen Instanz übergeben
         und dann zurückgegeben."""
         result = []
