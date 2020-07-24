@@ -98,17 +98,17 @@ class AlleEinkaufslistenAnwenderverbund extends Component{
         return(
             <div className={classes.root}>
                 <Grid  container spacing={1} justify='flex-start' alignItems='center'>
-                      <Grid item>
-                          <h2>
-                              {anwenderverbund.getName()}
-                          </h2>
-                      </Grid>
-                    <Grid item xs />
-                    <Grid item>
-                    <Button variant='contained' color='primary' startIcon={<AddIcon />} onClick={this.addEinkaufslisteButtonClicked}>
-                      Einkaufsliste zu {anwenderverbund.getName()} hinzufügen
-                    </Button>
-                    </Grid>
+                  <Grid item>
+                      <h2 style={{fontFamily: "Arial, Helvetica, sans-serif"}}>
+                          {anwenderverbund.getName()}
+                      </h2>
+                  </Grid>
+                <Grid item xs />
+                <Grid item>
+                <Button variant='contained' color='primary' startIcon={<AddIcon />} onClick={this.addEinkaufslisteButtonClicked}>
+                  Einkaufsliste zu {anwenderverbund.getName()} hinzufügen
+                </Button>
+                </Grid>
                 </Grid>
                 {
                   // Zeigt die Liste der AlleEinkaufslistenListenEintrag Komponenten
