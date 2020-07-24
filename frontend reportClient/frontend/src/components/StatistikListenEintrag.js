@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withStyles, Typography } from '@material-ui/core';
 
-/** Rendert ein StatistikBO innerhalb eines StatistikListenEintrags */
+/** Rendert ein StatistikBO innerhalb eines StatistikListenEintrags. */
 
 class StatistikListenEintrag extends Component {
 

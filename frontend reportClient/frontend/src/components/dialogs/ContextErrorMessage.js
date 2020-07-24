@@ -7,9 +7,10 @@ import AutorenewIcon from '@material-ui/icons/Autorenew';
 
 
 /**
- *Zeigt eine Error Nachricht, in einem gegebenen Komponenten Kontext,
+ * Zeigt eine Error Nachricht, in einem gegebenen Komponenten Kontext,
  * wenn ein Error Object nicht null ist.
  */
+
 class ContextErrorMessage extends Component {
   #standardText = 'Da ist wohl etwas schief gelaufen...';
 
