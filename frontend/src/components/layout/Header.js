@@ -32,25 +32,25 @@ class Header extends Component {
 
   /** Rendert die Komponente */
   render() {
-   const { user } = this.props;
+   const { user, classes} = this.props;
     return (
         <Paper variant='outlined'>
         <ProfileDropDown user={user} />
         <Typography variant='h3' component='h1' align='center'>
-         SharedShoppingList
+         ShoppingList
         </Typography>
         <Typography variant='h4' component='h2' align='center'>
           Meine Einkäufe
         </Typography>
          {
           user ?
-            <Tabs indicatorColor='primary' textColor='primary' centered value={this.state.tabindex} onChange={this.handleTabChange} >
-              <Tab icon ={<ListAltIcon/>} label='Einkaufslisten' component={RouterLink} to={`/alleEinkaufslisten`} />
-              <Tab icon ={<FastfoodIcon/>} label='Artikel' component={RouterLink} to={`/artikel`} />
-              <Tab icon ={<PeopleIcon/>} label='Anwenderverbund' component={RouterLink} to={`/anwenderverbund`}/>
-              <Tab icon ={<ShoppingCartIcon/>} label='Einzelhändler' component={RouterLink} to={`/einzelhaendler`}/>
-              <Tab icon ={<BarChartIcon/>} label='Statistik' href="http://localhost:3001/"  target="_blank" />
-            </Tabs>                                                                                                        // bei href muss die URL hin, auf der die Statistik läuft
+            <Tabs variant="scrollable" scrollButtons="on" indicatorColor='primary' textColor='primary' value={this.state.tabindex} onChange={this.handleTabChange} >
+              <Tab icon ={<ListAltIcon/>} label='Einkaufslisten' component={RouterLink} to={`/alleEinkaufslisten`} style={{margin: "auto"}} />
+              <Tab icon ={<FastfoodIcon/>} label='Artikel' component={RouterLink} to={`/artikel`} style={{margin: "auto"}} />
+              <Tab icon ={<PeopleIcon/>} label='Anwenderverbund' component={RouterLink} to={`/anwenderverbund`} style={{margin: "auto"}} />
+              <Tab icon ={<ShoppingCartIcon/>} label='Einzelhändler' component={RouterLink} to={`/einzelhaendler`} style={{margin: "auto"}} />
+              <Tab icon ={<BarChartIcon/>} label='Statistik' href="http://localhost:3001/"  target="_blank" style={{margin: "auto"}} />
+            </Tabs>                                                                                                                                 // bei href muss die URL hin, auf der die Statistik läuft
              : null
         }
         </Paper>

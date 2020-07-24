@@ -137,38 +137,38 @@ const styles = theme => ({
     marginRight: theme.spacing(2),
   },
 
-    Artikel: {
+  Artikel: {
     fontSize: theme.typography.pxToRem(15),
     flexBasis: '25%',
     flexShrink: 0,
     align:'justify'
   },
 
-    Liste:{
+  Liste:{
     listStyleType: false,
     variant: 'overline'
-    },
+  },
 
-    Menge: {
+  Menge: {
     fontSize: theme.typography.pxToRem(15),
     flexBasis: '25%',
     flexShrink: 0,
     align:'justify'
-    },
+  },
 
-    Ort: {
+  Ort: {
     fontSize: theme.typography.pxToRem(15),
     flexBasis: '25%',
     flexShrink: 0,
     align:'justify'
-    },
+  },
 
-    Benutzer: {
+  Benutzer: {
     fontSize: theme.typography.pxToRem(15),
     flexBasis: '25%',
     flexShrink: 0,
     align:'justify'
-    },
+  },
 });
 
 /** PropTypes */
