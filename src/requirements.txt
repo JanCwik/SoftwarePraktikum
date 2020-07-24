@@ -28,4 +28,5 @@ urllib3==1.25.9
 Werkzeug==1.0.1
 zipp==1.2.0
 cachetools==3.1.1
+firebase==3.0.1
 

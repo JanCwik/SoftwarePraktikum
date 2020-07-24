@@ -9,10 +9,6 @@ from server.bo.Benutzer import Benutzer
 from server.bo.Einkaufsliste import Einkaufsliste
 from server.bo.Anwenderverbund import Anwenderverbund
 from server.bo.Listeneintrag import Listeneintrag
-from server.bo.Statistik import Statistik
-from server.bo.StatistikHuZ import StatistikHuZ
-from server.bo.StatistikHaendler import StatistikHaendler
-from server.bo.StatistikZeitraum import StatistikZeitraum
 from SecurityDecorator import secured
 
 
@@ -20,7 +16,8 @@ from SecurityDecorator import secured
 
 app = Flask(__name__)
 
-CORS(app)  # als zweiter parameter könnte man auch noch folgendes hinzufügen:
+CORS(app, resources={r"/shopping/*": {"origins": "*"}})
+# als zweiter parameter könnte man auch noch folgendes hinzufügen:
 # , resources=r'/shopping/*'      oder    , resources={r"/shopping/*": {"origins": "*"}}
 
 api = Api(app, version='1.0', title='ShoppingList API',
@@ -102,7 +99,7 @@ statistikhuz = api.inherit('StatistikHuZ', statistik, {
 @shopping.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
 class ArtikelListOperations(Resource):
     @shopping.marshal_list_with(artikel)
-    #@secured
+    @secured
     def get(self):
         """Auslesen aller Artikel"""
         adm = ApplikationsAdministration()
@@ -111,7 +108,7 @@ class ArtikelListOperations(Resource):
 
     @shopping.marshal_with(artikel)
     @shopping.expect(artikel)
-    #@secured
+    @secured
     def post(self):
         """Anlegen eines Artikels"""
         adm = ApplikationsAdministration()
@@ -448,7 +445,7 @@ class BenutzerByEmailOperations(Resource):
 @shopping.param('id', 'ID des Benutzer')
 class BenutzerRelatedListeneintragOperations(Resource):
     @shopping.marshal_with(listeneintrag)
-    #@secured
+    @secured
     def get(self, id):
         """Auslesen aller Listeneinträge für einen durch Id definierten Benutzer"""
         adm = ApplikationsAdministration()
@@ -465,7 +462,7 @@ class BenutzerRelatedListeneintragOperations(Resource):
 @shopping.param('email', 'Email des Benutzers')
 class BenutzerRelatedArtikelOperations(Resource):
     @shopping.marshal_with(artikel)
-    #@secured
+    @secured
     def get(self, email):
         """Auslesen aller Artikel die zu einem Benutzer gehören"""
         adm = ApplikationsAdministration()
@@ -521,7 +518,7 @@ class EinkaufslisteListOperations(Resource):
 class EinkaufslisteListOperations(Resource):
     @shopping.marshal_with(einkaufsliste)
     @shopping.expect(einkaufsliste)
-    #@secured
+    @secured
     def post(self, email):  # id von Einkaufsliste muss mit id von Anwenderverbund angegeben werden, sonst Server-Error!
         """Anlegen einer Einkaufsliste"""
         adm = ApplikationsAdministration()
@@ -594,7 +591,7 @@ class EinkaufslisteByNameOperations(Resource):                                  
 @shopping.param('id', 'ID der Einkaufsliste')
 class EinkaufslisteRelatedListeneintraegeOperations(Resource):
     @shopping.marshal_with(listeneintrag)
-    #@secured
+    @secured
     def get(self, id):
         """Auslesen aller Listeneinträge in einem durch Id definierten Einkaufsliste"""
         adm = ApplikationsAdministration()

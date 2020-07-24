@@ -21,8 +21,8 @@ export default class API {
 
 
     //Während der Entwicklung wird der Local host verwendet, im deployten Zustand wird der entsprechende Link auf das Deployte Backend verwendet
-    #ServerBaseURL= process.env.NODE_ENV ==='production'?'https://backend-dot-shoppinglist2020.ey.r.appspot.com/shopping':'/shopping'
-    //#ServerBaseURL= '/shopping';
+    //#ServerBaseURL= process.env.NODE_ENV ==='production'?'https://backend-dot-shoppinglist2020.ey.r.appspot.com/shopping':'/shopping'
+    #ServerBaseURL= '/shopping';
     //private Methoden um das angeben aller URLs zu erleichtern
     #getArtikelURL = () => `${this.#ServerBaseURL}/artikel`;
     #addArtikelURL = () => `${this.#ServerBaseURL}/artikel`;
@@ -82,7 +82,8 @@ export default class API {
     // Methode die den GET request ausführt und alle in der Datenbank gespeicherten Artikel ausgibt, zu denen der Benutzer gehört
     // Die ID des Benutzers wird an die URL gehängt
     getArtikelByBenutzerAPI(userMail) {
-        return this.#fetchAdvanced(this.#getArtikelByBenutzerURL(userMail)).then((responseJSON) => {
+        return this.#fetchAdvanced(this.#getArtikelByBenutzerURL(userMail),
+            {credentials:"include"}).then((responseJSON) => {
             let Artikel = ArtikelBO.fromJSON(responseJSON);
             return new Promise(function (resolve) {
                 resolve(Artikel);
@@ -117,6 +118,7 @@ export default class API {
     addArtikelAPI(newArt) {
         return this.#fetchAdvanced(this.#addArtikelURL(), {
             method: 'POST',
+            credentials:"include",
             headers: {
                 'Accept': 'application/json, text/plain',
                 'Content-type': 'application/json',
