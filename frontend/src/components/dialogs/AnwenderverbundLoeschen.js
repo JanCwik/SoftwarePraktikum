@@ -56,7 +56,6 @@ class AnwenderverbundLoeschen extends Component {
   render() {
     const { classes, anwenderverbund, show } = this.props;
     const { deletingInProgress, deletingError } = this.state;
-
     return (
       show ?
         <Dialog open={show} onClose={this.handleClose}>

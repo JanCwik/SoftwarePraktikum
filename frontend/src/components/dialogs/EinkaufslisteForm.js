@@ -16,6 +16,7 @@ import LoadingProgress from './LoadingProgress';
  * mit dem angelegt/upgedated EinkaufslisteBO Objekt als Parameter aufgerufen. Wenn der Dialog beendet ist,
  * wird onClose mit null aufgerufen.
  */
+
 class EinkaufslisteForm extends Component {
 
   constructor(props) {
@@ -93,7 +94,6 @@ class EinkaufslisteForm extends Component {
   /** Behandelt Wertänderungen aus den Textfeldern vom Formular und validiert diese. */
   textFieldValueChange = (event) => {
     const value = event.target.value;
-
     let error = false;
     if (value.trim().length === 0) {
       error = true;
@@ -118,7 +118,6 @@ class EinkaufslisteForm extends Component {
     const { classes, einkaufsliste, show } = this.props;
     const { einkaufslisteName, einkaufslisteNameValidationFailed, einkaufslisteNameEdited, addingInProgress,
       addingError, updatingInProgress, updatingError } = this.state;
-
     let title = '';
     let header = '';
 
@@ -179,7 +178,7 @@ class EinkaufslisteForm extends Component {
   }
 }
 
-/** Komponentenspezifische Styles */
+/** Komponentenspezifisches Styling */
 const styles = theme => ({
   root: {
     width: '100%',

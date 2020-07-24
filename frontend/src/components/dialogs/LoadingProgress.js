@@ -8,7 +8,6 @@ class LoadingProgress extends Component {
   /** Rendert den Komponenten */
   render() {
     const { classes, show } = this.props;
-
     return (
       show ?
         <div className={classes.root}>
@@ -19,7 +18,7 @@ class LoadingProgress extends Component {
   }
 }
 
-/** Komponentenspezifische Stile */
+/** Komponentenspezifische Styles */
 const styles = theme => ({
   root: {
     width: '100%',

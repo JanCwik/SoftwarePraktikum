@@ -43,7 +43,7 @@ class EinzelhaendlerForm extends Component {
 
   /** Legt Einzelhaendler an */
   addEinzelhaendler =async () => {
-    let newEinzelhaendler = new EinzelhaendlerBO(this.state.einzelhaendlerName);              //legt neues Einzelhändlerobjekt mit name aus dem state an
+    let newEinzelhaendler = new EinzelhaendlerBO(this.state.einzelhaendlerName);         //legt neues Einzelhändler Objekt mit name aus dem state an
 
     let user= await API.getAPI().getBenutzerByEmailAPI(this.props.userMail)              // Das BO des Benutzers wird anhand seiner Email abgerufen und in user gespeichert
 
@@ -99,7 +99,6 @@ class EinzelhaendlerForm extends Component {
   /** Behandelt Wertänderungen aus den Textfeldern vom Formular und validiert diese. */
   textFieldValueChange = (event) => {
     const value = event.target.value;
-
     let error = false;
     if (value.trim().length === 0) {
       error = true;
@@ -136,7 +135,6 @@ class EinzelhaendlerForm extends Component {
       title = 'Erstelle einen neuen Einzelhändler';
       header = 'Gebe Einzelhändlerdaten ein';
     }
-
     return (
       show ?
         <Dialog open={show} onClose={this.handleClose} maxWidth='xs'>
@@ -185,11 +183,12 @@ class EinzelhaendlerForm extends Component {
   }
 }
 
-/** Componentenspezifische Stile */
+/** Komponentenspezifisches Styling */
 const styles = theme => ({
   root: {
     width: '100%',
   },
+
   closeButton: {
     position: 'absolute',
     right: theme.spacing(-1),

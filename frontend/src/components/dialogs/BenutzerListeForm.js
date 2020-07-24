@@ -14,6 +14,7 @@ import SearchIcon from "@material-ui/icons/Search";
  * mit dem hinzugefügten BenutzerBO Objekt als Parameter aufgerufen. Wenn der Dialog beendet ist,
  * wird onClose mit null aufgerufen.
  */
+
 class BenutzerListeForm extends Component {
 
   constructor(props) {
@@ -31,6 +32,7 @@ class BenutzerListeForm extends Component {
     // Speichere dieses state zum abbrechen
     this.baseState = this.state;
   }
+
   /** Legt die Mitgliedschaft zwischen Anwenderverbund und Benutzer fest. */
   addMitgliedschaft = () => {
     API.getAPI().getBenutzerByEmailAPI(this.state.benutzerEmail).then( BenutzerBO =>{
@@ -66,39 +68,39 @@ class BenutzerListeForm extends Component {
     this.props.onClose(null);
   }
 
-/** Searches for customers with a customerName and loads the corresponding accounts */
+/** Sucht den Benutzer anhand der Benutzer Email. */
   sucheBenutzer = async () => {
     const { benutzerEmail } = this.state;
     if (benutzerEmail.length > 0) {
       try {
-        // set loading to true
+        // Setzt laden auf true
         this.setState({
-          benutzerObjekt: null,            // the initial customer
-          loadingInProgress: true,              // show loading indicator
-          benutzerSearchError: null             // disable error message
+          benutzerObjekt: null,                 // Der initialisierte Benutzer
+          loadingInProgress: true,              // Ladeanzeige anzeigen
+          benutzerSearchError: null             // Fehlermeldung deaktivieren
         });
 
-        // Load customers first
+        // Lädt den Benutzer
         const benutzer = await API.getAPI().getBenutzerByEmailAPI(benutzerEmail);
 
-        // Set the final state
+        // Setzt das finale state
         this.setState({
           benutzerObjekt: benutzer[0],
-          loadingInProgress: false,           // disable loading indicator
+          loadingInProgress: false,           // Ladeanzeige deaktivieren
           benutzerSearchError: null,
-          benutzerNotFound: false           // no error message
+          benutzerNotFound: false             // Keine Error Nachricht
         });
         if(!benutzer[0]){
           this.setState({
-          benutzerNotFound: true           // no error message
+          benutzerNotFound: true              // Error true
         });
         }
 
       } catch (e) {
         this.setState({
           benutzerObjekt: null,
-          loadingInProgress: false,           // disable loading indicator
-          benutzerSearchError: e              // show error message
+          loadingInProgress: false,           // Ladeanzeige deaktivieren
+          benutzerSearchError: e              // Zeige Error Nachricht
         });
       }
     } else {
@@ -113,7 +115,6 @@ class BenutzerListeForm extends Component {
   render() {
     const {classes, show} = this.props;
     const { loadingInProgress, addingError,benutzerObjekt, benutzerNotFound,benutzerSearchError} = this.state;
-
     let title = '';
     let header = '';
 
@@ -155,7 +156,6 @@ class BenutzerListeForm extends Component {
                 <Button disabled={!benutzerObjekt} variant='contained' onClick={this.addMitgliedschaft} color='primary'>
                   Hinzufügen
                 </Button>
-
               </DialogActions>
             </Dialog> :
             null
@@ -168,6 +168,7 @@ const styles = theme => ({
   root: {
     width: '100%',
   },
+
   closeButton: {
     position: 'absolute',
     right: theme.spacing(-1),
