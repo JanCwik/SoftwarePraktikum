@@ -1,8 +1,10 @@
 import BusinessObject from './BusinessObject';
 
 export default class NamedBO extends BusinessObject {
-//ein name kann im Constructor von deun SubKlassen angenommen werden
-// und hier in das Atribut name geschrieben werden
+
+/** Ein Name kann im Constructor von den Subklassen angenommen
+    und hier in das Attribut name geschrieben werden. */
+
    constructor(name) {
        super();
         this.erstellungs_zeitpunkt = null;
@@ -24,15 +26,4 @@ export default class NamedBO extends BusinessObject {
     getName() {
         return this.name
     }
-
-
-    /*
-    toString() {
-        let result = ''
-        for (var prop in this) {
-            result += prop + ': ' + this[prop] + ' ';
-        }
-        return result;
-    }
-*/
 }
