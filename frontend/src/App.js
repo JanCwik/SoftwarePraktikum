@@ -11,7 +11,7 @@ import 'firebase/auth';
 import LoadingProgress from './components/dialogs/LoadingProgress';
 import ContextErrorMessage from './components/dialogs/ContextErrorMessage';
 import Einkaufsliste from "./components/Einkaufsliste";
-
+import Container from '@material-ui/core/Container';
 class App extends Component {
     #firebaseConfig = {
     apiKey: "AIzaSyANZB_3k6o2TXjNsh7cJ1-eYEC2Uk08gLs",
@@ -25,6 +25,7 @@ class App extends Component {
 
     constructor(props) {
         super(props);
+
 
         this.state = {
 			currentUser: null,
@@ -115,11 +116,13 @@ class App extends Component {
 
 	    const { currentUser, appError, authError, authLoading } = this.state;
         return (
-            <div className="App">
+            <div  className="App">
+
 
 
                 <Router basename={'/'}>
                     <div className="App">
+						<Container maxWidth='lg'>
                         <Header user={currentUser}/>
                         {
 							// Is a user signed in?
@@ -166,7 +169,9 @@ class App extends Component {
 						<ContextErrorMessage error={authError} contextErrorMsg={`Something went wrong during sighn in process.`} onReload={this.handleSignIn} />
 						<ContextErrorMessage error={appError} contextErrorMsg={`Something went wrong inside the app. Please reload the page.`} />
 
+					</Container>
                     </div>
+
                 </Router>
 
 
