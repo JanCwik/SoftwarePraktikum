@@ -226,6 +226,29 @@ class ListeneintragMapper(Mapper):
 
         return einkaufsliste
 
+    def delete_by_artikel(self, artikel):
+        """Mapper-Methode zum löschen von Listeneintraege die zu einer bestimmten Einkaufsliste gehören."""
+        cursor = self._cnx.cursor()
+
+        eintraege = "DELETE FROM listeneintrag WHERE artikel_id={}".format(artikel.get_id())
+        cursor.execute(eintraege)
+
+        self._cnx.commit()
+        cursor.close()
+
+
+
+    def delete_by_einzelhaendler(self, einzelhaendler):
+        """Mapper-Methode zum löschen von Listeneintraege die zu einer bestimmten Einkaufsliste gehören."""
+        cursor = self._cnx.cursor()
+
+        eintraege = "DELETE FROM listeneintrag WHERE einzelhaendler_id={}".format(einzelhaendler.get_id())
+        cursor.execute(eintraege)
+
+        self._cnx.commit()
+        cursor.close()
+
+
     def insert_standardartikel_in_Einkaufsliste(self, einkaufsliste, standardartikelID):
         """Mapper-Methode zum einfügen/speichern von Standardartikeln in eine Einkaufsliste."""
         neueID = None
