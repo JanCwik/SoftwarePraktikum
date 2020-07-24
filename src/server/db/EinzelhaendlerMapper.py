@@ -36,7 +36,7 @@ class EinzelhaendlerMapper(Mapper):
         return result
 
     def insert(self, einzelhaendler):
-        """Mapper-Methode zum speichern eines neuen Einzelhändlers in der Datenbank
+        """Mapper-Methode zum speichern eines neuen Einzelhändlers in der Datenbank.
 
         Beim Aufruf der Methode wird eine zuvor erstellte Instanz der Klasse "Einzelhaendler()" übergeben.
         Anschließend wird via SQL-Abfrage die höchste ID aus der Tabelle "einzelhaendler" ausgegeben.
@@ -87,12 +87,12 @@ class EinzelhaendlerMapper(Mapper):
         cursor.close()
 
     def delete(self, einzelhaendler):
-        """Mapper-Methode zum löschen eines Einzelhändlers aus der Datenbank
+        """Mapper-Methode zum löschen eines Einzelhändlers aus der Datenbank.
 
         Beim Aufruf der Methode wird eine zuvor erstellte Instanz der Klasse "Einzelhaendler()" übergeben.
         Dann erfolgt ein SQL-Statement welches das Objekt aus der Datenbank löscht.
         Mittels der getter-Methode, welche zuvor in der entsprechenden Business-Object-Klasse definierten wurde,
-        wird die entsprechende ID der Instanz an das SQL-Statement übergeben.."""
+        wird die entsprechende ID der Instanz an das SQL-Statement übergeben."""
         cursor = self._cnx.cursor()
 
         template = "DELETE FROM einzelhaendler WHERE id={}".format(einzelhaendler.get_id())
@@ -102,7 +102,7 @@ class EinzelhaendlerMapper(Mapper):
         cursor.close()
 
     def find_by_id(self, id):
-        """Mapper-Methode zum ausgeben eines Einzelhändlers anhand dessen ID
+        """Mapper-Methode zum ausgeben eines Einzelhändlers anhand dessen ID.
 
         Beim Aufruf der Methode wird eine ID welche in der Variablen "id" gespeichert ist übergeben und anschließend
         sucht das SQL-Statement das entsprechende Objekt aus der Datenbank.
@@ -134,7 +134,7 @@ class EinzelhaendlerMapper(Mapper):
         return result
 
     def find_by_name(self, name):
-        """Mapper-Methode zum ausgeben eines Einzelhändlers anhand dessen Name
+        """Mapper-Methode zum ausgeben eines Einzelhändlers anhand dessen Name.
 
         Beim Aufruf der Methode wird ein Name welche in der Variablen "name" gespeichert ist übergeben und
         anschließend sucht das SQL-Statement das entsprechende Objekt aus der Datenbank.
@@ -166,14 +166,15 @@ class EinzelhaendlerMapper(Mapper):
         return result
 
     def get_einzelhaendlername_for_listeneintrag(self, eintraege):
-        """ """
+        """Mapper-Methode zum ausgeben der Namen aller Einzelhaendler aus der Datenbank,
+        welche zu einem bestimmten Listeneintrag gehören.
+        fetchall() gibt das Ergebnis in einem Tuple in einer Liste zurück z.B. deshalb wird zwei mal der Wert an der
+        ersten Stelle der Liste bzw. des tubles in einer neuen variable gespeichert und weitergegeben, bis schließlich
+        nur noch der gesuchte Wert übergeben werden kann"""
         cursor = self._cnx.cursor()
 
         cursor.execute("SELECT name FROM einzelhaendler WHERE id={}".format(eintraege.get_einzelhaendlerId()))
         einzelhaendlername_tuple = cursor.fetchall()[0]
-        """fetchall() gibt das Ergebnis in einem Tuple in einer Liste zurück z.B. deshalb wird zwei mal der Wert an der 
-        ersten Stelle der Liste bzw. des tubles in einer neuen variable gespeichert und weitergegeben, bis schließlich 
-        nur noch der gesuchte Wert übergeben werden kann"""
         name_string = einzelhaendlername_tuple[0]
         eintraege.set_einzelhaendler_name(name_string)
 
