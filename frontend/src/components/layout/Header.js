@@ -9,7 +9,7 @@ import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
 import BarChartIcon from '@material-ui/icons/BarChart';
 import ProfileDropDown from '../dialogs/ProfileDropDown';
 
-/** Erstellt den Kpfbereich und die Navigation für die SharedShoppingList */
+/** Erstellt den Kopfbereich und die Navigation für die SharedShoppingList */
 
 class Header extends Component {
 
@@ -57,7 +57,6 @@ class Header extends Component {
   }
 }
 
-/** Komponentenspezifisches Styling */
 /** PropTypes */
 Header.propTypes = {
   /** Der eingeloggte Firebase User */

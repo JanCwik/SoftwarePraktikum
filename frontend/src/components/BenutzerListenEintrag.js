@@ -6,8 +6,8 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import BenutzerListeneintragLoeschen from "./dialogs/BenutzerListeneintragLoeschen";
 
 /**
- * Rendert ein EinzelhaendlerBO innerhalb eines  EinzelhaendlerListenEintrags
- * mit den Einzelhandler manipulations Funktionen.
+ * Rendert ein BenutzerBO innerhalb eines BenutzerListenEintrags
+ * mit den Benutzer manipulations Funktionen.
  */
 
 class BenutzerListenEintrag extends Component {
@@ -23,13 +23,9 @@ class BenutzerListenEintrag extends Component {
     };
   }
 
-
-
-
-
   /** Behandelt das onClose Ereignis vom BenutzerForm */
   benutzerFormClosed = (benutzer) => {
-    // Einzelhaendler ist nicht null und deshalb geändert.
+    // Benutzer ist nicht null und deshalb geändert.
     if (benutzer) {
       this.setState({
         benutzer: benutzer,
@@ -42,7 +38,7 @@ class BenutzerListenEintrag extends Component {
     }
   }
 
-  /** Behandelt das onClick Ereignis von der Einzelhaendler löschen Taste. */
+  /** Behandelt das onClick Ereignis von der Benutzer löschen Taste. */
   deleteBenutzerButtonClicked = (event) => {
     event.stopPropagation();
     this.setState({
@@ -50,50 +46,45 @@ class BenutzerListenEintrag extends Component {
     });
   }
 
-  /** Behandelt das onClose Ereignis vom EinzelhaendlerLoeschenDialog */
+  /** Behandelt das onClose Ereignis vom BenutzerLoeschenDialog */
   deleteBenutzerDialogClosed = (benutzer) => {
-    // Wenn der Einzelhaendler nicht gleich null ist, lösche ihn
+    // Wenn der Benutzer nicht gleich null ist, lösche ihn
     if (benutzer) {
       this.props.onBenutzerDeleted(benutzer);
     };
-
     // Zeige nicht den Dialog
     this.setState({
       showBenutzerDeleteDialog: false
     });
   }
 
-  /** Rendert den Komponent */
+  /** Rendert die Komponente */
   render() {
     const { classes, anwenderverbund } = this.props;
     const { benutzer, showBenutzerDeleteDialog } = this.state;
     return (
       <div>
-
-            <Grid container spacing={3} justify='flex-start' alignItems='center'>
-              <Grid item>
-                <Typography variant='body1' className={classes.heading}>{benutzer.getName()}
-                </Typography>
-              </Grid>
-              <Grid item>
-                <ButtonGroup variant='text' size='small'>
-
-                  <Button color='secondary' startIcon={<DeleteIcon />} onClick={this.deleteBenutzerButtonClicked}>
-                    löschen
-                  </Button>
-                </ButtonGroup>
-              </Grid>
-              <Grid item xs />
-            </Grid>
-
+        <Grid container spacing={3} justify='flex-start' alignItems='center'>
+          <Grid item>
+            <Typography variant='body1' className={classes.heading}>{benutzer.getName()}
+            </Typography>
+          </Grid>
+          <Grid item>
+            <ButtonGroup variant='text' size='small'>
+              <Button color='secondary' startIcon={<DeleteIcon />} onClick={this.deleteBenutzerButtonClicked}>
+                löschen
+              </Button>
+            </ButtonGroup>
+          </Grid>
+          <Grid item xs />
+        </Grid>
         <BenutzerListeneintragLoeschen anwenderverbund={anwenderverbund} show={showBenutzerDeleteDialog} benutzer={benutzer} onClose={this.deleteBenutzerDialogClosed} />
-
       </div>
     );
   }
 }
 
-/** Komponentenspezifische Stile */
+/** Komponentenspezifische Styles */
 const styles = theme => ({
   root: {
     width: '100%',
@@ -106,9 +97,7 @@ BenutzerListenEintrag.propTypes = {
   classes: PropTypes.object.isRequired,
   /** Das EinzelhaendlerBO gerendert */
   benutzer: PropTypes.object.isRequired,
-   /**
-   *  Ereignis Handler Funktion, welche aufgerufen wird, wenn ein Einzelhaendler erfolgreich gelöscht wurde.
-   */
+   /** Ereignis Handler Funktion, welche aufgerufen wird, wenn ein Einzelhaendler erfolgreich gelöscht wurde. */
   onBenutzerDeleted: PropTypes.func.isRequired
 }
 

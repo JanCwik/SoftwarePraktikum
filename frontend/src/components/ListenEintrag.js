@@ -79,7 +79,7 @@ class ListenEintrag extends Component {
     }
   }
 
-  /** Erstellt einen alert, der bei demdem zuletzt geänderten Listeneintrag erscheint. */
+  /** Erstellt einen alert, der bei dem zuletzt geänderten Listeneintrag erscheint. */
   latest() {
     alert("Dies ist der zuletzt geänderte Listeneintrag!");
   }

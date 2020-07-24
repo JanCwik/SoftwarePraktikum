@@ -78,7 +78,6 @@ class AnwenderverbundListenEintrag extends Component {
   render() {
     const { classes, expandedState } = this.props;
     const { anwenderverbund, showAnwenderverbundForm, showAnwenderverbundDeleteDialog } = this.state;
-
     return (
       <div>
         <ExpansionPanel defaultExpanded={false} expanded={expandedState} onChange={this.expansionPanelStateChanged}>
@@ -118,7 +117,7 @@ class AnwenderverbundListenEintrag extends Component {
   }
 }
 
-/** Komponentenspezifische Stile */
+/** Komponentenspezifische Styles */
 const styles = theme => ({
   root: {
     width: '100%',

@@ -19,7 +19,6 @@ class Artikel extends Component {
 
   constructor(props) {
     super(props);
-
     let expandedID = null;
 
     if (this.props.location.expandArtikel) {
@@ -207,7 +206,7 @@ class Artikel extends Component {
   }
 }
 
-/** Komponentenspezifische Stile */
+/** Komponentenspezifische Styles */
 const styles = theme => ({
   root: {
     width: '100%',

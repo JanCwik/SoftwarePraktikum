@@ -71,27 +71,26 @@ class EinzelhaendlerListenEintrag extends Component {
   render() {
     const { classes } = this.props;
     const { einzelhaendler, showEinzelhaendlerForm, showEinzelhaendlerDeleteDialog } = this.state;
-
     return (
       <div className={classes.root} >
-            <Grid  container spacing={3} justify='flex-start' alignItems='center'>
-              <Grid item>
-                <Typography variant='body1' className={classes.heading}>{einzelhaendler.getName()}
-                </Typography>
-              </Grid>
-              <Grid item>
-                <ButtonGroup variant='text' size='small'>
-                  <Button color='primary' onClick={this.editEinzelhaendlerButtonClicked}>
-                    bearbeiten
-                  </Button>
-                  <Button color='secondary' onClick={this.deleteEinzelhaendlerButtonClicked}>
-                    löschen
-                  </Button>
-                </ButtonGroup>
-              </Grid>
-              <Grid item xs />
-            </Grid>
-          <hr/>
+        <Grid  container spacing={3} justify='flex-start' alignItems='center'>
+          <Grid item>
+            <Typography variant='body1' className={classes.heading}>{einzelhaendler.getName()}
+            </Typography>
+          </Grid>
+          <Grid item>
+            <ButtonGroup variant='text' size='small'>
+              <Button color='primary' onClick={this.editEinzelhaendlerButtonClicked}>
+                bearbeiten
+              </Button>
+              <Button color='secondary' onClick={this.deleteEinzelhaendlerButtonClicked}>
+                löschen
+              </Button>
+            </ButtonGroup>
+          </Grid>
+          <Grid item xs />
+        </Grid>
+        <hr/>
         <EinzelhaendlerForm show={showEinzelhaendlerForm} einzelhaendler={einzelhaendler} onClose={this.einzelhaendlerFormClosed} />
         <EinzelhaendlerLoeschen show={showEinzelhaendlerDeleteDialog} einzelhaendler={einzelhaendler} onClose={this.deleteEinzelhaendlerDialogClosed} />
       </div>
@@ -99,14 +98,13 @@ class EinzelhaendlerListenEintrag extends Component {
   }
 }
 
-/** Komponentenspezifische Stile */
+/** Komponentenspezifische Styles */
 const styles = theme => ({
   root: {
     width: '100%',
   marginLeft : theme.spacing(2),
     marginTop : theme.spacing(0.5)
   }
-
 });
 
 /** PropTypes */

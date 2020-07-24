@@ -26,14 +26,14 @@ class AlleEinkaufslisten extends Component{
   getAnwenderverbuende = () => {
     API.getAPI().getAnwenderverbuendeByBenutzerAPI(this.props.userMail)
       .then(anwenderverbundBOs =>
-        this.setState({               // Setzt neues state wenn AnwendervebundBOs gefetcht wurden
+        this.setState({                     // Setzt neues state wenn AnwendervebundBOs gefetcht wurden
           Anwenderverbuende: anwenderverbundBOs,
-          loadingInProgress: false,   // Ladeanzeige deaktivieren
+          loadingInProgress: false,               // Ladeanzeige deaktivieren
           error: null
         })).catch(e =>
-          this.setState({             // Setzt state mit Error vom catch zurück
+          this.setState({                   // Setzt state mit Error vom catch zurück
             Anwenderverbuende: [],
-            loadingInProgress: false, // Ladeanzeige deaktivieren
+            loadingInProgress: false,             // Ladeanzeige deaktivieren
             error: e
           })
         );
@@ -55,11 +55,10 @@ class AlleEinkaufslisten extends Component{
   render() {
     const { classes } = this.props;
     const { loadingInProgress, error,Anwenderverbuende } = this.state;
-
     return (
       <div className={classes.root}>
         {
-          // Zeigt die Liste der Anwenderverrbunds Komponenten
+          // Zeigt die Liste der Anwenderverbunds Komponenten
           Anwenderverbuende.map(anwenderverbund =>
             <AlleEinkaufslistenAnwenderverbund key={anwenderverbund.getID()} anwenderverbund={anwenderverbund} userMail={this.props.userMail}
               onEinkaufslisteDeleted={this.EinkaufslisteDeleted}
@@ -84,6 +83,7 @@ const styles = theme => ({
   root: {
     width: '100%',
   },
+
     margins: {
     marginTop: theme.spacing(5)
   }

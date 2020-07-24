@@ -30,7 +30,7 @@ import { Link as RouterLink } from 'react-router-dom';
 
     /** Behandelt das onClose Ereignis vom EinkaufslistenForm */
     einkaufslisteFormClosed = (einkaufsliste) => {
-        // einkaufsliste ist nicht null und deshalb geändert.
+        // Einkaufsliste ist nicht null und deshalb geändert.
         if (einkaufsliste) {
             this.setState({
                 einkaufsliste: einkaufsliste,
@@ -53,7 +53,7 @@ import { Link as RouterLink } from 'react-router-dom';
 
     /** Behandelt das onClose Ereignis vom Einkaufsliste löschen Dialog */
     deleteEinkaufslisteDialogClosed = (einkaufsliste) => {
-        // Wenn die einkaufsliste nicht gleich null ist, lösche sie
+        // Wenn die Einkaufsliste nicht gleich null ist, lösche sie
         if (einkaufsliste) {
             this.props.onEinkaufslisteDeleted(einkaufsliste);
         }
@@ -63,7 +63,7 @@ import { Link as RouterLink } from 'react-router-dom';
         });
       }
 
-  /** Rendert den Komponent */
+  /** Rendert diw Komponente */
   render() {
     const { classes } = this.props;
     const { einkaufsliste, showEinkaufslisteForm, showEinkaufslisteDeleteDialog } = this.state;
@@ -99,7 +99,7 @@ import { Link as RouterLink } from 'react-router-dom';
   }
 }
 
-/** Komponentenspezifische Stile */
+/** Komponentenspezifische Styles */
 const styles = theme => ({
   root: {
     width: '100%',
