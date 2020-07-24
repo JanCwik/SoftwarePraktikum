@@ -236,7 +236,7 @@ nameChange = (event) => {
   }
 }
 
-/** Componentenspezifische Stile */
+/** Komponentenspezifische Styles */
 const styles = theme => ({
   root: {
     width: '100%',
