@@ -1,14 +1,15 @@
 import NamedBO from './NamedBO';
 
 export default class BenutzerBO extends NamedBO {
-//damit direkt über diese KLasse ein Name angelegt werden kann
-// muss der Parameter im Constructor entgegengenommen werden
-// und an die superklasse NapedBo weitergegeben werden
+
+/** Damit direkt über diese KLasse ein Name angelegt werden kann,
+    muss der Parameter im Constructor entgegengenommen werden
+    und an die Superklasse NamedBO weitergegeben werden. */
+
     constructor(name) {
         super(name);
         this.email=""
         this.google_id= 0
-
     }
 
     setEMail(email) {
@@ -27,28 +28,20 @@ export default class BenutzerBO extends NamedBO {
         return this.google_id
     }
 
-
-      // Returns an Array of CustomerBOs from a given JSON structure
+    /** Gibt ein Array von BenutzerBOs von einer gegebenen JSON Struktur zurück */
     static fromJSON(ben) {
         let result = [];
-
         if (Array.isArray(ben)) {
             ben.forEach((c) => {
                 Object.setPrototypeOf(c, BenutzerBO.prototype)
                 result.push(c)
             })
         } else {
-            // Es handelt sich offenbar um ein singuläres Objekt
+            // Es handelt sich um ein einzelnes Objekt
             let c = ben;
             Object.setPrototypeOf(c, BenutzerBO.prototype)
             result.push(c)
         }
-
         return result;
-
-
     }
-
-
-
 }

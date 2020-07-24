@@ -11,14 +11,5 @@ export default class BusinessObject {
     getID() {
         return this.id
     }
-/*
-    toString() {
-        let result = ''
-        for (var prop in this) {
-            result += prop + ': ' + this[prop] + ' ';
-        }
-        return result;
-    }
-*/
 }
 
