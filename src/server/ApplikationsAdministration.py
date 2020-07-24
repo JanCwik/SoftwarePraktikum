@@ -16,8 +16,7 @@ class ApplikationsAdministration(object):
         pass
 
     def artikel_anlegen(self, artikel):
-        """Methode zum Anlegen eines neuen Artikels in der Datenbank"""
-
+        """Methode zum Anlegen von einem neuen Artikels in der Datenbank"""
         with ArtikelMapper() as mapper:
             return mapper.insert(artikel)
 
@@ -47,7 +46,7 @@ class ApplikationsAdministration(object):
             mapper.update(artikel)
 
     def einzelhaendler_anlegen(self, einzelhaendler):
-        """Methode zum Anlegen eines neuen Einzelhändlers in der Datenbank"""
+        """Methode zum Anlegen von einem neuen Einzelhändler in der Datenbank"""
         with EinzelhaendlerMapper() as mapper:
             return mapper.insert(einzelhaendler)
 
@@ -77,7 +76,7 @@ class ApplikationsAdministration(object):
             mapper.update(einzelhaendler)
 
     def benutzer_anlegen(self, name, email, google_id):
-        """Methode zum Anlegen eines neuen Benutzers in der Datenbank"""
+        """Methode zum Anlegen von einem neuen Benutzer in der Datenbank"""
         benutzer = Benutzer()
         benutzer.set_name(name)
         benutzer.set_email(email)
@@ -120,7 +119,7 @@ class ApplikationsAdministration(object):
             mapper.update(benutzer)
 
     def get_user_by_google_user_id(self, id):
-        """Methode zum ausgeben eines Benutzers anhand seiner Google ID"""
+        """Methode zum ausgeben eines Benutzers anhand dessen Google ID"""
         with BenutzerMapper() as mapper:
             return mapper.find_by_google_user_id(id)
 
@@ -130,6 +129,7 @@ class ApplikationsAdministration(object):
             return mapper.find_all_listeneintraege_by_benutzer(benutzer)
 
     def get_anwenderverbuende_by_benutzer_email(self, benutzer):
+        """Methode zum ausgeben aller Anwenderverbuende die zu einer Benutzer Email gehören"""
         with MitgliedschaftMapper() as mapper:
             return mapper.alle_anwenderverbunde_ausgeben(benutzer)
 
@@ -153,7 +153,6 @@ class ApplikationsAdministration(object):
 
     def delete_anwenderverbund(self, anwenderverbund):
         """Methode zum löschen eines Anwenderverbunds aus der Datenbank"""
-
         with MitgliedschaftMapper() as mapper:
             mapper.deleteByAnwenderverbund(anwenderverbund)
 
@@ -165,8 +164,8 @@ class ApplikationsAdministration(object):
                 eintraege = mapper.GetListeneintraegeByEinkaufsliste(i)
 
             for i in eintraege:
-                    with ListeneintragMapper() as mapper:
-                        mapper.delete(i)
+                with ListeneintragMapper() as mapper:
+                    mapper.delete(i)
 
         with EinkaufslistenMapper() as mapper:
             mapper.DeleteEinkaufslistenByAnwendeverbund(anwenderverbund)
@@ -190,7 +189,7 @@ class ApplikationsAdministration(object):
             mapper.update(anwenderverbund)
 
     def get_all_einkaufslisten_of_anwenderverbund(self, anwenderverbund):
-        """Methode zum ausgeben aller Einkaufslisten die zum jeweiligen Anwenderverbund gehören"""
+        """Methode zum ausgeben aller Einkaufslisten die zum einem bestimmten Anwenderverbund gehören"""
         with EinkaufslistenMapper() as mapper:
             return mapper.GetEinkaufslistenByAnwendeverbund(anwenderverbund)
 
@@ -204,7 +203,7 @@ class ApplikationsAdministration(object):
         with MitgliedschaftMapper() as mapper:
             return mapper.alle_benutzer_ausgeben(anwenderverbund)
 
-    def mitglieder_vom_anwenderverbund_entfernen(self, anwenderverbund, benutzer):  # Name der Methode geändert, Maik
+    def mitglieder_vom_anwenderverbund_entfernen(self, anwenderverbund, benutzer):
         """Methode zum entfernen einzelner Mitglieder aus einem Anwenderverbund"""
         with MitgliedschaftMapper() as mapper:
             return mapper.benutzer_loeschen(anwenderverbund, benutzer)
@@ -234,7 +233,7 @@ class ApplikationsAdministration(object):
         with EinkaufslistenMapper() as mapper:
             return mapper.find_by_id(id)
 
-    def get_einkaufsliste_by_name(self, name):  # evtl. unnötig, da name nicht eindeutig ist
+    def get_einkaufsliste_by_name(self, name):
         """Methode zum ausgeben einer Einkaufsliste aus der Datenbank anhand deren Name """
         with EinkaufslistenMapper() as mapper:
             return mapper.find_by_name(name)
@@ -253,8 +252,8 @@ class ApplikationsAdministration(object):
             mapper.delete(einkaufsliste)
 
     def get_all_listeneintraege_of_einkaufslisten(self, einkaufsliste):
-        """ Methode zum ausgeben aller Listeneinträge die zur jeweiligen Einkaufsliste gehören
-        KOMMENTAR VERALTET!
+        """Methode zum ausgeben aller Listeneinträge die zur jeweiligen Einkaufsliste gehören
+KOMMENTAR VERALTET!
         Mittels For-Schleife werden die einzelnen Attribute aus einem Tupel gezogen und einer neuen Instanz der
         Klasse "Listeneintrag()" übergeben. Die einzelnen Instanzen werden in einem Array gespeichert.
         Das Array mit allen Instanzen wird schließlich zurückgegeben.
@@ -292,7 +291,7 @@ class ApplikationsAdministration(object):
         elif len(eintraege) == 0:
             return []
 
-        else:           # findet den zuletzt geänderten Listeneintrag
+        else:  # findet den zuletzt geänderten Listeneintrag
             latest = eintraege[0]
             for eintrag in eintraege:
                 if eintrag.get_aenderungs_zeitpunkt() > latest.get_aenderungs_zeitpunkt():
@@ -302,13 +301,13 @@ class ApplikationsAdministration(object):
 
             ohne_einzelhaendler = []
             mit_einzelhaendler = []
-            for i in eintraege:                                     # sortiert die Rückgabe nach Einzelhändler, dadurch dann nach Einzelhändler gruppiert
-                if i.get_einzelhaendlerId() is None:                # Listeneinträge ohne Einzelhändler werden im vorraus aussortiert
-                    ohne_einzelhaendler.append(i)                   # am ende hintendran gehängt
+            for i in eintraege:    # sortiert die Rückgabe nach Einzelhändler, dadurch dann nach Einzelhändler gruppiert
+                if i.get_einzelhaendlerId() is None:  # Listeneinträge ohne Einzelhändler werden im vorraus aussortiert
+                    ohne_einzelhaendler.append(i)     # am ende hintendran gehängt
                 else:
                     mit_einzelhaendler.append(i)
 
-            if len(mit_einzelhaendler) != 0:                                #Bubblesort
+            if len(mit_einzelhaendler) != 0:  # Bubblesort
                 n = len(mit_einzelhaendler)
                 for passes_left in range(n-1, 0, -1):
                     for i in range(passes_left):
@@ -317,8 +316,6 @@ class ApplikationsAdministration(object):
 
             res = mit_einzelhaendler + ohne_einzelhaendler
             return res
-
-
 
     def listeneintrag_anlegen(self, listeneintrag):
         """Methode zum Anlegen eines neuen Listeneintrags in der Datenbank"""
@@ -341,7 +338,7 @@ class ApplikationsAdministration(object):
             mapper.delete(listeneintrag)
 
     def get_top_artikel_5(self, benutzer):
-        """ """
+        """ Methode zum ausgeben der top 5 Artikel die zu einem bestimmten Benutzer gehören"""
         report = ReportGenerator()
         top5 = report.top_artikel(benutzer)
         for i in top5:
@@ -352,7 +349,7 @@ class ApplikationsAdministration(object):
         return top5
 
     def get_top_artikel_5_by_einzelhaendler(self, benutzer, einzelhaendler):
-        """ """
+        """ Methode zum ausgeben der top 5 Artikel von einem Einzelhaendler, die zu einem bestimmten Benutzer gehören"""
         report = ReportGenerator()
         top5_by_einzelhaendler = report.top_artikel_by_einzelhaendler(benutzer, einzelhaendler)
         for i in top5_by_einzelhaendler:
@@ -363,7 +360,7 @@ class ApplikationsAdministration(object):
         return top5_by_einzelhaendler
 
     def get_top_artikel_5_by_datum(self, benutzer, startzeitpunkt, endzeitpunkt):
-        """ """
+        """ Methode zum ausgeben der top 5 Artikel von einem Benutzer, die in einem bestimmten Zeitraum liegen"""
         report = ReportGenerator()
         top5_by_zeitraum = report.top_artikel_by_zeitraum(benutzer, startzeitpunkt, endzeitpunkt)
         for i in top5_by_zeitraum:
@@ -374,7 +371,8 @@ class ApplikationsAdministration(object):
         return top5_by_zeitraum
 
     def get_top_artikel_5_by_einzelhaendler_datum(self, benutzer, einzelhaendler, startzeitpunkt, endzeitpunkt):
-        """ """
+        """Methode zum ausgeben der top 5 Artikel von einem Einzelhaendler, die zu einem bestimmten Benutzer gehören
+        und in einem bestimmten Zeitraum liegen"""
         report = ReportGenerator()
         top5_by_einzelhaendler_zeitraum = report.top_artikel_by_Einzelhaendler_zeitraum(benutzer, einzelhaendler,
                                                                                         startzeitpunkt, endzeitpunkt)
