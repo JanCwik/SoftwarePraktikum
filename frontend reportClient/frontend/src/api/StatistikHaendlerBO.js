@@ -1,9 +1,11 @@
 import StatistikBO from "./StatistikBO";
 
 export default class StatistikHaendlerBO extends StatistikBO {
-//damit direkt über diese KLasse ein Name angelegt werden kann
-// muss der Parameter im Constructor entgegengenommen werden
-// und an die superklasse NapedBo weitergegeben werden
+
+/** Damit direkt über diese Klasse ein Name angelegt werden kann
+    muss der Parameter im Constructor entgegengenommen werden
+    und an die Superklasse NamedBO weitergegeben werden */
+
     constructor() {
         super();
         this.einzelhaendlerName= ""
@@ -26,27 +28,20 @@ export default class StatistikHaendlerBO extends StatistikBO {
         return this.einzelhaendlerID
     }
 
-      // Returns an Array of CustomerBOs from a given JSON structure
+    /** Gibt ein Array von StatistikHaendlerBOs von einer gegebenen JSON Struktur zurück */
     static fromJSON(stathndl) {
         let result = [];
-
         if (Array.isArray(stathndl)) {
             stathndl.forEach((c) => {
                 Object.setPrototypeOf(c, StatistikHaendlerBO.prototype)
                 result.push(c)
             })
         } else {
-            // Es handelt sich offenbar um ein singuläres Objekt
+            // Es handelt sich um ein einzelnes Objekt
             let c = stathndl;
             Object.setPrototypeOf(c, StatistikHaendlerBO.prototype)
             result.push(c)
         }
-
         return result;
-
-
     }
-
-
-
 }
