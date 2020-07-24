@@ -26,7 +26,10 @@ class ApplikationsAdministration(object):
             return mapper.find_all()
 
     def delete_artikel(self, artikel):
-        """Methode zum löschen eines Artikels aus der Datenbank"""
+        """Methode zum löschen eines Artikels aus der Datenbank
+
+            Dabei werden zuerst alle Listeneintraege gelöscht die auf das Artikel Objekt referenzieren
+        """
 
         with ListeneintragMapper() as mapper:
             mapper.delete_by_artikel(artikel)
@@ -60,7 +63,10 @@ class ApplikationsAdministration(object):
             return mapper.find_all(benutzer)
 
     def delete_einzelhaendler(self, einzelhaendler):
-        """Methode zum löschen eines Einzelhändlers aus der Datenbank"""
+        """Methode zum löschen eines Einzelhändlers aus der Datenbank
+
+            Dabei werden zuerst alle Listeneintraege gelöscht die auf das Einzelhändler Objekt referenzieren
+        """
 
         with ListeneintragMapper() as mapper:
             mapper.delete_by_einzelhaendler(einzelhaendler)
@@ -160,7 +166,11 @@ class ApplikationsAdministration(object):
             return mapper.find_all()
 
     def delete_anwenderverbund(self, anwenderverbund):
-        """Methode zum löschen eines Anwenderverbunds aus der Datenbank"""
+        """Methode zum löschen eines Anwenderverbunds aus der Datenbank
+
+            Dabei werden zuerst alle Einkaufslisten des Anwenderverbundes und die dazugehörigen Listeneinträge gesucht.
+            Dann werden erst die Listeneinträge, dann Die Einkaufslisten und zuletzt der Anwenderverbund gelöscht
+        """
         with MitgliedschaftMapper() as mapper:
             mapper.deleteByAnwenderverbund(anwenderverbund)
 
@@ -222,7 +232,10 @@ class ApplikationsAdministration(object):
             return mapper.find_all_einkaufslisten()
 
     def einkaufsliste_anlegen(self, liste, benutzer):
-        """Methode zum Anlegen einer neuen Einkaufsliste in der Datenbank"""
+        """Methode zum Anlegen einer neuen Einkaufsliste in der Datenbank
+
+            Zusätzlich werden Listeneinträge für alle Standardartikel des Benutzers in der Einkaufsliste erstellt
+        """
         with EinkaufslistenMapper() as mapper:
             einkaufsliste = mapper.insert(liste)
 
@@ -230,9 +243,9 @@ class ApplikationsAdministration(object):
             standardartikel = mapper.get_id_from_standardartikel(benutzer)
 
         for i in standardartikel:
-            for x in i:
+            for standardartikelID in i:
                 with ListeneintragMapper() as mapper:
-                    mapper.insert_standardartikel_in_Einkaufsliste(einkaufsliste, x)
+                    mapper.insert_standardartikel_in_Einkaufsliste(einkaufsliste, standardartikelID)
 
         return einkaufsliste
 
@@ -261,45 +274,51 @@ class ApplikationsAdministration(object):
 
     def get_all_listeneintraege_of_einkaufslisten(self, einkaufsliste):
         """Methode zum ausgeben aller Listeneinträge die zur jeweiligen Einkaufsliste gehören
-KOMMENTAR VERALTET!
-        Mittels For-Schleife werden die einzelnen Attribute aus einem Tupel gezogen und einer neuen Instanz der
-        Klasse "Listeneintrag()" übergeben. Die einzelnen Instanzen werden in einem Array gespeichert.
-        Das Array mit allen Instanzen wird schließlich zurückgegeben.
-        In besagten For-Schleife werden ausßerdem für jeden Listeneintrag 4 zusätzliche Select Statements ausgeführt.
-        Select Statement1: holt den einzelhändlername aus der Einzelhändler tabelle, dann wird der name in das
-                            Listeneintrag Objekt als Attribut einzelhaendler_name gespeichert
-        Select Statement2: holt den benutzername aus der Benutzer tabelle, dann wird der name in das Listeneintrag
-                            Objekt als Attribut benutzer_name gespeichert
-        Select Statement3: holt den artikelname aus der Artikel tabelle, dann wird der name in das Listeneintrag Objekt
-                            als Attribut artikel_name gespeichert
-        Select Statement4: holt den artikeleinheit aus der Artikel tabelle, dann wird der name in das Listeneintrag
-                            Objekt als Attribut artikel_einheit gespeichert"""
+
+           Zuerst werden alle Listeneintraege für die übergebene einkaufsliste aus der Datenbank gezogen.
+           Dann wird für jeden Listeneintrag:
+                Wenn einzelhaendlerID vorhanden, der entsprechende name des Einzelhaendlers in das Listeneintrag-Objekt
+                gespeichert
+                Wenn benutzerID vorhanden, der entsprechende name des Benutzers in das Listeneintrag-Objekt gespeichert
+                und anhand der ArtikelID werden Artikelname und Einheit gesucht und in das Listeneintrag-Objekt
+                gespeichert
+           Wenn mehr als ein Listeneintrag in Schritt eins zurückgegeben wurde, wird zunächst der Eintrag markiert,
+           welcher zuletzt geändert wurde.
+           Anschließend wird die Liste der Einträge in zwei Listen aufgeteilt: Listeneinträge mit EinzelhändlerID und
+           Listeneinträge ohne EinzelhändlerID
+           Die Liste mit_einzelhaendler wird durch bubblesort nach einzelhaendlerID sortiert. Zuletzt wirden die zwei
+           Listen wieder zusammengefügt.
+            """
         with ListeneintragMapper() as mapper:
             eintraege = mapper.find_all_listeneintraege_by_einkaufsliste(einkaufsliste)
 
-        for i in eintraege:
-            if i.get_einzelhaendlerId() is not None:
+        if len(eintraege) == 0:
+            return []
+
+        for eintrag in eintraege:
+            if eintrag.get_einzelhaendlerId() is not None:
                 with EinzelhaendlerMapper() as mapper:
-                    mapper.get_einzelhaendlername_for_listeneintrag(i)
+                    einzelhaendler_name = mapper.get_einzelhaendlername_for_listeneintrag(eintrag)
+                    eintrag.set_einzelhaendler_name(einzelhaendler_name)
 
-            if i.get_benutzerId() is not None:
+            if eintrag.get_benutzerId() is not None:
                 with BenutzerMapper() as mapper:
-                    mapper.get_benutzername_for_listeneintrag(i)
+                    benutzer_name = mapper.get_benutzername_for_listeneintrag(eintrag)
+                    eintrag.set_benutzer_name(benutzer_name)
 
             with ArtikelMapper() as mapper:
-                mapper.get_artikelname_for_listeneintrag(i)
+                artikel_name = mapper.get_artikelname_for_listeneintrag(eintrag)
+                eintrag.set_artikel_name(artikel_name)
 
             with ArtikelMapper() as mapper:
-                mapper.get_artikeleinheit_for_listeneintrag(i)
+                artikel_einheit = mapper.get_artikeleinheit_for_listeneintrag(eintrag)
+                eintrag.set_artikel_einheit(artikel_einheit)
 
         if len(eintraege) == 1:
             eintraege[0].set_zuletzt_geaendert(True)
             return eintraege
 
-        elif len(eintraege) == 0:
-            return []
-
-        else:  # findet den zuletzt geänderten Listeneintrag
+        else:                                                        # findet den zuletzt geänderten Listeneintrag
             latest = eintraege[0]
             for eintrag in eintraege:
                 if eintrag.get_aenderungs_zeitpunkt() > latest.get_aenderungs_zeitpunkt():
@@ -309,13 +328,13 @@ KOMMENTAR VERALTET!
 
             ohne_einzelhaendler = []
             mit_einzelhaendler = []
-            for i in eintraege:    # sortiert die Rückgabe nach Einzelhändler, dadurch dann nach Einzelhändler gruppiert
-                if i.get_einzelhaendlerId() is None:  # Listeneinträge ohne Einzelhändler werden im vorraus aussortiert
-                    ohne_einzelhaendler.append(i)     # am ende hintendran gehängt
+            for eintrag in eintraege:                               # sortiert die Rückgabe nach Einzelhändler, dadurch dann nach Einzelhändler gruppiert
+                if eintrag.get_einzelhaendlerId() is None:          # Listeneinträge ohne Einzelhändler werden im vorraus aussortiert
+                    ohne_einzelhaendler.append(eintrag)             # am ende hintendran gehängt
                 else:
-                    mit_einzelhaendler.append(i)
+                    mit_einzelhaendler.append(eintrag)
 
-            if len(mit_einzelhaendler) != 0:  # Bubblesort
+            if len(mit_einzelhaendler) != 0:                            # Bubblesort
                 n = len(mit_einzelhaendler)
                 for passes_left in range(n-1, 0, -1):
                     for i in range(passes_left):

@@ -167,6 +167,7 @@ class EinzelhaendlerMapper(Mapper):
 
     def get_einzelhaendlername_for_listeneintrag(self, eintraege):
         """Mapper-Methode zum ausgeben der Namen aller Einzelhaendler aus der Datenbank,
+
         welche zu einem bestimmten Listeneintrag gehören.
         fetchall() gibt das Ergebnis in einem Tuple in einer Liste zurück z.B. deshalb wird zwei mal der Wert an der
         ersten Stelle der Liste bzw. des tubles in einer neuen variable gespeichert und weitergegeben, bis schließlich
@@ -176,7 +177,8 @@ class EinzelhaendlerMapper(Mapper):
         cursor.execute("SELECT name FROM einzelhaendler WHERE id={}".format(eintraege.get_einzelhaendlerId()))
         einzelhaendlername_tuple = cursor.fetchall()[0]
         name_string = einzelhaendlername_tuple[0]
-        eintraege.set_einzelhaendler_name(name_string)
 
         self._cnx.commit()
         cursor.close()
+
+        return name_string
