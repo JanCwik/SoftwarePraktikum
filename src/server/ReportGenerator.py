@@ -92,7 +92,7 @@ class ReportGenerator(object):
         for i in tupel:
             zeitpunkt = i.get_zeitpunkt()
             zeitpunkt = zeitpunkt.strftime("%Y-%m-%d")
-            if startzeitpunkt <= zeitpunkt <= endzeitpunkt:
+            if zeitpunkt >= startzeitpunkt and zeitpunkt <= endzeitpunkt:
                 alle.append(i.get_ArtikelID())
 
         a = collections.Counter(alle)

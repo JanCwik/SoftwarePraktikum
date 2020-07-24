@@ -122,6 +122,7 @@ class BenutzerListe extends Component {
   render() {
     const { classes, anwenderverbund } = this.props;
     const {benutzerliste ,loadingInProgress, error, showBenutzerForm, expandedBenutzerlisteID } = this.state;
+
     return (
       <div className={classes.root}>
         <Grid  container spacing={1} justify='flex-start' alignItems='center'>

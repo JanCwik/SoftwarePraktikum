@@ -16,6 +16,7 @@ class ContextErrorMessage extends Component {
   /** Rendert die ContextErrorMessage, wenn der Error nicht null ist.  */
   render() {
     const { classes, error, contextErrorMsg, onReload } = this.props;
+
     return (
       (error !== null) ?
         <Alert severity='error' align='center' className={classes.root}>
@@ -46,7 +47,7 @@ class ContextErrorMessage extends Component {
   }
 }
 
-/** Komponentenspezifisches Styling */
+/** Komponentenspezifische Stile */
 const styles = theme => ({
   margins: {
     marginTop: theme.spacing(2)

@@ -31,4 +31,8 @@ class Statistik:
 
     def __str__(self):
         """Erzeugen einer einfachen textuellen Darstellung der jeweiligen Instanz."""
-        return "Artikel: {}, {}, {}".format(self._ArtikelID, self._anzahl, self._ArtikelName)
+        if self._ArtikelID != 0:
+            return "Artikel: {}, {}, {}".format(self._ArtikelID, self._anzahl, self._ArtikelName)
+        else:
+            return "Einzelhändler: {}, {}".format(self._EinzelhaendlerID, self._anzahl)
+

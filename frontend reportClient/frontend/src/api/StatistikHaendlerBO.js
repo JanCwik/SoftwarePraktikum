@@ -29,6 +29,7 @@ export default class StatistikHaendlerBO extends StatistikBO {
       // Returns an Array of CustomerBOs from a given JSON structure
     static fromJSON(stathndl) {
         let result = [];
+
         if (Array.isArray(stathndl)) {
             stathndl.forEach((c) => {
                 Object.setPrototypeOf(c, StatistikHaendlerBO.prototype)
@@ -42,5 +43,10 @@ export default class StatistikHaendlerBO extends StatistikBO {
         }
 
         return result;
+
+
     }
+
+
+
 }

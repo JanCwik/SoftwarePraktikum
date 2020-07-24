@@ -80,8 +80,8 @@ class BenutzerMapper(Mapper):
         werden die Attribute der Instanz an das SQL-Statement übergeben."""
         cursor = self._cnx.cursor()
 
-        template = "UPDATE benutzer " + "SET name=%s, email=%s, google_id=%s WHERE id=%s"
-        vals = (benutzer.get_name(), benutzer.get_email(), benutzer.get_google_id(), benutzer.get_id())
+        template = "UPDATE benutzer " + "SET name=%s, email=%s WHERE google_id=%s"
+        vals = (benutzer.get_name(), benutzer.get_email(), benutzer.get_google_id())
         cursor.execute(template, vals)
 
         self._cnx.commit()
@@ -193,7 +193,7 @@ class BenutzerMapper(Mapper):
             benutzer.set_google_id(google_id)
             result = benutzer
         except IndexError:
-            result = []
+            result = None
 
         self._cnx.commit()
         cursor.close()

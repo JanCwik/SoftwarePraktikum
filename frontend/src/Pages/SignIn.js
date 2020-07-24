@@ -3,29 +3,37 @@ import PropTypes from 'prop-types';
 import { Button, Grid, Typography, withStyles } from '@material-ui/core';
 
 /**
- * Rendert eine Seite für Benutzer, die noch nicht eingeloggt sind. Es wird ein Sign In Button
- * geliefert, um sich in einen bereits bestehenden Google Account einzuloggen. Die Komponente
- * benutzt Firebase um den Einlogprozess durchzuführen.
+ * Renders a landing page for users who are not signed in. Provides a sign in button
+ * for using an existing google account to sign in. The component uses firebase to
+ * do redirect based signin process.
+ *
+ * @see See Googles [firebase authentication](https://firebase.google.com/docs/web/setup)
+ * @see See Googles [firebase API reference](https://firebase.google.com/docs/reference/js)
+ *
  */
-
 class SignIn extends Component {
 
-	/** Behandelt das Klick Event des Sign In Buttons und ruft den prop onSignIn Handler auf.*/
+
+	/**
+	 * Handles the click event of the sign in button an calls the prop onSignIn handler
+	 */
 	handleSignInButtonClicked = () => {
 		this.props.onSignIn();
 	}
 
-	/** Rendert die Sign in Seite, wenn das Benutzer Objekt null ist. */
+	/** Renders the sign in page, if user objext is null */
 	render() {
 		const { classes } = this.props;
+
 		return (
 			<div>
 				<Typography className={classes.root} align='center' variant='h6'>Willkommen zur Shared Shopping List</Typography>
+
 				<Typography className={classes.root} align='center'>Melden Sie sich an um die Shopping List zu nutzen</Typography>
 				<Grid container justify='center'>
 					<Grid item>
 						<Button variant='contained' color='primary' onClick={this.handleSignInButtonClicked}>
-							Einloggen mit Google
+							Sign in with Google
       			</Button>
 					</Grid>
 				</Grid>
@@ -34,7 +42,7 @@ class SignIn extends Component {
 	}
 }
 
-/** Komponentenspezifisches Styling */
+/** Component specific styles */
 const styles = theme => ({
 	root: {
 		margin: theme.spacing(2)
@@ -45,7 +53,9 @@ const styles = theme => ({
 SignIn.propTypes = {
 	/** @ignore */
 	classes: PropTypes.object.isRequired,
-	/** Handler Funktion, welche aufgerufen wird, wenn sich der Benutzer einloggen will.*/
+	/**
+	 * Handler function, which is called if the user wants to sign in.
+	 */
 	onSignIn: PropTypes.func.isRequired,
 }
 

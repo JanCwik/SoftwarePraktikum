@@ -22,11 +22,14 @@ class BenutzerListeForm extends Component {
     // Init state
     this.state = {
       benutzerEmail: '',
+      benutzerEmailValidationFailed: false,
       benutzerObjekt: null,
       benutzerSearchError: null,
       benutzerNotFound: false,
-      loadingInProgress: false,
+      addingInProgress: false,
+      updatingInProgress: false,
       addingError: null,
+      updatingError: null
     };
     // Speichere dieses state zum abbrechen
     this.baseState = this.state;
@@ -38,15 +41,15 @@ class BenutzerListeForm extends Component {
       this.setState(this.baseState);
       this.props.onClose(BenutzerBO[0]); // Aufruf mit Hilfe des Benutzer Objekts aus dem Backend
     }).catch(e =>
-
         this.setState({
-          loadingInProgress: false,    // Ladeanzeige deaktivieren
-          addingError: e              // Zeige Error Nachricht
+          updatingInProgress: false,    // Ladeanzeige deaktivieren
+          updatingError: e              // Zeige Error Nachricht
         })
     )
+    // Setze laden als true
     this.setState({
-      loadingInProgress: true,       // Ladeanzeige anzeigen
-      addingError: null             // Fehlermeldung deaktivieren
+      updatingInProgress: true,       // Ladeanzeige anzeigen
+      updatingError: null             // Fehlermeldung deaktivieren
     }
     )
   }
@@ -56,6 +59,7 @@ class BenutzerListeForm extends Component {
      let benutzerEmail = event.target.value;
      this.setState({
       benutzerEmail: benutzerEmail,
+      benutzerEmailEdited: true
     });
   }
 
@@ -112,7 +116,7 @@ class BenutzerListeForm extends Component {
   /** Rendert die Komponente */
   render() {
     const {classes, show} = this.props;
-    const { loadingInProgress, addingError,benutzerObjekt, benutzerNotFound,benutzerSearchError} = this.state;
+    const {benutzerEmailValidationFailed, addingInProgress, addingError, benutzerNotFound} = this.state;
 
     let title = '';
     let header = '';
@@ -135,8 +139,8 @@ class BenutzerListeForm extends Component {
                 <form className={classes.root} noValidate autoComplete='off'>
                   <TextField autoFocus type='text' required fullWidth margin='normal' id='benutzerEmail'
                              label='Benutzer E-mail'
-                             onChange={this.textFieldValueChange} error={benutzerSearchError}
-                             helperText={benutzerNotFound ? 'Es wurde kein Benutzer mit dieser E-Mail Adresse gefunden' : ' '}
+                             onChange={this.textFieldValueChange} error={benutzerNotFound}
+                             helperText={benutzerNotFound ? 'Die E-Mail muss mindestens ein Zeichen enthalten' : ' '}
                              InputProps={{
                               endAdornment: <InputAdornment position='end'>
                                 <IconButton onClick={this.sucheBenutzer}>
@@ -145,14 +149,14 @@ class BenutzerListeForm extends Component {
                               </InputAdornment>,
                             }} />
                 </form>
-                <LoadingProgress show={loadingInProgress}/>
+                <LoadingProgress show={addingInProgress}/>
                 <ContextErrorMessage error={addingError} contextErrorMsg={`Der Benutzer konnte nicht hinzugefügt werden..`} onReload={this.addMitgliedschaft} />
               </DialogContent>
               <DialogActions>
                 <Button onClick={this.handleClose} color='secondary'>
                   Abbrechen
                 </Button>
-                <Button disabled={!benutzerObjekt} variant='contained' onClick={this.addMitgliedschaft} color='primary'>
+                <Button disabled={benutzerEmailValidationFailed} variant='contained' onClick={this.addMitgliedschaft} color='primary'>
                   Hinzufügen
                 </Button>
 
@@ -183,7 +187,7 @@ BenutzerListeForm.propTypes = {
   /** Das BenutzerBO wird editiert. */
   benutzer: PropTypes.object,
   /** Wenn true, wird das Formular gerendert. */
-  show: PropTypes.bool,
+  show: PropTypes.bool.isRequired,
   /**
    * Handler Funktion, die aufgerufen wird wenn der Dialog geschlossen ist.
    * Sendet das angelegte BenutzerBO als Parameter oder null,
