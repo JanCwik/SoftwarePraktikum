@@ -102,7 +102,7 @@ class EinkaufslistenMapper(Mapper):
         übergeben wird.
         Das entsprechende Objekt, welches aus der Datenbank ausgegeben wird, wird in einem Tupel gespeichert.
         Anschließend werden die einzelnen Attribute aus dem Tupel an der Stelle 0 genommen und an eine neue
-        Artikel-Instanz via den Setter-Methoden übergeben.
+        Einkaufslisten-Instanz via den Setter-Methoden übergeben.
         Sollte die Datenbank anhand der ID kein Objekt zurückliefern, wird ausgegeben was innerhalb des
         IndexErrors steht --> None. Das Ergebnis wir schließlich von der Mehtode zurückgegeben."""
         cursor = self._cnx.cursor()
@@ -135,7 +135,7 @@ class EinkaufslistenMapper(Mapper):
         SQL-Statement übergeben wird.
         Das entsprechende Objekt, welches aus der Datenbank ausgegeben wird, wird in einem Tupel gespeichert.
         Anschließend werden die einzelnen Attribute aus dem Tupel an der Stelle 0 genommen und an eine neue
-        Artikel-Instanz via den Setter-Methoden übergeben.
+        Einkaufslisten-Instanz via den Setter-Methoden übergeben.
         Sollte die Datenbank anhand des Namens kein Objekt zurückliefern, wird ausgegeben was innerhalb des
         IndexErrors steht --> None. Das Ergebnis wir schließlich von der Mehtode zurückgegeben."""
 
@@ -178,7 +178,7 @@ class EinkaufslistenMapper(Mapper):
         cursor.close()
 
     def GetEinkaufslistenByAnwendeverbund(self, anwenderverbund):
-        """ Mapper-Methode zum ausgeben aller Einkaufslisten, die zu einem Anwenderverbund gehören"""
+        """ Mapper-Methode zum ausgeben aller Einkaufslisten, die zu einem Anwenderverbund gehören."""
         cursor = self._cnx.cursor()
 
         listenauslesen = "SELECT id, name, erstellungs_zeitpunkt, aenderungs_zeitpunkt, anwenderverbund_id " \
@@ -202,7 +202,7 @@ class EinkaufslistenMapper(Mapper):
         return result
 
     def DeleteEinkaufslistenByAnwendeverbund(self, anwenderverbund):
-        """ Mapper-Methode zum löschen von Einkaufslisten anhand des Anwenderverbundes"""
+        """Mapper-Methode zum löschen von Einkaufslisten die zu einem bestimmten Anwenderverbund gehören"""
         cursor = self._cnx.cursor()
 
         listenloeschen = "DELETE FROM einkaufsliste WHERE anwenderverbund_id={}".format(anwenderverbund.get_id())

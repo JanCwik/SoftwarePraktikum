@@ -231,7 +231,8 @@ class BenutzerMapper(Mapper):
         return result
 
     def get_benutzername_for_listeneintrag(self, eintraege):
-        """ """
+        """Mapper-Methode zum ausgeben der Namen aller Benutzer aus der Datenbank,
+        welche zu einem bestimmten Listeneintrag gehören."""
         cursor = self._cnx.cursor()
 
         cursor.execute("SELECT name FROM benutzer WHERE id={}".format(eintraege.get_benutzerId()))
