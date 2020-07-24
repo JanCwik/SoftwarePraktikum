@@ -1,18 +1,16 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { withStyles, Button, TextField, InputAdornment, IconButton, Grid, Typography } from '@material-ui/core';
-import AddIcon from '@material-ui/icons/Add';
-import ClearIcon from '@material-ui/icons/Clear'
-import { withRouter } from 'react-router-dom';
+import { withStyles, Button, TextField, Grid,} from '@material-ui/core';
 import  API from "../api/API";
 import ContextErrorMessage from './dialogs/ContextErrorMessage';
 import LoadingProgress from './dialogs/LoadingProgress';
 import StatistikListenEintrag from "./StatistikListenEintrag";
 
 /**
- * Kontrolliert eine Liste von EinzelhaendlerListenEintraegen um ein ExpansionPanel für jeden
- * Einzelhaendler zu erstellen.
+  * Kontrolliert eine Liste von StatistikListenEintraegen um ein StatistikListenEintraegen-Component für jede
+  * Statistik-instanz zu erstellen.
  */
+
 class Statistik extends Component {
 
   constructor(props) {
@@ -30,7 +28,7 @@ class Statistik extends Component {
     };
   }
 
-    /** Behandelt das onChange Ereignis von dem Einzelhaendler filtern Textfeld */
+    /** Behandelt das onChange Ereignis von dem Einzelhaendler Textfeld */
   einzelhaendlerFieldChange = event => {
     const value = event.target.value
     this.setState({
@@ -38,7 +36,7 @@ class Statistik extends Component {
     });
   }
 
-    /** Behandelt das onChange Ereignis von dem Einzelhaendler filtern Textfeld */
+    /** Behandelt das onChange Ereignis von dem "von" Textfeld */
   vonFieldChange = event => {
     const value = event.target.value.toLowerCase();
     this.setState({
@@ -46,7 +44,7 @@ class Statistik extends Component {
     });
   }
 
-    /** Behandelt das onChange Ereignis von dem Einzelhaendler filtern Textfeld */
+  /** Behandelt das onChange Ereignis von dem "bis" Textfeld */
   bisFieldChange = event => {
     const value = event.target.value.toLowerCase();
     this.setState({
@@ -54,6 +52,7 @@ class Statistik extends Component {
     });
   }
 
+  /** Lebenszyklus Methode, welche aufgerufen wird, wenn die Komponente in das DOM des Browsers eingefügt wird.*/
   componentDidMount=() =>{
     this.byBenutzer()
   }
@@ -62,6 +61,7 @@ class Statistik extends Component {
     this.byBenutzer()
   }
 
+  /** Fetchet alle StatistikBos des Benutzers aus dem Backend */
   byBenutzer =()=>{
     API.getAPI().getStatistikenAPI(this.props.userMail).then(statistiken=>{
       this.setState({
@@ -82,7 +82,7 @@ class Statistik extends Component {
       error: null
     });}
 
-
+  /** Fetchet alle StatistikBos des Benutzers für einen bestimmten Einzelhändler aus dem Backend */
   byEinzelhaendler =()=>{
     API.getAPI().getStatistikenByHaendlerAPI(this.props.userMail, this.state.einzelhaendler).then(statistiken=>{
       this.setState({
@@ -103,7 +103,7 @@ class Statistik extends Component {
       error: null
     });}
 
-
+  /** Fetchet alle StatistikBos des Benutzers für einen bestimmten Zeitraum aus dem Backend */
   byZeitraum =()=>{
   API.getAPI().getStatistikenByZeitraumAPI(this.props.userMail, this.state.startZeitpunkt, this.state.endZeitpunkt).then(statistiken=>{
       this.setState({
@@ -124,8 +124,7 @@ class Statistik extends Component {
       error: null
     });}
 
-
-
+  /** Fetchet alle StatistikBos des Benutzers für einen bestimmten Einzelhändler und einen bestimmten Zeitraum aus dem Backend */
   byEinzelhaendlerUndZeitraum=()=>{
   API.getAPI().getStatistikenByZuHAPI(this.props.userMail, this.state.einzelhaendler,this.state.startZeitpunkt, this.state.endZeitpunkt).then(statistiken=>{
       this.setState({
@@ -147,15 +146,13 @@ class Statistik extends Component {
     });
   }
 
-
   /** Rendert die Komponente */
   render() {
     const { classes } = this.props;
-    const {  einzelhaendler,endZeitpunkt,startZeitpunkt, loadingInProgress, error,statistikeintraege} = this.state;
+    const { einzelhaendler, endZeitpunkt, startZeitpunkt, loadingInProgress, error, statistikeintraege } = this.state;
     return (
       <div className={classes.root}>
         <Grid className={classes.eingabe} container spacing={1} justify='flex-start' alignItems='center'>
-
           <Grid item xs={2}>
             <TextField
               autoFocus
@@ -166,13 +163,12 @@ class Statistik extends Component {
               value={einzelhaendler}
               onChange={this.einzelhaendlerFieldChange}
             />
-            <Button color="primary" onClick={this.byEinzelhaendler} >
+            <Button className={classes.buttons} color="primary" onClick={this.byEinzelhaendler} >
               Suche nach Einzelhändler
             </Button>
               </Grid>
             <Grid item xs={1} />
             <Grid item xs={2}>
-
              <TextField
               autoFocus
               fullWidth
@@ -191,23 +187,19 @@ class Statistik extends Component {
               value={endZeitpunkt}
               onChange={this.bisFieldChange}
             />
-             <Button color="primary" onClick={this.byZeitraum} >
+             <Button className={classes.buttons} color="primary" onClick={this.byZeitraum} >
               Suche nach Zeitraum
             </Button>
           </Grid>
-
           <Grid item xs={1} />
-
           <Grid item>
-
              <Button color="primary" onClick={this.byEinzelhaendlerUndZeitraum}>
               Suche nach Einzelhändler und Zeitraum
             </Button>
           </Grid>
             <Grid item xs={1} />
-
           <Grid item>
-            <Button color="primary" onClick={this.reload} >
+            <Button className={classes.buttons} color="primary" onClick={this.reload} >
               Suche ohne Filter
             </Button>
               </Grid>
@@ -215,51 +207,39 @@ class Statistik extends Component {
             <hr/>
         <div className={classes.Top}>
         {
-          /** Zeigt die Liste der EinzelhaendlerListenEintrag Komponenten*/
+          /** Zeigt die Liste der StatistikListenEintrag Komponenten*/
           statistikeintraege.map(statistikeintrag =>
             <StatistikListenEintrag statistikeintrag = {statistikeintrag} key={statistikeintrag.getArtikelID()}
-
            />)
         }
         </div>
-
         <LoadingProgress show={loadingInProgress} />
         <ContextErrorMessage error={error} align='center' contextErrorMsg={`Die Statistik konnte nicht geladen werden. Überprüfen Sie den Einzelhändler auf Tippfehler und ob Sie bei Start- und Enddatum das vorgegebene Format eingehalten haben. `} onReload={this.byBenutzer} />
-
       </div>
     );
   }
 }
 
-
-/*
-
-        <Typography>
-          {statistikeintraege[0].getEinzelhaendlerName()? "Meistgekauften Artikel bei " + statistikeintraege[0].getEinzelhaendlerName()  :null}
-          {statistikeintraege[0].getStartZeitpunkt()? "Meistgekauften Artikel im Zeitraum Von:" + statistikeintraege[0].getStartZeitpunkt()  :null}
-          {statistikeintraege[0].getEndZeitpunkt()? "Bis:" + statistikeintraege[0].getEndZeitpunkt()  :null}
-
-        </Typography>
- */
-
-
-
 /** Komponentenspezifisches Styling */
 const styles = theme => ({
   root: {
     width: '100%',
-
   },
+
   eingabe: {
     marginTop: theme.spacing(2),
     marginBottom: theme.spacing(1),
     marginLeft : theme.spacing(10)
-
   },
+
   Top:{
     marginTop: theme.spacing(7),
-  }
+  },
 
+   buttons:{
+       border: 'solid',
+       borderWidth: 1,
+       marginTop: 10,
 });
 
 /** PropTypes */
