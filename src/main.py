@@ -99,7 +99,7 @@ statistikhuz = api.inherit('StatistikHuZ', statistik, {
 })
 
 @shopping.route('/artikel')
-@shopping.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
+@shopping.response(500, 'Serverfehler')
 class ArtikelListOperations(Resource):
     @shopping.marshal_list_with(artikel)
     #@secured
@@ -142,7 +142,7 @@ class ArtikelOperations(Resource):
         adm = ApplikationsAdministration()
         artikel = adm.get_artikel_by_id(id)
         adm.delete_artikel(artikel)
-        return ''
+        return '', 200
 
     @shopping.marshal_with(artikel)
     @shopping.expect(artikel)
@@ -177,9 +177,9 @@ class ArtikelByNameOperations(Resource):
 """Artikel DONE -> no error. Listeneintrag NEXT"""
 
 
-@shopping.route('/listeneintrag')
-@shopping.response(500, 'Server-Error')
-class ListeneintragOperations(Resource):
+@shopping.route('/Listeneintrag')
+@shopping.response(500, 'Serverfehler')
+class ListeneintragListOperations(Resource):
     @shopping.marshal_with(listeneintrag)
     @shopping.expect(listeneintrag)
     @secured
@@ -275,8 +275,8 @@ class ListeneintragOperations(Resource):
 class EinzelhaendlerByBenutzerMailOperations(Resource):
     @shopping.marshal_list_with(einzelhaendler)
     @secured
-    def get(self,email):
-        """Auslesen aller Einzelhändler"""
+    def get(self, email):
+        """Auslesen aller Einzelhändler anhand einer Benutzer-ID"""
         adm = ApplikationsAdministration()
         benutzer= adm.get_benutzer_by_email(email)
         einzelhaendler = adm.get_all_einzelhaendler(benutzer)
@@ -319,7 +319,7 @@ class EinzelhaendlerOperations(Resource):
         adm = ApplikationsAdministration()
         einzelhaendler = adm.get_einzelhaendler_by_id(id)
         adm.delete_einzelhaendler(einzelhaendler)
-        return ''
+        return '', 200
 
     @shopping.marshal_with(einzelhaendler)
     @shopping.expect(einzelhaendler)
@@ -341,7 +341,7 @@ class EinzelhaendlerOperations(Resource):
 @shopping.route('/einzelhaendler-by-name/<string:name>')
 @shopping.response(500, 'Serverfehler')
 @shopping.param('name', 'Name des Einzelhändler')
-class ArtikelByNameOperations(Resource):
+class EinzelhaendlerByNameOperations(Resource):
     @shopping.marshal_with(einzelhaendler)
     @secured
     def get(self, name):
@@ -509,6 +509,7 @@ class EinkaufslisteListOperations(Resource):
     @shopping.marshal_list_with(einkaufsliste)
     @secured
     def get(self):
+        """Auslesen aller Einkaufslisten"""
         adm = ApplikationsAdministration()
         einkaufsliste = adm.get_all_einkaufslisten()
         return einkaufsliste
@@ -518,7 +519,7 @@ class EinkaufslisteListOperations(Resource):
 
 @shopping.route('/einkaufsliste/<string:email>')
 @shopping.response(500, 'Serverfehler')
-class EinkaufslisteListOperations(Resource):
+class EinkaufslisteByBenutzerListOperations(Resource):
     @shopping.marshal_with(einkaufsliste)
     @shopping.expect(einkaufsliste)
     #@secured
@@ -571,23 +572,6 @@ class EinkaufslisteOperations(Resource):
         else:
             return '', 500
 
-
-"""
-@shopping.route('/einkaufsliste-by-name/<string:name>')
-@shopping.response(500, 'Serverfehler')
-@shopping.param('name', 'Name der Einkaufsliste')
-class EinkaufslisteByNameOperations(Resource):                                  #name evtl. nicht eindeutig
-    @shopping.marshal_with(einkaufsliste)
-    #@secured
-    def get(self, name):
-        "Auslesen einer bestimmten Einkaufsliste anhand dessen Namen"
-        adm = ApplikationsAdministration()
-        einkaufsliste = adm.get_einkaufsliste_by_name(name)
-        return einkaufsliste
-"""
-
-
-# Suche per Name nicht sinnvoll da nicht eindeutig!
 
 @shopping.route('/einkaufsliste/<int:id>/listeneintraege')
 @shopping.response(500, 'Serverfehler')
@@ -730,7 +714,7 @@ class AnwenderverbundRelatedBenutzerOperations(Resource):
     @shopping.expect(benutzer)
     @secured
     def post(self, id):
-        """Hinzufügen eines Benutzers in einem Anwenderverbund"""
+        """Hinzufügen eines Benutzers in einen Anwenderverbund"""
         adm = ApplikationsAdministration()
 
         verbund = adm.get_anwenderverbund_by_id(id)
@@ -765,7 +749,7 @@ class AnwenderverbundRelatedBenutzerOperations(Resource):
 @shopping.route('/statistik/<string:email>')
 @shopping.response(500, 'Serverfehler')
 @shopping.param('email', 'Email des Benutzers')
-class StatistikListOperations(Resource):
+class StatistikListOperationsByBenutzer(Resource):
     @shopping.marshal_list_with(statistik)
     @secured
     def get(self, email):
@@ -832,16 +816,15 @@ class StatistikListOperationsByDatum(Resource):
 class StatistikListOperationsByEinzelhaendlerDatum(Resource):
     @shopping.marshal_list_with(statistikhuz)
     @secured
-    def get(self, email,name, von, bis):
+    def get(self, email, name, von, bis):
         """Auslesen der meist gekauften Artikel bei einem durch Namen definierten Einzelhaendler"""
         adm = ApplikationsAdministration()
         benutzer = adm.get_benutzer_by_email(email)
         einzelhaendler = adm.get_einzelhaendler_by_name(name)
-        start = "StatistikHuZ.get_startzeitpunkt"
-        ende = ""
+
         if benutzer is not None:
             if einzelhaendler is not None:
-                statistik = adm.get_top_artikel_5_by_einzelhaendler_datum(benutzer, einzelhaendler, start, ende)
+                statistik = adm.get_top_artikel_5_by_einzelhaendler_datum(benutzer, einzelhaendler, von, bis)
                 return statistik
             else:
                 return "Einzelhändler nicht gefunden", 500

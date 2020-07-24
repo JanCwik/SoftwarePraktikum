@@ -6,132 +6,258 @@ Wir verwenden die folgende Ressourcen-Struktur, um mittels REST auf den
 Applikationsserver zuzugreifen.
 
 ## Festlegung Ressourcen-Präfix
-Die gesamte Applikation benutzt konsistent den Ressourcen-Präfix `/bank`.
+Die gesamte Applikation benutzt konsistent den Ressourcen-Präfix `/shopping`.
 
-## A) Zugriff auf `Customer`-Objekte
+## A) Zugriff auf `Artikel`-Objekte
 
-1. Alle Kunden auslesen:
+1. Auslesen aller Artikel:
     ```
-    GET /bank/customers
+    GET /shopping/artikel
     ```
-2. Einen Kunden per ID auslesen:
+2. Auslesen eines bestimmten Artikel anhand einer id:
     ```
-    GET /bank/customers/<id>
+    GET /shopping/artikel-by-id/<id>
     ```
-3. **NEW:** Kunden per Nachname auslesen:
+3. Auslesen eines bestimmten Artikel anhand dessen Namen:
     ```
-    GET /bank/customers-by-name/<name>
+    GET /shopping/artikel-by-name/<name>
     ```
-4. Einen neuen Kunden erstellen:
+4. Anlegen eines Artikels:
     ```
-    POST /bank/customers
+    POST /shopping/artikel
     ```
-5. Einen bereits bestehenden Kunden speichern (update):
-    **TODO**: ACHTUNG, hier ist die ID überflüssig!!!
+5. Update eines durch eine id bestimmten Artikel:
     ```
-    PUT /bank/customers/<id>
+    PUT /shopping/artikel-by-id/<id>
     ```
-6. Einen Kunden löschen:
+6. Löschen eines Artikels anhand einer id:
     ```
-    DELETE /bank/customers/<id>
-    ```
-
-Daraus ergeben sich folgende Ressourcen:
-1. `CustomerListOperations` mit den Operationen A.1, A.4
-2. `CustomerOperations` mit den Operationen A.2, A.5, A.6
-3. `CustomersByNameOperations` mit der Operation A.3
-
-## B) Zugriff auf `Account`-Objekte
-
-1. Alle Konten der Bank / des Systems auslesen:
-    ```
-    GET /bank/accounts
-    ```
-2. Ein Konto auslesen:
-    ```
-    GET /bank/accounts/<id>
-    ```
-3. Alle Konten eines Kunden auslesen:
-    ```
-    GET /bank/customers/<id>/accounts
-    ```
-4. Ein neues Konto für einen Kunden erstellen:
-    ```
-    POST /bank/customers/<id>/accounts
-    ```
-5. Ein bereits bestehendes Konto speichern (update):
-    ```
-    PUT /bank/accounts/<id>
-    ```
-6. Ein Konto löschen:
-    ```
-    DELETE /bank/accounts/<id>
-    ```
-7. **NEW:** Kontostand eines Kontos auslesen:
-    ```
-    GET /bank/accounts/<id>/balance
-    ```
-8. **NEW:** Cash-Konto der Bank auslesen:
-    ```
-    GET /bank/cash-account
+    DELETE /shopping/artikel-by-id/<id>
     ```
 
 Daraus ergeben sich folgende Ressourcen:
-1. `AccountListOperations` mit den Operationen B.1
-2. `AccountOperations` mit den Operationen B.2, B.5, B.6
-3. `CustomerRelatedAccountOperations` mit der Operation B.3, B.4
-4. `AccountBalanceOperations` mit der Operation B.7
-5. `CashAccountOperations` mit der Operation B.8
+1. `ArtikelListOperations` mit den Operationen A.1, A.4
+2. `ArtikelOperations` mit den Operationen A.2, A.5, A.6
+3. `ArtikelByNameOperations` mit der Operation A.3
 
-## C) Zugriff auf `Transaction`-Objekte
-1. **NEW:** Eine Buchung auslesen:
-    ```
-    GET /bank/transactions/<id>
-    ```
-2. Alle *Abbuchungen* eines Kontos auslesen:
-    ```
-    GET /bank/account/<id>/debits
-    ```
-3. Alle *Guthabenbuchungen* eines Kontos auslesen:
-    ```
-    GET /bank/account/<id>/credits
-    ```
-4. Eine neue Buchung erstellen:
-    ```
-    POST /bank/transactions
-    ```
-5. Eine bereits bestehende Buchung speichern (update):
-    ```
-    PUT /bank/transactions/<id>
-    ```
-6. Eine Buchung löschen:
-    ```
-    DELETE /bank/transactions/<id>
-    ```
-*Hinweis:* *Alle* Buchungen der Bank / des Systems durch eine einzelne Anfrage auszulesen,
-ist bislang nicht vorgesehen.
 
+## B) Zugriff auf `Einzelhändler`-Objekte
+
+1. Auslesen aller Einzelhändler anhand einer Benutzer-ID :
+    ```
+    GET /shopping/einzelhaendler/<email>
+    ```
+2. Anlegen eines Einzelhändlers:
+    ```
+    POST /shopping/einzelhaendler
+    ```
+3. Auslesen eines bestimmten Einzelhändlers anhand dessen Namen:
+    ```
+    GET /shopping/einzelhaendler-by-name/<name>
+    ```
+4. Auslesen eines bestimmten Einzelhändlers anhand einer id:
+    ```
+    GET /shopping/einzelhaendler-by-id/<id>
+    ```
+6. Löschen eines Einzelhändlers anhand einer id:
+    ```
+    DELETE /shopping/einzelhaendler-by-id/<id>
+    ```
+5. Update eines durch eine id bestimmten Einzelhändlers:    
+    ```
+    PUT /shopping/einzelhaendler-by-id/<id>
+    ```
+   
 Daraus ergeben sich folgende Ressourcen:
-1. `TransactionListOperations` mit den Operationen C.3
-2. `TransactionOperations` mit den Operationen C.1, C.5, C.6
-3. `DebitOperations`mit der Operation C.2
-4. `CreditOperations`mit der Operation C.3
+1. `EinzelhaendlerByBenutzerMailOperations` mit der Operation B.1
+2. `EinzelhaendlerListOperations` mit der Operation B.2
+3. `EinzelhaendlerByNameOperations` mit der Operation B.3
+4. `EinzelhaendlerOperations` mit den Operationen B.4, B.5, B.6
 
-## Hinweise
-Gelegentlich ist es unklar, welche HTTP-Operation unter welchen Bedingungen zu verwenden ist:
 
-**POST** wird verwendet, wenn *neue* Objekte angelegt werden sollen.
+## C) Zugriff auf `Benutzer`-Objekte
 
-**PUT** wird für ein Update von *bereits bestehenden* Objekten verwendet.
+1. Auslesen aller Benutzer:
+    ```
+    GET /shopping/benutzer
+    ```
+2. Anlegen eines Benutzers:
+    ```
+    POST /shopping/benutzer
+    ```
+3. Auslesen eines bestimmten Benutzers anhand einer id":
+    ```
+    GET /shopping/benutzer-by-id/<id>
+    ```
+4. Update eines durch eine id bestimmten Benutzer:
+    ```
+    PUT /shopping/benutzer-by-id/<id>
+    ```
+5. Löschen eines Benutzers anhand einer id:
+    ```
+    DELETE /shopping/benutzer-by-id/<id>
+    ```
+6. Auslesen eines bestimmten Benutzers anhand seines Namen:
+    ```
+    GET /shopping/benutzer-by-name/<name>
+    ```
+7.  Auslesen eines bestimmten Benutzers anhand seiner Email:
+    ```
+    GET /shopping/benutzer-by-email/<email>
+    ```  
+8.  Auslesen aller Listeneinträge für einen durch Id definierten Benutzer:
+    ```
+    GET /shopping/benutzer/<id>/listeneintraege
+    ```
+9.  Auslesen aller Artikel die zu einem Benutzer gehören:
+    ```
+    GET /shopping/benutzer/<email>/artikel
+    ```
+10. Auslesen aller Anwenderverbünde für einen durch Id definierten Benutzer:
+    ```
+    GET /shopping/benutzer/<email>/anwenderverbuende
+    ```
+Daraus ergeben sich folgende Ressourcen:
+1. `BenutzerListOperations` mit den Operationen C.1, C.2
+2. `BenutzerOperations` mit den Operationen C.3, C.4, C.5
+3. `BenutzerByNameOperations` mit der Operation C.6
+4. `BenutzerByEmailOperations` mit der Operation C.7
+5. `BenutzerRelatedListeneintragOperations` mit der Operation C.8
+6. `BenutzerRelatedArtikelOperations` mit der Operation C.9
+7. `BenutzerRelatedAnwenderverbundOperations` mit der Operation C.10
 
-## Allgemeine Infos zum Resource Naming
-Weitere Infos zum *Resource Naming* unter: https://restfulapi.net/resource-naming/
+## D) Zugriff auf `Listeneintrag`-Objekte
 
-Dort wird insbesondere auf die folgenden 4 Archetypen eingegangen:
-1. *document*: Zugriff auf einzelne Dokumente / Ressourcen.
-2. *collection*: Zugriff auf Mengen von Dokumenten / Ressourcen.
-3. *store*: Ein durch den Client verwalteter Bereich für das Anlegen, Anpassen und
-Löschen von Ressourcen. *Kommt in diesem Projekt nicht zur Anwenung.*
-4. *controller*: Expliziter Aufruf von Funktionen, die nicht zu 1.-3. gehören.
+1. Anlegen eines Listeneintrages:
+    ```
+    POST /shopping/listeneintrag
+    ```
+2. Auslesen eines bestimmten Listeneintrages anhand einer id:
+    ```
+    GET /shopping/listeneintrag-by-id/<id>
+    ```
+3. Update eines durch eine id bestimmten Listeneintrag:
+    ```
+    PUT /shopping/listeneintrag-by-id/<id>
+    ```
+4. Löschen eines Listeneintrages anhand einer id:
+    ```
+    DELETE /shopping/listeneintrag-by-id/<id>
+    ```
+   
+Daraus ergeben sich folgende Ressourcen:
+1. `ListeneintragListOperations` mit der Operation D.1
+2. `ListeneintragOperations` mit den Operationen D.2, D.3, D.4
+
+
+## E) Zugriff auf `Einkaufsliste`-Objekte
+
+1. Auslesen aller Einkaufslisten:
+    ```
+    GET /shopping/einkaufsliste
+    ```
+2. Anlegen einer Einkaufsliste:
+    ```
+    POST /shopping/einkaufsliste/<email>
+    ```
+3. Auslesen einer bestimmten Einkaufsliste anhand einer id:
+    ```
+    GET /shopping/einkaufsliste-by-id/<id>
+    ```
+4. Update einer durch id bestimmten Einkaufsliste:
+    ```
+    PUT /shopping/einkaufsliste-by-id/<id>
+    ```
+5. Löschen einer Einkaufsliste anhand einer id:
+    ```
+    DELETE /shopping/einkaufsliste-by-id/<id>
+    ```
+6.  Auslesen aller Listeneinträge für einen durch Id definierten Benutzer:
+    ```
+    GET /shopping/einkaufsliste/<id>/listeneintraege
+    ```
+    
+Daraus ergeben sich folgende Ressourcen:
+1. `EinkaufslisteListOperations` mit der Operation E.1,
+2. `EinkaufslisteByBenutzerListOperations` mit der Operation E.2
+3. `EinkaufslisteOperations` mit den Operationen E.3, E.4, E.5
+4. `EinkaufslisteRelatedListeneintraegeOperations` mit der Operation E.6
+
+## F) Zugriff auf `Anwenderverbund`-Objekte
+
+1. Auslesen aller Anwenderverbünde:
+    ```
+    GET /shopping/anwenderverbund
+    ```
+2. Anlegen eines Anwenderverbundes:
+    ```
+    POST /shopping/anwenderverbund
+    ```
+3. Auslesen eines bestimmten Anwenderverbundes anhand einer id:
+    ```
+    GET /shopping/anwenderverbund-by-id/<id>
+    ```
+4. Update eines durch eine id bestimmten Anwenderverbundes:
+    ```
+    PUT /shopping/anwenderverbund-by-id/<id>
+    ```
+5. Löschen eines Anwenderverbundes anhand einer id:
+    ```
+    DELETE /shopping/anwenderverbund-by-id/<id>
+    ```
+6. Auslesen eines bestimmten Anwenderverbundes anhand dessen Namen:
+    ```
+    GET /shopping/anwenderverbund-by-name/<name>
+    ```
+7.  Auslesen aller Einkaufslisten in einem durch Id definierten Anwenderverbund:
+    ```
+    GET /shopping/anwenderverbund/<id>/einkauflisten
+    ```
+8.  Auslesen aller Mitglieder in einem durch Id definierten Anwenderverbund:
+    ```
+    GET /shopping/anwenderverbund/<id>/mitglieder
+    ```  
+9. Hinzufügen eines Benutzers in einen Anwenderverbund:
+    ```
+    POST /shopping/anwenderverbund/<id>/mitglieder
+    ```
+10. Löschen eines Benutzers in einem Anwenderverbund:
+    ```
+    DELETE /shopping/anwenderverbund/<id>/mitglieder
+    ```
+Daraus ergeben sich folgende Ressourcen:
+1. `AnwenderverbundListOperations` mit den Operationen F.1, F.2
+2. `AnwenderverbundOperations` mit den Operationen F.3, F.4, F.5
+3. `AnwenderverbundByNameOperations` mit der Operation F.6
+4. `AnwenderverbundRelatedEinkaufslisteOperations` mit der Operation F.7
+5. `AnwenderverbundRelatedBenutzerOperations` mit den Operationen F.8, F.9, F.10
+
+
+## G) Zugriff auf `Statistik`-Objekte
+
+1. Auslesen der meist gekauften Artikel:
+    ```
+    GET /shopping/statistik/<email>
+    ```
+2. Auslesen der meist gekauften Artikel bei einem durch Namen definierten Einzelhaendler:
+    ```
+    GET /shopping/statistik/<email>/<name>
+    ```
+3. Auslesen der meist gekauften Artikel bei einem durch Namen definierten Einzelhaendler:
+    ```
+    GET /shopping/statistik/<email>/<von>/<bis>
+    ```
+4. Auslesen der meist gekauften Artikel bei einem durch Namen definierten Einzelhaendler:
+    ```
+    GET /shopping/statistik/<email>/<name>/<von>/<bis>
+    ```
+   
+Daraus ergeben sich folgende Ressourcen:
+1. `StatistikListOperationsByBenutzer` mit der Operation G.1
+2. `StatistikListOperationsByEinzelhaendler` mit der Operation G.2
+3. `StatistikListOperationsByDatum` mit der Operation G.3
+4. `StatistikListOperationsByEinzelhaendlerDatum` mit der Operation G.4
+
+
 
 
