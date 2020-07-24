@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { withStyles, Button, Grid} from '@material-ui/core';
+import { withStyles, Button, Grid } from '@material-ui/core';
 import AddIcon from '@material-ui/icons/Add';
 import { withRouter } from 'react-router-dom';
 import  API from "../api/API";
@@ -30,7 +30,7 @@ class Einkaufsliste extends Component {
   getListeneintraege = () => {
  const { einkaufsliste } = this.props.location
 
-    API.getAPI().getListeneintraegeByEinkaufslisteAPI(einkaufsliste.getID())
+    API.getAPI().getListeneintraegeByEinkaufslisteAPI(this.props.location.einkaufsliste.getID())
       .then(ListeneintragBOs =>
        this.setState({                  // Setzt neues state wenn ListeneintragsBOs gefetcht wurden
           listeneintraege: ListeneintragBOs,
@@ -106,10 +106,20 @@ class Einkaufsliste extends Component {
     const { listeneintraege, loadingInProgress, error, showListeneintragForm } = this.state;
     return (
       <div className={classes.root}>
+          <Grid container spacing={1} justify='flex-start' alignItems='center' >
+                 <Grid item >
+                      <h2>
+                         {this.props.location.einkaufsliste.getName()}
+                     </h2>
+                 </Grid>
+          <Grid item xs />
           <Grid item>
+            <Grid item>
             <Button  variant='contained' color='primary' startIcon={<AddIcon />} onClick={this.addListeneintragButtonClicked}>
                 Listeneintrag hinzufügen
           </Button>
+            </Grid>
+          </Grid>
           </Grid>
         {
           /** Zeigt die Liste der ListenEintrag Komponenten */
