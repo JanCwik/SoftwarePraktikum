@@ -16,7 +16,7 @@ from SecurityDecorator import secured
 
 app = Flask(__name__)
 
-CORS(app, resources={r"/shopping/*": {"origins": "*"}})
+CORS(app, resources=r"/shopping/*")
 # als zweiter parameter könnte man auch noch folgendes hinzufügen:
 # , resources=r'/shopping/*'      oder    , resources={r"/shopping/*": {"origins": "*"}}
 
