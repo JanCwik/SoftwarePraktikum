@@ -19,9 +19,9 @@ export default class API {
     }
 
     //Während der Entwicklung wird der Local host verwendet, im deployten Zustand wird der entsprechende Link auf das deployte Backend verwendet
-    #ServerBaseURL= process.env.NODE_ENV ==='production'?'https://backend-dot-shoppinglist2020.ey.r.appspot.com/shopping':'/shopping'
-    //#ServerBaseURL= '/shopping';
-    //Private Methoden um das angeben aller URLs zu erleichtern
+    //ServerBaseURL= process.env.NODE_ENV ==='production'?'https://backend-dot-shoppinglist2020.ey.r.appspot.com/shopping':'/shopping'
+    #ServerBaseURL= '/shopping';
+    //private Methoden um das Angeben aller URLs zu erleichtern
     #getArtikelURL = () => `${this.#ServerBaseURL}/artikel`;
     #addArtikelURL = () => `${this.#ServerBaseURL}/artikel`;
     #deleteArtikelURL = (id) => `${this.#ServerBaseURL}/artikel-by-id/${id}`;
