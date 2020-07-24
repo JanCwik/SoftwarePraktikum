@@ -5,18 +5,17 @@ import Alert from '@material-ui/lab/Alert';
 import AlertTitle from '@material-ui/lab/AlertTitle';
 import AutorenewIcon from '@material-ui/icons/Autorenew';
 
-
 /**
  *Zeigt eine Error Nachricht, in einem gegebenen Komponenten Kontext,
  * wenn ein Error Object nicht null ist.
  */
+
 class ContextErrorMessage extends Component {
   #standardText = 'Da ist wohl etwas schief gelaufen...';
 
   /** Rendert die ContextErrorMessage, wenn der Error nicht null ist.  */
   render() {
     const { classes, error, contextErrorMsg, onReload } = this.props;
-
     return (
       (error !== null) ?
         <Alert severity='error' className={classes.root}>
@@ -27,7 +26,7 @@ class ContextErrorMessage extends Component {
             {contextErrorMsg}
           </AlertTitle>
           <div className={classes.margins}>
-            Error message (for debugging only) is:
+            Error Nachricht (nur zum debuggen) ist:
         </div>
           <div>
             {error.message}
@@ -47,7 +46,7 @@ class ContextErrorMessage extends Component {
   }
 }
 
-/** Komponentenspezifische Stile */
+/** Komponentenspezifische Styles */
 const styles = theme => ({
   margins: {
     marginTop: theme.spacing(2)

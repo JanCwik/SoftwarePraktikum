@@ -141,7 +141,7 @@ class Anwenderverbund extends Component {
   filterFieldValueChange = event => {
     const value = event.target.value.toLowerCase();
     this.setState({
-      filteredAnwenderverbund: this.state.einzelhaendler.filter(anwenderverbund => {
+      filteredAnwenderverbund: this.state.anwenderverbund.filter(anwenderverbund => {
         let NameContainsValue = anwenderverbund.getName().toLowerCase().includes(value);
         return NameContainsValue;
       }),
@@ -161,7 +161,7 @@ class Anwenderverbund extends Component {
   /** Rendert die Komponente */
   render() {
     const { classes } = this.props;
-    const { filteredAnwenderverbund, anwenderverbundFilter, expandedAnwenderverbundID, loadingInProgress, error, showAnwenderverbundForm } = this.state;
+    const { filteredAnwenderverbund, anwenderverbundFilter, expandedAnwenderverbundID, loadingInProgress, error, showAnwenderverbundForm, newBenutzerFromNewAnwenderverbund } = this.state;
 
     return (
       <div className={classes.root}>
