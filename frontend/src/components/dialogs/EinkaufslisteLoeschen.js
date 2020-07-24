@@ -66,7 +66,9 @@ class EinkaufslisteLoeschen extends Component {
           </DialogTitle>
           <DialogContent>
             <DialogContentText>
-              Einkaufsliste wirklich löschen? '{einkaufsliste.getName()}' (ID: {einkaufsliste.getID()})?
+               Wollen Sie wirklich die Einkaufsliste '{einkaufsliste.getName()}' (ID: {einkaufsliste.getID()}) für alle Mitglieder löschen?
+               Wenn Sie eine Einkaufsliste löschen werden dazugehörige Listeneinträge auch aus der Einkaufsstatistik gelöscht.
+
             </DialogContentText>
             <LoadingProgress show={deletingInProgress} />
             <ContextErrorMessage error={deletingError} contextErrorMsg={`Die Einkaufsliste '${einkaufsliste.getName()}' (ID: ${einkaufsliste.getID()}) konnte nicht gelöscht werden.`}

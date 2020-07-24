@@ -32,3 +32,4 @@ class Statistik():
     def __str__(self):
         """Erzeugen einer einfachen textuellen Darstellung der jeweiligen Instanz."""
         return "Artikel: {}, {}, {}".format(self._ArtikelID, self._anzahl, self._ArtikelName)
+

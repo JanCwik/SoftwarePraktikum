@@ -62,8 +62,7 @@ class BenutzerMapper(Mapper):
                 benutzer.set_id(1)
 
         template = "INSERT INTO benutzer (id, name, erstellungs_zeitpunkt, email, google_id) VALUES (%s,%s,%s,%s,%s)"
-        vals = (benutzer.get_id(), benutzer.get_name(), benutzer.get_erstellungs_zeitpunkt(), benutzer.get_email(),
-                benutzer.get_google_id())
+        vals = (benutzer.get_id(), benutzer.get_name(), benutzer.get_erstellungs_zeitpunkt(), benutzer.get_email(), benutzer.get_google_id())
         cursor.execute(template, vals)
 
         self._cnx.commit()

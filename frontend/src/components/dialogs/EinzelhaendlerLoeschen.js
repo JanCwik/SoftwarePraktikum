@@ -67,7 +67,8 @@ class EinzelhaendlerLoeschen extends Component {
           </DialogTitle>
           <DialogContent>
             <DialogContentText>
-              Einzelhändler wirklich löschen? '{einzelhaendler.getName()}' (ID: {einzelhaendler.getID()})?
+              Wollen Sie den Einzelhändler '{einzelhaendler.getName()}' (ID: {einzelhaendler.getID()}) wirklich löschen?
+              Wenn Sie einen Einzelhändler löschen wird er auch aus Ihrer Einkaufsstatistik gelöscht.
             </DialogContentText>
             <LoadingProgress show={deletingInProgress} />
             <ContextErrorMessage error={deletingError} contextErrorMsg={`Der Einzelhändler '${einzelhaendler.getName()}' (ID: ${einzelhaendler.getID()}) konnte nicht gelöscht werden.`}

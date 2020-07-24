@@ -47,11 +47,6 @@ class ListenEintrag extends Component {
     if (listeneintrag) {
       this.props.onListeneintragDeleted(listeneintrag);
     }
-    if (listeneintrag) {
-      if (listeneintrag.getAenderungs_zeitpunkt() === "latest") {
-        this.props.reload()
-      }
-    }
       this.setState({
       showListeneintragDeleteDialog: false
     });
