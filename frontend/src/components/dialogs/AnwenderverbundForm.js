@@ -53,13 +53,13 @@ class AnwenderverbundForm extends Component {
 
     API.getAPI().addAnwenderverbundAPI(newAnwenderverbund).then(anwenderverbund => {       // Anwenderverbund anlegen
 
-        API.getAPI().getBenutzerByEmailAPI(this.props.userMail).then( BenutzerBO =>{          // get currentUser
+        API.getAPI().getBenutzerByEmailAPI(this.props.userMail).then( BenutzerBO =>{       // get currentUser
 
-            API.getAPI().addMitgliedschaftAPI(anwenderverbund.getID(),BenutzerBO[0])        //Mitgleidschaft zwischen currentUser und dem erstellten Anwenderverbund anlegen
+            API.getAPI().addMitgliedschaftAPI(anwenderverbund.getID(),BenutzerBO[0])       //Mitgleidschaft zwischen currentUser und dem erstellten Anwenderverbund anlegen
 
                 this.setState(this.baseState);                           // State zurücksetzen
-                this.props.onClose(anwenderverbund,BenutzerBO[0]);       // Aufruf der onClose fúnktion von Anwenderverbund.js -> dadurch wird der
-                                                                          // neue Anwenderverbunf und die Mitgliedschaft direkt angezeigt
+                this.props.onClose(anwenderverbund,BenutzerBO[0]);       // Aufruf der onClose Funktion von Anwenderverbund.js -> dadurch wird der
+                                                                         // neue Anwenderverbund und die Mitgliedschaft direkt angezeigt.
         }).catch(e =>
             this.setState({
               updatingInProgress: false,    // Ladeanzeige deaktivieren
@@ -67,16 +67,12 @@ class AnwenderverbundForm extends Component {
             })
         )
 
-
     }).catch(e =>
       this.setState({
         updatingInProgress: false,    // Ladeanzeige deaktivieren
         updatingError: e              // Zeige Error Nachricht
       })
     );
-
-
-
   }
 
   /** Updated den Anwenderverbund */
@@ -110,7 +106,6 @@ class AnwenderverbundForm extends Component {
   /** Behandelt Wertänderungen aus den Textfeldern vom Formular und validiert diese. */
   textFieldValueChange = (event) => {
     const value = event.target.value;
-
     let error = false;
     if (value.trim().length === 0) {
       error = true;
@@ -138,7 +133,6 @@ class AnwenderverbundForm extends Component {
 
     let title = '';
     let header = '';
-
     if (anwenderverbund) {
       // Erstellt einen neuen Anwenderverbund, wenn nicht bereits einer vorhanden ist.
       title = 'Update des Anwenderverbund';
@@ -200,6 +194,7 @@ const styles = theme => ({
   root: {
     width: '100%',
   },
+
   closeButton: {
     position: 'absolute',
     right: theme.spacing(-1),

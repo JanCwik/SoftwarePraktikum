@@ -33,7 +33,7 @@ class BenutzerListeneintragLoeschen extends Component {
         deletingError: null                     // Keine Error Nachricht
       });
 
-      this.props.onClose(this.props.benutzer);  // Aufruf des Urhebers mit dem geloeschten Einzelhaendler
+      this.props.onClose(this.props.benutzer);  // Aufruf des Urhebers mit dem gelöschten Benutzer
 
 
     // Setzt laden auf true
@@ -52,7 +52,6 @@ class BenutzerListeneintragLoeschen extends Component {
   render() {
     const { classes, benutzer, show } = this.props;
     const { deletingInProgress, deletingError } = this.state;
-
     return (
       show ?
         <Dialog open={show} onClose={this.handleClose}>
@@ -83,7 +82,7 @@ class BenutzerListeneintragLoeschen extends Component {
   }
 }
 
-/** Komponentenspezifische Stile */
+/** Komponentenspezifisches Styling */
 const styles = theme => ({
   closeButton: {
     position: 'absolute',

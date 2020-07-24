@@ -8,6 +8,7 @@ import firebase from 'firebase/app';
  * muss mit der Maus auserhalb des Menüs geklickt werden. Um sich auszuloggen wird die Methode firebase.auth().signOut()
  * verwendet.
  */
+
 class ProfileDropDown extends Component {
 
   // Eine Referenz zur Avatar Taste

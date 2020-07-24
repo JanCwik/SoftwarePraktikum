@@ -56,7 +56,6 @@ class EinzelhaendlerLoeschen extends Component {
   render() {
     const { classes, einzelhaendler, show } = this.props;
     const { deletingInProgress, deletingError } = this.state;
-
     return (
       show ?
         <Dialog open={show} onClose={this.handleClose}>
@@ -87,7 +86,7 @@ class EinzelhaendlerLoeschen extends Component {
   }
 }
 
-/** Komponentenspezifische Stile */
+/** Komponentenspezifisches Styling */
 const styles = theme => ({
   closeButton: {
     position: 'absolute',

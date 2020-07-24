@@ -52,12 +52,10 @@ class ArtikelForm extends Component {
     let newArtikel = new ArtikelBO();
     newArtikel.setName(this.state.artikelName);
     newArtikel.setStandardartikel(this.state.artikelStandardartikel);
-    newArtikel.setEinheit(this.state.artikelEinheit);    //legt neues Artikelobjekt mit name, Satndardartikel und Einheit aus dem state an
+    newArtikel.setEinheit(this.state.artikelEinheit);    //Legt neues Artikelobjekt mit Name, Standardartikel und Einheit aus dem state an
 
     let user= await API.getAPI().getBenutzerByEmailAPI(this.props.userMail)  // Das BO des Benutzers wird anhand seiner Email abgerufen und in user gespeichert
-
-    newArtikel.setBenutzerID(user[0].getID());            //Dem Artikel wird die BenutzerId des Benutzers mitgegeben
-
+    newArtikel.setBenutzerID(user[0].getID());                               // Dem Artikel wird die BenutzerID des Benutzers mitgegeben
     API.getAPI().addArtikelAPI(newArtikel).then(artikel => {
       // Backend Aufruf erfolgreich
       // reinit den Dialog state für einen neuen leeren Artikel
@@ -151,7 +149,6 @@ nameChange = (event) => {
 
     let title = '';
     let header = '';
-
     if (artikel) {
       // Erstellt einen neuen Artikel, wenn nicht bereits einer vorhanden ist.
       title = 'Update des Artikels';
@@ -236,17 +233,19 @@ nameChange = (event) => {
   }
 }
 
-/** Componentenspezifische Stile */
+/** Komponentenspezifisches Styling */
 const styles = theme => ({
   root: {
     width: '100%',
   },
+
   closeButton: {
     position: 'absolute',
     right: theme.spacing(1),
     top: theme.spacing(1),
     color: theme.palette.grey[500],
   },
+
   formControl: {
     minWidth: 150,
     margin: 5,

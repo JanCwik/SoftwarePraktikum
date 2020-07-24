@@ -49,7 +49,6 @@ class ListeneintragLoeschen extends Component {
 
   /** Behandelt das schließen/abbrechen Tasten Klickereignis */
   handleClose = () => {
-    // console.log(event);
     this.props.onClose(null);
   }
 

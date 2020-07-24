@@ -56,7 +56,6 @@ class ArtikelLoeschen extends Component {
   render() {
     const { classes, artikel, show } = this.props;
     const { deletingInProgress, deletingError } = this.state;
-
     return (
       show ?
         <Dialog open={show} onClose={this.handleClose}>
@@ -87,7 +86,7 @@ class ArtikelLoeschen extends Component {
   }
 }
 
-/** Komponentenspezifische Stile */
+/** Komponentenspezifisches Styling */
 const styles = theme => ({
   closeButton: {
     position: 'absolute',

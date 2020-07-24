@@ -27,7 +27,7 @@ class ListeneintragForm extends Component {
     let lan = '', lam = '', len = '', lbn = '', le = '';
 
     /** Wenn ein Listeneintrag editiert werden soll wird dieser als prop übergeben
-        und der State wird mit den entsprechenden Daten gefüllt*/
+        und der State wird mit den entsprechenden Daten gefüllt.*/
     if (props.listeneintrag) {
       lan = props.listeneintrag.getArtikel_name();
       lam = props.listeneintrag.getMenge();
@@ -311,7 +311,6 @@ sucheArtikel = async () => {
       title = 'Erstelle einen neuen Listeneintrag';
       header = 'Gebe Listeneintragsdaten ein';
     }
-
     return (
       show ?
         <Dialog open={show} onClose={this.handleClose} maxWidth='xs'>
@@ -434,7 +433,6 @@ const styles = theme => ({
 });
 
 /** PropTypes */
-
 ListeneintragForm.propTypes = {
 
   classes: PropTypes.object.isRequired,
