@@ -9,19 +9,19 @@ class Einkaufsliste(NamedBO):
         self._anwenderverbund_id = None
 
     def set_aenderungs_zeitpunkt(self, aenderungs_zeitpunkt):
-        """Setzen des Aenderungszeitpunkt"""
+        """Setzen des Aenderungszeitpunkts"""
         self._aenderungs_zeitpunkt = aenderungs_zeitpunkt
 
     def get_aenderungs_zeitpunkt(self):
-        """Auslesen des Aenderungszeitpunkt"""
+        """Auslesen des Aenderungszeitpunkts"""
         return self._aenderungs_zeitpunkt
 
     def set_anwenderId(self, anwender_id):
-        """Setzen der anwenderverbund_id"""
+        """Setzen der Anwenderverbund_id"""
         self._anwenderverbund_id = anwender_id
 
     def get_anwenderId(self):
-        """Auslesen der anwenderverbund_id"""
+        """Auslesen der Anwenderverbund_id"""
         return self._anwenderverbund_id
 
     def __str__(self):
