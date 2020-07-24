@@ -10,20 +10,17 @@ class Mapper(AbstractContextManager, ABC):
         self._cnx = None
 
     def __enter__(self):
-
+        """Landen wir in dem if-Zweig, so haben wir festgestellt, dass der Code in der Cloud abläuft.
+        Die App befindet sich somit im **Production Mode** und zwar im *Standard Environment*. Hierbei handelt es sich
+        also um die Verbindung zwischen Google App Engine und Cloud SQL.
+        Wenn wir im else landen, dann handelt sich offenbar um die Ausführung des Codes in einer lokalen Umgebung,
+        also auf einem Local Development Server. Hierbei stellen wir eine einfache Verbindung zu einer lokal
+        installierten mySQL-Datenbank her."""
         if os.getenv('GAE_ENV', '').startswith('standard'):
-            """Landen wir in diesem Zweig, so haben wir festgestellt, dass der Code in der Cloud abläuft.
-            Die App befindet sich somit im **Production Mode** und zwar im *Standard Environment*.
-            Hierbei handelt es sich also um die Verbindung zwischen Google App Engine und Cloud SQL."""
-
             self._cnx = connector.connect(user='maik', password='maik',
                                           unix_socket='/cloudsql/shoppinglist2020:europe-west3:shoppinglist2020',
                                           database='shoppinglist')
         else:
-            """Wenn wir hier ankommen, dann handelt sich offenbar um die Ausführung des Codes in einer lokalen Umgebung,
-            also auf einem Local Development Server. Hierbei stellen wir eine einfache Verbindung zu einer lokal
-            installierten mySQL-Datenbank her."""
-
             self._cnx = connector.connect(user='root', password='1234',
                                           host='127.0.0.1',
                                           database='shoppinglist')

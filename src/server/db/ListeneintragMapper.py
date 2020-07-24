@@ -11,7 +11,7 @@ class ListeneintragMapper(Mapper):
         super().__init__()
 
     def GetListeneintraegeByEinkaufsliste(self, einkaufsliste):
-        """ Mapper-Methode zum ausgeben aller Listeneinträge, die zu einer Einkaufsliste gehören"""
+        """ Mapper-Methode zum ausgeben aller Listeneinträge, die zu einer Einkaufsliste gehören."""
         cursor = self._cnx.cursor()
         result=[]
         eintraegeauslesen = "SELECT id FROM listeneintrag WHERE einkaufsliste_id={}".format(einkaufsliste.get_id())
@@ -24,14 +24,13 @@ class ListeneintragMapper(Mapper):
                 listeneintrag.set_id(i)
                 result.append(listeneintrag)
 
-
         self._cnx.commit()
         cursor.close()
 
         return result
 
     def insert(self, listeneintrag):
-        """Mapper-Methode zum speichern eines neuen Listeneintrags in der Datenbank
+        """Mapper-Methode zum speichern eines neuen Listeneintrags in der Datenbank.
 
         Beim Aufruf der Methode wird eine zuvor erstellte Instanz der Klasse "Listeneintrag()" übergeben.
         Anschließend wird der Änderungszeitpunkt mittels der set_aenderungs_zeitpunkt-Methode bei der Instanz gesetzt.
@@ -54,10 +53,8 @@ class ListeneintragMapper(Mapper):
 
         for (maxid) in ins:
             if maxid[0] is not None:
-
                 listeneintrag.set_id(maxid[0] + 1)
             else:
-
                 listeneintrag.set_id(1)
 
         template = "INSERT INTO listeneintrag (id, anzahl, aenderungs_zeitpunkt, einkaufsliste_id, einzelhaendler_id, "\
@@ -73,7 +70,7 @@ class ListeneintragMapper(Mapper):
         return listeneintrag
 
     def update(self, listeneintrag):
-        """Mapper-Methode zum aktualisieren eines Listeneintrags in der Datenbank
+        """Mapper-Methode zum aktualisieren eines Listeneintrags in der Datenbank.
 
         Beim Aufruf der Methode wird eine zuvor erstellte Instanz der Klasse "Listeneintrag()" übergeben.
         Zuerst wird der Zeitpunkt festgehalten, wann das Update erfolgt ist.
@@ -95,7 +92,7 @@ class ListeneintragMapper(Mapper):
         cursor.close()
 
     def find_by_id(self, id):
-        """Mapper-Methode zum ausgeben eines Listeneintrags anhand dessen ID
+        """Mapper-Methode zum ausgeben eines Listeneintrags anhand dessen ID.
 
         Beim Aufruf der Methode wird eine ID welche in der Variablen "id" gespeichert ist übergeben und anschließend
         sucht das SQL-Statement das entsprechende Objekt aus der Datenbank.
@@ -133,8 +130,7 @@ class ListeneintragMapper(Mapper):
         return result
 
     def delete(self, listeneintrag):
-        """Mapper-Methode zum löschen eines Listeneintrags aus der Datenbank anhand dessen ID"""
-
+        """Mapper-Methode zum löschen eines Listeneintrags aus der Datenbank anhand dessen ID."""
         cursor = self._cnx.cursor()
 
         statement = "DELETE FROM listeneintrag WHERE id={}".format(listeneintrag.get_id())
@@ -144,7 +140,7 @@ class ListeneintragMapper(Mapper):
         cursor.close()
 
     def find_all_listeneintraege_by_benutzer(self, benutzer):
-        """Mapper-Methode zum ausgeben aller Listeneinträge zu einem Benutzer."""
+        """Mapper-Methode zum ausgeben aller Listeneinträge die zu einem Benutzer gehören."""
         id = benutzer.get_id()
         result = []
         cursor = self._cnx.cursor()
@@ -219,7 +215,7 @@ class ListeneintragMapper(Mapper):
         return result
 
     def delete_by_einkaufsliste(self, einkaufsliste):
-        """ """
+        """Mapper-Methode zum löschen von Listeneintraege die zu einer bestimmten Einkaufsliste gehören."""
         cursor = self._cnx.cursor()
 
         eintraege = "DELETE FROM listeneintrag WHERE einkaufsliste_id={}".format(einkaufsliste.get_id())
@@ -231,7 +227,7 @@ class ListeneintragMapper(Mapper):
         return einkaufsliste
 
     def insert_standardartikel_in_Einkaufsliste(self, einkaufsliste, standardartikelID):
-        """ """
+        """Mapper-Methode zum einfügen/speichern von Standardartikeln in eine Einkaufsliste."""
         neueID = None
         cursor = self._cnx.cursor()
 
@@ -259,7 +255,8 @@ class ListeneintragMapper(Mapper):
         cursor.close()
 
     def get_all_listeneintraege_by_benutzer(self, benutzer):
-        """ """
+        """Mapper-Methode zum ausgeben aller Listeneinträge aus der Datenbank,
+        welche zu einem bestimmten Benutzer gehören und den Status erledigt haben."""
         cursor = self._cnx.cursor()
 
         template = "SELECT artikel_id FROM listeneintrag " + "WHERE benutzer_id=%s AND erledigt=%s"
@@ -272,7 +269,8 @@ class ListeneintragMapper(Mapper):
         return artikel
 
     def get_all_listeneintraege_by_Einzelhaendler(self, benutzer, einzelhaendler):
-        """ """
+        """Mapper-Methode zum ausgeben aller Listeneinträge aus der Datenbank,
+        welche zu einem bestimmten Benutzer und Einzelhaendler gehören und den Status erledigt haben."""
         cursor = self._cnx.cursor()
 
         template = "SELECT artikel_id FROM listeneintrag " + "WHERE einzelhaendler_id=%s AND benutzer_id=%s " \
@@ -286,7 +284,8 @@ class ListeneintragMapper(Mapper):
         return artikel
 
     def get_all_listeneintraege_by_Datum(self, benutzer):
-        """ """
+        """Mapper-Methode zum ausgeben aller Listeneinträge mit Datum aus der Datenbank,
+        welche zu einem bestimmten Benutzer gehören und den Status erledigt haben."""
         eintraege = []
         cursor = self._cnx.cursor()
 
@@ -308,7 +307,8 @@ class ListeneintragMapper(Mapper):
         return eintraege
 
     def get_all_listeneintraege_by_Einzelhaendler_Datum(self, benutzer, einzelhaendler):
-        """ """
+        """Mapper-Methode zum ausgeben aller Listeneinträge mit Datum aus der Datenbank,
+        welche zu einem bestimmten Benutzer und Einzelhaendler gehören und den Status erledigt haben."""
         eintraege = []
         cursor = self._cnx.cursor()
 
