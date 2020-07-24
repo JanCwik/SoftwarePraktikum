@@ -7,11 +7,11 @@ class Einzelhaendler(NamedBO):
         self._benutzer_id = 0
 
     def set_benutzer_id(self, benutzer_id):
-        """Setzen der benutzer_id"""
+        """Setzen der Benutzer_id"""
         self._benutzer_id = benutzer_id
 
     def get_benutzer_id(self):
-        """Auslesen der benutzer_id"""
+        """Auslesen der Benutzer_id"""
         return self._benutzer_id
 
     def __str__(self):
