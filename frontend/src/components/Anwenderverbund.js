@@ -202,7 +202,7 @@ class Anwenderverbund extends Component {
 
           filteredAnwenderverbund.map(anwenderverbund =>
             <AnwenderverbundListenEintrag key={anwenderverbund.getID()} anwenderverbund={anwenderverbund} expandedState={expandedAnwenderverbundID === anwenderverbund.getID()}
-              onExpandedStateChange={this.onExpandedStateChange}  newBenutzerFromNewAnwenderverbund={this.state.newBenutzerFromNewAnwenderverbund}
+              onExpandedStateChange={this.onExpandedStateChange}  newBenutzerFromNewAnwenderverbund={newBenutzerFromNewAnwenderverbund}
               onAnwenderverbundDeleted={this.anwenderverbundDeleted}
             />)
         }
