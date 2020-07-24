@@ -5,12 +5,12 @@ import { withStyles, LinearProgress } from '@material-ui/core';
 /**
  * Zeigt einen Ladefortschritt, wenn show prop true ist.
  */
+
 class LoadingProgress extends Component {
 
   /** Rendert den Komponenten */
   render() {
     const { classes, show } = this.props;
-
     return (
       show ?
         <div className={classes.root}>

@@ -10,6 +10,7 @@ import StatistikListenEintrag from "./StatistikListenEintrag";
  * Kontrolliert eine Liste von StatistikListenEintraegen um ein StatistikListenEintraegen-Component für jede
  * Statistik-instanz zu erstellen.
  */
+
 class Statistik extends Component {
 
   constructor(props) {
@@ -121,7 +122,6 @@ class Statistik extends Component {
       loadingInProgress: true,
       error: null
     });}
-
 
   /** Fetchet alle StatistikBos des Benutzers für einen bestimmten Einzelhändler und einen bestimmten Zeitraum aus dem Backend */
   byEinzelhaendlerUndZeitraum=()=>{
