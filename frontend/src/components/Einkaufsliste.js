@@ -105,11 +105,11 @@ class Einkaufsliste extends Component {
     return (
       <div className={classes.root}>
           <Grid container spacing={1} justify='flex-start' alignItems='center' >
-                 <Grid item >
-                      <h2>
-                         {this.props.location.einkaufsliste.getName()}
-                     </h2>
-                 </Grid>
+             <Grid item >
+                  <h2 style={{fontFamily: "Arial, Helvetica, sans-serif"}} >
+                     {this.props.location.einkaufsliste.getName()}
+                 </h2>
+             </Grid>
           <Grid item xs />
           <Grid item>
             <Grid item>
