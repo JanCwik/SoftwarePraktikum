@@ -222,24 +222,25 @@ class Statistik extends Component {
 
 /** Komponentenspezifisches Styling */
 const styles = theme => ({
-  root: {
-    width: '100%',
-  },
+    root: {
+        width: '100%',
+    },
 
-  eingabe: {
-    marginTop: theme.spacing(2),
-    marginBottom: theme.spacing(1),
-    marginLeft : theme.spacing(10)
-  },
+    eingabe: {
+        marginTop: theme.spacing(2),
+        marginBottom: theme.spacing(1),
+        marginLeft: theme.spacing(10)
+    },
 
-  Top:{
-    marginTop: theme.spacing(7),
-  },
+    Top: {
+        marginTop: theme.spacing(7),
+    },
 
-   buttons:{
-       border: 'solid',
-       borderWidth: 1,
-       marginTop: 10,
+    buttons: {
+        border: 'solid',
+        borderWidth: 1,
+        marginTop: 10,
+    }
 });
 
 /** PropTypes */

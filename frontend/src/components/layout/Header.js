@@ -9,18 +9,20 @@ import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
 import BarChartIcon from '@material-ui/icons/BarChart';
 import ProfileDropDown from '../dialogs/ProfileDropDown';
 
+/** Erstellt den Kopfbereich und die Navigation für die SharedShoppingList */
+
 class Header extends Component {
 
   constructor(props) {
     super(props);
 
-    // Init an empty state
+    // Init ein leeres state
     this.state = {
       tabindex: 0
     };
   }
 
-  /** Handles onChange events of the Tabs component */
+  /** Behandelt das onChange Event von den Tabs */
   handleTabChange = (e, newIndex) => {
     // console.log(newValue)
     this.setState({
@@ -28,13 +30,10 @@ class Header extends Component {
     })
   };
 
-  /** Renders the component */
+  /** Rendert die Komponente */
   render() {
    const { user } = this.props;
-
     return (
-      //<Router>
-
         <Paper variant='outlined'>
         <ProfileDropDown user={user} />
         <Typography variant='h3' component='h1' align='center'>
@@ -43,10 +42,8 @@ class Header extends Component {
         <Typography variant='h4' component='h2' align='center'>
           Meine Einkäufe
         </Typography>
-
          {
           user ?
-
             <Tabs indicatorColor='primary' textColor='primary' centered value={this.state.tabindex} onChange={this.handleTabChange} >
               <Tab icon ={<ListAltIcon/>} label='Einkaufslisten' component={RouterLink} to={`/alleEinkaufslisten`} />
               <Tab icon ={<FastfoodIcon/>} label='Artikel' component={RouterLink} to={`/artikel`} />
@@ -55,19 +52,15 @@ class Header extends Component {
               <Tab icon ={<BarChartIcon/>} label='Statistik' href="http://localhost:3000/"  target="_blank" />
             </Tabs>                                                                                                        // bei href muss die URL hin, auf der die Statistik läuft
              : null
-
         }
-
-
         </Paper>
-        //</Router>
     )
   }
 }
 
 /** PropTypes */
 Header.propTypes = {
-  /** The logged in firesbase user */
+  /** Der eingeloggte Firebase User */
   user: PropTypes.object,
 }
 
