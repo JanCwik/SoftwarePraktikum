@@ -56,9 +56,9 @@ class Einkaufsliste extends Component {
     this.getListeneintraege();
   }
 
+  /** läd die Listeneinträge nach jedem add und update Listeneintrag neu damit die Einkaufsliste automatisch nach Einzelhändlern gruppiert wird*/
   reload=()=>{
-      this.getListeneintraege();
-
+     this.getListeneintraege();
   }
 
   /**

@@ -83,9 +83,11 @@ class AlleEinkaufslisten extends Component{
 const styles = theme => ({
   root: {
     width: '100%',
+    marginLeft: theme.spacing(2)
   },
     margins: {
-    marginTop: theme.spacing(5)
+    marginTop: theme.spacing(5),
+
   }
 });
 

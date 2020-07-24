@@ -60,14 +60,14 @@ class AnwenderverbundLoeschen extends Component {
     return (
       show ?
         <Dialog open={show} onClose={this.handleClose}>
-          <DialogTitle id='delete-dialog-title'>Delete anwenderverbund
+          <DialogTitle id='delete-dialog-title'>Anwenderverbund löschen
             <IconButton className={classes.closeButton} onClick={this.handleClose}>
               <CloseIcon />
             </IconButton>
           </DialogTitle>
           <DialogContent>
             <DialogContentText>
-              Wirklich den Anwenderverbund '{anwenderverbund.getName()}' (ID: {anwenderverbund.getID()}) löschen?
+              Wollen Sie wirklich den Anwenderverbund '{anwenderverbund.getName()}' (ID: {anwenderverbund.getID()}) für alle Mitglieder löschen?  Wenn Sie einen Anwenderverbund löschen werden dazugehörige Einkaufslistenen und Listeneinträge auch aus der Einkaufsstatistik gelöscht.
             </DialogContentText>
             <LoadingProgress show={deletingInProgress} />
             <ContextErrorMessage error={deletingError} contextErrorMsg={`Der Anwenderverbund '${anwenderverbund.getName()}' (ID: ${anwenderverbund.getID()}) konnte nicht gelöscht werden.`}

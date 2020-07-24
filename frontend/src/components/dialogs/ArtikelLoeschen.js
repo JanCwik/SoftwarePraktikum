@@ -60,14 +60,14 @@ class ArtikelLoeschen extends Component {
     return (
       show ?
         <Dialog open={show} onClose={this.handleClose}>
-          <DialogTitle id='delete-dialog-title'>Delete artikel
+          <DialogTitle id='delete-dialog-title'>Artikel löschen
             <IconButton className={classes.closeButton} onClick={this.handleClose}>
               <CloseIcon />
             </IconButton>
           </DialogTitle>
           <DialogContent>
             <DialogContentText>
-              Wirklich den Artikel '{artikel.getName()}' (ID: {artikel.getID()}) löschen?
+              Wollen Sie wirklich den Artikel '{artikel.getName()}' (ID: {artikel.getID()}) löschen? Wenn Sie einen Artikel löschen wird er auch aus Ihrer Einkaufsstatistik gelöscht.
             </DialogContentText>
             <LoadingProgress show={deletingInProgress} />
             <ContextErrorMessage error={deletingError} contextErrorMsg={`Der Artikel '${artikel.getName()}' (ID: ${artikel.getID()}) konnte nicht gelöscht werden.`}
