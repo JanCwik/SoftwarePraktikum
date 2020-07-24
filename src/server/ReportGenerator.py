@@ -67,21 +67,21 @@ class ReportGenerator(object):
 
         result = []
 
-        for i in range(len(instanzen)):
-            if x < 5:
-                highest = instanzen[0]
-                for obj in instanzen:
-                    if obj.get_anzahl() > highest.get_anzahl():
-                        highest = obj
+        if len(instanzen) != 0:  # Bubblesort
+            n = len(instanzen)
+            for passes_left in range(n - 1, 0, -1):
+                for i in range(passes_left):
+                    if instanzen[i].get_anzahl() > instanzen[i + 1].get_anzahl():
+                        instanzen[i], instanzen[i + 1] = instanzen[i + 1], instanzen[i]
 
-                result.append(highest)
-                instanzen.remove(highest)
-                x += 1
+        for i in range(4):
+            result.append(instanzen[i])                 #nur die ersten 5 elemente
+
         return result
 
     def top_artikel_by_zeitraum(self, benutzer, startzeitpunkt, endzeitpunkt):
         """ Methode um alle Artikel zu einem bestimmten Benutzer heraus zubekommen, welche in dem angegebenen Zeitraum
-        liegen und dann nach den 5 Artikeln die die größte Anzahl haben schauen und diese zurückgeben"""
+        liegen und dann nach den 5 Artikeln die die größte Anzahl haben schauen und diese zurückgeben """
         instanzen = []
         alle = []
         result = []
@@ -104,16 +104,15 @@ class ReportGenerator(object):
             instanz.set_anzahl(a.get(i))
             instanzen.append(instanz)
 
-        for i in range(len(instanzen)):
-            if x < 5:
-                highest = instanzen[0]
-                for obj in instanzen:
-                    if obj.get_anzahl() > highest.get_anzahl():
-                        highest = obj
+        if len(instanzen) != 0:                       # Bubblesort
+            n = len(instanzen)
+            for passes_left in range(n - 1, 0, -1):
+                for i in range(passes_left):
+                    if instanzen[i].get_anzahl() > instanzen[i + 1].get_anzahl():
+                        instanzen[i], instanzen[i + 1] = instanzen[i + 1], instanzen[i]
 
-                result.append(highest)
-                instanzen.remove(highest)
-                x += 1
+        for i in range(4):
+            result.append(instanzen[i])                 # nur die ersten 5 elemente
         return result
 
     def top_artikel_by_Einzelhaendler_zeitraum(self, benutzer, einzelhaendler, startzeitpunkt, endzeitpunkt):
@@ -142,14 +141,13 @@ class ReportGenerator(object):
             instanz.set_anzahl(a.get(i))
             instanzen.append(instanz)
 
-        for i in range(len(instanzen)):
-            if x < 5:
-                highest = instanzen[0]
-                for obj in instanzen:
-                    if obj.get_anzahl() > highest.get_anzahl():
-                        highest = obj
+        if len(instanzen) != 0:        # Bubblesort
+            n = len(instanzen)
+            for passes_left in range(n - 1, 0, -1):
+                for i in range(passes_left):
+                    if instanzen[i].get_anzahl() > instanzen[i + 1].get_anzahl():
+                        instanzen[i], instanzen[i + 1] = instanzen[i + 1], instanzen[i]
 
-                result.append(highest)
-                instanzen.remove(highest)
-                x += 1
+        for i in range(4):
+            result.append(instanzen[i])                # nur die ersten 5 elemente
         return result

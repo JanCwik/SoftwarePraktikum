@@ -65,7 +65,7 @@ class BenutzerListenEintrag extends Component {
 
   /** Rendert den Komponent */
   render() {
-    const { classes, anwenderverbund } = this.props;
+    const { classes, anwenderverbund, userMail } = this.props;
     const { benutzer, showBenutzerDeleteDialog } = this.state;
     return (
       <div>
@@ -77,10 +77,12 @@ class BenutzerListenEintrag extends Component {
               </Grid>
               <Grid item>
                 <ButtonGroup variant='text' size='small'>
-
-                  <Button color='secondary' startIcon={<DeleteIcon />} onClick={this.deleteBenutzerButtonClicked}>
-                    löschen
-                  </Button>
+                  {benutzer.getEMail() === userMail?
+                    <Button color='secondary' startIcon={<DeleteIcon/>} onClick={this.deleteBenutzerButtonClicked}>
+                      verlassen
+                    </Button>
+                      : null
+                  }
                 </ButtonGroup>
               </Grid>
               <Grid item xs />
