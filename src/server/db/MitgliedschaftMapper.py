@@ -7,7 +7,7 @@ class MitgliedschaftMapper(Mapper):
         super().__init__()
 
     def deleteByAnwenderverbund(self, anwenderverbund):
-        """ Mapper-Methode zum löschen eines Anwenderverbunds aus der Datenbank.
+        """ Mapper-Methode zum löschen einer Mitgliedschaft aus der Datenbank.
 
         Beim Aufruf der Methode wird eine zuvor erstellte Instanz der Klasse "Anwenderverbund()" übergeben.
         Dann erfolgt ein SQL-Statement welches die Tabelle mitgliedschaft bereinigt, indem alle Einträge gelöscht
@@ -22,7 +22,7 @@ class MitgliedschaftMapper(Mapper):
         cursor.close()
 
     def benutzer_hinzufuegen(self, anwenderverbund, benutzer):
-        """ Mapper-Methode zum hinzufügen eines Benutzers in eine Mitgliedschaft.
+        """ Mapper-Methode zum anlegen einer Mitgliedschaft.
 
         Beim Aufrufen der Methode wird eine Instanz der Klasse "Anwenderverbund()" und "Benutzer()" übergeben.
         Dann wird ein entsprechender Eintrag in der Tabelle Mitgliedschaft hinzugefügt."""
@@ -36,7 +36,7 @@ class MitgliedschaftMapper(Mapper):
         cursor.close()
 
     def benutzer_loeschen(self, anwenderverbund, benutzer):
-        """ Mapper-Methode zum löschen eines Benutzers aus einer Mitgliedschaft.
+        """ Mapper-Methode zum löschen einer Mitgliedschaft.
 
         Beim Aufrufen der Methode wird eine Instanz der Klasse "Anwenderverbund()" und "Benutzer()" übergeben.
         Dann wird der entsprechende Eintrag in der Tabelle Mitgliedschaft gelöscht."""
@@ -66,16 +66,6 @@ class MitgliedschaftMapper(Mapper):
         cursor.close()
 
         return result
-
-    def deleteByBenutzer(self, benutzer):
-        """Mapper-Methode zum löschen einer Mitgliedschaft eines Benutzers."""
-        cursor = self._cnx.cursor()
-
-        mitgliedschaftloeschen = "DELETE FROM mitgliedschaft WHERE benutzer_id={}".format(benutzer.get_id())
-        cursor.execute(mitgliedschaftloeschen)
-
-        self._cnx.commit()
-        cursor.close()
 
     def alle_anwenderverbunde_ausgeben(self, benutzer):
         """Mapper-Methode zum ausgeben aller Anwenderverbunde bei denen der Benutzer ein Mitglied ist.

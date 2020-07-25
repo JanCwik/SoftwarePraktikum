@@ -141,34 +141,6 @@ class ListeneintragMapper(Mapper):
         self._cnx.commit()
         cursor.close()
 
-    def find_all_listeneintraege_by_benutzer(self, benutzer):
-        """Mapper-Methode zum ausgeben aller Listeneinträge die zu einem Benutzer gehören."""
-        id = benutzer.get_id()
-        result = []
-        cursor = self._cnx.cursor()
-        cursor.execute("SELECT id, anzahl, aenderungs_zeitpunkt, einkaufsliste_id, einzelhaendler_id, artikel_id, "
-                       "benutzer_id, erledigt FROM listeneintrag WHERE benutzer_id={}".format(id))
-        res = cursor.fetchall()
-
-        for(id, anzahl, aenderungs_zeitpunkt, einkaufsliste_id, einzelhaendler_id, artikel_id, benutzer_id, erledigt) \
-                in res:
-
-            listeneintrag = Listeneintrag()
-            listeneintrag.set_id(id)
-            listeneintrag.set_anzahl(anzahl)
-            listeneintrag.set_aenderungs_zeitpunkt(aenderungs_zeitpunkt)
-            listeneintrag.set_einkaufslisteId(einkaufsliste_id)
-            listeneintrag.set_einzelhaendlerId(einzelhaendler_id)
-            listeneintrag.set_artikelId(artikel_id)
-            listeneintrag.set_benutzerId(benutzer_id)
-            listeneintrag.set_erledigt(erledigt)
-            result.append(listeneintrag)
-
-        self._cnx.commit()
-        cursor.close()
-
-        return result
-
     def find_all_listeneintraege_by_einkaufsliste(self, einkaufsliste):
         """Mapper-Methode zum ausgeben aller Listeneinträge zu einer Einkaufsliste.
 
@@ -218,7 +190,7 @@ class ListeneintragMapper(Mapper):
         return einkaufsliste
 
     def delete_by_artikel(self, artikel):
-        """Mapper-Methode zum löschen von Listeneintraege die zu einer bestimmten Einkaufsliste gehören."""
+        """Mapper-Methode zum löschen von Listeneintraege mit einem bestimmten Artikel."""
         cursor = self._cnx.cursor()
 
         eintraege = "DELETE FROM listeneintrag WHERE artikel_id={}".format(artikel.get_id())
@@ -230,7 +202,7 @@ class ListeneintragMapper(Mapper):
 
 
     def delete_by_einzelhaendler(self, einzelhaendler):
-        """Mapper-Methode zum löschen von Listeneintraege die zu einer bestimmten Einkaufsliste gehören."""
+        """Mapper-Methode zum löschen von Listeneintraege mit einem bestimmten Einzelhaendler."""
         cursor = self._cnx.cursor()
 
         eintraege = "DELETE FROM listeneintrag WHERE einzelhaendler_id={}".format(einzelhaendler.get_id())

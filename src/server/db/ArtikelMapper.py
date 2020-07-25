@@ -175,6 +175,9 @@ class ArtikelMapper(Mapper):
         cursor.execute(temp, vals)
         tuples = cursor.fetchall()
 
+        self._cnx.commit()
+        cursor.close()
+
         return tuples
 
     def get_artikelname_for_listeneintrag(self, eintraege):

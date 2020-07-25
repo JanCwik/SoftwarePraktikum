@@ -7,35 +7,6 @@ class BenutzerMapper(Mapper):
     def __init__(self):
         super().__init__()
 
-    def find_all(self):
-        """ Mapper-Methode zum ausgeben aller Benutzer aus der Datenbank.
-
-        Hier werden via SQL-Abfrage alle Benutzer aus der Datenbank ausgegeben.
-        Anschließend werden aus den Zeilen der Datenbank (welche ein Objekt mit dessen Attributen darstellen)
-        mit der fetchall-Methode Tupel erstellt.
-
-        Mittels For-Schleife werden die einzelnen Attribute aus einem Tupel gezogen und einer neuen Instanz der
-        Klasse "Benutzer()" übergeben. Die einzelnen Instanzen werden in einem Array gespeichert.
-        Das Array mit allen Instanzen wird schließlich zurückgegeben."""
-        result = []
-        cursor = self._cnx.cursor()
-        cursor.execute("SELECT id, name, erstellungs_zeitpunkt, email, google_id FROM benutzer")
-        res = cursor.fetchall()
-
-        for (id, name, erstellungs_zeitpunkt, email, google_id) in res:
-            benutzer = Benutzer()
-            benutzer.set_id(id)
-            benutzer.set_name(name)
-            benutzer.set_erstellungs_zeitpunkt(erstellungs_zeitpunkt)
-            benutzer.set_email(email)
-            benutzer.set_google_id(google_id)
-            result.append(benutzer)
-
-        self._cnx.commit()
-        cursor.close()
-
-        return result
-
     def insert(self, benutzer):
         """ Mapper-Methode zum speichern eines neuen Benutzers in der Datenbank.
 
@@ -86,20 +57,6 @@ class BenutzerMapper(Mapper):
         self._cnx.commit()
         cursor.close()
 
-    def delete(self, benutzer):
-        """ Mapper-Methode zum löschen eines Benutzers aus der Datenbank.
-
-        Beim Aufruf Methode wird eine zuvor erstellte Instanz der Klasse "Benutzer()" übergeben.
-        Dann erfolgt ein SQL-Statement welches das Objekt aus der Datenbank löscht.
-        Mittels der getter-Methode, welche zuvor in der entsprechenden Business-Object-Klasse definierten wurde,
-        wird die entsprechende ID der Instanz an das SQL-Statement übergeben."""
-        cursor = self._cnx.cursor()
-
-        template = "DELETE FROM benutzer WHERE id={}".format(benutzer.get_id())
-        cursor.execute(template)
-
-        self._cnx.commit()
-        cursor.close()
 
     def find_by_id(self, id):
         """ Mapper-Methode zum ausgeben eines Benutzers anhand dessen ID.

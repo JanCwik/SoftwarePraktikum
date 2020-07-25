@@ -102,33 +102,3 @@ class AnwenderverbundMapper(Mapper):
 
         return result
 
-    def find_by_name(self, name):
-        """ Mapper-Methode zum ausgeben eines Anwenderverbunds anhand dessen Name.
-
-        Beim Aufruf der Methode wird ein Name in der Variablen "name" gespeichert, welche schließlich an das
-        SQL-Statement übergeben wird.
-        Das entsprechende Objekt, welches aus der Datenbank ausgegeben wird, wird in einem Tupel gespeichert.
-        Anschließend werden die einzelnen Attribute aus dem Tupel an der Stelle 0 genommen und an eine neue
-        Anwenderverbund-Instanz via den Setter-Methoden übergeben.
-        Sollte die Datenbank anhand des Namens kein Objekt zurückliefern, wird ausgegeben was innerhalb des
-        IndexErrors steht --> None. Das Ergebnis wir schließlich von der Mehtode zurückgegeben."""
-        cursor = self._cnx.cursor()
-        statement = "SELECT id, name, erstellungs_zeitpunkt FROM anwenderverbund WHERE name LIKE '{}' ORDER BY name"\
-            .format(name)
-        cursor.execute(statement)
-        verbund = cursor.fetchall()
-
-        try:
-            (id, name, erstellungs_zeitpunkt) = verbund[0]
-            anwenderverbund = Anwenderverbund()
-            anwenderverbund.set_id(id)
-            anwenderverbund.set_name(name)
-            anwenderverbund.set_erstellungs_zeitpunkt(erstellungs_zeitpunkt)
-            result = anwenderverbund
-        except IndexError:
-            result = None
-
-        self._cnx.commit()
-        cursor.close()
-
-        return result

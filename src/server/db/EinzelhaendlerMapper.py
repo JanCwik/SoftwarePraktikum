@@ -8,7 +8,7 @@ class EinzelhaendlerMapper(Mapper):
         super().__init__()
 
     def find_all(self, benutzer):
-        """Mapper-Methode zum ausgeben aller Einzelhändler aus der Datenbank
+        """Mapper-Methode zum ausgeben aller Einzelhändler eines Benutzers aus der Datenbank
 
         Hier werden via SQL-Abfrage alle Einzelhändler aus der Datenbank ausgegeben.
         Die Einzelhändler-Objekte werden anschließend von der fetchall()-Methode als Tupel zurückgegeben.
@@ -166,9 +166,9 @@ class EinzelhaendlerMapper(Mapper):
         return result
 
     def get_einzelhaendlername_for_listeneintrag(self, eintraege):
-        """Mapper-Methode zum ausgeben der Namen aller Einzelhaendler aus der Datenbank,
+        """Mapper-Methode zum ausgeben des Namen eines Einzelhaendlers aus der Datenbank anhand eines ListeneintragBOs
 
-        welche zu einem bestimmten Listeneintrag gehören.
+
         fetchall() gibt das Ergebnis in einem Tuple in einer Liste zurück z.B. deshalb wird zwei mal der Wert an der
         ersten Stelle der Liste bzw. des tubles in einer neuen variable gespeichert und weitergegeben, bis schließlich
         nur noch der gesuchte Wert übergeben werden kann"""
