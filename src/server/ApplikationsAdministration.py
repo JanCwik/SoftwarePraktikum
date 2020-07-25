@@ -20,11 +20,6 @@ class ApplikationsAdministration(object):
         with ArtikelMapper() as mapper:
             return mapper.insert(artikel)
 
-    def get_all_artikel(self):
-        """Methode zum ausgeben aller Artikel aus der Datenbank"""
-        with ArtikelMapper() as mapper:
-            return mapper.find_all()
-
     def delete_artikel(self, artikel):
         """Methode zum löschen eines Artikels aus der Datenbank
 
@@ -160,11 +155,6 @@ class ApplikationsAdministration(object):
         with AnwenderverbundMapper() as mapper:
             return mapper.insert(anwenderverbund)
 
-    def get_all_anwenderverbunde(self):
-        """Methode zum ausgeben aller Anwenderverbunde aus der Datenbank"""
-        with AnwenderverbundMapper() as mapper:
-            return mapper.find_all()
-
     def delete_anwenderverbund(self, anwenderverbund):
         """Methode zum löschen eines Anwenderverbunds aus der Datenbank
 
@@ -196,11 +186,6 @@ class ApplikationsAdministration(object):
         with AnwenderverbundMapper() as mapper:
             return mapper.find_by_id(id)
 
-    def get_anwenderverbund_by_name(self, name):
-        """Methode zum ausgeben eines Anwenderverbunds aus der Datenbank anhand dessen Name"""
-        with AnwenderverbundMapper() as mapper:
-            return mapper.find_by_name(name)
-
     def update_anwenderverbund(self, anwenderverbund):
         """Methode zum aktualisieren eines Anwenderverbunds in der Datenbank"""
         with AnwenderverbundMapper() as mapper:
@@ -225,11 +210,6 @@ class ApplikationsAdministration(object):
         """Methode zum entfernen einzelner Mitglieder aus einem Anwenderverbund"""
         with MitgliedschaftMapper() as mapper:
             return mapper.benutzer_loeschen(anwenderverbund, benutzer)
-
-    def get_all_einkaufslisten(self):
-        """ Methode zum ausgeben aller Einkaufslisten aus der Datenbank"""
-        with EinkaufslistenMapper() as mapper:
-            return mapper.find_all_einkaufslisten()
 
     def einkaufsliste_anlegen(self, liste, benutzer):
         """Methode zum Anlegen einer neuen Einkaufsliste in der Datenbank

@@ -7,34 +7,6 @@ class ArtikelMapper(Mapper):
     def __init__(self):
         super().__init__()
 
-    def find_all(self):
-        """Mapper-Methode zum ausgeben aller Artikel aus der Datenbank
-
-        Hier werden via SQL-Abfrage alle Artikel aus der Datenbank ausgegeben.
-        Die Artikel-Objekte werden anschließend von der fetchall()-Methode als Tupel zurückgegeben.
-        Mittels einer For-Schleife werden die einzelnen Attribute aus einem Tupel gezogen und einer neuen Instanz der
-        Klasse "Artikel()" übergeben. Die einzelnen Instanzen werden in einem Array gespeichert.
-        Das Array mit allen Instanzen wird schließlich zurückgegeben."""
-        result = []
-        cursor = self._cnx.cursor()
-        cursor.execute("SELECT id, name, erstellungs_zeitpunkt, einheit, standardartikel, benutzer_id FROM artikel")
-        res = cursor.fetchall()
-
-        for (id, name, erstellungs_zeitpunkt, einheit, standardartikel, benutzer_id) in res:
-            artikel = Artikel()
-            artikel.set_id(id)
-            artikel.set_name(name)
-            artikel.set_standardartikel(standardartikel)
-            artikel.set_einheit(einheit)
-            artikel.set_erstellungs_zeitpunkt(erstellungs_zeitpunkt)
-            artikel.set_benutzer_id(benutzer_id)
-            result.append(artikel)
-
-        self._cnx.commit()
-        cursor.close()
-
-        return result
-
     def insert(self, artikel):
         """ Mapper-Methode zum speichern eines neuen Artikels in der Datenbank.
 

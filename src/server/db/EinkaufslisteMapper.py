@@ -45,37 +45,6 @@ class EinkaufslistenMapper(Mapper):
 
         return einkaufsliste
 
-    def find_all_einkaufslisten(self):
-        """ Mapper-Methode zum ausgeben aller Einkaufslisten aus der Datenbank.
-
-        Hier werden via SQL-Abfrage alle Einkaufslisten aus der Datenbank ausgegeben.
-        Anschließend werden aus den Zeilen der Datenbank (welche ein Objekt mit dessen Attributen darstellen)
-        mit der fetchall-Methode Tupel erstellt.
-
-        Mittels For-Schleife werden die einzelnen Attribute aus einem Tupel gezogen und einer neuen Instanz der
-        Klasse "Einkaufsliste()" übergeben. Die einzelnen Instanzen werden in einem Array gespeichert.
-        Das Array mit allen Instanzen wird schließlich zurückgegeben."""
-
-        result = []
-        cursor = self._cnx.cursor()
-        cursor.execute("SELECT id, name, erstellungs_zeitpunkt, aenderungs_zeitpunkt, anwenderverbund_id "
-                       "FROM einkaufsliste ")
-        res = cursor.fetchall()
-
-        for (id, name, erstellungs_zeitpunkt, aenderungs_zeitpunkt, anwenderverbund_id) in res:
-            einkaufsliste = Einkaufsliste()
-            einkaufsliste.set_id(id)
-            einkaufsliste.set_name(name)
-            einkaufsliste.set_erstellungs_zeitpunkt(erstellungs_zeitpunkt)
-            einkaufsliste.set_aenderungs_zeitpunkt(aenderungs_zeitpunkt)
-            einkaufsliste.set_anwenderId(anwenderverbund_id)
-            result.append(einkaufsliste)
-
-        self._cnx.commit()
-        cursor.close()
-
-        return result
-
     def update(self, einkaufsliste):
         """ Mapper-Methode zum aktualisieren (des Namens) einer Einkaufsliste in der Datenbank.
 

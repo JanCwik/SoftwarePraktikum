@@ -7,31 +7,6 @@ class AnwenderverbundMapper(Mapper):
     def __init__(self):
         super().__init__()
 
-    def find_all(self):
-        """Mapper-Methode zum ausgeben aller Anwenderverbunde aus der Datenbank
-
-        Hier werden via SQL-Abfrage alle Anwenderverbunde aus der Datenbank ausgegeben.
-        Die Anwenderverbund-Objekte werden anschließend von der fetchall()-Methode als Tupel zurückgegeben.
-        Mittels einer For-Schleife werden die einzelnen Attribute aus einem Tupel gezogen und einer neuen Instanz der
-        Klasse "Anwenderverbund()" übergeben. Die einzelnen Instanzen werden in einem Array gespeichert.
-        Das Array mit allen Instanzen wird schließlich zurückgegeben."""
-        result = []
-        cursor = self._cnx.cursor()
-        cursor.execute("SELECT id, name, erstellungs_zeitpunkt FROM anwenderverbund")
-        verbunde = cursor.fetchall()
-
-        for (id, name, erstellungs_zeitpunkt) in verbunde:
-            anwenderverbund = Anwenderverbund()
-            anwenderverbund.set_id(id)
-            anwenderverbund.set_name(name)
-            anwenderverbund.set_erstellungs_zeitpunkt(erstellungs_zeitpunkt)
-            result.append(anwenderverbund)
-
-        self._cnx.commit()
-        cursor.close()
-
-        return result
-
     def insert(self, anwenderverbund):
         """ Mapper-Methode zum speichern eines neuen Anwenderverbunds in der Datenbank.
 
