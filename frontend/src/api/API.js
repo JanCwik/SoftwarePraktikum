@@ -22,7 +22,6 @@ export default class API {
     //ServerBaseURL= process.env.NODE_ENV ==='production'?'https://backend-dot-shoppinglist2020.ey.r.appspot.com/shopping':'/shopping'
     #ServerBaseURL= '/shopping';
     //private Methoden um das Angeben aller URLs zu erleichtern
-    #getArtikelURL = () => `${this.#ServerBaseURL}/artikel`;
     #addArtikelURL = () => `${this.#ServerBaseURL}/artikel`;
     #deleteArtikelURL = (id) => `${this.#ServerBaseURL}/artikel-by-id/${id}`;
     #updateArtikelURL = (id) => `${this.#ServerBaseURL}/artikel-by-id/${id}`;
@@ -35,19 +34,16 @@ export default class API {
     #updateEinzelhaendlerURL = (id) => `${this.#ServerBaseURL}/einzelhaendler-by-id/${id}`;
     #getEinzelhaendlerByNameURL= (name) => `${this.#ServerBaseURL}/einzelhaendler-by-name/${name}`;
 
-    #getAnwenderverbuendeURL = () => `${this.#ServerBaseURL}/anwenderverbund`;
     #addAnwenderverbundURL = () => `${this.#ServerBaseURL}/anwenderverbund`;
     #deleteAnwenderverbundURL = (id) => `${this.#ServerBaseURL}/anwenderverbund-by-id/${id}`;
     #updateAnwenderverbundURL = (id) => `${this.#ServerBaseURL}/anwenderverbund-by-id/${id}`;
     #getAnwenderverbuendeByBenutzerURL = (userMail) => `${this.#ServerBaseURL}/benutzer/${userMail}/anwenderverbuende`;
 
-    #getEinkaufslistenURL = () => `${this.#ServerBaseURL}/einkaufsliste`
     #addEinkaufslisteURL = (email) => `${this.#ServerBaseURL}/einkaufsliste/${email}`;
     #getEinkaufslistenByAnwenderverbundURL = (id) => `${this.#ServerBaseURL}/anwenderverbund/${id}/einkauflisten`;
     #deleteEinkaufslisteURL = (id) => `${this.#ServerBaseURL}/einkaufsliste-by-id/${id}`;
     #updateEinkaufslisteURL = (id) => `${this.#ServerBaseURL}/einkaufsliste-by-id/${id}`;
 
-    #getListeneintragByIdURL = (id) => `${this.#ServerBaseURL}/listeneintrag-by-id/${id}`;
     #getListeneintragByEinkaufslisteURL = (id) => `${this.#ServerBaseURL}/einkaufsliste/${id}/listeneintraege`;
     #addListeneintragURL = () => `${this.#ServerBaseURL}/listeneintrag`;
     #deleteListeneintragURL = (id) => `${this.#ServerBaseURL}/listeneintrag-by-id/${id}`;
@@ -90,16 +86,6 @@ export default class API {
                     resolve(response);
                 })
             })
-    }
-
-    /** Methode die den GET request ausführt und alle in der Datenbank gespeicherten Artikel ausgibt. */
-    getArtikelAPI() {
-        return this.#fetchAdvanced(this.#getArtikelURL()).then((responseJSON) => {
-            let artikel = ArtikelBO.fromJSON(responseJSON);
-            return new Promise(function (resolve) {
-                resolve(artikel);
-            })
-        })
     }
 
     /** Führt einen POST Request aus und schreibt dabei das als Parameter übergebene
@@ -225,16 +211,6 @@ export default class API {
         })
     }
 
-    /** Methode die den GET request ausführt und alle in der Datenbank gespeicherten Anwenderverbünde ausgibt. */
-    getAnwenderverbuendeAPI() {
-        return this.#fetchAdvanced(this.#getAnwenderverbuendeURL()).then((responseJSON) => {
-            let Anwenderverbund = AnwenderverbundBO.fromJSON(responseJSON);
-            return new Promise(function (resolve) {
-                resolve(Anwenderverbund);
-            })
-        })
-    }
-
     /** Methode die den GET request ausführt und alle in der Datenbank gespeicherten Anwenderverbünde ausgibt,
      * zu denen der Benutzer gehört. Die ID des Benutzers wird an die URL gehängt. */
     getAnwenderverbuendeByBenutzerAPI(userMail) {
@@ -297,16 +273,6 @@ export default class API {
         })
     }
 
-    /** Methode die den GET request ausführt und alle in der Datenbank gespeicherten Einkaufslisten ausgibt. */
-    getEinkaufslistenAPI() {
-        return this.#fetchAdvanced(this.#getEinkaufslistenURL()).then((responseJSON) => {
-            let Einkaufslisten = EinkaufslisteBO.fromJSON(responseJSON);
-            return new Promise(function (resolve) {
-                resolve(Einkaufslisten);
-            })
-        })
-    }
-
     /** Führt einen POST Request aus und schreibt dabei das als Parameter
      *  übergebene Einkaufslisten-Objekt in den Body des JSON. */
     addEinkaufslisteAPI(neweinkl, email) {
@@ -365,16 +331,6 @@ export default class API {
             let responseEinkaufslisteBO = EinkaufslisteBO.fromJSON(responseJSON)[0];
             return new Promise(function (resolve) {
                 resolve(responseEinkaufslisteBO);
-            })
-        })
-    }
-
-    /** Methode die den GET request ausführt und ein Listeneintrag anhand seiner ID ausgibt. */
-    getListeneintragByIdAPI(id) {
-        return this.#fetchAdvanced(this.#getListeneintragByIdURL(id)).then((responseJSON) => {
-            let eintrag = ListeneintragBO.fromJSON(responseJSON);
-            return new Promise(function (resolve) {
-                resolve(eintrag);
             })
         })
     }

@@ -98,13 +98,6 @@ statistikhuz = api.inherit('StatistikHuZ', statistik, {
 @shopping.route('/artikel')
 @shopping.response(500, 'Serverfehler')
 class ArtikelListOperations(Resource):
-    @shopping.marshal_list_with(artikel)
-    @secured
-    def get(self):
-        """Auslesen aller Artikel"""
-        adm = ApplikationsAdministration()
-        artikel = adm.get_all_artikel()
-        return artikel
 
     @shopping.marshal_with(artikel)
     @shopping.expect(artikel)
@@ -125,13 +118,6 @@ class ArtikelListOperations(Resource):
 @shopping.response(500, 'Serverfehler')
 @shopping.param('id', 'ID des Artikels')
 class ArtikelOperations(Resource):
-    @shopping.marshal_with(artikel)
-    @secured
-    def get(self, id):
-        """Auslesen eines bestimmten Artikel anhand einer id"""
-        adm = ApplikationsAdministration()
-        artikel = adm.get_artikel_by_id(id)
-        return artikel
 
     @secured
     def delete(self, id):
@@ -146,7 +132,6 @@ class ArtikelOperations(Resource):
     @secured
     def put(self, id):
         """Update eines durch eine id bestimmten Artikel"""
-
         adm = ApplikationsAdministration()
         a = Artikel.from_dict(api.payload)
 
@@ -156,7 +141,6 @@ class ArtikelOperations(Resource):
             return '', 200
         else:
             return '', 500
-
 
 @shopping.route('/artikel-by-name/<string:name>')
 @shopping.response(500, 'Serverfehler')
@@ -174,7 +158,7 @@ class ArtikelByNameOperations(Resource):
 """Artikel DONE -> no error. Listeneintrag NEXT"""
 
 
-@shopping.route('/Listeneintrag')
+@shopping.route('/listeneintrag')
 @shopping.response(500, 'Serverfehler')
 class ListeneintragListOperations(Resource):
     @shopping.marshal_with(listeneintrag)
@@ -227,15 +211,6 @@ class ListeneintragListOperations(Resource):
 @shopping.response(500, 'Serverfehler')
 @shopping.param('id', 'ID des Listeneintrages')
 class ListeneintragOperations(Resource):
-    @shopping.marshal_with(listeneintrag)
-    @secured
-    def get(self, id):
-        """Auslesen eines bestimmten Listeneintrages anhand einer id"""
-        adm = ApplikationsAdministration()
-        listeneintrag = adm.get_listeneintrag_by_id(id)
-        return listeneintrag
-
-    # Zeigt namen nicht an!
 
     @shopping.marshal_with(listeneintrag)
     @secured
@@ -302,13 +277,6 @@ class EinzelhaendlerListOperations(Resource):
 @shopping.response(500, 'Serverfehler')
 @shopping.param('id', 'ID des Einzelhaendler')
 class EinzelhaendlerOperations(Resource):
-    @shopping.marshal_with(einzelhaendler)
-    @secured
-    def get(self, id):
-        """Auslesen eines bestimmten Einzelhändlers anhand einer id"""
-        adm = ApplikationsAdministration()
-        einzelhaendler = adm.get_einzelhaendler_by_id(id)
-        return einzelhaendler
 
     @secured
     def delete(self, id):
@@ -354,13 +322,6 @@ class EinzelhaendlerByNameOperations(Resource):
 @shopping.route('/benutzer')
 @shopping.response(500, 'Serverfehler')
 class BenutzerListOperations(Resource):
-    @shopping.marshal_list_with(benutzer)
-    @secured
-    def get(self):
-        """Auslesen aller Benutzer"""
-        adm = ApplikationsAdministration()
-        benutzer = adm.get_all_artikel()
-        return benutzer
 
     @shopping.marshal_with(benutzer)
     @shopping.expect(benutzer)
@@ -368,48 +329,10 @@ class BenutzerListOperations(Resource):
     def post(self):
         """Anlegen eines Benutzers"""
         adm = ApplikationsAdministration()
-
         test = Benutzer.from_dict(api.payload)
         if test is not None:
             a = adm.benutzer_anlegen(test.get_name(), test.get_email(), test.get_google_id())
             return a, 200
-        else:
-            return '', 500
-
-
-@shopping.route('/benutzer-by-id/<int:id>')
-@shopping.response(500, 'Serverfehler')
-@shopping.param('id', 'ID des Benutzers')
-class BenutzerOperations(Resource):
-    @shopping.marshal_with(benutzer)
-    @secured
-    def get(self, id):
-        """Auslesen eines bestimmten Benutzers anhand einer id"""
-        adm = ApplikationsAdministration()
-        benutzer = adm.get_benutzer_by_id(id)
-        return benutzer
-
-    @secured
-    def delete(self, id):
-        """Löschen eines Benutzers anhand einer id"""
-        adm = ApplikationsAdministration()
-        benutzer = adm.get_benutzer_by_id(id)
-        adm.delete_benutzer(benutzer)
-        return ''
-
-    @shopping.marshal_with(benutzer)
-    @shopping.expect(benutzer)
-    @secured
-    def put(self, id):
-        """Update eines durch eine id bestimmten Benutzer"""
-
-        adm = ApplikationsAdministration()
-        a = Benutzer.from_dict(api.payload)
-
-        if a is not None:
-            a.set_id(id)
-            adm.update_benutzer(a)
-            return '', 200
         else:
             return '', 500
 
@@ -499,21 +422,6 @@ class BenutzerRelatedAnwenderverbundOperations(Resource):
 
 """Benutzer DONE -> no error. Einkaufsliste NEXT"""
 
-
-@shopping.route('/einkaufsliste')
-@shopping.response(500, 'Serverfehler')
-class EinkaufslisteListOperations(Resource):
-    @shopping.marshal_list_with(einkaufsliste)
-    @secured
-    def get(self):
-        """Auslesen aller Einkaufslisten"""
-        adm = ApplikationsAdministration()
-        einkaufsliste = adm.get_all_einkaufslisten()
-        return einkaufsliste
-
-
-# ja diese Methode ist unnöti aber sie wird zurzeit vom frontend benutzt bis wir es richtig hinkriegen
-
 @shopping.route('/einkaufsliste/<string:email>')
 @shopping.response(500, 'Serverfehler')
 class EinkaufslisteByBenutzerListOperations(Resource):
@@ -594,13 +502,6 @@ class EinkaufslisteRelatedListeneintraegeOperations(Resource):
 @shopping.route('/anwenderverbund')
 @shopping.response(500, 'Serverfehler')
 class AnwenderverbundListOperations(Resource):
-    @shopping.marshal_list_with(anwenderverbund)
-    @secured
-    def get(self):
-        """Auslesen aller Anwenderverbünde"""
-        adm = ApplikationsAdministration()
-        anwenderverbund = adm.get_all_anwenderverbunde()
-        return anwenderverbund
 
     @shopping.marshal_with(anwenderverbund)
     @shopping.expect(anwenderverbund)
@@ -652,19 +553,6 @@ class AnwenderverbundOperations(Resource):
             return '', 200
         else:
             return '', 500
-
-
-@shopping.route('/anwenderverbund-by-name/<string:name>')
-@shopping.response(500, 'Serverfehler')
-@shopping.param('name', 'Name des Anwenderverbundes')
-class AnwenderverbundByNameOperations(Resource):
-    @shopping.marshal_with(anwenderverbund)
-    @secured
-    def get(self, name):
-        """Auslesen eines bestimmten Anwenderverbundes anhand dessen Namen"""
-        adm = ApplikationsAdministration()
-        anwenderverbund = adm.get_anwenderverbund_by_name(name)
-        return anwenderverbund
 
 
 @shopping.route('/anwenderverbund/<int:id>/einkauflisten')
