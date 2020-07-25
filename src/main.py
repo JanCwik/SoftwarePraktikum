@@ -17,8 +17,6 @@ from SecurityDecorator import secured
 app = Flask(__name__)
 
 CORS(app, resources=r"/shopping/*")
-# als zweiter parameter könnte man auch noch folgendes hinzufügen:
-# , resources=r'/shopping/*'      oder    , resources={r"/shopping/*": {"origins": "*"}}
 
 api = Api(app, version='1.0', title='ShoppingList API',
           description='Das ist unserer API für die Shoppinglist.')
@@ -165,37 +163,7 @@ class ListeneintragListOperations(Resource):
     @shopping.expect(listeneintrag)
     @secured
     def post(self):
-        """Anlegen eines Listeneintrages
-        adm = ApplikationsAdministration()
-
-        test = Listeneintrag.from_dict(api.payload)
-
-        # Hinzugefügt, da ganze Instanzen übergeben werden sollen, Maik
-        einkaufsliste_id = test.get_einkaufslisteId()
-        einkaufsliste = adm.get_einkaufsliste_by_id(einkaufsliste_id)
-
-        # Hinzugefügt, da ganze Instanzen übergeben werden sollen, Maik
-        einzelhaendler_id = test.get_einzelhaendlerId()
-        einzelhaendler = adm.get_einzelhaendler_by_id(einzelhaendler_id)
-
-        # Hinzugefügt, da ganze Instanzen übergeben werden sollen, Maik
-        artikel_id = test.get_artikelId()
-        artikel = adm.get_artikel_by_id(artikel_id)
-
-        # Hinzugefügt, da ganze Instanzen übergeben werden sollen, Maik
-        benutzer_id = test.get_benutzerId()
-        benutzer = adm.get_benutzer_by_id(benutzer_id)
-
-        if test is not None:
-            a = adm.listeneintrag_anlegen(test.get_anzahl(), einkaufsliste, einzelhaendler, artikel, benutzer, test.get_erledigt())
-            return a, 200
-        else:
-            return '', 500
-            """
-
-        # es geht doch auch einfach so: oder? Denn das listeneintragObjkt wird doch schon durch die from_dict methode in der main angelegt und dadurch
-        # muss es nich nochmal in der Applikationsadmin gemacht werden, dh es reicht wenn das listenintrag objekt übergeben wird
-        # Also ich habs getestet es geht, und Thies is ja so au zufrieden oder?
+        """Anlegen eines Listeneintrages"""
 
         adm = ApplikationsAdministration()
 
@@ -228,13 +196,13 @@ class ListeneintragOperations(Resource):
         """Update eines durch eine id bestimmten Listeneintrag"""
 
         adm = ApplikationsAdministration()
-        a = Listeneintrag.from_dict(api.payload)
+        eintrag = Listeneintrag.from_dict(api.payload)
 
-        if a is not None:
-            a.set_id(id)
-            a.set_aenderungs_zeitpunkt_now()
-            adm.update_listeneintrag(a)
-            return '', 200
+        if eintrag is not None:
+            eintrag.set_id(id)
+            eintrag.set_aenderungs_zeitpunkt_now()
+            new_eintrag = adm.update_listeneintrag(eintrag)
+            return new_eintrag , 200
         else:
             return '', 500
 
