@@ -9,8 +9,14 @@ import collections
 class ReportGenerator(object):
 
     def top_artikel(self, benutzer):
-        """ Methode um alle Artikel zu einem bestimmten Benutzer heraus zubekommen und dann nach den 5 Artikeln die die
-        größte Anzahl haben schauen und diese zurückgeben"""
+        """ Methode um alle Artikel zu einem bestimmten Benutzer heraus zubekommen und dann die 5 Artikeln die die
+        größte Anzahl haben zurückzugeben
+
+        in Zeile 26 wird die Häufigkeit der Artikel gezählt und nach dem folgenden Schema in ein Dictionary gespeichert.
+        z.B.  1 : 3   Artikel mit der ID 1 wurde 3 mal gekauft. Daraus werden StatistikBO Instanzen gebildet.
+        Anschließend wird die Liste der Instanzen mit bubblesort sortiert und nur die 5 am häufigsten gekauften
+        Artikel werden zurückgegeben
+        """
         artikel = []
         instanzen = []
         with ListeneintragMapper() as mapper:
@@ -31,7 +37,7 @@ class ReportGenerator(object):
 
         result = []
 
-        if len(instanzen) != 0:  # Bubblesort
+        if len(instanzen) != 0:               # Bubblesort
             n = len(instanzen)
             for passes_left in range(n - 1, 0, -1):
                 for i in range(passes_left):
@@ -49,8 +55,14 @@ class ReportGenerator(object):
 
 
     def top_artikel_by_einzelhaendler(self, benutzer, einzelhaendler):
-        """ Methode um alle Artikel zu einem bestimmten Benutzer und einem bestimmten Einzelhaendler heraus zubekommen
-        und dann nach den 5 Artikeln die die größte Anzahl haben schauen und diese zurückgeben """
+        """ Methode um alle Artikel zu einem bestimmten Benutzer und einem bestimmten Einzelhändler heraus zubekommen
+            und dann die 5 Artikeln die die größte Anzahl haben zurückzugeben
+
+           in Zeile 76 wird die Häufigkeit der Artikel gezählt und nach dem folgenden Schema in ein Dictionary gespeichert.
+           z.B.  1 : 3   Artikel mit der ID 1 wurde 3 mal gekauft. Daraus werden StatistikBO Instanzen gebildet.
+           Anschließend wird die Liste der Instanzen mit bubblesort sortiert und nur die 5 am häufigsten gekauften
+           Artikel werden zurückgegeben
+           """
         artikel = []
         instanzen = []
         with ListeneintragMapper() as mapper:
@@ -85,8 +97,14 @@ class ReportGenerator(object):
         return result
 
     def top_artikel_by_zeitraum(self, benutzer, startzeitpunkt, endzeitpunkt):
-        """ Methode um alle Artikel zu einem bestimmten Benutzer heraus zubekommen, welche in dem angegebenen Zeitraum
-        liegen und dann nach den 5 Artikeln die die größte Anzahl haben schauen und diese zurückgeben """
+        """  Methode um alle Artikel zu einem bestimmten Benutzer und einem bestimmten Zeitraum heraus zubekommen
+            und dann die 5 Artikeln die die größte Anzahl haben zurückzugeben
+
+           Zuerst werden die Listeneintraege herausgefiltert die in dem gegebenen Zeitraum abgehakt wurden.
+           In Zeile 128 wird die Häufigkeit der Artikel gezählt und nach dem folgenden Schema in ein Dictionary gespeichert.
+           z.B.  1 : 3   Artikel mit der ID 1 wurde 3 mal gekauft. Daraus werden StatistikBO Instanzen gebildet.
+           Anschließend wird die Liste der Instanzen mit bubblesort sortiert und nur die 5 am häufigsten gekauften
+           Artikel werden zurückgegeben """
         instanzen = []
         alle = []
         result = []
@@ -97,7 +115,7 @@ class ReportGenerator(object):
         for i in tupel:
             zeitpunkt = i.get_zeitpunkt()
             zeitpunkt = zeitpunkt.strftime("%Y-%m-%d")
-            if zeitpunkt >= startzeitpunkt and zeitpunkt <= endzeitpunkt:
+            if startzeitpunkt <= zeitpunkt <= endzeitpunkt:
                 alle.append(i.get_ArtikelID())
 
         a = collections.Counter(alle)
@@ -108,7 +126,7 @@ class ReportGenerator(object):
             instanz.set_anzahl(a.get(i))
             instanzen.append(instanz)
 
-        if len(instanzen) != 0:                       # Bubblesort
+        if len(instanzen) != 0:                             # Bubblesort
             n = len(instanzen)
             for passes_left in range(n - 1, 0, -1):
                 for i in range(passes_left):
@@ -117,14 +135,19 @@ class ReportGenerator(object):
 
         for i in range(len(instanzen)):
             if i < 5:
-                result.append(instanzen[i])  # nur die ersten 5 elemente
+                result.append(instanzen[i])               # nur die ersten 5 elemente
                 i += 1
         return result
 
     def top_artikel_by_Einzelhaendler_zeitraum(self, benutzer, einzelhaendler, startzeitpunkt, endzeitpunkt):
-        """ Methode um alle Artikel zu einem bestimmten Benutzer und einem bestimmten Einzelhaendler heraus zubekommen,
-        welche in dem angegebenen Zeitraum liegen und dann nach den 5 Artikeln die die größte Anzahl haben schauen
-        und diese zurückgeben"""
+        """  Methode um alle Artikel zu einem bestimmten Benutzer und einem bestimmten Zeitraum heraus zubekommen
+            und dann die 5 Artikeln die die größte Anzahl haben zurückzugeben
+
+           Zuerst werden die Listeneintraege herausgefiltert die in dem gegebenen Zeitraum abgehakt wurden.
+           In Zeile 164 wird die Häufigkeit der Artikel gezählt und nach dem folgenden Schema in ein Dictionary gespeichert.
+           z.B.  1 : 3   Artikel mit der ID 1 wurde 3 mal gekauft. Daraus werden StatistikBO Instanzen gebildet.
+           Anschließend wird die Liste der Instanzen mit bubblesort sortiert und nur die 5 am häufigsten gekauften
+           Artikel werden zurückgegeben"""
         instanzen = []
         alle = []
         result = []
@@ -146,7 +169,7 @@ class ReportGenerator(object):
             instanz.set_anzahl(a.get(i))
             instanzen.append(instanz)
 
-        if len(instanzen) != 0:        # Bubblesort
+        if len(instanzen) != 0:                    # Bubblesort
             n = len(instanzen)
             for passes_left in range(n - 1, 0, -1):
                 for i in range(passes_left):
@@ -155,6 +178,6 @@ class ReportGenerator(object):
 
         for i in range(len(instanzen)):
             if i < 5:
-                result.append(instanzen[i])  # nur die ersten 5 elemente
+                result.append(instanzen[i])         # nur die ersten 5 elemente
                 i += 1
         return result

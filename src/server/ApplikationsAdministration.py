@@ -94,19 +94,6 @@ class ApplikationsAdministration(object):
         with BenutzerMapper() as mapper:
             return mapper.insert(benutzer)
 
-    def get_all_benutzer(self):
-        """Methode zum ausgeben aller Benutzer aus der Datenbank"""
-        with BenutzerMapper() as mapper:
-            return mapper.find_all()
-
-    def delete_benutzer(self, benutzer):
-        """Methode zum löschen eines Benutzers aus der Datenbank"""
-        with MitgliedschaftMapper() as mapper:
-            mapper.deleteByBenutzer(benutzer)
-
-        with BenutzerMapper() as mapper:
-            mapper.delete(benutzer)
-
     def get_benutzer_by_id(self, id):
         """Methode zum ausgeben eines Benutzers aus der Datenbank anhand dessen ID"""
         with BenutzerMapper() as mapper:
@@ -131,11 +118,6 @@ class ApplikationsAdministration(object):
         """Methode zum ausgeben eines Benutzers anhand dessen Google ID"""
         with BenutzerMapper() as mapper:
             return mapper.find_by_google_user_id(id)
-
-    def get_all_listeneintraege_of_benutzer(self, benutzer):
-        """Methode zum ausgeben aller Listeneinträge für die der Benutzer verantwortlich ist"""
-        with ListeneintragMapper() as mapper:
-            return mapper.find_all_listeneintraege_by_benutzer(benutzer)
 
     def get_anwenderverbuende_by_benutzer_email(self, benutzer):
         """Methode zum ausgeben aller Anwenderverbuende die zu einer Benutzer Email gehören"""
@@ -233,11 +215,6 @@ class ApplikationsAdministration(object):
         """Methode zum ausgeben einer Einkaufsliste aus der Datenbank anhand deren ID"""
         with EinkaufslistenMapper() as mapper:
             return mapper.find_by_id(id)
-
-    def get_einkaufsliste_by_name(self, name):
-        """Methode zum ausgeben einer Einkaufsliste aus der Datenbank anhand deren Name """
-        with EinkaufslistenMapper() as mapper:
-            return mapper.find_by_name(name)
 
     def update_einkaufsliste(self, einkaufsliste):
         """Methode zum aktualisieren einer Einkaufsliste in der Datenbank"""

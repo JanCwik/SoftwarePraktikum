@@ -331,22 +331,6 @@ class BenutzerByEmailOperations(Resource):
         return benutzer
 
 
-@shopping.route('/benutzer/<int:id>/listeneintraege')
-@shopping.response(500, 'Serverfehler')
-@shopping.param('id', 'ID des Benutzer')
-class BenutzerRelatedListeneintragOperations(Resource):
-    @shopping.marshal_with(listeneintrag)
-    @secured
-    def get(self, id):
-        """Auslesen aller Listeneinträge für einen durch Id definierten Benutzer"""
-        adm = ApplikationsAdministration()
-        benutzer = adm.get_benutzer_by_id(id)
-
-        if benutzer is not None:
-            listeneintraege = adm.get_all_listeneintraege_of_benutzer(benutzer)
-            return listeneintraege
-        else:
-            return "Benutzer nicht gefunden", 500
 
 @shopping.route('/benutzer/<string:email>/artikel')
 @shopping.response(500, 'Serverfehler')
@@ -413,14 +397,6 @@ class EinkaufslisteByBenutzerListOperations(Resource):
 @shopping.response(500, 'Serverfehler')
 @shopping.param('id', 'ID der Einkaufsliste')
 class EinkaufslisteOperations(Resource):
-    @shopping.marshal_with(einkaufsliste)
-    @secured
-    def get(self, id):
-        """Auslesen einer bestimmten Einkaufsliste anhand einer id"""
-        adm = ApplikationsAdministration()
-        einkaufsliste = adm.get_einkaufsliste_by_id(id)
-        return einkaufsliste
-
     @secured
     def delete(self, id):
         """Löschen einer Einkaufsliste anhand einer id"""
@@ -490,14 +466,6 @@ class AnwenderverbundListOperations(Resource):
 @shopping.response(500, 'Serverfehler')
 @shopping.param('id', 'ID des Anwenderverbundes')
 class AnwenderverbundOperations(Resource):
-    @shopping.marshal_with(anwenderverbund)
-    @secured
-    def get(self, id):
-        """Auslesen eines bestimmten Anwenderverbundes anhand einer id"""
-        adm = ApplikationsAdministration()
-        anwenderverbund = adm.get_anwenderverbund_by_id(id)
-        return anwenderverbund
-
     @secured
     def delete(self, id):
         """Löschen eines Anwenderverbundes anhand einer id"""
@@ -588,15 +556,15 @@ class AnwenderverbundRelatedBenutzerOperations(Resource):
         verbund = adm.get_anwenderverbund_by_id(id)
         mitglied = Benutzer.from_dict(api.payload)
         if verbund is not None:
-            adm.mitglieder_vom_anwenderverbund_entfernen(verbund, mitglied)  # Name der Methode geändert,Maik
+            adm.mitglieder_vom_anwenderverbund_entfernen(verbund, mitglied)
             return mitglied
         else:
             return "Benutzer oder Anwenderverbund unbekannt", 500
 
 
-"""Anwenderverbund DONE -> no error"""
+"""Anwenderverbund DONE """
 
-"""Statistik-Methoden, Maik"""
+"""Statistik-Methoden"""
 
 
 @shopping.route('/statistik/<string:email>')

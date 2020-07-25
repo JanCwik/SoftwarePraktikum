@@ -97,40 +97,6 @@ class EinkaufslistenMapper(Mapper):
 
         return result
 
-    def find_by_name(self, name):
-        """ Mapper-Methode zum ausgeben einer Einkaufsliste anhand deren Name.
-
-        Beim Aufruf der Methode wird ein Name in der Variablen "name" gespeichert, welche schließlich an das
-        SQL-Statement übergeben wird.
-        Das entsprechende Objekt, welches aus der Datenbank ausgegeben wird, wird in einem Tupel gespeichert.
-        Anschließend werden die einzelnen Attribute aus dem Tupel an der Stelle 0 genommen und an eine neue
-        Einkaufslisten-Instanz via den Setter-Methoden übergeben.
-        Sollte die Datenbank anhand des Namens kein Objekt zurückliefern, wird ausgegeben was innerhalb des
-        IndexErrors steht --> None. Das Ergebnis wir schließlich von der Mehtode zurückgegeben."""
-
-        cursor = self._cnx.cursor()
-        command = "SELECT id, name, erstellungs_zeitpunkt, aenderungs_zeitpunkt, anwenderverbund_id " \
-                  "FROM einkaufsliste WHERE name LIKE '{}' ORDER BY name".format(name)
-        cursor.execute(command)
-        tuples = cursor.fetchall()
-
-        try:
-            (id, name, erstellungs_zeitpunkt, aenderungs_zeitpunkt, anwenderverbund_id) = tuples[0]
-            einkaufsliste = Einkaufsliste()
-            einkaufsliste.set_id(id)
-            einkaufsliste.set_name(name)
-            einkaufsliste.set_erstellungs_zeitpunkt(erstellungs_zeitpunkt)
-            einkaufsliste.set_aenderungs_zeitpunkt(aenderungs_zeitpunkt)
-            einkaufsliste.set_anwenderId(anwenderverbund_id)
-            result = einkaufsliste
-        except IndexError:
-            result = None
-
-        self._cnx.commit()
-        cursor.close()
-
-        return result
-
     def delete(self, einkaufsliste):
         """ Mapper-Methode zum löschen einer Einkaufsliste aus der Datenbank.
 
