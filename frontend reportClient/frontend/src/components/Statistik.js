@@ -25,6 +25,7 @@ class Statistik extends Component {
       endZeitpunkt: null,
       einzelhaendler: null
 
+
     };
   }
 
@@ -57,12 +58,11 @@ class Statistik extends Component {
     this.byBenutzer()
   }
 
-  reload=() =>{
-    this.byBenutzer()
-  }
 
   /** Fetchet alle StatistikBos des Benutzers aus dem Backend */
   byBenutzer =()=>{
+  this.setState({statistikeintraege: []})                                             // State wieder zurücksetzten
+
     API.getAPI().getStatistikenAPI(this.props.userMail).then(statistiken=>{
       this.setState({
         statistikeintraege: statistiken,
@@ -83,7 +83,9 @@ class Statistik extends Component {
     });}
 
   /** Fetchet alle StatistikBos des Benutzers für einen bestimmten Einzelhändler aus dem Backend */
-  byEinzelhaendler =()=>{
+  byEinzelhaendler =  ()=>{
+  this.setState({statistikeintraege: []})                                             // State wieder zurücksetzten
+
     API.getAPI().getStatistikenByHaendlerAPI(this.props.userMail, this.state.einzelhaendler).then(statistiken=>{
       this.setState({
         statistikeintraege: statistiken,
@@ -105,6 +107,8 @@ class Statistik extends Component {
 
   /** Fetchet alle StatistikBos des Benutzers für einen bestimmten Zeitraum aus dem Backend */
   byZeitraum =()=>{
+  this.setState({statistikeintraege: []})                                             // State wieder zurücksetzten
+
   API.getAPI().getStatistikenByZeitraumAPI(this.props.userMail, this.state.startZeitpunkt, this.state.endZeitpunkt).then(statistiken=>{
       this.setState({
         statistikeintraege: statistiken,
@@ -126,6 +130,8 @@ class Statistik extends Component {
 
   /** Fetchet alle StatistikBos des Benutzers für einen bestimmten Einzelhändler und einen bestimmten Zeitraum aus dem Backend */
   byEinzelhaendlerUndZeitraum=()=>{
+  this.setState({statistikeintraege: []})                                             // State wieder zurücksetzten
+
   API.getAPI().getStatistikenByZuHAPI(this.props.userMail, this.state.einzelhaendler,this.state.startZeitpunkt, this.state.endZeitpunkt).then(statistiken=>{
       this.setState({
         statistikeintraege: statistiken,
@@ -199,7 +205,7 @@ class Statistik extends Component {
           </Grid>
             <Grid item xs={0} />
           <Grid item>
-            <Button className={classes.buttons} color="primary" onClick={this.reload} >
+            <Button className={classes.buttons} color="primary" onClick={this.byBenutzer} >
               Suche ohne Filter
             </Button>
               </Grid>

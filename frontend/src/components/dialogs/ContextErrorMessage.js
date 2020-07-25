@@ -11,7 +11,7 @@ import AutorenewIcon from '@material-ui/icons/Autorenew';
  */
 
 class ContextErrorMessage extends Component {
-  #standardText = 'Da ist wohl etwas schief gelaufen...';
+  #standardText = 'Bei der Bearbeitung Ihrer Anfrage ist ein Fehler aufgetreten.';
 
   /** Rendert die ContextErrorMessage, wenn der Error nicht null ist.  */
   render() {
@@ -26,7 +26,7 @@ class ContextErrorMessage extends Component {
             {contextErrorMsg}
           </AlertTitle>
           <div className={classes.margins}>
-            Error Nachricht (nur zum debuggen) ist:
+            Es handelt sich um folgenden Error:
         </div>
           <div>
             {error.message}
