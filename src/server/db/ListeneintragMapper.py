@@ -91,6 +91,8 @@ class ListeneintragMapper(Mapper):
         self._cnx.commit()
         cursor.close()
 
+        return listeneintrag
+
     def find_by_id(self, id):
         """Mapper-Methode zum ausgeben eines Listeneintrags anhand dessen ID.
 

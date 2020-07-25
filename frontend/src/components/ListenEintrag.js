@@ -29,8 +29,9 @@ class ListenEintrag extends Component {
     let updatedListeneintrag = Object.assign(new ListeneintragBO(), this.state.listeneintrag);
     // Setzt die neuen Attribute aus dem Dialog
     updatedListeneintrag.setErledigt(true)
-    API.getAPI().updateListeneintragAPI(updatedListeneintrag)
-      this.deleteListeneintragDialogClosed(updatedListeneintrag);
+    API.getAPI().updateListeneintragAPI(updatedListeneintrag).then(listeneintrag=>{
+      this.deleteListeneintragDialogClosed(listeneintrag);
+    })
     };
 
   /** Behandelt das onClick Ereignis vom ListenEintragForm */
@@ -105,13 +106,13 @@ class ListenEintrag extends Component {
           </Typography>
           <Typography className={classes.Benutzer} color='textPrimary'>
            {listeneintrag.getBenutzer_name()}
+          </Typography>
 
-           {listeneintrag.getZuletzt_geaendert()?
+          {listeneintrag.getZuletzt_geaendert()?
               <Button  color='secondary' size='small' startIcon={<UpdateIcon/>} onClick={this.latest}>
             </Button>
            : null
           }
-          </Typography>
           <ListItemSecondaryAction>
             <Button  color='secondary' size='small' startIcon={<EditIcon />} onClick={this.editButtonClicked}>
             </Button>

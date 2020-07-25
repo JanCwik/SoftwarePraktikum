@@ -352,7 +352,7 @@ class ApplikationsAdministration(object):
     def update_listeneintrag(self, listeneintrag):
         """Methode zum aktualisieren eines Listeneintrags in der Datenbank"""
         with ListeneintragMapper() as mapper:
-            mapper.update(listeneintrag)
+            return mapper.update(listeneintrag)
 
     def get_listeneintrag_by_id(self, id):
         """ Methode zum ausgeben eines Listeneintrags aus der Datenbank anhand dessen ID"""
