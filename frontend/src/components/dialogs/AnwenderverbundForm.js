@@ -55,7 +55,13 @@ class AnwenderverbundForm extends Component {
 
         API.getAPI().getBenutzerByEmailAPI(this.props.userMail).then( BenutzerBO =>{       // get currentUser
 
-            API.getAPI().addMitgliedschaftAPI(anwenderverbund.getID(),BenutzerBO[0])       //Mitgleidschaft zwischen currentUser und dem erstellten Anwenderverbund anlegen
+            API.getAPI().addMitgliedschaftAPI(anwenderverbund.getID(),BenutzerBO[0])         //Mitgleidschaft zwischen currentUser und dem erstellten Anwenderverbund anlegen
+                .catch(e=>{
+                   this.setState({
+                        loadingInProgress: false,         // Ladeanzeige deaktivieren
+                        addingError: e                      // Zeige Error Nachricht
+                       })
+                      })
 
                 this.setState(this.baseState);                           // State zurücksetzen
                 this.props.onClose(anwenderverbund,BenutzerBO[0]);       // Aufruf der onClose Funktion von Anwenderverbund.js -> dadurch wird der

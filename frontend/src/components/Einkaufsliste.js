@@ -54,8 +54,13 @@ class Einkaufsliste extends Component {
     this.getListeneintraege();
   }
 
-  /** läd die Listeneinträge nach jedem add und update Listeneintrag neu damit die Einkaufsliste automatisch nach Einzelhändlern gruppiert wird*/
+  /** läd die Listeneinträge nach jedem delete, add und update Listeneintrag neu damit die Einkaufsliste automatisch nach
+   * Einzelhändlern gruppiert wird und damit die letzte änderung aktualisiert wird, dazu wird vorher der state
+   * listeneintraege zurückgesetzt*/
   reload=()=>{
+      this.setState({
+          listeneintraege: []
+      })
      this.getListeneintraege();
   }
 
@@ -63,12 +68,16 @@ class Einkaufsliste extends Component {
    * Behandelt listeneintragDeleted Ereignisse von der ListenEintrag Komponente.
    * @param {Listeneintrag} ListeneintragBO von dem ListenEintrag um gelöscht zu werde
    */
-  listeneintragDeleted = listeneintrag => {
+  listeneintragDeleted = (listeneintrag) => {
+
     const newListeneintragList = this.state.listeneintraege.filter(listeneintragFromState => listeneintragFromState.getID() !== listeneintrag.getID());
-    this.setState({
+     this.setState({
       listeneintraege: newListeneintragList,
       showListeneintragForm: false
     });
+                                            // Seite wird neugeladen, dadurch wird die Einkaufsliste
+    this.reload()                                                      // automatisch nach Einzelhändler gruppiert und die letzte
+                                                          // Änderung wird aktualisiert
   }
 
   /** Behandelt das onClick Ereignis, der Listeneintrag anlegen Taste. */

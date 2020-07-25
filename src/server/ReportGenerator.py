@@ -13,7 +13,6 @@ class ReportGenerator(object):
         größte Anzahl haben schauen und diese zurückgeben"""
         artikel = []
         instanzen = []
-        x = 0
         with ListeneintragMapper() as mapper:
             tupel = mapper.get_all_listeneintraege_by_benutzer(benutzer)
 
@@ -32,11 +31,6 @@ class ReportGenerator(object):
 
         result = []
 
-        for i in instanzen:
-            print(i)
-        print("-----")
-
-
         if len(instanzen) != 0:  # Bubblesort
             n = len(instanzen)
             for passes_left in range(n - 1, 0, -1):
@@ -44,37 +38,21 @@ class ReportGenerator(object):
                     if instanzen[i].get_anzahl() < instanzen[i + 1].get_anzahl():
                         instanzen[i], instanzen[i + 1] = instanzen[i + 1], instanzen[i]
 
-        for i in instanzen:
-            print(i)
 
         for i in range(len(instanzen)):
-            if i < 4:
+            if i < 5:
                 result.append(instanzen[i])             # nur die ersten 5 elemente
                 i += 1
-        print("----")
-        for i in result:
-            print(i)
+
         return result
 
 
-
-    """  for i in range(len(instanzen)):
-            if x < 5:
-                highest = instanzen[0]
-                for obj in instanzen:
-                    if obj.get_anzahl() > highest.get_anzahl():
-                        highest = obj
-
-                result.append(highest)
-                instanzen.remove(highest)
-                x += 1"""
 
     def top_artikel_by_einzelhaendler(self, benutzer, einzelhaendler):
         """ Methode um alle Artikel zu einem bestimmten Benutzer und einem bestimmten Einzelhaendler heraus zubekommen
         und dann nach den 5 Artikeln die die größte Anzahl haben schauen und diese zurückgeben """
         artikel = []
         instanzen = []
-        x = 0
         with ListeneintragMapper() as mapper:
             tupel = mapper.get_all_listeneintraege_by_Einzelhaendler(benutzer, einzelhaendler)
 
@@ -100,7 +78,7 @@ class ReportGenerator(object):
                         instanzen[i], instanzen[i + 1] = instanzen[i + 1], instanzen[i]
 
         for i in range(len(instanzen)):
-            if i < 4:
+            if i < 5:
                 result.append(instanzen[i])                 #nur die ersten 5 elemente
                 i += 1
 
@@ -112,7 +90,6 @@ class ReportGenerator(object):
         instanzen = []
         alle = []
         result = []
-        x = 0
 
         with ListeneintragMapper() as mapper:
             tupel = mapper.get_all_listeneintraege_by_Datum(benutzer)
@@ -139,7 +116,7 @@ class ReportGenerator(object):
                         instanzen[i], instanzen[i + 1] = instanzen[i + 1], instanzen[i]
 
         for i in range(len(instanzen)):
-            if i < 4:
+            if i < 5:
                 result.append(instanzen[i])  # nur die ersten 5 elemente
                 i += 1
         return result
@@ -151,7 +128,6 @@ class ReportGenerator(object):
         instanzen = []
         alle = []
         result = []
-        x = 0
 
         with ListeneintragMapper() as mapper:
             tupel = mapper.get_all_listeneintraege_by_Einzelhaendler_Datum(benutzer, einzelhaendler)
@@ -178,7 +154,7 @@ class ReportGenerator(object):
                         instanzen[i], instanzen[i + 1] = instanzen[i + 1], instanzen[i]
 
         for i in range(len(instanzen)):
-            if i < 4:
+            if i < 5:
                 result.append(instanzen[i])  # nur die ersten 5 elemente
                 i += 1
         return result

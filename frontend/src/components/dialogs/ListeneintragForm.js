@@ -38,8 +38,10 @@ class ListeneintragForm extends Component {
 
     // Init state
     this.state = {
-      benutzerNotFound: false,
+      einzelhaendlerObjekt: null,
       einzelhaendlerNotFound: false,
+      benutzerObjekt: null,
+      benutzerNotFound: false,
       artikelObjekt: null,
       artikelNotFound: false,
       listeneintragArtikelName: lan,
@@ -90,10 +92,11 @@ class ListeneintragForm extends Component {
         addingError: e              // Error Nachricht zwischenspeichern
       })
     );
-    if(this.state.einzelhaendlerObjekt){
-      this.props.reload()                                 // Seite wird neugeladen, dadurch wird die Einkaufsliste automatisch nach Einzelhändler gruppiert
+      this.props.reload()                                 // Seite wird neugeladen, dadurch wird die Einkaufsliste
+                                                          // automatisch nach Einzelhändler gruppiert und die letzte
+                                                          // Änderung wird aktualisiert
     }
-  }
+
 
 
   /** Updated den Listeneintrag */
@@ -136,10 +139,11 @@ class ListeneintragForm extends Component {
             updatingError: e                       // Error Nachricht zwischenspeichern
           })
         );
-    if(this.state.einzelhaendlerObjekt){
-      this.props.reload()                      // Seite wird neugeladen, dadurch wird die Einkaufsliste automatisch nach Einzelhändler gruppiert
+      this.props.reload()                                 // Seite wird neugeladen, dadurch wird die Einkaufsliste
+                                                          // automatisch nach Einzelhändler gruppiert und die letzte
+                                                          // Änderung wird aktualisiert
     }
-  }
+
 
   /** Behandelt Wertänderungen aus dem Artikel Textfeld */
   listeneintragArtikelNameChange = (event) => {

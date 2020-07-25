@@ -33,22 +33,27 @@ class BenutzerListeForm extends Component {
   }
   /** Legt die Mitgliedschaft zwischen Anwenderverbund und Benutzer fest. */
   addMitgliedschaft = () => {
-    API.getAPI().getBenutzerByEmailAPI(this.state.benutzerEmail).then( BenutzerBO =>{
-    API.getAPI().addMitgliedschaftAPI(this.props.anwenderverbund.getID(),BenutzerBO[0])
-      this.setState(this.baseState);
-      this.props.onClose(BenutzerBO[0]); // Aufruf mit Hilfe des Benutzer Objekts aus dem Backend
-    }).catch(e =>
-        this.setState({
-          loadingInProgress: false,    // Ladeanzeige deaktivieren
-          addingError: e                // Zeige Error Nachricht
-        })
-    )
-    // Setze laden als true
-    this.setState({
-      loadingInProgress: true,       // Ladeanzeige anzeigen
-       addingError: null              // Fehlermeldung deaktivieren
-    }
-    )
+      API.getAPI().getBenutzerByEmailAPI(this.state.benutzerEmail).then(BenutzerBO => {
+        API.getAPI().addMitgliedschaftAPI(this.props.anwenderverbund.getID(), BenutzerBO[0]).catch(e=>{
+                 this.setState({
+                      loadingInProgress: false,         // Ladeanzeige deaktivieren
+                      addingError: e                      // Zeige Error Nachricht
+                 })
+              })
+          this.setState(this.baseState);
+          this.props.onClose(BenutzerBO[0]);          // Aufruf mit Hilfe des Benutzer Objekts aus dem Backend
+      }).catch(e =>
+          this.setState({
+              loadingInProgress: false,         // Ladeanzeige deaktivieren
+              addingError: e                     // Zeige Error Nachricht
+          })
+      )
+      this.setState({
+            loadingInProgress: true,       // Ladeanzeige anzeigen
+            addingError: null              // Fehlermeldung deaktivieren
+          }
+      )
+
   }
 
   /** Behandelt Wertänderungen aus den Textfeldern vom Formular und validiert diese. */
