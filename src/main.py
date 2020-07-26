@@ -104,9 +104,9 @@ class ArtikelListOperations(Resource):
         """Anlegen eines Artikels"""
         adm = ApplikationsAdministration()
 
-        artikel = Artikel.from_dict(api.payload)
-        if artikel is not None:
-            a = adm.artikel_anlegen(artikel)
+        test = Artikel.from_dict(api.payload)
+        if test is not None:
+            a = adm.artikel_anlegen(test)
             return a, 200
         else:
             return '', 500
@@ -121,8 +121,8 @@ class ArtikelOperations(Resource):
     def delete(self, id):
         """Löschen eines Artikels anhand einer id"""
         adm = ApplikationsAdministration()
-        artikel = adm.get_artikel_by_id(id)
-        adm.delete_artikel(artikel)
+        article = adm.get_artikel_by_id(id)
+        adm.delete_artikel(article)
         return '', 200
 
     @shopping.marshal_with(artikel)
@@ -140,6 +140,7 @@ class ArtikelOperations(Resource):
         else:
             return '', 500
 
+
 @shopping.route('/artikel-by-name/<string:name>')
 @shopping.response(500, 'Serverfehler')
 @shopping.param('name', 'Name des Artikels')
@@ -149,8 +150,8 @@ class ArtikelByNameOperations(Resource):
     def get(self, name):
         """Auslesen eines bestimmten Artikel anhand dessen Namen"""
         adm = ApplikationsAdministration()
-        artikel = adm.get_artikel_by_name(name)
-        return artikel
+        article = adm.get_artikel_by_name(name)
+        return article
 
 
 """Artikel DONE -> no error. Listeneintrag NEXT"""
@@ -185,9 +186,9 @@ class ListeneintragOperations(Resource):
     def delete(self, id):
         """Löschen eines Listeneintrages anhand einer id"""
         adm = ApplikationsAdministration()
-        listeneintrag = adm.get_listeneintrag_by_id(id)
-        adm.delete_listeneintrag(listeneintrag)
-        return listeneintrag
+        eintrag = adm.get_listeneintrag_by_id(id)
+        adm.delete_listeneintrag(eintrag)
+        return eintrag
 
     @shopping.marshal_with(listeneintrag)
     @shopping.expect(listeneintrag)
@@ -216,11 +217,11 @@ class EinzelhaendlerByBenutzerMailOperations(Resource):
     @shopping.marshal_list_with(einzelhaendler)
     @secured
     def get(self, email):
-        """Auslesen aller Einzelhändler anhand einer Benutzer-ID"""
+        """Auslesen aller Einzelhändler anhand einer Benutzer-Email"""
         adm = ApplikationsAdministration()
-        benutzer= adm.get_benutzer_by_email(email)
-        einzelhaendler = adm.get_all_einzelhaendler(benutzer)
-        return einzelhaendler
+        user = adm.get_benutzer_by_email(email)
+        haendler = adm.get_all_einzelhaendler(user)
+        return haendler
 
 
 @shopping.route('/einzelhaendler')
@@ -250,8 +251,8 @@ class EinzelhaendlerOperations(Resource):
     def delete(self, id):
         """Löschen eines Einzelhändlers anhand einer id"""
         adm = ApplikationsAdministration()
-        einzelhaendler = adm.get_einzelhaendler_by_id(id)
-        adm.delete_einzelhaendler(einzelhaendler)
+        haendler = adm.get_einzelhaendler_by_id(id)
+        adm.delete_einzelhaendler(haendler)
         return '', 200
 
     @shopping.marshal_with(einzelhaendler)
@@ -280,8 +281,8 @@ class EinzelhaendlerByNameOperations(Resource):
     def get(self, name):
         """Auslesen eines bestimmten Einzelhändlers anhand dessen Namen"""
         adm = ApplikationsAdministration()
-        einzelhaendler = adm.get_einzelhaendler_by_name(name)
-        return einzelhaendler
+        haendler = adm.get_einzelhaendler_by_name(name)
+        return haendler
 
 
 """Einzelhändler DONE -> no error. Benutzer NEXT. """
@@ -314,8 +315,8 @@ class BenutzerByNameOperations(Resource):
     def get(self, name):
         """Auslesen eines bestimmten Benutzers anhand seines Namen"""
         adm = ApplikationsAdministration()
-        benutzer = adm.get_benutzer_by_name(name)
-        return benutzer
+        user = adm.get_benutzer_by_name(name)
+        return user
 
 
 @shopping.route('/benutzer-by-email/<string:email>')
@@ -327,8 +328,8 @@ class BenutzerByEmailOperations(Resource):
     def get(self, email):
         """Auslesen eines bestimmten Benutzers anhand seiner Email"""
         adm = ApplikationsAdministration()
-        benutzer = adm.get_benutzer_by_email(email)
-        return benutzer
+        user = adm.get_benutzer_by_email(email)
+        return user
 
 
 
@@ -339,13 +340,13 @@ class BenutzerRelatedArtikelOperations(Resource):
     @shopping.marshal_with(artikel)
     @secured
     def get(self, email):
-        """Auslesen aller Artikel die zu einem Benutzer gehören"""
+        """Auslesen aller Artikel, die zu einem Benutzer gehören"""
         adm = ApplikationsAdministration()
-        benutzer = adm.get_benutzer_by_email(email)
+        user = adm.get_benutzer_by_email(email)
 
-        if benutzer is not None:
-            artikel = adm.get_all_artikel_of_benutzer(benutzer)
-            return artikel
+        if user is not None:
+            article = adm.get_all_artikel_of_benutzer(user)
+            return article
         else:
             return "Benutzer nicht gefunden", 500
 
@@ -357,16 +358,16 @@ class BenutzerRelatedAnwenderverbundOperations(Resource):
     @shopping.marshal_list_with(anwenderverbund)
     @secured
     def get(self, email):
-        """Auslesen aller Anwenderverbünde für einen durch Id definierten Benutzer"""
+        """Auslesen aller Anwenderverbünde für einen durch Email definierten Benutzer"""
         adm = ApplikationsAdministration()
-        benutzer = adm.get_benutzer_by_email(email)
+        user = adm.get_benutzer_by_email(email)
 
         if benutzer is not None:
-            anwenderverbund_IDs = adm.get_anwenderverbuende_by_benutzer_email(benutzer)
+            anwenderverbund_ids = adm.get_anwenderverbuende_by_benutzer_email(user)
             result = []
-            for id in anwenderverbund_IDs:
-                Anwenderverbund_objekt = adm.get_anwenderverbund_by_id(id)
-                result.append(Anwenderverbund_objekt)
+            for i in anwenderverbund_ids:
+                anwenderverbund_objekt = adm.get_anwenderverbund_by_id(i)
+                result.append(anwenderverbund_objekt)
             return result
         else:
             return "Benutzer nicht gefunden", 500
@@ -374,20 +375,21 @@ class BenutzerRelatedAnwenderverbundOperations(Resource):
 
 """Benutzer DONE -> no error. Einkaufsliste NEXT"""
 
+
 @shopping.route('/einkaufsliste/<string:email>')
 @shopping.response(500, 'Serverfehler')
 class EinkaufslisteByBenutzerListOperations(Resource):
     @shopping.marshal_with(einkaufsliste)
     @shopping.expect(einkaufsliste)
     @secured
-    def post(self, email):  # id von Einkaufsliste muss mit id von Anwenderverbund angegeben werden, sonst Server-Error!
+    def post(self, email):
         """Anlegen einer Einkaufsliste"""
         adm = ApplikationsAdministration()
 
-        benutzer = adm.get_benutzer_by_email(email)
+        user = adm.get_benutzer_by_email(email)
         test = Einkaufsliste.from_dict(api.payload)
         if test is not None:
-            a = adm.einkaufsliste_anlegen(test, benutzer)
+            a = adm.einkaufsliste_anlegen(test, user)
             return a, 200
         else:
             return '', 500
@@ -401,8 +403,8 @@ class EinkaufslisteOperations(Resource):
     def delete(self, id):
         """Löschen einer Einkaufsliste anhand einer id"""
         adm = ApplikationsAdministration()
-        einkaufsliste = adm.get_einkaufsliste_by_id(id)
-        adm.delete_einkaufsliste(einkaufsliste)
+        liste = adm.get_einkaufsliste_by_id(id)
+        adm.delete_einkaufsliste(liste)
         return ''
 
     @shopping.marshal_with(einkaufsliste)
@@ -470,8 +472,8 @@ class AnwenderverbundOperations(Resource):
     def delete(self, id):
         """Löschen eines Anwenderverbundes anhand einer id"""
         adm = ApplikationsAdministration()
-        anwenderverbund = adm.get_anwenderverbund_by_id(id)
-        adm.delete_anwenderverbund(anwenderverbund)
+        verbund = adm.get_anwenderverbund_by_id(id)
+        adm.delete_anwenderverbund(verbund)
         return ''
 
     @shopping.marshal_with(anwenderverbund)
@@ -522,12 +524,12 @@ class AnwenderverbundRelatedBenutzerOperations(Resource):
 
         if verbund is not None:
 
-            mitgliederID = adm.mitglieder_zum_anwenderverbund_ausgeben(verbund)
-            benutzeObjekte = []
-            for i in mitgliederID:
-                benutzeObjekt = adm.get_benutzer_by_id(i)
-                benutzeObjekte.append(benutzeObjekt)
-            return benutzeObjekte
+            mitglieder_id = adm.mitglieder_zum_anwenderverbund_ausgeben(verbund)
+            benutze_objekte = []
+            for i in mitglieder_id:
+                benutze_objekt = adm.get_benutzer_by_id(i)
+                benutze_objekte.append(benutze_objekt)
+            return benutze_objekte
         else:
             return "Anwenderverbund nicht gefunden", 500
 
@@ -576,11 +578,11 @@ class StatistikListOperationsByBenutzer(Resource):
     def get(self, email):
         """Auslesen der meist gekauften Artikel"""
         adm = ApplikationsAdministration()
-        benutzer = adm.get_benutzer_by_email(email)
+        user = adm.get_benutzer_by_email(email)
 
         if benutzer is not None:
-            statistik = adm.get_top_artikel_5(benutzer)
-            return statistik
+            stat = adm.get_top_artikel_5(benutzer)
+            return stat
         else:
             return "Benutzer nicht gefunden", 500
 
@@ -595,13 +597,13 @@ class StatistikListOperationsByEinzelhaendler(Resource):
     def get(self, email, name):
         """Auslesen der meist gekauften Artikel bei einem durch Namen definierten Einzelhaendler"""
         adm = ApplikationsAdministration()
-        benutzer = adm.get_benutzer_by_email(email)
-        einzelhaendler = adm.get_einzelhaendler_by_name(name)
+        user = adm.get_benutzer_by_email(email)
+        haendler = adm.get_einzelhaendler_by_name(name)
 
-        if benutzer is not None:
-            if einzelhaendler is not None:
-                statistik = adm.get_top_artikel_5_by_einzelhaendler(benutzer, einzelhaendler)
-                return statistik
+        if user is not None:
+            if haendler is not None:
+                stat = adm.get_top_artikel_5_by_einzelhaendler(user, haendler)
+                return stat
             else:
                 return "Einzelhändler nicht gefunden", 500
         else:
@@ -619,11 +621,11 @@ class StatistikListOperationsByDatum(Resource):
     def get(self, email, von, bis):
         """Auslesen der meist gekauften Artikel bei einem durch Namen definierten Einzelhaendler"""
         adm = ApplikationsAdministration()
-        benutzer = adm.get_benutzer_by_email(email)
+        user = adm.get_benutzer_by_email(email)
 
-        if benutzer is not None:
-            statistik = adm.get_top_artikel_5_by_datum(benutzer, von, bis)
-            return statistik
+        if user is not None:
+            stat = adm.get_top_artikel_5_by_datum(user, von, bis)
+            return stat
         else:
             return "Benutzer nicht gefunden", 500
 
@@ -640,13 +642,13 @@ class StatistikListOperationsByEinzelhaendlerDatum(Resource):
     def get(self, email, name, von, bis):
         """Auslesen der meist gekauften Artikel bei einem durch Namen definierten Einzelhaendler"""
         adm = ApplikationsAdministration()
-        benutzer = adm.get_benutzer_by_email(email)
-        einzelhaendler = adm.get_einzelhaendler_by_name(name)
+        user = adm.get_benutzer_by_email(email)
+        haendler = adm.get_einzelhaendler_by_name(name)
 
-        if benutzer is not None:
-            if einzelhaendler is not None:
-                statistik = adm.get_top_artikel_5_by_einzelhaendler_datum(benutzer, einzelhaendler, von, bis)
-                return statistik
+        if user is not None:
+            if haendler is not None:
+                stat = adm.get_top_artikel_5_by_einzelhaendler_datum(user, haendler, von, bis)
+                return stat
             else:
                 return "Einzelhändler nicht gefunden", 500
         else:
