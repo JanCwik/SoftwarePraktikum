@@ -113,13 +113,9 @@ class App extends Component {
 
 
     render() {
-
 	    const { currentUser, appError, authError, authLoading } = this.state;
         return (
             <div  className="App">
-
-
-
                 <Router basename={'/'}>
                     <div className="App">
 						<Container maxWidth='lg'>
@@ -128,7 +124,6 @@ class App extends Component {
 							// Is a user signed in?
 							currentUser ?
                             <>
-
                             <Redirect from='/' to='/alleEinkaufslisten'/>
 
                             <Route path='/alleEinkaufslisten'>
