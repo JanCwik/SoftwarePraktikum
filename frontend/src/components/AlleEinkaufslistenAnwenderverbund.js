@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
-import AlleEinkaufslistenListenEintrag from "./AlleEinkaufslistenListenEintrag";
 import API from "../api/API";
 import {Button, Grid, withStyles} from "@material-ui/core";
 import AddIcon from "@material-ui/icons/Add";
 import LoadingProgress from "./dialogs/LoadingProgress";
 import ContextErrorMessage from "./dialogs/ContextErrorMessage";
 import EinkaufslisteForm from "./dialogs/EinkaufslisteForm";
+import AlleEinkaufslistenListenEintrag from "./AlleEinkaufslistenListenEintrag";
 import PropTypes from "prop-types";
 
 /** Kontrolliert die Zugehörigkeit von Einkaufslisten zu deren Anwenderverbünden.. */
