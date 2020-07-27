@@ -7,7 +7,7 @@ erfolgreich **auf Ihrem Entwicklungsrechner** zu starten.
              Datenbank vorgesehen.
 
 ## Schritt 1: Starten des DBMS
-1. Installieren Sie mySQL
+1. Installieren Sie die aktuelleste mySQL Version.
 2. Starten Sie den Dienst mySQL (Vorgehensweise plattformabhängig, siehe 
 Hersteller-Dokumentation zu mySQL).
 3. Erstellen Sie mit der Datei ```/mysql/MySQL-Dump.sql``` eine Datenbank mit 
