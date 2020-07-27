@@ -23,7 +23,7 @@ erscheinen entsprechende Meldungen, wenn der Start erfolgt ist.
 auf die Datei gehen, Rechtsklick bzw. Sekundärklick und starten. Es entsteht dann eine
 Konfiguration, die Sie später wiederverwenden und auch editieren können. Sie finden
 diese Konfirguration in der IDE oben rechts in einer Klappliste neben den Buttons
-für Starten, Debuggen und Stoppen.  
+für Starten, Debuggen und Stoppen.
  
 ## Schritt 2: Starten des Frontend
 1. Stellen Sie sicher, dass sich im Verzeichnis ```/frontend/``` ein Unterordner 
