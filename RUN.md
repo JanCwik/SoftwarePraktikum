@@ -30,5 +30,5 @@ für Starten, Debuggen und Stoppen.
 mit dem kompilierten React Client befindet. Wie Sie die React-spezifischen Vorbereitungen
 treffen, wird Ihnen ebenfalls in dem [Dokument INSTALLATION.md](INSTALLATION.md) beschrieben.
 2. Rufen Sie in Ihrem Browser die URL auf, die die Datei ```index.html``` innerhalb
-des React Client-Ordners korrekt adressiert.
+des React Client-Ordners korrekt adressiert. 
 
